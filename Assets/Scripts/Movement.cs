@@ -12,8 +12,7 @@ public class Movement : MonoBehaviour
     [SerializeField] private Animator animator;
     private void Start()
     {
-        _playerInputActions = new PlayerInputActions();
-        _playerInputActions.Enable();
+        _playerInputActions = GlobalReferences.Instance.PlayerInputActions;
         _playerInputActions.Movement.Pressed.canceled += delegate(InputAction.CallbackContext context)
         {
             animator.SetFloat("Speed",0);

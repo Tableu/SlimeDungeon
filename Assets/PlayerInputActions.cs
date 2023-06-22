@@ -28,24 +28,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             ""id"": ""25852e67-541b-40be-ac18-849762007189"",
             ""actions"": [
                 {
-                    ""name"": ""X"",
-                    ""type"": ""Value"",
-                    ""id"": ""b6e65876-aa15-4848-abfb-84d01b094fbd"",
-                    ""expectedControlType"": ""Axis"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true
-                },
-                {
-                    ""name"": ""Y"",
-                    ""type"": ""Value"",
-                    ""id"": ""ccde1041-a492-4c96-9549-3b65168a8f6e"",
-                    ""expectedControlType"": ""Axis"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true
-                },
-                {
                     ""name"": ""Direction"",
                     ""type"": ""Value"",
                     ""id"": ""00b73396-db52-494a-aaba-bec86fc82ca5"",
@@ -65,72 +47,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 }
             ],
             ""bindings"": [
-                {
-                    ""name"": ""1D Axis"",
-                    ""id"": ""5d4fa9aa-f296-4712-b6aa-8bbbd8ce1275"",
-                    ""path"": ""1DAxis"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Y"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""negative"",
-                    ""id"": ""965074bf-6b5b-4a56-b123-2010cc9b0840"",
-                    ""path"": ""<Keyboard>/s"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Y"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""positive"",
-                    ""id"": ""3ed5dd35-de61-4aa8-a32f-a22dad428e13"",
-                    ""path"": ""<Keyboard>/w"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Y"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""1D Axis"",
-                    ""id"": ""31caac8e-3bd8-479a-a845-f4248d941f84"",
-                    ""path"": ""1DAxis"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""X"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""positive"",
-                    ""id"": ""8dac4a73-acc3-49a6-bdda-e05364ad7194"",
-                    ""path"": ""<Keyboard>/d"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""X"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""negative"",
-                    ""id"": ""e9ba1de2-3d99-4e44-b7f2-b1532ecb8034"",
-                    ""path"": ""<Keyboard>/a"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""X"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
                 {
                     ""name"": """",
                     ""id"": ""26fafe59-7d04-41e2-b3e2-688f2b8b6e48"",
@@ -231,16 +147,45 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 }
             ]
+        },
+        {
+            ""name"": ""Attack"",
+            ""id"": ""5e746e8f-7fd5-4af1-9446-61422db47d0d"",
+            ""actions"": [
+                {
+                    ""name"": ""Primary"",
+                    ""type"": ""Button"",
+                    ""id"": ""e3293935-3e9c-4adb-961f-88f407a43a9f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""191ec271-46bd-4868-b25e-0eb95bb14a54"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Primary"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
 }");
         // Movement
         m_Movement = asset.FindActionMap("Movement", throwIfNotFound: true);
-        m_Movement_X = m_Movement.FindAction("X", throwIfNotFound: true);
-        m_Movement_Y = m_Movement.FindAction("Y", throwIfNotFound: true);
         m_Movement_Direction = m_Movement.FindAction("Direction", throwIfNotFound: true);
         m_Movement_Pressed = m_Movement.FindAction("Pressed", throwIfNotFound: true);
+        // Attack
+        m_Attack = asset.FindActionMap("Attack", throwIfNotFound: true);
+        m_Attack_Primary = m_Attack.FindAction("Primary", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -302,16 +247,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     // Movement
     private readonly InputActionMap m_Movement;
     private List<IMovementActions> m_MovementActionsCallbackInterfaces = new List<IMovementActions>();
-    private readonly InputAction m_Movement_X;
-    private readonly InputAction m_Movement_Y;
     private readonly InputAction m_Movement_Direction;
     private readonly InputAction m_Movement_Pressed;
     public struct MovementActions
     {
         private @PlayerInputActions m_Wrapper;
         public MovementActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
-        public InputAction @X => m_Wrapper.m_Movement_X;
-        public InputAction @Y => m_Wrapper.m_Movement_Y;
         public InputAction @Direction => m_Wrapper.m_Movement_Direction;
         public InputAction @Pressed => m_Wrapper.m_Movement_Pressed;
         public InputActionMap Get() { return m_Wrapper.m_Movement; }
@@ -323,12 +264,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         {
             if (instance == null || m_Wrapper.m_MovementActionsCallbackInterfaces.Contains(instance)) return;
             m_Wrapper.m_MovementActionsCallbackInterfaces.Add(instance);
-            @X.started += instance.OnX;
-            @X.performed += instance.OnX;
-            @X.canceled += instance.OnX;
-            @Y.started += instance.OnY;
-            @Y.performed += instance.OnY;
-            @Y.canceled += instance.OnY;
             @Direction.started += instance.OnDirection;
             @Direction.performed += instance.OnDirection;
             @Direction.canceled += instance.OnDirection;
@@ -339,12 +274,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
 
         private void UnregisterCallbacks(IMovementActions instance)
         {
-            @X.started -= instance.OnX;
-            @X.performed -= instance.OnX;
-            @X.canceled -= instance.OnX;
-            @Y.started -= instance.OnY;
-            @Y.performed -= instance.OnY;
-            @Y.canceled -= instance.OnY;
             @Direction.started -= instance.OnDirection;
             @Direction.performed -= instance.OnDirection;
             @Direction.canceled -= instance.OnDirection;
@@ -368,11 +297,59 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         }
     }
     public MovementActions @Movement => new MovementActions(this);
+
+    // Attack
+    private readonly InputActionMap m_Attack;
+    private List<IAttackActions> m_AttackActionsCallbackInterfaces = new List<IAttackActions>();
+    private readonly InputAction m_Attack_Primary;
+    public struct AttackActions
+    {
+        private @PlayerInputActions m_Wrapper;
+        public AttackActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Primary => m_Wrapper.m_Attack_Primary;
+        public InputActionMap Get() { return m_Wrapper.m_Attack; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(AttackActions set) { return set.Get(); }
+        public void AddCallbacks(IAttackActions instance)
+        {
+            if (instance == null || m_Wrapper.m_AttackActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_AttackActionsCallbackInterfaces.Add(instance);
+            @Primary.started += instance.OnPrimary;
+            @Primary.performed += instance.OnPrimary;
+            @Primary.canceled += instance.OnPrimary;
+        }
+
+        private void UnregisterCallbacks(IAttackActions instance)
+        {
+            @Primary.started -= instance.OnPrimary;
+            @Primary.performed -= instance.OnPrimary;
+            @Primary.canceled -= instance.OnPrimary;
+        }
+
+        public void RemoveCallbacks(IAttackActions instance)
+        {
+            if (m_Wrapper.m_AttackActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IAttackActions instance)
+        {
+            foreach (var item in m_Wrapper.m_AttackActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_AttackActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public AttackActions @Attack => new AttackActions(this);
     public interface IMovementActions
     {
-        void OnX(InputAction.CallbackContext context);
-        void OnY(InputAction.CallbackContext context);
         void OnDirection(InputAction.CallbackContext context);
         void OnPressed(InputAction.CallbackContext context);
+    }
+    public interface IAttackActions
+    {
+        void OnPrimary(InputAction.CallbackContext context);
     }
 }
