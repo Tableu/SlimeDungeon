@@ -9,17 +9,21 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] private Transform[] waypoints;
     [SerializeField] private GameObject smileBody;
     [SerializeField] private Face faces;
-    private Material faceMaterial;
-    private int currentWaypointIndex;
+    private Material _faceMaterial;
+    private int _currentWaypointIndex;
+    private bool _attackingPlayer = false;
+    private Transform _target;
     
     private void Start()
     {
-        faceMaterial = smileBody.GetComponent<Renderer>().materials[1];
+        _faceMaterial = smileBody.GetComponent<Renderer>().materials[1];
+        _target = waypoints[0];
     }
 
     // Update is called once per frame
     private void Update()
     {
+        DetectPlayer();
         switch (CurrentState)
         {
             case SlimeAnimationState.Idle:
@@ -33,15 +37,21 @@ public class EnemyAI : MonoBehaviour
                 agent.updateRotation = true;
                 if (waypoints[0] == null) return;
                    
-                agent.SetDestination(waypoints[currentWaypointIndex].position);
+                agent.SetDestination(_target.position);
 
                 // agent reaches the destination
                 if (agent.remainingDistance < agent.stoppingDistance)
                 {
-                    CurrentState = SlimeAnimationState.Idle;
-
-                    //wait 2s before go to next destionation
-                    Invoke(nameof(WalkToNextDestination), 2f);
+                    if (_attackingPlayer)
+                    {
+                        CurrentState = SlimeAnimationState.Attack;
+                    }
+                    else
+                    {
+                        CurrentState = SlimeAnimationState.Idle;
+                        //wait 2s before go to next destionation
+                        Invoke(nameof(WalkToNextDestination), 2f);
+                    }
                 }
                 animator.SetFloat("Speed", agent.velocity.magnitude);
                 break;
@@ -76,16 +86,53 @@ public class EnemyAI : MonoBehaviour
     }
     private void SetFace(Texture tex)
     {
-        faceMaterial.SetTexture("_MainTex", tex);
+        _faceMaterial.SetTexture("_MainTex", tex);
     }
     private void WalkToNextDestination()
     {
         CurrentState = SlimeAnimationState.Walk;
-        currentWaypointIndex = (currentWaypointIndex + 1) % waypoints.Length;
-        agent.SetDestination(waypoints[currentWaypointIndex].position);
+        _currentWaypointIndex = (_currentWaypointIndex + 1) % waypoints.Length;
+        _target = waypoints[_currentWaypointIndex];
+        agent.SetDestination(_target.position);
         SetFace(faces.WalkFace);
     }
-    void OnAnimatorMove()
+
+    private void DetectPlayer()
+    {
+        if (Physics.Raycast(new Ray(transform.position, transform.forward), out RaycastHit info, 10, LayerMask.GetMask("Walls","Player")))
+        {
+            if (info.transform.gameObject.layer.Equals(LayerMask.NameToLayer("Player")))
+            {
+                _target = info.transform;
+                _attackingPlayer = true;
+            }
+        }
+    }
+    // Animation Event
+    public void AlertObservers(string message)
+    {
+      
+        if (message.Equals("AnimationDamageEnded"))
+        {
+            // When Animation ended check distance between current position and first position 
+            //if it > 1 AI will back to first position 
+
+            CurrentState = SlimeAnimationState.Idle;
+
+            //Debug.Log("DamageAnimationEnded");
+        }
+
+        if (message.Equals("AnimationAttackEnded"))
+        {
+            CurrentState = SlimeAnimationState.Walk;           
+        }
+
+        if (message.Equals("AnimationJumpEnded"))
+        {
+            CurrentState = SlimeAnimationState.Idle;
+        }
+    }
+    public void OnAnimatorMove()
     {
         // apply root motion to AI
         Vector3 position = animator.rootPosition;
