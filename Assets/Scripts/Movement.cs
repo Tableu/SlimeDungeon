@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 public class Movement : MonoBehaviour
 {
     public Vector2 MaxVelocity;
+    public float Speed;
     private PlayerInputActions _playerInputActions;
     private Vector2 _direction;
 
@@ -31,7 +32,7 @@ public class Movement : MonoBehaviour
         {
             float rotation = (float)(Math.Atan2(_direction.x, _direction.y)*(180/Mathf.PI));
             transform.rotation = Quaternion.Euler(transform.rotation.x, rotation, transform.rotation.z);
-            rigidbody.AddForce(new Vector3(_direction.x, 0, _direction.y), ForceMode.Impulse);
+            rigidbody.AddForce(new Vector3(_direction.x*Speed, 0, _direction.y*Speed), ForceMode.Impulse);
             if (Mathf.Abs(rigidbody.velocity.x) > MaxVelocity.x)
             {
                 rigidbody.velocity = new Vector3(Mathf.Sign(rigidbody.velocity.x) * MaxVelocity.x, 0,

@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 public class PlayerAttack : MonoBehaviour
 {
     public float Offset;
+    public float Speed;
     [SerializeField] private GameObject fireballPrefab;
     private PlayerInputActions _playerInputActions;
     // Start is called before the first frame update
@@ -16,14 +17,8 @@ public class PlayerAttack : MonoBehaviour
             Rigidbody r = fireball.GetComponent<Rigidbody>();
             if (r != null)
             {
-                r.AddForce(transform.forward*10, ForceMode.Impulse);
+                r.AddForce(transform.forward*Speed, ForceMode.Impulse);
             }
         };
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
