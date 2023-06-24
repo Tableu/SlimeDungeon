@@ -7636,6 +7636,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1676609100239073865, guid: 0d780173c250d334f80c9061373c8e4f, type: 3}
   m_PrefabInstance: {fileID: 1104661252}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1109328520 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1736435026822939428, guid: 4da3c2fdefb9dd34ab704d2858eab7e9, type: 3}
+  m_PrefabInstance: {fileID: 5168656630062866560}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1129852973
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8103,6 +8108,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8a0632df5e02e64887eac3d803f9b47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 1109328520}
 --- !u!4 &1165571723
 Transform:
   m_ObjectHideFlags: 0
@@ -13206,6 +13212,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1853452484765506116, guid: d941199d4a58fcb45adc75ea8e37c42c, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 2669671996729381096, guid: d941199d4a58fcb45adc75ea8e37c42c, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 3462198102605605742, guid: d941199d4a58fcb45adc75ea8e37c42c, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 5472165668445287724, guid: d941199d4a58fcb45adc75ea8e37c42c, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961917832403913375, guid: d941199d4a58fcb45adc75ea8e37c42c, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 6216532115693788942, guid: d941199d4a58fcb45adc75ea8e37c42c, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -13270,6 +13296,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Slime_01
       objectReference: {fileID: 0}
+    - target: {fileID: 6705402075998324148, guid: d941199d4a58fcb45adc75ea8e37c42c, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 7534262480104691789, guid: d941199d4a58fcb45adc75ea8e37c42c, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 8414972406771447875, guid: d941199d4a58fcb45adc75ea8e37c42c, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d941199d4a58fcb45adc75ea8e37c42c, type: 3}
 --- !u!1 &1901822965 stripped
@@ -13290,7 +13328,7 @@ NavMeshAgent:
   m_Speed: 1
   m_Acceleration: 8
   avoidancePriority: 50
-  m_AngularSpeed: 150
+  m_AngularSpeed: 200
   m_StoppingDistance: 3
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
@@ -15062,8 +15100,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5168656631798401870, guid: 4da3c2fdefb9dd34ab704d2858eab7e9, type: 3}
       propertyPath: Speed
-      value: 7
+      value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 5168656631798401870, guid: 4da3c2fdefb9dd34ab704d2858eab7e9, type: 3}
+      propertyPath: MaxVelocity.x
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5168656631798401870, guid: 4da3c2fdefb9dd34ab704d2858eab7e9, type: 3}
+      propertyPath: MaxVelocity.y
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5168656631798401870, guid: 4da3c2fdefb9dd34ab704d2858eab7e9, type: 3}
+      propertyPath: fireballAttack
+      value: 
+      objectReference: {fileID: 11400000, guid: c5d2a1463d32f91459e236f8fea813c9, type: 2}
     - target: {fileID: 5168656631798401871, guid: 4da3c2fdefb9dd34ab704d2858eab7e9, type: 3}
       propertyPath: Speed
       value: 20
@@ -15084,7 +15134,8 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 8
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5168656631798401871, guid: 4da3c2fdefb9dd34ab704d2858eab7e9, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 4da3c2fdefb9dd34ab704d2858eab7e9, type: 3}
 --- !u!4 &6118174223459350814 stripped
 Transform:

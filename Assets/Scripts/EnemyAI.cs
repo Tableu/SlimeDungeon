@@ -99,19 +99,24 @@ public class EnemyAI : MonoBehaviour
 
     private void DetectPlayer()
     {
-        if (Physics.Raycast(new Ray(transform.position, transform.forward), out RaycastHit info, 10, LayerMask.GetMask("Walls","Player")))
+        if (GlobalReferences.Instance.Player != null)
         {
-            if (info.transform.gameObject.layer.Equals(LayerMask.NameToLayer("Player")))
+            var diff = transform.position - GlobalReferences.Instance.Player.transform.position;
+            if (diff.magnitude < 10)
             {
-                _target = info.transform;
+                _target = GlobalReferences.Instance.Player.transform;
                 _attackingPlayer = true;
+            }
+            else
+            {
+                _target = waypoints[_currentWaypointIndex];
+                _attackingPlayer = false;
             }
         }
     }
     // Animation Event
     public void AlertObservers(string message)
     {
-      
         if (message.Equals("AnimationDamageEnded"))
         {
             // When Animation ended check distance between current position and first position 

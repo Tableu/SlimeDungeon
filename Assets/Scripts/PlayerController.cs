@@ -2,15 +2,15 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class Movement : MonoBehaviour
+public class PlayerController : Character
 {
     public Vector2 MaxVelocity;
-    public float Speed;
     private PlayerInputActions _playerInputActions;
     private Vector2 _direction;
 
     [SerializeField] private new Rigidbody rigidbody;
     [SerializeField] private Animator animator;
+    [SerializeField] private Attack fireballAttack;
     private void Start()
     {
         _playerInputActions = GlobalReferences.Instance.PlayerInputActions;
@@ -22,6 +22,7 @@ public class Movement : MonoBehaviour
         {
             animator.SetFloat("Speed", 1);
         };
+        fireballAttack.Equip(this, _playerInputActions);
     }
 
     private void FixedUpdate()
@@ -45,5 +46,10 @@ public class Movement : MonoBehaviour
                     new Vector3(rigidbody.velocity.x, 0, Mathf.Sign(rigidbody.velocity.z) * MaxVelocity.y);
             }
         }
+    }
+
+    private void OnDestroy()
+    {
+        fireballAttack.Drop();
     }
 }

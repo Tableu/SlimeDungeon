@@ -78,7 +78,6 @@ GameObject:
   - component: {fileID: 5168656631798401868}
   - component: {fileID: 5168656631798401866}
   - component: {fileID: 5168656631798401870}
-  - component: {fileID: 5168656631798401871}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -165,23 +164,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a37b826fb73b0ea439851d52898398cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Speed: 0
+  Health: 0
+  Armor: 0
   MaxVelocity: {x: 10, y: 10}
   rigidbody: {fileID: 5168656631798401869}
   animator: {fileID: 5168656631798401866}
---- !u!114 &5168656631798401871
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1736435026822939428}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ee8899c34bd8894eb8a85d36bec1d07, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Offset: 2
-  fireballPrefab: {fileID: 4292637640093511300, guid: 157aa440c4a506246823658fa914c881, type: 3}
+  fireballAttack: {fileID: 0}
 --- !u!1 &3285448577914920669
 GameObject:
   m_ObjectHideFlags: 0
