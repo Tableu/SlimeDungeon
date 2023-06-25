@@ -1,4 +1,5 @@
 using System;
+using Controller;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -10,6 +11,7 @@ public class PlayerController : Character
 
     [SerializeField] private new Rigidbody rigidbody;
     [SerializeField] private Attack fireballAttack;
+    
     private void Start()
     {
         _playerInputActions = GlobalReferences.Instance.PlayerInputActions;
