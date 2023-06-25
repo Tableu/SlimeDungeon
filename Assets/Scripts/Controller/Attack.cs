@@ -13,6 +13,8 @@ namespace Controller
     [Serializable]
     public abstract class Attack : ScriptableObject
     {
+        protected Character _character;
+        protected PlayerInputActions _inputActions;
         public abstract void Equip(Character character, PlayerInputActions inputActions = null);
         public abstract void Drop();
         public abstract void Begin(InputAction.CallbackContext callbackContext);

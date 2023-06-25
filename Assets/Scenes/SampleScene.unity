@@ -15098,6 +15098,42 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 3929396798583814322, guid: 4da3c2fdefb9dd34ab704d2858eab7e9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0.000010307133
+      objectReference: {fileID: 0}
+    - target: {fileID: 3929396798583814322, guid: 4da3c2fdefb9dd34ab704d2858eab7e9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0.000025992198
+      objectReference: {fileID: 0}
+    - target: {fileID: 3929396798583814322, guid: 4da3c2fdefb9dd34ab704d2858eab7e9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: -11.94545
+      objectReference: {fileID: 0}
+    - target: {fileID: 4158147089869094203, guid: 4da3c2fdefb9dd34ab704d2858eab7e9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0.000010307134
+      objectReference: {fileID: 0}
+    - target: {fileID: 4158147089869094203, guid: 4da3c2fdefb9dd34ab704d2858eab7e9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0.0000013285603
+      objectReference: {fileID: 0}
+    - target: {fileID: 4158147089869094203, guid: 4da3c2fdefb9dd34ab704d2858eab7e9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 11.94545
+      objectReference: {fileID: 0}
+    - target: {fileID: 4168331141150655821, guid: 4da3c2fdefb9dd34ab704d2858eab7e9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 89.98021
+      objectReference: {fileID: 0}
+    - target: {fileID: 4168331141150655821, guid: 4da3c2fdefb9dd34ab704d2858eab7e9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -0.000013660382
+      objectReference: {fileID: 0}
+    - target: {fileID: 4168331141150655821, guid: 4da3c2fdefb9dd34ab704d2858eab7e9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5168656631798401870, guid: 4da3c2fdefb9dd34ab704d2858eab7e9, type: 3}
       propertyPath: Speed
       value: 5
@@ -15114,6 +15150,10 @@ PrefabInstance:
       propertyPath: fireballAttack
       value: 
       objectReference: {fileID: 11400000, guid: c5d2a1463d32f91459e236f8fea813c9, type: 2}
+    - target: {fileID: 5168656631798401870, guid: 4da3c2fdefb9dd34ab704d2858eab7e9, type: 3}
+      propertyPath: flamethrowerAttack
+      value: 
+      objectReference: {fileID: 11400000, guid: 730208c8c64576b49840119cffa8b51a, type: 2}
     - target: {fileID: 5168656631798401871, guid: 4da3c2fdefb9dd34ab704d2858eab7e9, type: 3}
       propertyPath: Speed
       value: 20

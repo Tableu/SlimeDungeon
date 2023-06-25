@@ -11,6 +11,7 @@ public class PlayerController : Character
 
     [SerializeField] private new Rigidbody rigidbody;
     [SerializeField] private Attack fireballAttack;
+    [SerializeField] private Attack flamethrowerAttack;
     
     private void Start()
     {
@@ -24,6 +25,7 @@ public class PlayerController : Character
             animator.SetFloat("Speed", 1);
         };
         fireballAttack.Equip(this, _playerInputActions);
+        flamethrowerAttack.Equip(this, _playerInputActions);
     }
 
     private void FixedUpdate()
@@ -52,5 +54,6 @@ public class PlayerController : Character
     private void OnDestroy()
     {
         fireballAttack.Drop();
+        flamethrowerAttack.Drop();
     }
 }

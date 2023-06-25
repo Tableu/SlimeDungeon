@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -7,8 +8,6 @@ public class FireballAttack : Controller.Attack
     public float Offset;
     public float Speed;
     [SerializeField] private GameObject fireballPrefab;
-    private Controller.Character _character;
-    private PlayerInputActions _inputActions;
 
     public override void Equip(Controller.Character character, PlayerInputActions inputActions = null)
     {
@@ -38,13 +37,13 @@ public class FireballAttack : Controller.Attack
             r.AddForce(transform.forward*Speed, ForceMode.Impulse);
         }
         _character.animator.SetTrigger("Attack");
-        _inputActions.Attack.Primary.Disable();
+        _inputActions.Attack.Disable();
         _inputActions.Movement.Direction.Disable();
     }
 
     public override void End()
     {
-        _inputActions.Attack.Primary.Enable();
+        _inputActions.Attack.Enable();
         _inputActions.Movement.Direction.Enable();
         _character.currentAttack = null;
     }
