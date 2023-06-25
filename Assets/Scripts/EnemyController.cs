@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyAI : MonoBehaviour
+public class EnemyController : MonoBehaviour
 {
     public SlimeAnimationState CurrentState;
     [SerializeField] private Animator animator;

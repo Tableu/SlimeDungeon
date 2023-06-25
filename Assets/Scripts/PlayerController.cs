@@ -9,7 +9,6 @@ public class PlayerController : Character
     private Vector2 _direction;
 
     [SerializeField] private new Rigidbody rigidbody;
-    [SerializeField] private Animator animator;
     [SerializeField] private Attack fireballAttack;
     private void Start()
     {

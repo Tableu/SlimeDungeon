@@ -37,6 +37,7 @@ public class FireballAttack : Attack
         {
             r.AddForce(transform.forward*Speed, ForceMode.Impulse);
         }
+        _character.Animator.SetTrigger("Attack");
     }
 
     public override void End()
