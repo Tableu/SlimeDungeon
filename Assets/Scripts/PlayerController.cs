@@ -13,8 +13,9 @@ public class PlayerController : Character
     [SerializeField] private Attack fireballAttack;
     [SerializeField] private Attack flamethrowerAttack;
     
-    private void Start()
+    private new void Start()
     {
+        base.Start();
         _playerInputActions = GlobalReferences.Instance.PlayerInputActions;
         _playerInputActions.Movement.Pressed.canceled += delegate(InputAction.CallbackContext context)
         {
@@ -26,8 +27,6 @@ public class PlayerController : Character
         };
         fireballAttack.Equip(this, _playerInputActions);
         flamethrowerAttack.Equip(this, _playerInputActions);
-        Health = 10;
-        Speed = 5;
     }
 
     private void FixedUpdate()
@@ -61,5 +60,14 @@ public class PlayerController : Character
     {
         fireballAttack.Drop();
         flamethrowerAttack.Drop();
+    }
+    
+    public override void TakeDamage(float damage)
+    {
+        if (!animator.GetCurrentAnimatorStateInfo(0).IsName("Damage0"))
+        {
+            base.TakeDamage(damage);
+            animator.SetTrigger("Damage");
+        }
     }
 }

@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ee8899c34bd8894eb8a85d36bec1d07, type: 3}
-  m_Name: Fireball Attack
+  m_Script: {fileID: 11500000, guid: c338712535c8d274a8e9cec03e9585f1, type: 3}
+  m_Name: Enemy
   m_EditorClassIdentifier: 
-  Offset: 2
-  Speed: 10
-  fireballPrefab: {fileID: 4292637640093511300, guid: 157aa440c4a506246823658fa914c881, type: 3}
+  health: 10
+  armor: 0
+  speed: 5

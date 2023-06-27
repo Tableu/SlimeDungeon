@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -7,6 +6,7 @@ public class FireballAttack : Controller.Attack
 {
     public float Offset;
     public float Speed;
+    public float Damage;
     [SerializeField] private GameObject fireballPrefab;
 
     public override void Equip(Controller.Character character, PlayerInputActions inputActions = null)
@@ -31,6 +31,7 @@ public class FireballAttack : Controller.Attack
         _character.currentAttack = this;
         Transform transform = _character.transform;
         GameObject fireball = Instantiate(fireballPrefab, transform.position + Offset*transform.forward, Quaternion.identity);
+        fireball.GetComponent<Fireball>().Damage = Damage;
         Rigidbody r = fireball.GetComponent<Rigidbody>();
         if (r != null)
         {
