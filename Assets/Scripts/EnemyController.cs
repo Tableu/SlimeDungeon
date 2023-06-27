@@ -1,14 +1,16 @@
+using System;
+using Controller;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyController : MonoBehaviour
+public class EnemyController : Character
 {
     public SlimeAnimationState CurrentState;
-    [SerializeField] private Animator animator;
     [SerializeField] private NavMeshAgent agent;
     [SerializeField] private Transform[] waypoints;
     [SerializeField] private GameObject smileBody;
     [SerializeField] private Face faces;
+    [SerializeField] private float bodyDamage;
     private Material _faceMaterial;
     private int _currentWaypointIndex;
     private bool _attackingPlayer = false;
@@ -36,8 +38,16 @@ public class EnemyController : MonoBehaviour
                 agent.isStopped = false;
                 agent.updateRotation = true;
                 if (waypoints[0] == null) return;
-                   
-                agent.SetDestination(_target.position);
+                
+                if (_target != null)
+                {
+                    agent.SetDestination(_target.position);
+                }
+                else
+                {
+                    CurrentState = SlimeAnimationState.Idle;
+                    break;
+                }
 
                 // agent reaches the destination
                 if (agent.remainingDistance < agent.stoppingDistance)
@@ -115,7 +125,7 @@ public class EnemyController : MonoBehaviour
         }
     }
     // Animation Event
-    public void AlertObservers(string message)
+    public new void AlertObservers(string message)
     {
         if (message.Equals("AnimationDamageEnded"))
         {
@@ -144,5 +154,14 @@ public class EnemyController : MonoBehaviour
         position.y = agent.nextPosition.y;
         transform.position = position;
         agent.nextPosition = transform.position;
+    }
+    
+    public void OnCollisionEnter(Collision other)
+    {
+        if (enemyMask == (enemyMask | (1 << other.gameObject.layer)))
+        {
+            IHealth health = other.gameObject.GetComponent<IHealth>();
+            health.TakeDamage(bodyDamage);
+        }
     }
 }

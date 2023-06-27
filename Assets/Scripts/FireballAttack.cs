@@ -38,13 +38,13 @@ public class FireballAttack : Controller.Attack
         }
         _character.animator.SetTrigger("Attack");
         _inputActions.Attack.Disable();
-        _inputActions.Movement.Direction.Disable();
+        _inputActions.Movement.Disable();
     }
 
     public override void End()
     {
         _inputActions.Attack.Enable();
-        _inputActions.Movement.Direction.Enable();
+        _inputActions.Movement.Enable();
         _character.currentAttack = null;
     }
 

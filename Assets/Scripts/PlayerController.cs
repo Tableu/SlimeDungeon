@@ -20,12 +20,14 @@ public class PlayerController : Character
         {
             animator.SetFloat("Speed",0);
         };
-        _playerInputActions.Movement.Direction.started += delegate(InputAction.CallbackContext context)
+        _playerInputActions.Movement.Pressed.started += delegate(InputAction.CallbackContext context)
         {
             animator.SetFloat("Speed", 1);
         };
         fireballAttack.Equip(this, _playerInputActions);
         flamethrowerAttack.Equip(this, _playerInputActions);
+        Health = 10;
+        Speed = 5;
     }
 
     private void FixedUpdate()
@@ -34,8 +36,12 @@ public class PlayerController : Character
         
         if (_direction != Vector2.zero)
         {
-            float rotation = (float)(Math.Atan2(_direction.x, _direction.y)*(180/Mathf.PI));
-            transform.rotation = Quaternion.Euler(transform.rotation.x, rotation, transform.rotation.z);
+            if (!disableRotation)
+            {
+                float rotation = (float) (Math.Atan2(_direction.x, _direction.y) * (180 / Mathf.PI));
+                transform.rotation = Quaternion.Euler(transform.rotation.x, rotation, transform.rotation.z);
+            }
+
             rigidbody.AddForce(new Vector3(_direction.x*Speed, 0, _direction.y*Speed), ForceMode.Impulse);
             if (Mathf.Abs(rigidbody.velocity.x) > MaxVelocity.x)
             {

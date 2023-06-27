@@ -12,6 +12,7 @@ public class FlamethrowerAttack : Attack
     [SerializeField] private GameObject flamethrowerPrefab;
     public float Offset;
     private GameObject _flamethrower;
+    private float _oldSpeed;
     public override void Equip(Character character, PlayerInputActions inputActions = null)
     {
         _character = character;
@@ -35,19 +36,24 @@ public class FlamethrowerAttack : Attack
     {
         _character.currentAttack = this;
         Transform transform = _character.transform;
-        _flamethrower = Instantiate(flamethrowerPrefab, transform.position + Offset*transform.forward, Quaternion.identity);
+        _flamethrower = Instantiate(flamethrowerPrefab, transform.position + Offset*transform.forward, Quaternion.identity,transform);
         _flamethrower.transform.rotation = Quaternion.Euler(_flamethrower.transform.rotation.x, _character.transform.rotation.eulerAngles.y-90, _flamethrower.transform.rotation.z);
-        
+        _oldSpeed = _character.Speed;
+        _character.Speed = 0.5f;
+        _character.disableRotation = true;
         _inputActions.Attack.Primary.Disable();
-        _inputActions.Movement.Direction.Disable();
+        _inputActions.Movement.Pressed.Disable();
+        _character.animator.SetFloat("Speed",0);
     }
 
     public override void End()
     {
         Debug.Log("end");
         _character.currentAttack = null;
+        _character.disableRotation = false;
         _inputActions.Attack.Primary.Enable();
-        _inputActions.Movement.Direction.Enable();
+        _inputActions.Movement.Pressed.Enable();
+        _character.Speed = _oldSpeed;
         Destroy(_flamethrower);
     }
 
