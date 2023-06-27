@@ -13388,6 +13388,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dc88481979d32346a7203aa4e27af18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  characterData: {fileID: 11400000, guid: cf236948ea53d63489bcc95d5cda722b, type: 2}
   animator: {fileID: 1901822969}
   enemyMask:
     serializedVersion: 2
@@ -15150,6 +15151,10 @@ PrefabInstance:
       propertyPath: MaxVelocity.y
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 5168656631798401870, guid: 4da3c2fdefb9dd34ab704d2858eab7e9, type: 3}
+      propertyPath: characterData
+      value: 
+      objectReference: {fileID: 11400000, guid: 6442d9462b866f8498957cd10d003e40, type: 2}
     - target: {fileID: 5168656631798401870, guid: 4da3c2fdefb9dd34ab704d2858eab7e9, type: 3}
       propertyPath: fireballAttack
       value: 

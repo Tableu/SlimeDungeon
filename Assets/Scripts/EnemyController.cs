@@ -16,8 +16,9 @@ public class EnemyController : Character
     private bool _attackingPlayer = false;
     private Transform _target;
     
-    private void Start()
+    private new void Start()
     {
+        base.Start();
         _faceMaterial = smileBody.GetComponent<Renderer>().materials[1];
         _target = waypoints[0];
     }
@@ -37,6 +38,7 @@ public class EnemyController : Character
                 if (animator.GetCurrentAnimatorStateInfo(0).IsName("Walk")) return;
                 agent.isStopped = false;
                 agent.updateRotation = true;
+                SetFace(faces.Idleface);
                 if (waypoints[0] == null) return;
                 
                 if (_target != null)
@@ -131,8 +133,7 @@ public class EnemyController : Character
         {
             // When Animation ended check distance between current position and first position 
             //if it > 1 AI will back to first position 
-
-            CurrentState = SlimeAnimationState.Idle;
+            CurrentState = _attackingPlayer ? SlimeAnimationState.Walk : SlimeAnimationState.Idle;
 
             //Debug.Log("DamageAnimationEnded");
         }
@@ -160,8 +161,17 @@ public class EnemyController : Character
     {
         if (enemyMask == (enemyMask | (1 << other.gameObject.layer)))
         {
-            IHealth health = other.gameObject.GetComponent<IHealth>();
+            IDamageable health = other.gameObject.GetComponent<IDamageable>();
             health.TakeDamage(bodyDamage);
+        }
+    }
+
+    public override void TakeDamage(float damage)
+    {
+        if (CurrentState != SlimeAnimationState.Damage)
+        {
+            base.TakeDamage(damage);
+            CurrentState = SlimeAnimationState.Damage;
         }
     }
 }
