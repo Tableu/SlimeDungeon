@@ -4874,6 +4874,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fireball: {fileID: 4292637640073754596}
   explosion: {fileID: 5632404696478485108, guid: bbd946d701297e54b9c7563cb064cf79, type: 3}
+  rigidbody: {fileID: 4292637640093542438}
 --- !u!1 &8803622325894826365
 GameObject:
   m_ObjectHideFlags: 0

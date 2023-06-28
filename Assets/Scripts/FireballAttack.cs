@@ -7,6 +7,7 @@ public class FireballAttack : Controller.Attack
     public float Offset;
     public float Speed;
     public float Damage;
+    public float Knockback;
     [SerializeField] private GameObject fireballPrefab;
 
     public override void Equip(Controller.Character character, PlayerInputActions inputActions = null)
@@ -31,12 +32,8 @@ public class FireballAttack : Controller.Attack
         _character.currentAttack = this;
         Transform transform = _character.transform;
         GameObject fireball = Instantiate(fireballPrefab, transform.position + Offset*transform.forward, Quaternion.identity);
-        fireball.GetComponent<Fireball>().Damage = Damage;
-        Rigidbody r = fireball.GetComponent<Rigidbody>();
-        if (r != null)
-        {
-            r.AddForce(transform.forward*Speed, ForceMode.Impulse);
-        }
+        var script = fireball.GetComponent<Fireball>(); 
+        script.Initialize(Damage, Knockback,transform.forward*Speed);
         _character.animator.SetTrigger("Attack");
         _inputActions.Attack.Disable();
         _inputActions.Movement.Disable();

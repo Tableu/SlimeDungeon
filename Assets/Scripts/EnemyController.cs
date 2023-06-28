@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using Controller;
 using UnityEngine;
 using UnityEngine.AI;
@@ -67,15 +68,6 @@ public class EnemyController : Character
                 }
                 animator.SetFloat("Speed", agent.velocity.magnitude);
                 break;
-            case SlimeAnimationState.Damage:
-                if(animator.GetCurrentAnimatorStateInfo(0).IsName("Damage0")
-                   || animator.GetCurrentAnimatorStateInfo(0).IsName("Damage1")
-                   || animator.GetCurrentAnimatorStateInfo(0).IsName("Damage2") ) return;
-                StopAgent();
-                animator.SetTrigger("Damage");
-                animator.SetInteger("DamageType", 0);
-                SetFace(faces.damageFace);
-                break;
             case SlimeAnimationState.Jump:
                 if (animator.GetCurrentAnimatorStateInfo(0).IsName("Jump")) return;
                 StopAgent();
@@ -140,15 +132,6 @@ public class EnemyController : Character
     // Animation Event
     public new void AlertObservers(string message)
     {
-        if (message.Equals("AnimationDamageEnded"))
-        {
-            // When Animation ended check distance between current position and first position 
-            //if it > 1 AI will back to first position 
-            CurrentState = SlimeAnimationState.Walk;
-
-            //Debug.Log("DamageAnimationEnded");
-        }
-
         if (message.Equals("AnimationAttackEnded"))
         {
             CurrentState = SlimeAnimationState.Walk;           
@@ -173,16 +156,30 @@ public class EnemyController : Character
         if (enemyMask == (enemyMask | (1 << other.gameObject.layer)))
         {
             IDamageable health = other.gameObject.GetComponent<IDamageable>();
-            health.TakeDamage(characterData.BodyDamage);
+            health.TakeDamage(characterData.BodyDamage,(other.transform.position - transform.position).normalized*10);
         }
     }
 
-    public override void TakeDamage(float damage)
+    public override void TakeDamage(float damage, Vector3 knockback)
     {
         if (CurrentState != SlimeAnimationState.Damage)
         {
-            base.TakeDamage(damage);
             CurrentState = SlimeAnimationState.Damage;
+            base.TakeDamage(damage, knockback);
         }
+    }
+
+    protected override IEnumerator ApplyKnockback(Vector3 knockback)
+    {
+        CancelInvoke(nameof(WalkToNextDestination));
+        animator.SetFloat("Speed", 0);
+        agent.enabled = false;
+        rigidbody.isKinematic = false;
+        rigidbody.velocity = knockback;
+        yield return new WaitForSeconds(characterData.HitStun);
+        rigidbody.velocity = Vector3.zero;
+        rigidbody.isKinematic = true;
+        agent.enabled = true;
+        CurrentState = SlimeAnimationState.Walk;
     }
 }

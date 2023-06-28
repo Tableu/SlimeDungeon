@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using Controller;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -8,8 +9,8 @@ public class PlayerController : Character
     public Vector2 MaxVelocity;
     private PlayerInputActions _playerInputActions;
     private Vector2 _direction;
-
-    [SerializeField] private new Rigidbody rigidbody;
+    private bool _inKnockback = false;
+    
     [SerializeField] private Attack fireballAttack;
     [SerializeField] private Attack flamethrowerAttack;
 
@@ -39,7 +40,7 @@ public class PlayerController : Character
     {
         _direction = _playerInputActions.Movement.Direction.ReadValue<Vector2>();
         
-        if (_direction != Vector2.zero)
+        if (_direction != Vector2.zero && !_inKnockback)
         {
             if (!disableRotation)
             {
@@ -68,13 +69,22 @@ public class PlayerController : Character
         flamethrowerAttack.Drop();
     }
     
-    public override void TakeDamage(float damage)
+    public override void TakeDamage(float damage, Vector3 knockback)
     {
-        if (!animator.GetCurrentAnimatorStateInfo(0).IsName("Damage1"))
-        {
-            base.TakeDamage(damage);
-            animator.SetTrigger("Damage");
-            animator.SetInteger("DamageType",1);
-        }
+        if(!_inKnockback)
+            base.TakeDamage(damage,knockback);
+    }
+    
+    protected override IEnumerator ApplyKnockback(Vector3 knockback)
+    {
+        _inKnockback = true;
+        _playerInputActions.Disable();
+        animator.applyRootMotion = false;
+        rigidbody.velocity = Vector3.zero;
+        rigidbody.AddForce(knockback, ForceMode.Impulse);
+        yield return new WaitForSeconds(characterData.HitStun);
+        _playerInputActions.Enable();
+        _inKnockback = false;
+        animator.applyRootMotion = true;
     }
 }

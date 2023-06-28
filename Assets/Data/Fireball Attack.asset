@@ -15,4 +15,5 @@ MonoBehaviour:
   Offset: 2
   Speed: 10
   Damage: 5
+  Knockback: 5
   fireballPrefab: {fileID: 4292637640093511300, guid: 157aa440c4a506246823658fa914c881, type: 3}

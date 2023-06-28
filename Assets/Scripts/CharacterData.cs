@@ -7,6 +7,7 @@ public class CharacterData : ScriptableObject
     [SerializeField] private float health;
     [SerializeField] private float armor;
     [SerializeField] private float speed;
+    [SerializeField] private float hitStun;
     [HeaderAttribute("Enemy")]
     [SerializeField] private float bodyDamage;
     [SerializeField] private float aggroRange;
@@ -15,6 +16,7 @@ public class CharacterData : ScriptableObject
     public float Health => health;
     public float Armor => armor;
     public float Speed => speed;
+    public float HitStun => hitStun;
     public float BodyDamage => bodyDamage;
     public float AggroRange => aggroRange;
     public int DetectTick => detectTick;
