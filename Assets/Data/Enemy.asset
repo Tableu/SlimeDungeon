@@ -15,3 +15,6 @@ MonoBehaviour:
   health: 10
   armor: 0
   speed: 5
+  bodyDamage: 5
+  aggroRange: 8
+  detectTick: 10

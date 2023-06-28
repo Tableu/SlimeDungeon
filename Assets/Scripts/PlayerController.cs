@@ -12,18 +12,24 @@ public class PlayerController : Character
     [SerializeField] private new Rigidbody rigidbody;
     [SerializeField] private Attack fireballAttack;
     [SerializeField] private Attack flamethrowerAttack;
-    
+
     private new void Start()
     {
         base.Start();
         _playerInputActions = GlobalReferences.Instance.PlayerInputActions;
         _playerInputActions.Movement.Pressed.canceled += delegate(InputAction.CallbackContext context)
         {
-            animator.SetFloat("Speed",0);
+            if (animator != null)
+            {
+                animator.SetFloat("Speed", 0);
+            }
         };
         _playerInputActions.Movement.Pressed.started += delegate(InputAction.CallbackContext context)
         {
-            animator.SetFloat("Speed", 1);
+            if (animator != null)
+            {
+                animator.SetFloat("Speed", characterData.Speed);
+            }
         };
         fireballAttack.Equip(this, _playerInputActions);
         flamethrowerAttack.Equip(this, _playerInputActions);
@@ -64,10 +70,11 @@ public class PlayerController : Character
     
     public override void TakeDamage(float damage)
     {
-        if (!animator.GetCurrentAnimatorStateInfo(0).IsName("Damage0"))
+        if (!animator.GetCurrentAnimatorStateInfo(0).IsName("Damage1"))
         {
             base.TakeDamage(damage);
             animator.SetTrigger("Damage");
+            animator.SetInteger("DamageType",1);
         }
     }
 }

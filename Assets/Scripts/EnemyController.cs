@@ -10,11 +10,12 @@ public class EnemyController : Character
     [SerializeField] private Transform[] waypoints;
     [SerializeField] private GameObject smileBody;
     [SerializeField] private Face faces;
-    [SerializeField] private float bodyDamage;
+    
     private Material _faceMaterial;
     private int _currentWaypointIndex;
     private bool _attackingPlayer = false;
     private Transform _target;
+    private int _tick = 0;
     
     private new void Start()
     {
@@ -26,7 +27,6 @@ public class EnemyController : Character
     // Update is called once per frame
     private void Update()
     {
-        DetectPlayer();
         switch (CurrentState)
         {
             case SlimeAnimationState.Idle:
@@ -90,6 +90,17 @@ public class EnemyController : Character
                 break;
         }
     }
+
+    private void FixedUpdate()
+    {
+        _tick++;
+        if (_tick >= characterData.DetectTick)
+        {
+            _tick = 0;
+            DetectPlayer();
+        }
+    }
+
     private void StopAgent()
     {
         agent.isStopped = true;
@@ -114,7 +125,7 @@ public class EnemyController : Character
         if (GlobalReferences.Instance.Player != null)
         {
             var diff = transform.position - GlobalReferences.Instance.Player.transform.position;
-            if (diff.magnitude < 10)
+            if (diff.magnitude < characterData.AggroRange)
             {
                 _target = GlobalReferences.Instance.Player.transform;
                 _attackingPlayer = true;
@@ -133,7 +144,7 @@ public class EnemyController : Character
         {
             // When Animation ended check distance between current position and first position 
             //if it > 1 AI will back to first position 
-            CurrentState = _attackingPlayer ? SlimeAnimationState.Walk : SlimeAnimationState.Idle;
+            CurrentState = SlimeAnimationState.Walk;
 
             //Debug.Log("DamageAnimationEnded");
         }
@@ -162,7 +173,7 @@ public class EnemyController : Character
         if (enemyMask == (enemyMask | (1 << other.gameObject.layer)))
         {
             IDamageable health = other.gameObject.GetComponent<IDamageable>();
-            health.TakeDamage(bodyDamage);
+            health.TakeDamage(characterData.BodyDamage);
         }
     }
 
