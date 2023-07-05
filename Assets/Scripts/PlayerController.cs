@@ -7,7 +7,6 @@ using UnityEngine.InputSystem;
 public class PlayerController : Character
 {
     public Vector2 MaxVelocity;
-    private PlayerInputActions _playerInputActions;
     private Vector2 _direction;
     private bool _inKnockback = false;
     
@@ -17,28 +16,28 @@ public class PlayerController : Character
     private new void Start()
     {
         base.Start();
-        _playerInputActions = GlobalReferences.Instance.PlayerInputActions;
-        _playerInputActions.Movement.Pressed.canceled += delegate(InputAction.CallbackContext context)
+        playerInputActions = GlobalReferences.Instance.PlayerInputActions;
+        playerInputActions.Movement.Pressed.canceled += delegate(InputAction.CallbackContext context)
         {
             if (animator != null)
             {
                 animator.SetFloat("Speed", 0);
             }
         };
-        _playerInputActions.Movement.Pressed.started += delegate(InputAction.CallbackContext context)
+        playerInputActions.Movement.Pressed.started += delegate(InputAction.CallbackContext context)
         {
             if (animator != null)
             {
                 animator.SetFloat("Speed", characterData.Speed);
             }
         };
-        fireballAttack.Equip(this, _playerInputActions);
-        flamethrowerAttack.Equip(this, _playerInputActions);
+        fireballAttack.Equip(this);
+        flamethrowerAttack.Equip(this);
     }
 
     private void FixedUpdate()
     {
-        _direction = _playerInputActions.Movement.Direction.ReadValue<Vector2>();
+        _direction = playerInputActions.Movement.Direction.ReadValue<Vector2>();
         
         if (_direction != Vector2.zero && !_inKnockback)
         {
@@ -67,6 +66,8 @@ public class PlayerController : Character
     {
         fireballAttack.Drop();
         flamethrowerAttack.Drop();
+        playerInputActions.Disable();
+        playerInputActions.Dispose();
     }
     
     public override void TakeDamage(float damage, Vector3 knockback)
@@ -78,12 +79,12 @@ public class PlayerController : Character
     protected override IEnumerator ApplyKnockback(Vector3 knockback)
     {
         _inKnockback = true;
-        _playerInputActions.Disable();
+        playerInputActions.Disable();
         animator.applyRootMotion = false;
         rigidbody.velocity = Vector3.zero;
         rigidbody.AddForce(knockback, ForceMode.Impulse);
         yield return new WaitForSeconds(characterData.HitStun);
-        _playerInputActions.Enable();
+        playerInputActions.Enable();
         _inKnockback = false;
         animator.applyRootMotion = true;
     }

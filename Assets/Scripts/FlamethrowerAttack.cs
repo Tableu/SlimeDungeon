@@ -13,14 +13,15 @@ public class FlamethrowerAttack : Attack
     public float Offset;
     private GameObject _flamethrower;
     private float _oldSpeed;
-    public override void Equip(Character character, PlayerInputActions inputActions = null)
+    private PlayerInputActions _inputActions;
+    public override void Equip(Character character)
     {
-        _character = character;
-        _inputActions = inputActions;
-        if (inputActions != null)
+        base.character = character;
+        _inputActions = character.playerInputActions;
+        if (_inputActions != null)
         {
-            inputActions.Attack.Secondary.started += Begin;
-            inputActions.Attack.Secondary.canceled += delegate(InputAction.CallbackContext context) { End(); };
+            _inputActions.Attack.Secondary.started += Begin;
+            _inputActions.Attack.Secondary.canceled += delegate(InputAction.CallbackContext context) { End(); };
         }
     }
 
@@ -34,26 +35,27 @@ public class FlamethrowerAttack : Attack
 
     public override void Begin(InputAction.CallbackContext callbackContext)
     {
-        _character.currentAttack = this;
-        Transform transform = _character.transform;
+        character.currentAttack = this;
+        Transform transform = character.transform;
         _flamethrower = Instantiate(flamethrowerPrefab, transform.position + Offset*transform.forward, Quaternion.identity,transform);
-        _flamethrower.transform.rotation = Quaternion.Euler(_flamethrower.transform.rotation.x, _character.transform.rotation.eulerAngles.y-90, _flamethrower.transform.rotation.z);
-        _oldSpeed = _character.Speed;
-        _character.Speed = 0.5f;
-        _character.disableRotation = true;
+        _flamethrower.transform.rotation = Quaternion.Euler(_flamethrower.transform.rotation.x, character.transform.rotation.eulerAngles.y-90, _flamethrower.transform.rotation.z);
+        _oldSpeed = character.Speed;
+        character.Speed = 0.5f;
+        character.disableRotation = true;
         _inputActions.Attack.Primary.Disable();
         _inputActions.Movement.Pressed.Disable();
-        _character.animator.SetFloat("Speed",0);
+        character.animator.SetFloat("Speed",0);
+        OnSpellCast?.Invoke();
     }
 
     public override void End()
     {
         Debug.Log("end");
-        _character.currentAttack = null;
-        _character.disableRotation = false;
+        character.currentAttack = null;
+        character.disableRotation = false;
         _inputActions.Attack.Primary.Enable();
         _inputActions.Movement.Pressed.Enable();
-        _character.Speed = _oldSpeed;
+        character.Speed = _oldSpeed;
         Destroy(_flamethrower);
     }
 

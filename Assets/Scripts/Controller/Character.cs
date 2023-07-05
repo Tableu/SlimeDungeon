@@ -33,7 +33,10 @@ namespace Controller
         [SerializeField] protected LayerMask enemyMask;
         [SerializeField] protected new Rigidbody rigidbody;
         internal Attack currentAttack;
+        internal Form form;
         internal bool disableRotation = false;
+        internal bool isPlayer = false;
+        internal PlayerInputActions playerInputActions;
 
         protected void Start()
         {
@@ -41,6 +44,11 @@ namespace Controller
             Health = characterData.Health;
             Armor = characterData.Armor;
             HitStun = characterData.HitStun;
+            if (characterData.IsPlayer)
+            {
+                playerInputActions = new PlayerInputActions();
+                isPlayer = true;
+            }
         }
 
         public void AlertObservers(string message)

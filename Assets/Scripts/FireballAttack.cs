@@ -9,19 +9,19 @@ public class FireballAttack : Controller.Attack
     public float Damage;
     public float Knockback;
     [SerializeField] private GameObject fireballPrefab;
-
-    public override void Equip(Controller.Character character, PlayerInputActions inputActions = null)
+    private PlayerInputActions _inputActions;
+    public override void Equip(Controller.Character character)
     {
-        _character = character;
-        _inputActions = inputActions;
-        if (inputActions != null)
+        base.character = character;
+        _inputActions = character.playerInputActions;
+        if (character.isPlayer && _inputActions != null)
         {
-            inputActions.Attack.Primary.started += Begin;
+            _inputActions.Attack.Primary.started += Begin;
         }
     }
     public override void Drop()
     {
-        if (_inputActions != null)
+        if (character.isPlayer && _inputActions != null)
         {
             _inputActions.Attack.Primary.started -= Begin;
         }
@@ -29,26 +29,34 @@ public class FireballAttack : Controller.Attack
 
     public override void Begin(InputAction.CallbackContext callbackContext)
     {
-        _character.currentAttack = this;
-        Transform transform = _character.transform;
+        character.currentAttack = this;
+        Transform transform = character.transform;
         GameObject fireball = Instantiate(fireballPrefab, transform.position + Offset*transform.forward, Quaternion.identity);
         var script = fireball.GetComponent<Fireball>(); 
         script.Initialize(Damage, Knockback,transform.forward*Speed);
-        _character.animator.SetTrigger("Attack");
-        _inputActions.Attack.Disable();
-        _inputActions.Movement.Disable();
+        character.animator.SetTrigger("Attack");
+        if (character.isPlayer && _inputActions != null)
+        {
+            _inputActions.Attack.Disable();
+            _inputActions.Movement.Disable();
+        }
+        OnSpellCast?.Invoke();
     }
 
     public override void End()
     {
-        _inputActions.Attack.Enable();
-        _inputActions.Movement.Enable();
-        _character.currentAttack = null;
+        if (character.isPlayer && _inputActions != null)
+        {
+            _inputActions.Attack.Enable();
+            _inputActions.Movement.Enable();
+        }
+
+        character.currentAttack = null;
     }
 
     internal override void PassMessage(Controller.AnimationState state)
     {
-        if (Controller.AnimationState.AnimationAttackEnded == state)
+        if (Controller.AnimationState.AttackEnded == state)
         {
             End();
         }
