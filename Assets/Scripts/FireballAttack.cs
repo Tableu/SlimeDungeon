@@ -12,7 +12,7 @@ public class FireballAttack : Controller.Attack
     private PlayerInputActions _inputActions;
     public override void Equip(Controller.Character character)
     {
-        base.character = character;
+        this.character = character;
         _inputActions = character.playerInputActions;
         if (character.isPlayer && _inputActions != null)
         {
