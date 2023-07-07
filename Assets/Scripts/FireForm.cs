@@ -4,6 +4,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "FireForm", menuName = "Forms/Fire Form")]
 public class FireForm : Form
 {
+    [SerializeField] private Material material;
     public float Temperature { get; private set; }
 
     public override void Equip(Character character)
@@ -14,6 +15,9 @@ public class FireForm : Form
             attack.Equip(character);
             attack.OnSpellCast += IncreaseTemperature;
         }
+
+        if (character is PlayerController player) 
+            player.ChangeForms(material);
     }
 
     public override void Drop()
@@ -23,6 +27,9 @@ public class FireForm : Form
             attack.Drop();
             attack.OnSpellCast -= IncreaseTemperature;
         }
+
+        if (character is PlayerController player) 
+            player.ResetForm();
     }
 
     private void IncreaseTemperature()

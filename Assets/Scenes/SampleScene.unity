@@ -15160,6 +15160,14 @@ PrefabInstance:
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5168656631798401870, guid: 4da3c2fdefb9dd34ab704d2858eab7e9, type: 3}
+      propertyPath: fireForm
+      value: 
+      objectReference: {fileID: 11400000, guid: d78b66a46e02c074c9927f9afa70e990, type: 2}
+    - target: {fileID: 5168656631798401870, guid: 4da3c2fdefb9dd34ab704d2858eab7e9, type: 3}
+      propertyPath: meshRenderer
+      value: 
+      objectReference: {fileID: 5168656630062866561}
+    - target: {fileID: 5168656631798401870, guid: 4da3c2fdefb9dd34ab704d2858eab7e9, type: 3}
       propertyPath: MaxVelocity.x
       value: 100
       objectReference: {fileID: 0}
@@ -15179,6 +15187,10 @@ PrefabInstance:
       propertyPath: enemyMask.m_Bits
       value: 512
       objectReference: {fileID: 0}
+    - target: {fileID: 5168656631798401870, guid: 4da3c2fdefb9dd34ab704d2858eab7e9, type: 3}
+      propertyPath: originalMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: 0ac85d6e19b5e24419fc938040be61e1, type: 2}
     - target: {fileID: 5168656631798401870, guid: 4da3c2fdefb9dd34ab704d2858eab7e9, type: 3}
       propertyPath: flamethrowerAttack
       value: 
@@ -15206,6 +15218,11 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 5168656631798401871, guid: 4da3c2fdefb9dd34ab704d2858eab7e9, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 4da3c2fdefb9dd34ab704d2858eab7e9, type: 3}
+--- !u!137 &5168656630062866561 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 280697102131551217, guid: 4da3c2fdefb9dd34ab704d2858eab7e9, type: 3}
+  m_PrefabInstance: {fileID: 5168656630062866560}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6118174223459350814 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1392420255982393758, guid: 4da3c2fdefb9dd34ab704d2858eab7e9, type: 3}

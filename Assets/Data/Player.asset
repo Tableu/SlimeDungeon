@@ -16,6 +16,7 @@ MonoBehaviour:
   armor: 0
   speed: 5
   hitStun: 1
+  isPlayer: 1
   bodyDamage: 0
   aggroRange: 0
   detectTick: 0

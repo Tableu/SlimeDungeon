@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using Controller;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -18,19 +15,22 @@ public class FlamethrowerAttack : Attack
     {
         base.character = character;
         _inputActions = character.playerInputActions;
-        if (_inputActions != null)
+        if (character.isPlayer && _inputActions != null)
         {
             _inputActions.Attack.Secondary.started += Begin;
-            _inputActions.Attack.Secondary.canceled += delegate(InputAction.CallbackContext context) { End(); };
+            _inputActions.Attack.Secondary.canceled += End;
         }
     }
 
     public override void Drop()
     {
-        if (_inputActions != null)
+        if (character.isPlayer && _inputActions != null)
         {
             _inputActions.Attack.Secondary.started -= Begin;
+            _inputActions.Attack.Secondary.canceled -= End;
         }
+
+        character.currentAttack = null;
     }
 
     public override void Begin(InputAction.CallbackContext callbackContext)
@@ -46,6 +46,11 @@ public class FlamethrowerAttack : Attack
         _inputActions.Movement.Pressed.Disable();
         character.animator.SetFloat("Speed",0);
         OnSpellCast?.Invoke();
+    }
+
+    private void End(InputAction.CallbackContext context)
+    {
+        End();
     }
 
     public override void End()

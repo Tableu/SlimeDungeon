@@ -10,8 +10,8 @@ public class PlayerController : Character
     private Vector2 _direction;
     private bool _inKnockback = false;
     
-    [SerializeField] private Attack fireballAttack;
-    [SerializeField] private Attack flamethrowerAttack;
+    [SerializeField] private SkinnedMeshRenderer meshRenderer;
+    [SerializeField] private Material originalMaterial;
 
     private new void Start()
     {
@@ -31,8 +31,6 @@ public class PlayerController : Character
                 animator.SetFloat("Speed", characterData.Speed);
             }
         };
-        fireballAttack.Equip(this);
-        flamethrowerAttack.Equip(this);
     }
 
     private void FixedUpdate()
@@ -64,8 +62,6 @@ public class PlayerController : Character
 
     private void OnDestroy()
     {
-        fireballAttack.Drop();
-        flamethrowerAttack.Drop();
         playerInputActions.Disable();
         playerInputActions.Dispose();
     }
@@ -88,4 +84,28 @@ public class PlayerController : Character
         _inKnockback = false;
         animator.applyRootMotion = true;
     }
+
+    public void ChangeForms(Material material)
+    {
+        meshRenderer.material = material;
+    }
+
+    public void ResetForm()
+    {
+        meshRenderer.material = originalMaterial;
+    }
+    
+    #if UNITY_EDITOR
+    [SerializeField] private Form fireForm;
+    [ContextMenu("Equip Fire Form")]
+    public void EquipFireForm()
+    {
+        fireForm.Equip(this);
+    }
+    [ContextMenu("Remove Fire Form")]
+    public void RemoveFireForm()
+    {
+        fireForm.Drop();
+    }
+    #endif
 }
