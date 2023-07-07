@@ -7284,7 +7284,7 @@ AnimationClip:
   m_Events:
   - time: 0.76666665
     functionName: AlertObservers
-    data: AnimationJumpEnded
+    data: JumpEnded
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0

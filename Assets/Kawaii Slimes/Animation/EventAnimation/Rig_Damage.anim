@@ -4656,7 +4656,7 @@ AnimationClip:
   m_Events:
   - time: 0.4
     functionName: AlertObservers
-    data: AnimationDamageEnded
+    data: DamageEnded
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
