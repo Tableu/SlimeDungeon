@@ -1,7 +1,7 @@
 using Controller;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "FireFormData", menuName = "FormData/FireForm")]
+[CreateAssetMenu(fileName = "FireFormData", menuName = "Data/Forms/FireForm")]
 public class FireFormData : FormData
 {
     [SerializeField] private Material material;

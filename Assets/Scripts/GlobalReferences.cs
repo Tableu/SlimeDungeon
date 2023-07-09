@@ -6,6 +6,7 @@ public class GlobalReferences : MonoBehaviour
 
     public static GlobalReferences Instance => _instance;
     [SerializeField] private GameObject player;
+    [SerializeField] private Canvas canvas;
     
     public PlayerInputActions PlayerInputActions
     {
@@ -14,6 +15,7 @@ public class GlobalReferences : MonoBehaviour
     }
 
     public GameObject Player => player;
+    public Canvas Canvas => canvas;
 
     private void Awake()
     {
