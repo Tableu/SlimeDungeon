@@ -1,35 +1,39 @@
 using Controller;
-using UnityEngine;
-
-[CreateAssetMenu(fileName = "FireForm", menuName = "Forms/Fire Form")]
 public class FireForm : Form
 {
-    [SerializeField] private Material material;
     public float Temperature { get; private set; }
 
-    public override void Equip(Character character)
+    private new FireFormData _data;
+
+    public override void Equip(Character character, FormData data)
     {
-        this.character = character;
-        foreach(Attack attack in attacks)
+        _data = data as FireFormData;
+        _character = character;
+        foreach(Attack attack in data.Attacks)
         {
             attack.Equip(character);
             attack.OnSpellCast += IncreaseTemperature;
         }
-
+        
         if (character is PlayerController player) 
-            player.ChangeForms(material);
+            player.ChangeForms(_data.Material);
     }
 
     public override void Drop()
     {
-        foreach(Attack attack in attacks)
+        foreach(Attack attack in _data.Attacks)
         {
             attack.Drop();
             attack.OnSpellCast -= IncreaseTemperature;
         }
 
-        if (character is PlayerController player) 
+        if (_character is PlayerController player) 
             player.ResetForm();
+    }
+
+    private void FixedUpdate()
+    {
+        DecreaseTemperature();
     }
 
     private void IncreaseTemperature()
@@ -41,5 +45,4 @@ public class FireForm : Form
     {
         Temperature--;
     }
-    
 }

@@ -1,15 +1,12 @@
-using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Controller
 {
-    [Serializable]
-    public abstract class Form : ScriptableObject
+    public abstract class Form : MonoBehaviour
     {
-        [SerializeField] protected List<Attack> attacks;
-        protected Character character;
-        public abstract void Equip(Character character);
+        protected FormData _data;
+        protected Character _character;
+        public abstract void Equip(Character character, FormData data);
         public abstract void Drop();
     }
 }

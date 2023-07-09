@@ -96,16 +96,18 @@ public class PlayerController : Character
     }
     
     #if UNITY_EDITOR
-    [SerializeField] private Form fireForm;
+    [SerializeField] private FireFormData data;
     [ContextMenu("Equip Fire Form")]
     public void EquipFireForm()
     {
-        fireForm.Equip(this);
+        form = data.AttachScript(gameObject);
+        if (form is not null) form.Equip(this, data);
     }
     [ContextMenu("Remove Fire Form")]
     public void RemoveFireForm()
     {
-        fireForm.Drop();
+        if(form is not null) form.Drop();
+        form = null;
     }
     #endif
 }
