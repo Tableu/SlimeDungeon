@@ -106,7 +106,12 @@ public class PlayerController : Character
     [ContextMenu("Remove Fire Form")]
     public void RemoveFireForm()
     {
-        if(form is not null) form.Drop();
+        if (form is not null)
+        {
+            form.Drop();
+            Destroy(form);
+        }
+
         form = null;
     }
     #endif
