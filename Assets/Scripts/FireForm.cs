@@ -21,7 +21,7 @@ public class FireForm : Form
             attack.OnSpellCast += IncreaseTemperature;
         }
         
-        if (character is PlayerController player) 
+        if (character is PlayerController player)
             player.ChangeForms(this.data.Material);
     }
 
@@ -47,10 +47,12 @@ public class FireForm : Form
             if (Temperature > data.MaxTemperature / 2)
             {
                 sizeMultiplier = 2;
+                damageMultiplier = 2;
             }
             else
             {
                 sizeMultiplier = 1;
+                damageMultiplier = 1;
             }
         }
     }

@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ee8899c34bd8894eb8a85d36bec1d07, type: 3}
   m_Name: Fireball Attack
   m_EditorClassIdentifier: 
-  Offset: 2
-  Speed: 10
-  Damage: 5
-  Knockback: 5
+  offset: 2
+  speed: 10
+  damage: 10
+  knockback: 2
   fireballPrefab: {fileID: 4292637640093511300, guid: 157aa440c4a506246823658fa914c881, type: 3}

@@ -32,11 +32,8 @@ public class FireballAttack : Controller.Attack
         character.currentAttack = this;
         Transform transform = character.transform;
         GameObject fireball = Instantiate(fireballPrefab, transform.position + offset*transform.forward, Quaternion.identity);
-        fireball.transform.localScale *= character.form.sizeMultiplier;
-        var particle = fireball.GetComponent<ParticleSystem>().shape;
-        particle.radius *= character.form.sizeMultiplier;
-        var script = fireball.GetComponent<Fireball>(); 
-        script.Initialize(damage*character.form.damageMultiplier, knockback,transform.forward*speed*character.form.speedMultiplier);
+        var script = fireball.GetComponent<Fireball>();
+        script.Initialize(damage*character.form.damageMultiplier, knockback,transform.forward*speed*character.form.speedMultiplier, character.form.sizeMultiplier);
         character.animator.SetTrigger("Attack");
         if (character.isPlayer && _inputActions != null)
         {
