@@ -4,10 +4,10 @@ using UnityEngine.InputSystem;
 [CreateAssetMenu(fileName = "Fireball Attack", menuName = "Attacks/Fireball Attack")]
 public class FireballAttack : Controller.Attack
 {
-    public float Offset;
-    public float Speed;
-    public float Damage;
-    public float Knockback;
+    [SerializeField] private float offset;
+    [SerializeField] private float speed;
+    [SerializeField] private float damage;
+    [SerializeField] private float knockback;
     [SerializeField] private GameObject fireballPrefab;
     private PlayerInputActions _inputActions;
     public override void Equip(Controller.Character character)
@@ -31,9 +31,12 @@ public class FireballAttack : Controller.Attack
     {
         character.currentAttack = this;
         Transform transform = character.transform;
-        GameObject fireball = Instantiate(fireballPrefab, transform.position + Offset*transform.forward, Quaternion.identity);
+        GameObject fireball = Instantiate(fireballPrefab, transform.position + offset*transform.forward, Quaternion.identity);
+        fireball.transform.localScale *= character.form.sizeMultiplier;
+        var particle = fireball.GetComponent<ParticleSystem>().shape;
+        particle.radius *= character.form.sizeMultiplier;
         var script = fireball.GetComponent<Fireball>(); 
-        script.Initialize(Damage, Knockback,transform.forward*Speed);
+        script.Initialize(damage*character.form.damageMultiplier, knockback,transform.forward*speed*character.form.speedMultiplier);
         character.animator.SetTrigger("Attack");
         if (character.isPlayer && _inputActions != null)
         {
