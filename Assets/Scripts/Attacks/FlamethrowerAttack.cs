@@ -11,6 +11,7 @@ public class FlamethrowerAttack : Attack
     [SerializeField] private float speed;
     [SerializeField] private float damage;
     [SerializeField] private float knockback;
+    [SerializeField] private float hitStun;
     private GameObject _flamethrower;
     private float _oldSpeed;
     private PlayerInputActions _inputActions;
@@ -43,7 +44,7 @@ public class FlamethrowerAttack : Attack
         _flamethrower = Instantiate(flamethrowerPrefab, transform.position + offset*transform.forward, Quaternion.identity,transform);
         _flamethrower.transform.rotation = Quaternion.Euler(_flamethrower.transform.rotation.x, character.transform.rotation.eulerAngles.y-90, _flamethrower.transform.rotation.z);
         var script = _flamethrower.GetComponent<Flamethrower>();
-        script.Initialize(damage*character.form.damageMultiplier, knockback, transform.forward*speed*character.form.speedMultiplier, character.form.sizeMultiplier);
+        script.Initialize(damage*character.form.damageMultiplier, knockback, hitStun,transform.forward*speed*character.form.speedMultiplier, character.form.sizeMultiplier);
         _oldSpeed = character.Speed;
         character.Speed = 0.5f;
         character.disableRotation = true;

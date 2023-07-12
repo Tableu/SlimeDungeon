@@ -150,32 +150,33 @@ public class EnemyController : Character
         agent.nextPosition = transform.position;
     }
     
+    //todo move body collision attack to attack class
     public void OnCollisionEnter(Collision other)
     {
         if (enemyMask == (enemyMask | (1 << other.gameObject.layer)))
         {
             IDamageable health = other.gameObject.GetComponent<IDamageable>();
-            health.TakeDamage(characterData.BodyDamage,(other.transform.position - transform.position).normalized*10);
+            health.TakeDamage(characterData.BodyDamage,(other.transform.position - transform.position).normalized*10, characterData.HitStun);
         }
     }
 
-    public override void TakeDamage(float damage, Vector3 knockback)
+    public override void TakeDamage(float damage, Vector3 knockback, float hitStun)
     {
         if (CurrentState != SlimeAnimationState.Damage)
         {
             CurrentState = SlimeAnimationState.Damage;
-            base.TakeDamage(damage, knockback);
+            base.TakeDamage(damage, knockback, hitStun);
         }
     }
 
-    protected override IEnumerator ApplyKnockback(Vector3 knockback)
+    protected override IEnumerator ApplyKnockback(Vector3 knockback, float hitStun)
     {
         CancelInvoke(nameof(WalkToNextDestination));
         animator.SetFloat("Speed", 0);
         agent.enabled = false;
         rigidbody.isKinematic = false;
         rigidbody.velocity = knockback;
-        yield return new WaitForSeconds(characterData.HitStun);
+        yield return new WaitForSeconds(hitStun);
         rigidbody.velocity = Vector3.zero;
         rigidbody.isKinematic = true;
         agent.enabled = true;

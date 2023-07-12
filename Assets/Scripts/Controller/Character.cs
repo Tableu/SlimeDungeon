@@ -57,9 +57,9 @@ namespace Controller
                 currentAttack.PassMessage(state);
         }
 
-        public virtual void TakeDamage(float damage, Vector3 knockback)
+        public virtual void TakeDamage(float damage, Vector3 knockback, float hitStun)
         {
-            StartCoroutine(ApplyKnockback(knockback));
+            StartCoroutine(ApplyKnockback(knockback, hitStun));
             Health -= damage;
             if (Health <= 0)
             {
@@ -67,6 +67,6 @@ namespace Controller
             }
         }
 
-        protected abstract IEnumerator ApplyKnockback(Vector3 knockback);
+        protected abstract IEnumerator ApplyKnockback(Vector3 knockback, float hitStun);
     }
 }

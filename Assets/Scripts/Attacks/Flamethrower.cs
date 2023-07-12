@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class Flamethrower : MonoBehaviour
@@ -8,13 +7,15 @@ public class Flamethrower : MonoBehaviour
     private float _knockback;
     private Vector3 _force;
     private float _sizeMultiplier;
+    private float _hitStun;
 
-    public void Initialize(float damage, float knockback, Vector3 force, float sizeMultiplier)
+    public void Initialize(float damage, float knockback, float hitStun, Vector3 force, float sizeMultiplier)
     {
         _sizeMultiplier = sizeMultiplier;
         _damage = damage;
         _knockback = knockback;
         _force = force;
+        _hitStun = hitStun;
     }
     private void Update()
     {
@@ -29,7 +30,7 @@ public class Flamethrower : MonoBehaviour
         IDamageable damage = other.GetComponent<IDamageable>();
         if (damage != null)
         {
-            damage.TakeDamage(_damage,_knockback*_force.normalized);
+            damage.TakeDamage(_damage,_knockback*_force.normalized, _hitStun);
         }
     }
 }

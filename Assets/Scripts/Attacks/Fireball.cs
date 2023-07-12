@@ -8,12 +8,14 @@ public class Fireball : MonoBehaviour
     [SerializeField] private new SphereCollider collider;
     private float _damage;
     private float _knockback;
+    private float _hitStun;
     private Vector3 _force;
     private float _sizeMultiplier;
 
-    public void Initialize(float damage, float knockback, Vector3 force, float sizeMultiplier)
+    public void Initialize(float damage, float knockback,float hitStun, Vector3 force, float sizeMultiplier)
     {
         _sizeMultiplier = sizeMultiplier;
+        _hitStun = hitStun;
         _damage = damage;
         _knockback = knockback;
         _force = force;
@@ -31,7 +33,7 @@ public class Fireball : MonoBehaviour
         IDamageable damage = other.gameObject.GetComponent<IDamageable>();
         if (damage != null)
         {
-            damage.TakeDamage(_damage,_knockback*_force.normalized);
+            damage.TakeDamage(_damage,_knockback*_force.normalized, _hitStun);
         }
         Debug.Log(other.gameObject.name);
         fireball.Stop();

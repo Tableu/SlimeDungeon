@@ -66,13 +66,13 @@ public class PlayerController : Character
         playerInputActions.Dispose();
     }
     
-    public override void TakeDamage(float damage, Vector3 knockback)
+    public override void TakeDamage(float damage, Vector3 knockback, float hitStun)
     {
         if(!_inKnockback)
-            base.TakeDamage(damage,knockback);
+            base.TakeDamage(damage,knockback, hitStun);
     }
     
-    protected override IEnumerator ApplyKnockback(Vector3 knockback)
+    protected override IEnumerator ApplyKnockback(Vector3 knockback, float hitStun)
     {
         _inKnockback = true;
         playerInputActions.Disable();
