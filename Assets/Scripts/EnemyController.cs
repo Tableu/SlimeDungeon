@@ -171,15 +171,18 @@ public class EnemyController : Character
 
     protected override IEnumerator ApplyKnockback(Vector3 knockback, float hitStun)
     {
-        CancelInvoke(nameof(WalkToNextDestination));
-        animator.SetFloat("Speed", 0);
-        agent.enabled = false;
-        rigidbody.isKinematic = false;
-        rigidbody.velocity = knockback;
-        yield return new WaitForSeconds(hitStun);
-        rigidbody.velocity = Vector3.zero;
-        rigidbody.isKinematic = true;
-        agent.enabled = true;
+        if (hitStun > 0)
+        {
+            CancelInvoke(nameof(WalkToNextDestination));
+            animator.SetFloat("Speed", 0);
+            agent.enabled = false;
+            rigidbody.isKinematic = false;
+            rigidbody.velocity = knockback;
+            yield return new WaitForSeconds(hitStun);
+            rigidbody.velocity = Vector3.zero;
+            rigidbody.isKinematic = true;
+            agent.enabled = true;
+        }
         CurrentState = SlimeAnimationState.Walk;
     }
 }

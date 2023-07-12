@@ -35,7 +35,6 @@ public class Fireball : MonoBehaviour
         {
             damage.TakeDamage(_damage,_knockback*_force.normalized, _hitStun);
         }
-        Debug.Log(other.gameObject.name);
         fireball.Stop();
         GameObject g = Instantiate(explosion, transform.position, Quaternion.identity);
         var explosionParticle = g.GetComponent<ParticleSystem>();
