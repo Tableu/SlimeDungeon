@@ -15,7 +15,8 @@ MonoBehaviour:
   health: 100
   armor: 0
   speed: 5
-  hitStun: 1
+  hitStun: 0.3
+  isPlayer: 0
   bodyDamage: 5
   aggroRange: 8
   detectTick: 10

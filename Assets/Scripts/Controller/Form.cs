@@ -12,4 +12,9 @@ namespace Controller
         public abstract void Equip(Character character, FormData data);
         public abstract void Drop();
     }
+
+    public enum Forms
+    {
+        FireForm
+    }
 }

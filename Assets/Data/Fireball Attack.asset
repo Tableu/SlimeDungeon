@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Fireball Attack
   m_EditorClassIdentifier: 
   offset: 2
-  speed: 10
+  speed: 20
   damage: 10
   knockback: 2
   fireballPrefab: {fileID: 4292637640093511300, guid: 157aa440c4a506246823658fa914c881, type: 3}

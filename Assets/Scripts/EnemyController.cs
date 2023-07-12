@@ -131,12 +131,12 @@ public class EnemyController : Character
     // Animation Event
     public new void AlertObservers(string message)
     {
-        if (message.Equals("AnimationAttackEnded"))
+        if (message.Equals("AttackEnded"))
         {
             CurrentState = SlimeAnimationState.Walk;           
         }
 
-        if (message.Equals("AnimationJumpEnded"))
+        if (message.Equals("JumpEnded"))
         {
             CurrentState = SlimeAnimationState.Idle;
         }

@@ -9,9 +9,11 @@ public class Fireball : MonoBehaviour
     private float _damage;
     private float _knockback;
     private Vector3 _force;
+    private float _sizeMultiplier;
 
     public void Initialize(float damage, float knockback, Vector3 force, float sizeMultiplier)
     {
+        _sizeMultiplier = sizeMultiplier;
         _damage = damage;
         _knockback = knockback;
         _force = force;
@@ -33,7 +35,13 @@ public class Fireball : MonoBehaviour
         }
         Debug.Log(other.gameObject.name);
         fireball.Stop();
-        Instantiate(explosion, transform.position, Quaternion.identity);
+        GameObject g = Instantiate(explosion, transform.position, Quaternion.identity);
+        var explosionParticle = g.GetComponent<ParticleSystem>();
+        var shape = explosionParticle.shape;
+        shape.radius *= _sizeMultiplier;
+        var main = explosionParticle.main;
+        main.startSpeed = new ParticleSystem.MinMaxCurve(main.startSpeed.constant * _sizeMultiplier);
+        main.startSize = new ParticleSystem.MinMaxCurve(main.startSize.constant * _sizeMultiplier);
         Destroy(gameObject);
     }
 }
