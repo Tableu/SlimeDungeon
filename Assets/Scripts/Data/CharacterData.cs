@@ -14,6 +14,7 @@ public class CharacterData : ScriptableObject
     [HeaderAttribute("Enemy")]
     [SerializeField] private float bodyDamage;
     [SerializeField] private float aggroRange;
+    [SerializeField] private float deAggroRange;
     [SerializeField] private int detectTick;
     [SerializeField] private float hitStun;
 
@@ -23,6 +24,7 @@ public class CharacterData : ScriptableObject
     public float HitStun => hitStun;
     public float BodyDamage => bodyDamage;
     public float AggroRange => aggroRange;
+    public float DeAggroRange => deAggroRange;
     public int DetectTick => detectTick;
     public bool IsPlayer => isPlayer;
 }

@@ -116,15 +116,15 @@ public class EnemyController : Character
         if (GlobalReferences.Instance.Player != null)
         {
             var diff = transform.position - GlobalReferences.Instance.Player.transform.position;
-            if (diff.magnitude < characterData.AggroRange)
-            {
-                _target = GlobalReferences.Instance.Player.transform;
-                _attackingPlayer = true;
-            }
-            else
+            if (diff.magnitude >= characterData.DeAggroRange)
             {
                 _target = waypoints[_currentWaypointIndex];
                 _attackingPlayer = false;
+            }
+            else if(diff.magnitude < characterData.AggroRange)
+            {
+                _target = GlobalReferences.Instance.Player.transform;
+                _attackingPlayer = true;
             }
         }
     }
