@@ -7,7 +7,10 @@ using AnimationState = Controller.AnimationState;
 public class FlamethrowerAttack : Attack
 {
     [SerializeField] private GameObject flamethrowerPrefab;
-    public float Offset;
+    [SerializeField] private float offset;
+    [SerializeField] private float speed;
+    [SerializeField] private float damage;
+    [SerializeField] private float knockback;
     private GameObject _flamethrower;
     private float _oldSpeed;
     private PlayerInputActions _inputActions;
@@ -37,8 +40,10 @@ public class FlamethrowerAttack : Attack
     {
         character.currentAttack = this;
         Transform transform = character.transform;
-        _flamethrower = Instantiate(flamethrowerPrefab, transform.position + Offset*transform.forward, Quaternion.identity,transform);
+        _flamethrower = Instantiate(flamethrowerPrefab, transform.position + offset*transform.forward, Quaternion.identity,transform);
         _flamethrower.transform.rotation = Quaternion.Euler(_flamethrower.transform.rotation.x, character.transform.rotation.eulerAngles.y-90, _flamethrower.transform.rotation.z);
+        var script = _flamethrower.GetComponent<Flamethrower>();
+        script.Initialize(damage*character.form.damageMultiplier, knockback, transform.forward*speed*character.form.speedMultiplier, character.form.sizeMultiplier);
         _oldSpeed = character.Speed;
         character.Speed = 0.5f;
         character.disableRotation = true;
@@ -55,13 +60,17 @@ public class FlamethrowerAttack : Attack
 
     public override void End()
     {
-        Debug.Log("end");
         character.currentAttack = null;
         character.disableRotation = false;
         _inputActions.Attack.Primary.Enable();
         _inputActions.Movement.Pressed.Enable();
         character.Speed = _oldSpeed;
-        Destroy(_flamethrower);
+        if (_inputActions.Movement.Direction.ReadValue<Vector2>() != Vector2.zero)
+        {
+            character.animator.SetFloat("Speed", 1);
+        }
+        _flamethrower.GetComponent<ParticleSystem>().Stop();
+        _flamethrower.transform.SetParent(null, true);
     }
 
     internal override void PassMessage(AnimationState state)

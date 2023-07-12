@@ -12,5 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b120817adb13a664fa6cc82538244d57, type: 3}
   m_Name: Flamethrower Attack
   m_EditorClassIdentifier: 
-  flamethrowerPrefab: {fileID: 182542, guid: 5cd5599e01f32bd418f20a3b9eac1c57, type: 3}
-  Offset: 2
+  flamethrowerPrefab: {fileID: 2829376769235719667, guid: 5126df3142e56e64683735a787d5bedc, type: 3}
+  offset: 2
+  speed: 2
+  damage: 0.1
+  knockback: 0.01
