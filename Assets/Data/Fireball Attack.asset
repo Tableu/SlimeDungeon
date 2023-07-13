@@ -9,12 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ee8899c34bd8894eb8a85d36bec1d07, type: 3}
+  m_Script: {fileID: 11500000, guid: f30f956518e4f1e408081b2d06152acd, type: 3}
   m_Name: Fireball Attack
   m_EditorClassIdentifier: 
-  offset: 2
-  speed: 20
-  damage: 10
-  knockback: 2
-  hitStun: 0.3
-  fireballPrefab: {fileID: 4292637640093511300, guid: 157aa440c4a506246823658fa914c881, type: 3}
+  offset: 0
+  speed: 0
+  damage: 0
+  knockback: 0
+  hitStun: 0
+  prefab: {fileID: 0}

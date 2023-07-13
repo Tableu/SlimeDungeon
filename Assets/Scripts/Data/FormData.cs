@@ -1,12 +1,16 @@
 using System.Collections.Generic;
 using Controller;
+using Controller.Form;
 using UnityEngine;
 
-public abstract class FormData : ScriptableObject
+namespace Controller.Form
 {
-    [SerializeField] private List<Attack> attacks;
+    public abstract class FormData : ScriptableObject
+    {
+        [SerializeField] private List<AttackData> attacks;
 
-    public List<Attack> Attacks => attacks;
-    
-    public abstract Form AttachScript(GameObject gameObject);
+        public List<AttackData> Attacks => attacks;
+
+        public abstract Form AttachScript(GameObject gameObject);
+    }
 }

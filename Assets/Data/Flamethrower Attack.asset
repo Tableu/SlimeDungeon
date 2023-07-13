@@ -9,12 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b120817adb13a664fa6cc82538244d57, type: 3}
+  m_Script: {fileID: 11500000, guid: 13f93e3f92fe66d4ab5178248ebbf643, type: 3}
   m_Name: Flamethrower Attack
   m_EditorClassIdentifier: 
-  flamethrowerPrefab: {fileID: 2829376769235719667, guid: 5126df3142e56e64683735a787d5bedc, type: 3}
-  offset: 2
-  speed: 2
-  damage: 1
+  offset: 0
+  speed: 0
+  damage: 0
   knockback: 0
   hitStun: 0
+  prefab: {fileID: 0}

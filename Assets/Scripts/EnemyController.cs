@@ -61,7 +61,7 @@ public class EnemyController : Character
                     else
                     {
                         CurrentState = SlimeAnimationState.Idle;
-                        //wait 2s before go to next destionation
+                        //wait 2s before go to next destination
                         Invoke(nameof(WalkToNextDestination), 2f);
                     }
                 }

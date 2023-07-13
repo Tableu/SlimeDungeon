@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Controller
@@ -33,7 +34,8 @@ namespace Controller
         [SerializeField] protected LayerMask enemyMask;
         [SerializeField] protected new Rigidbody rigidbody;
         internal Attack currentAttack;
-        internal Form form;
+        internal List<Attack> attacks;
+        internal Form.Form form;
         internal bool disableRotation = false;
         internal bool isPlayer = false;
         internal PlayerInputActions playerInputActions;
@@ -49,6 +51,8 @@ namespace Controller
                 playerInputActions = new PlayerInputActions();
                 isPlayer = true;
             }
+
+            attacks = new List<Attack>();
         }
 
         public void AlertObservers(string message)

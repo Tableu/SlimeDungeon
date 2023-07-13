@@ -1,55 +1,31 @@
+using Controller;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-[CreateAssetMenu(fileName = "Fireball Attack", menuName = "Attacks/Fireball Attack")]
-public class FireballAttack : Controller.Attack
+public class FireballAttack : Attack
 {
-    [SerializeField] private float offset;
-    [SerializeField] private float speed;
-    [SerializeField] private float damage;
-    [SerializeField] private float knockback;
-    [SerializeField] private float hitStun;
-    [SerializeField] private GameObject fireballPrefab;
-    private PlayerInputActions _inputActions;
-    public override void Equip(Controller.Character character)
-    {
-        this.character = character;
-        _inputActions = character.playerInputActions;
-        if (character.isPlayer && _inputActions != null)
-        {
-            _inputActions.Attack.Primary.started += Begin;
-        }
-    }
-    public override void Drop()
-    {
-        if (character.isPlayer && _inputActions != null)
-        {
-            _inputActions.Attack.Primary.started -= Begin;
-        }
-    }
-
     public override void Begin(InputAction.CallbackContext callbackContext)
     {
         character.currentAttack = this;
         Transform transform = character.transform;
-        GameObject fireball = Instantiate(fireballPrefab, transform.position + offset*transform.forward, Quaternion.identity);
+        GameObject fireball = GameObject.Instantiate(data.Prefab, transform.position + data.Offset*transform.forward, Quaternion.identity);
         var script = fireball.GetComponent<Fireball>();
-        script.Initialize(damage*character.form.damageMultiplier, knockback,hitStun,transform.forward*speed*character.form.speedMultiplier, character.form.sizeMultiplier);
+        script.Initialize(data.Damage*character.form.damageMultiplier, data.Knockback,data.HitStun,transform.forward*data.Speed*character.form.speedMultiplier, character.form.sizeMultiplier);
         character.animator.SetTrigger("Attack");
-        if (character.isPlayer && _inputActions != null)
+        if (character.isPlayer && character.playerInputActions != null)
         {
-            _inputActions.Attack.Disable();
-            _inputActions.Movement.Disable();
+            character.playerInputActions.Attack.Disable();
+            character.playerInputActions.Movement.Disable();
         }
         OnSpellCast?.Invoke();
     }
 
     public override void End()
     {
-        if (character.isPlayer && _inputActions != null)
+        if (character.isPlayer && character.playerInputActions != null)
         {
-            _inputActions.Attack.Enable();
-            _inputActions.Movement.Enable();
+            character.playerInputActions.Attack.Enable();
+            character.playerInputActions.Movement.Enable();
         }
 
         character.currentAttack = null;
@@ -60,6 +36,25 @@ public class FireballAttack : Controller.Attack
         if (Controller.AnimationState.AttackEnded == state)
         {
             End();
+        }
+    }
+
+    public override void CleanUp()
+    {
+        if (character.isPlayer && character.playerInputActions != null)
+        {
+            character.playerInputActions.Attack.Primary.started -= Begin;
+        }
+
+        character.attacks.Remove(this);
+        character.currentAttack = null;
+    }
+
+    public FireballAttack(Character character, AttackData data) : base(character, data)
+    {
+        if (character.isPlayer && character.playerInputActions != null)
+        {
+            character.playerInputActions.Attack.Primary.started += Begin;
         }
     }
 }

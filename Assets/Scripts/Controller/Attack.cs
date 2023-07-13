@@ -1,5 +1,4 @@
 using System;
-using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace Controller
@@ -11,14 +10,21 @@ namespace Controller
         JumpEnded
     }
     [Serializable]
-    public abstract class Attack : ScriptableObject
+    public abstract class Attack
     {
         protected Character character;
-        public abstract void Equip(Character character);
-        public abstract void Drop();
+        protected AttackData data;
+
+        protected Attack(Character character, AttackData data)
+        {
+            this.character = character;
+            this.data = data;
+        }
+        
         public abstract void Begin(InputAction.CallbackContext callbackContext);
         public abstract void End();
         internal abstract void PassMessage(AnimationState state);
+        public abstract void CleanUp();
 
         public Action OnSpellCast;
     }

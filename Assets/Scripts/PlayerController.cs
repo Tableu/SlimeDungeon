@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using Controller;
+using Controller.Form;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -101,7 +102,7 @@ public class PlayerController : Character
     public void EquipFireForm()
     {
         form = data.AttachScript(gameObject);
-        if (form is not null) form.Equip(this, data);
+        form.Equip(this);
     }
     [ContextMenu("Remove Fire Form")]
     public void RemoveFireForm()
