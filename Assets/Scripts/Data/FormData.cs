@@ -1,10 +1,10 @@
+using System;
 using System.Collections.Generic;
-using Controller;
-using Controller.Form;
 using UnityEngine;
 
 namespace Controller.Form
 {
+    [Serializable]
     public abstract class FormData : ScriptableObject
     {
         [SerializeField] private List<AttackData> attacks;

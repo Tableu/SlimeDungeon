@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Linq;
 using Controller;
 using Controller.Form;
 using UnityEngine;
@@ -30,6 +31,21 @@ public class PlayerController : Character
             if (animator != null)
             {
                 animator.SetFloat("Speed", characterData.Speed);
+            }
+        };
+        playerInputActions.Attack.Absorb.started += delegate(InputAction.CallbackContext context)
+        {
+            Collider[] colliders = Physics.OverlapSphere(transform.position, 5, LayerMask.GetMask("Absorbables"));
+            var orderedByProximity = colliders.OrderBy(c => (transform.position - c.transform.position).sqrMagnitude)
+                .ToArray();
+            foreach (var col in orderedByProximity)
+            {
+                var absorbable = col.GetComponent<IAbsorbable>();
+                if (absorbable != null)
+                {
+                    absorbable.Absorb(this);
+                    break;
+                }
             }
         };
     }
@@ -86,14 +102,27 @@ public class PlayerController : Character
         animator.applyRootMotion = true;
     }
 
-    public void ChangeForms(Material material)
+    public void EquipForm(FormData formData)
     {
-        meshRenderer.material = material;
+        DropForm();
+        form = formData.AttachScript(gameObject);
+        form.Equip(this);
     }
 
-    public void ResetForm()
+    public void DropForm()
     {
+        if (form is not null)
+        {
+            form.Drop();
+            Destroy(form);
+        }
+        form = null;
         meshRenderer.material = originalMaterial;
+    }
+
+    public void SetMaterial(Material material)
+    {
+        meshRenderer.material = material;
     }
     
     #if UNITY_EDITOR

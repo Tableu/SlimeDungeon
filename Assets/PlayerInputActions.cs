@@ -169,6 +169,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Absorb"",
+                    ""type"": ""Button"",
+                    ""id"": ""454766d4-066d-4d95-a041-f13828a8f79e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -193,6 +202,17 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""Secondary"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5910b4f4-a47e-4ff5-a2ec-98b1edd9dad8"",
+                    ""path"": ""<Keyboard>/j"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Absorb"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -207,6 +227,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Attack = asset.FindActionMap("Attack", throwIfNotFound: true);
         m_Attack_Primary = m_Attack.FindAction("Primary", throwIfNotFound: true);
         m_Attack_Secondary = m_Attack.FindAction("Secondary", throwIfNotFound: true);
+        m_Attack_Absorb = m_Attack.FindAction("Absorb", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -324,12 +345,14 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private List<IAttackActions> m_AttackActionsCallbackInterfaces = new List<IAttackActions>();
     private readonly InputAction m_Attack_Primary;
     private readonly InputAction m_Attack_Secondary;
+    private readonly InputAction m_Attack_Absorb;
     public struct AttackActions
     {
         private @PlayerInputActions m_Wrapper;
         public AttackActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @Primary => m_Wrapper.m_Attack_Primary;
         public InputAction @Secondary => m_Wrapper.m_Attack_Secondary;
+        public InputAction @Absorb => m_Wrapper.m_Attack_Absorb;
         public InputActionMap Get() { return m_Wrapper.m_Attack; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -345,6 +368,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Secondary.started += instance.OnSecondary;
             @Secondary.performed += instance.OnSecondary;
             @Secondary.canceled += instance.OnSecondary;
+            @Absorb.started += instance.OnAbsorb;
+            @Absorb.performed += instance.OnAbsorb;
+            @Absorb.canceled += instance.OnAbsorb;
         }
 
         private void UnregisterCallbacks(IAttackActions instance)
@@ -355,6 +381,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Secondary.started -= instance.OnSecondary;
             @Secondary.performed -= instance.OnSecondary;
             @Secondary.canceled -= instance.OnSecondary;
+            @Absorb.started -= instance.OnAbsorb;
+            @Absorb.performed -= instance.OnAbsorb;
+            @Absorb.canceled -= instance.OnAbsorb;
         }
 
         public void RemoveCallbacks(IAttackActions instance)
@@ -381,5 +410,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     {
         void OnPrimary(InputAction.CallbackContext context);
         void OnSecondary(InputAction.CallbackContext context);
+        void OnAbsorb(InputAction.CallbackContext context);
     }
 }

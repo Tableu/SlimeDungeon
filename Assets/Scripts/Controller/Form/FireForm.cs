@@ -9,27 +9,25 @@ namespace Controller.Form
         internal new FireFormData data;
         private Slider _slider;
 
-        public override void Equip(Character character)
+        public override void Equip(PlayerController playerController)
         {
-            var sliderObject = Instantiate(this.data.Slider, GlobalReferences.Instance.Canvas.gameObject.transform);
+            var sliderObject = Instantiate(data.Slider, GlobalReferences.Instance.Canvas.gameObject.transform);
             _slider = sliderObject.GetComponent<Slider>();
-            _slider.maxValue = this.data.MaxTemperature;
-            this.character = character;
+            _slider.maxValue = data.MaxTemperature;
+            this.playerController = playerController;
             foreach (AttackData attackData in data.Attacks)
             {
-                Attack attack = attackData.EquipAttack(character);
+                Attack attack = attackData.EquipAttack(playerController);
                 attack.OnSpellCast += IncreaseTemperature;
             }
-            if (character is PlayerController player)
-                player.ChangeForms(this.data.Material);
+            playerController.SetMaterial(data.Material);
         }
 
         public override void Drop()
         {
             Destroy(_slider.gameObject);
 
-            if (character is PlayerController player)
-                player.ResetForm();
+            playerController.DropForm();
         }
 
         private void FixedUpdate()
