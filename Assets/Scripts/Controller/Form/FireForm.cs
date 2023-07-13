@@ -15,9 +15,8 @@ namespace Controller.Form
             _slider = sliderObject.GetComponent<Slider>();
             _slider.maxValue = data.MaxTemperature;
             this.playerController = playerController;
-            foreach (AttackData attackData in data.Attacks)
+            foreach (Attack attack in playerController.attacks)
             {
-                Attack attack = attackData.EquipAttack(playerController);
                 attack.OnSpellCast += IncreaseTemperature;
             }
             playerController.SetMaterial(data.Material);
@@ -26,7 +25,10 @@ namespace Controller.Form
         public override void Drop()
         {
             Destroy(_slider.gameObject);
-
+            foreach (Attack attack in playerController.attacks)
+            {
+                attack.OnSpellCast -= IncreaseTemperature;
+            }
             playerController.DropForm();
         }
 

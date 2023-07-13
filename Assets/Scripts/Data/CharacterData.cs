@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using Controller;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Character Data", menuName = "Data/Character Data")]
@@ -18,6 +20,9 @@ public class CharacterData : ScriptableObject
     [SerializeField] private int detectTick;
     [SerializeField] private float hitStun;
 
+    [HeaderAttribute("References")] 
+    [SerializeField] private List<AttackData> attacks;
+
     public float Health => health;
     public float Armor => armor;
     public float Speed => speed;
@@ -27,4 +32,5 @@ public class CharacterData : ScriptableObject
     public float DeAggroRange => deAggroRange;
     public int DetectTick => detectTick;
     public bool IsPlayer => isPlayer;
+    public List<AttackData> Attacks => attacks;
 }

@@ -10,7 +10,17 @@ public class FireballAttack : Attack
         Transform transform = character.transform;
         GameObject fireball = GameObject.Instantiate(data.Prefab, transform.position + data.Offset*transform.forward, Quaternion.identity);
         var script = fireball.GetComponent<Fireball>();
-        script.Initialize(data.Damage*character.form.damageMultiplier, data.Knockback,data.HitStun,transform.forward*data.Speed*character.form.speedMultiplier, character.form.sizeMultiplier);
+        if (character.form != null)
+        {
+            script.Initialize(data.Damage*character.form.damageMultiplier, data.Knockback,data.HitStun,
+                transform.forward*data.Speed*character.form.speedMultiplier, character.form.sizeMultiplier);
+        }
+        else
+        {
+            script.Initialize(data.Damage, data.Knockback,data.HitStun,
+                transform.forward*data.Speed, 1);
+        }
+        
         character.animator.SetTrigger("Attack");
         if (character.isPlayer && character.playerInputActions != null)
         {

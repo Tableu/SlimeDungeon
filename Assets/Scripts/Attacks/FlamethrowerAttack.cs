@@ -15,7 +15,17 @@ public class FlamethrowerAttack : Attack
         _flamethrower = GameObject.Instantiate(data.Prefab, transform.position + data.Offset*transform.forward, Quaternion.identity,transform);
         _flamethrower.transform.rotation = Quaternion.Euler(_flamethrower.transform.rotation.x, character.transform.rotation.eulerAngles.y-90, _flamethrower.transform.rotation.z);
         var script = _flamethrower.GetComponent<Flamethrower>();
-        script.Initialize(data.Damage*character.form.damageMultiplier, data.Knockback, data.HitStun,transform.forward*data.Speed*character.form.speedMultiplier, character.form.sizeMultiplier);
+        if (character.form != null)
+        {
+            script.Initialize(data.Damage * character.form.damageMultiplier, data.Knockback, data.HitStun,
+                transform.forward * data.Speed * character.form.speedMultiplier, character.form.sizeMultiplier);
+        }
+        else
+        {
+            script.Initialize(data.Damage, data.Knockback, data.HitStun,
+                transform.forward * data.Speed, 1);
+        }
+
         _oldSpeed = character.Speed;
         character.Speed = 0.5f;
         character.disableRotation = true;

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Controller
@@ -48,11 +49,15 @@ namespace Controller
             HitStun = characterData.HitStun;
             if (characterData.IsPlayer)
             {
-                playerInputActions = new PlayerInputActions();
+                playerInputActions = GlobalReferences.Instance.PlayerInputActions;
                 isPlayer = true;
             }
 
             attacks = new List<Attack>();
+            foreach (AttackData attackData in characterData.Attacks)
+            {
+                attackData.EquipAttack(this);
+            }
         }
 
         public void AlertObservers(string message)

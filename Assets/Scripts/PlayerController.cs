@@ -18,7 +18,6 @@ public class PlayerController : Character
     private new void Start()
     {
         base.Start();
-        playerInputActions = GlobalReferences.Instance.PlayerInputActions;
         playerInputActions.Movement.Pressed.canceled += delegate(InputAction.CallbackContext context)
         {
             if (animator != null)
@@ -124,25 +123,4 @@ public class PlayerController : Character
     {
         meshRenderer.material = material;
     }
-    
-    #if UNITY_EDITOR
-    [SerializeField] private FireFormData data;
-    [ContextMenu("Equip Fire Form")]
-    public void EquipFireForm()
-    {
-        form = data.AttachScript(gameObject);
-        form.Equip(this);
-    }
-    [ContextMenu("Remove Fire Form")]
-    public void RemoveFireForm()
-    {
-        if (form is not null)
-        {
-            form.Drop();
-            Destroy(form);
-        }
-
-        form = null;
-    }
-    #endif
 }
