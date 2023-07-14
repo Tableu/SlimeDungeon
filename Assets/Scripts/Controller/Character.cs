@@ -30,6 +30,12 @@ namespace Controller
             get;
         }
 
+        public float Mana
+        {
+            internal set;
+            get;
+        }
+
         [SerializeField] internal CharacterData characterData;
         [SerializeField] internal Animator animator;
         [SerializeField] protected LayerMask enemyMask;
@@ -47,6 +53,7 @@ namespace Controller
             Health = characterData.Health;
             Armor = characterData.Armor;
             HitStun = characterData.HitStun;
+            Mana = characterData.ManaRegen;
             if (characterData.IsPlayer)
             {
                 playerInputActions = GlobalReferences.Instance.PlayerInputActions;
@@ -57,6 +64,15 @@ namespace Controller
             foreach (AttackData attackData in characterData.Attacks)
             {
                 attackData.EquipAttack(this);
+            }
+        }
+
+        protected void FixedUpdate()
+        {
+            Mana += characterData.ManaRegen;
+            if (Mana > characterData.Mana)
+            {
+                Mana = characterData.Mana;
             }
         }
 

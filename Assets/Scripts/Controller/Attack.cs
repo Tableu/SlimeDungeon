@@ -27,5 +27,6 @@ namespace Controller
         public abstract void CleanUp();
 
         public Action OnSpellCast;
+        public Action OnCooldown;
     }
 }

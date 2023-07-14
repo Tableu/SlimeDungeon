@@ -6,28 +6,34 @@ public class FireballAttack : Attack
 {
     public override void Begin(InputAction.CallbackContext callbackContext)
     {
-        character.currentAttack = this;
-        Transform transform = character.transform;
-        GameObject fireball = GameObject.Instantiate(data.Prefab, transform.position + data.Offset*transform.forward, Quaternion.identity);
-        var script = fireball.GetComponent<Fireball>();
-        if (character.form != null)
+        if (character.Mana > data.ManaCost && character.currentAttack == null)
         {
-            script.Initialize(data.Damage*character.form.damageMultiplier, data.Knockback,data.HitStun,
-                transform.forward*data.Speed*character.form.speedMultiplier, character.form.sizeMultiplier);
+            character.Mana -= data.ManaCost;
+            character.currentAttack = this;
+            Transform transform = character.transform;
+            GameObject fireball = GameObject.Instantiate(data.Prefab,
+                transform.position + data.Offset * transform.forward, Quaternion.identity);
+            var script = fireball.GetComponent<Fireball>();
+            if (character.form != null)
+            {
+                script.Initialize(data.Damage * character.form.damageMultiplier, data.Knockback, data.HitStun,
+                    transform.forward * data.Speed * character.form.speedMultiplier, character.form.sizeMultiplier);
+            }
+            else
+            {
+                script.Initialize(data.Damage, data.Knockback, data.HitStun,
+                    transform.forward * data.Speed, 1);
+            }
+
+            character.animator.SetTrigger("Attack");
+            if (character.isPlayer && character.playerInputActions != null)
+            {
+                character.playerInputActions.Attack.Disable();
+                character.playerInputActions.Movement.Disable();
+            }
+
+            OnSpellCast?.Invoke();
         }
-        else
-        {
-            script.Initialize(data.Damage, data.Knockback,data.HitStun,
-                transform.forward*data.Speed, 1);
-        }
-        
-        character.animator.SetTrigger("Attack");
-        if (character.isPlayer && character.playerInputActions != null)
-        {
-            character.playerInputActions.Attack.Disable();
-            character.playerInputActions.Movement.Disable();
-        }
-        OnSpellCast?.Invoke();
     }
 
     public override void End()

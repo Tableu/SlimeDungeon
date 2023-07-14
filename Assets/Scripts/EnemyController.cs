@@ -82,8 +82,9 @@ public class EnemyController : Character
         }
     }
 
-    private void FixedUpdate()
+    private new void FixedUpdate()
     {
+        base.FixedUpdate();
         _tick++;
         if (_tick >= characterData.DetectTick)
         {

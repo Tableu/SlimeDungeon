@@ -49,8 +49,9 @@ public class PlayerController : Character
         };
     }
 
-    private void FixedUpdate()
+    private new void FixedUpdate()
     {
+        base.FixedUpdate();
         _direction = playerInputActions.Movement.Direction.ReadValue<Vector2>();
         
         if (_direction != Vector2.zero && !_inKnockback)

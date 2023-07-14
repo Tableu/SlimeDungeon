@@ -10,6 +10,8 @@ public class CharacterData : ScriptableObject
     [SerializeField] private float health;
     [SerializeField] private float armor;
     [SerializeField] private float speed;
+    [SerializeField] private float manaRegen;
+    [SerializeField] private float mana;
 
     [HeaderAttribute("Player")] 
     [SerializeField] private bool isPlayer;
@@ -33,4 +35,6 @@ public class CharacterData : ScriptableObject
     public int DetectTick => detectTick;
     public bool IsPlayer => isPlayer;
     public List<AttackData> Attacks => attacks;
+    public float ManaRegen => manaRegen;
+    public float Mana => mana;
 }
