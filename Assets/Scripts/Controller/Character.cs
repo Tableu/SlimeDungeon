@@ -23,12 +23,6 @@ namespace Controller
             get;
         }
 
-        public float HitStun
-        {
-            internal set;
-            get;
-        }
-
         public float Mana
         {
             internal set;
@@ -37,8 +31,8 @@ namespace Controller
 
         [SerializeField] internal CharacterData characterData;
         [SerializeField] internal Animator animator;
-        [SerializeField] protected LayerMask enemyMask;
-        [SerializeField] protected new Rigidbody rigidbody;
+        [SerializeField] internal LayerMask enemyMask;
+        [SerializeField] internal new Rigidbody rigidbody;
         internal Attack currentAttack;
         internal List<Attack> attacks;
         internal Form.Form form;
@@ -47,12 +41,13 @@ namespace Controller
         internal bool isPlayer = false;
         internal PlayerInputActions playerInputActions;
 
+        public Action<Collision> CollisionEnter;
+
         protected void Start()
         {
             Speed = characterData.Speed;
             Health = characterData.Health;
             Armor = characterData.Armor;
-            HitStun = characterData.HitStun;
             Mana = characterData.ManaRegen;
             elementType = characterData.ElementType;
             if (characterData.IsPlayer)
@@ -88,11 +83,15 @@ namespace Controller
             StartCoroutine(ApplyKnockback(knockback, hitStun));
             float typeMultiplier = GlobalReferences.Instance.TypeManager.GetTypeMultiplier(elementType, attackType);
             Health -= damage*typeMultiplier;
-            Debug.Log(damage*typeMultiplier);
             if (Health <= 0)
             {
                 Destroy(gameObject);
             }
+        }
+
+        public void OnCollisionEnter(Collision other)
+        {
+            CollisionEnter?.Invoke(other);
         }
 
         protected abstract IEnumerator ApplyKnockback(Vector3 knockback, float hitStun);

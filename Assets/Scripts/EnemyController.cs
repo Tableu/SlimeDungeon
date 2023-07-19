@@ -1,6 +1,5 @@
 using System.Collections;
 using Controller;
-using Elements;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -150,16 +149,6 @@ public class EnemyController : Character
         position.y = agent.nextPosition.y;
         transform.position = position;
         agent.nextPosition = transform.position;
-    }
-    
-    //todo move body collision attack to attack class
-    public void OnCollisionEnter(Collision other)
-    {
-        if (enemyMask == (enemyMask | (1 << other.gameObject.layer)))
-        {
-            IDamageable health = other.gameObject.GetComponent<IDamageable>();
-            health.TakeDamage(characterData.BodyDamage,(other.transform.position - transform.position).normalized*10, characterData.HitStun, Type.None);
-        }
     }
 
     public override void TakeDamage(float damage, Vector3 knockback, float hitStun, Elements.Type attackType)

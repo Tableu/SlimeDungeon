@@ -17,6 +17,7 @@ MonoBehaviour:
   speed: 5
   manaRegen: 1
   mana: 100
+  elementType: 0
   isPlayer: 1
   bodyDamage: 0
   aggroRange: 0

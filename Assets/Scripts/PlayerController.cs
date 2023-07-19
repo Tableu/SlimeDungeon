@@ -97,7 +97,7 @@ public class PlayerController : Character
         animator.applyRootMotion = false;
         rigidbody.velocity = Vector3.zero;
         rigidbody.AddForce(knockback, ForceMode.Impulse);
-        yield return new WaitForSeconds(characterData.HitStun);
+        yield return new WaitForSeconds(hitStun);
         playerInputActions.Enable();
         _inKnockback = false;
         animator.applyRootMotion = true;

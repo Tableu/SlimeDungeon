@@ -9,15 +9,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f30f956518e4f1e408081b2d06152acd, type: 3}
-  m_Name: Fireball Attack
+  m_Script: {fileID: 11500000, guid: 37e73c80bc0ab5b4c865bc00aef45ac6, type: 3}
+  m_Name: Collision Attack
   m_EditorClassIdentifier: 
-  offset: 2
-  speed: 10
-  damage: 10
-  knockback: 2
-  manaCost: 10
-  hitStun: 0.3
+  offset: 0
+  speed: 0
+  damage: 0
+  knockback: 0
+  manaCost: 0
+  hitStun: 0
   cooldown: 0
-  elementType: 1
-  prefab: {fileID: 4292637640093511300, guid: 157aa440c4a506246823658fa914c881, type: 3}
+  elementType: 0
+  prefab: {fileID: 0}

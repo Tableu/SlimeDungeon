@@ -16,5 +16,8 @@ MonoBehaviour:
   speed: 4
   damage: 1
   knockback: 0
+  manaCost: 0
   hitStun: 0
+  cooldown: 0
+  elementType: 1
   prefab: {fileID: 2829376769235719667, guid: 5126df3142e56e64683735a787d5bedc, type: 3}

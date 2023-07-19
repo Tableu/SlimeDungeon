@@ -15,6 +15,7 @@ MonoBehaviour:
   attacks:
   - {fileID: 11400000, guid: c5d2a1463d32f91459e236f8fea813c9, type: 2}
   - {fileID: 11400000, guid: 730208c8c64576b49840119cffa8b51a, type: 2}
+  elementType: 1
   material: {fileID: 2100000, guid: 3b223c59add15d141b65da854ef71769, type: 2}
   slider: {fileID: 2596077050798817512, guid: dffaf3477e40f844fb8298565db570cc, type: 3}
   maxTemperature: 100

@@ -17,11 +17,9 @@ public class CharacterData : ScriptableObject
     [HeaderAttribute("Player")] 
     [SerializeField] private bool isPlayer;
     [HeaderAttribute("Enemy")]
-    [SerializeField] private float bodyDamage;
     [SerializeField] private float aggroRange;
     [SerializeField] private float deAggroRange;
     [SerializeField] private int detectTick;
-    [SerializeField] private float hitStun;
 
     [HeaderAttribute("References")] 
     [SerializeField] private List<AttackData> attacks;
@@ -29,8 +27,6 @@ public class CharacterData : ScriptableObject
     public float Health => health;
     public float Armor => armor;
     public float Speed => speed;
-    public float HitStun => hitStun;
-    public float BodyDamage => bodyDamage;
     public float AggroRange => aggroRange;
     public float DeAggroRange => deAggroRange;
     public int DetectTick => detectTick;
