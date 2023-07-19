@@ -12,6 +12,7 @@ public class CharacterData : ScriptableObject
     [SerializeField] private float speed;
     [SerializeField] private float manaRegen;
     [SerializeField] private float mana;
+    [SerializeField] private Elements.Type elementType;
 
     [HeaderAttribute("Player")] 
     [SerializeField] private bool isPlayer;
@@ -37,4 +38,5 @@ public class CharacterData : ScriptableObject
     public List<AttackData> Attacks => attacks;
     public float ManaRegen => manaRegen;
     public float Mana => mana;
+    public Elements.Type ElementType => elementType;
 }

@@ -8288,6 +8288,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 1109328520}
   canvas: {fileID: 362349726}
+  typeManager: {fileID: 11400000, guid: 61c677e765f2ba043b7d4c61ef9fe5b4, type: 2}
 --- !u!4 &1165571723
 Transform:
   m_ObjectHideFlags: 0

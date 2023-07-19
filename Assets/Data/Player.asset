@@ -15,6 +15,8 @@ MonoBehaviour:
   health: 100
   armor: 0
   speed: 5
+  manaRegen: 1
+  mana: 100
   isPlayer: 1
   bodyDamage: 0
   aggroRange: 0

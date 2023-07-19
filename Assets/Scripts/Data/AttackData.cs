@@ -1,6 +1,7 @@
 using System;
 using Controller;
 using UnityEngine;
+using Type = Elements.Type;
 
 [Serializable]
 public abstract class AttackData : ScriptableObject
@@ -12,6 +13,7 @@ public abstract class AttackData : ScriptableObject
     [SerializeField] private float manaCost;
     [SerializeField] private float hitStun;
     [SerializeField] private float cooldown;
+    [SerializeField] private Type elementType;
     [SerializeField] private GameObject prefab;
 
     public float Offset => offset;
@@ -22,6 +24,7 @@ public abstract class AttackData : ScriptableObject
     public float ManaCost => manaCost;
     public float Cooldown => cooldown;
     public GameObject Prefab => prefab;
+    public Type ElementType => elementType;
         
     public abstract Attack EquipAttack(Character character);
 }

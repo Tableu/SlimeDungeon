@@ -9,18 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c338712535c8d274a8e9cec03e9585f1, type: 3}
-  m_Name: Enemy
+  m_Script: {fileID: 11500000, guid: 7f1befb473eeab649a37593cac84908d, type: 3}
+  m_Name: WaterTypeData
   m_EditorClassIdentifier: 
-  health: 100
-  armor: 0
-  speed: 5
-  manaRegen: 10
-  mana: 10
-  isPlayer: 0
-  bodyDamage: 5
-  aggroRange: 8
-  deAggroRange: 20
-  detectTick: 10
-  hitStun: 0.3
-  attacks: []
+  advantage: 1
+  disadvantage: 4
+  elementType: 2

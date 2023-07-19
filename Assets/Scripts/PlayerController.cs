@@ -5,6 +5,7 @@ using Controller;
 using Controller.Form;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Type = Elements.Type;
 
 public class PlayerController : Character
 {
@@ -83,10 +84,10 @@ public class PlayerController : Character
         playerInputActions.Dispose();
     }
     
-    public override void TakeDamage(float damage, Vector3 knockback, float hitStun)
+    public override void TakeDamage(float damage, Vector3 knockback, float hitStun, Elements.Type attackType)
     {
         if(!_inKnockback)
-            base.TakeDamage(damage,knockback, hitStun);
+            base.TakeDamage(damage,knockback, hitStun,attackType);
     }
     
     protected override IEnumerator ApplyKnockback(Vector3 knockback, float hitStun)
@@ -118,6 +119,7 @@ public class PlayerController : Character
         }
         form = null;
         meshRenderer.material = originalMaterial;
+        elementType = Type.None;
     }
 
     public void SetMaterial(Material material)

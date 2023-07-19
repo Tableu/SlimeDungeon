@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Controller
@@ -43,6 +42,7 @@ namespace Controller
         internal Attack currentAttack;
         internal List<Attack> attacks;
         internal Form.Form form;
+        internal Elements.Type elementType;
         internal bool disableRotation = false;
         internal bool isPlayer = false;
         internal PlayerInputActions playerInputActions;
@@ -54,6 +54,7 @@ namespace Controller
             Armor = characterData.Armor;
             HitStun = characterData.HitStun;
             Mana = characterData.ManaRegen;
+            elementType = characterData.ElementType;
             if (characterData.IsPlayer)
             {
                 playerInputActions = GlobalReferences.Instance.PlayerInputActions;
@@ -82,10 +83,12 @@ namespace Controller
                 currentAttack.PassMessage(state);
         }
 
-        public virtual void TakeDamage(float damage, Vector3 knockback, float hitStun)
+        public virtual void TakeDamage(float damage, Vector3 knockback, float hitStun, Elements.Type attackType)
         {
             StartCoroutine(ApplyKnockback(knockback, hitStun));
-            Health -= damage;
+            float typeMultiplier = GlobalReferences.Instance.TypeManager.GetTypeMultiplier(elementType, attackType);
+            Health -= damage*typeMultiplier;
+            Debug.Log(damage*typeMultiplier);
             if (Health <= 0)
             {
                 Destroy(gameObject);

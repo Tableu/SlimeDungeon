@@ -1,5 +1,6 @@
 using System.Collections;
 using Controller;
+using Elements;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -157,16 +158,16 @@ public class EnemyController : Character
         if (enemyMask == (enemyMask | (1 << other.gameObject.layer)))
         {
             IDamageable health = other.gameObject.GetComponent<IDamageable>();
-            health.TakeDamage(characterData.BodyDamage,(other.transform.position - transform.position).normalized*10, characterData.HitStun);
+            health.TakeDamage(characterData.BodyDamage,(other.transform.position - transform.position).normalized*10, characterData.HitStun, Type.None);
         }
     }
 
-    public override void TakeDamage(float damage, Vector3 knockback, float hitStun)
+    public override void TakeDamage(float damage, Vector3 knockback, float hitStun, Elements.Type attackType)
     {
         if (CurrentState != SlimeAnimationState.Damage)
         {
             CurrentState = SlimeAnimationState.Damage;
-            base.TakeDamage(damage, knockback, hitStun);
+            base.TakeDamage(damage, knockback, hitStun, attackType);
         }
     }
 

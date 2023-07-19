@@ -17,12 +17,12 @@ public class FireballAttack : Attack
             if (character.form != null)
             {
                 script.Initialize(data.Damage * character.form.damageMultiplier, data.Knockback, data.HitStun,
-                    transform.forward * data.Speed * character.form.speedMultiplier, character.form.sizeMultiplier);
+                    transform.forward * data.Speed * character.form.speedMultiplier, character.form.sizeMultiplier, data.ElementType);
             }
             else
             {
                 script.Initialize(data.Damage, data.Knockback, data.HitStun,
-                    transform.forward * data.Speed, 1);
+                    transform.forward * data.Speed, 1, data.ElementType);
             }
 
             character.animator.SetTrigger("Attack");
