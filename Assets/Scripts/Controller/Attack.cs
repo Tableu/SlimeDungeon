@@ -21,8 +21,17 @@ namespace Controller
             this.data = data;
         }
         
-        public abstract void Begin(InputAction.CallbackContext callbackContext);
+        public abstract void Begin();
+
+        public virtual void Begin(InputAction.CallbackContext callbackContext)
+        {
+            Begin();
+        }
         public abstract void End();
+        public virtual void End(InputAction.CallbackContext callbackContext)
+        {
+            End();
+        }
         internal abstract void PassMessage(AnimationState state);
         public abstract void CleanUp();
 

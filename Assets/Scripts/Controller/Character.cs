@@ -38,8 +38,7 @@ namespace Controller
         internal Form.Form form;
         internal Elements.Type elementType;
         internal bool disableRotation = false;
-        internal bool isPlayer = false;
-        internal PlayerInputActions playerInputActions;
+        
 
         public Action<Collision> CollisionEnter;
 
@@ -50,11 +49,6 @@ namespace Controller
             Armor = characterData.Armor;
             Mana = characterData.ManaRegen;
             elementType = characterData.ElementType;
-            if (characterData.IsPlayer)
-            {
-                playerInputActions = GlobalReferences.Instance.PlayerInputActions;
-                isPlayer = true;
-            }
 
             attacks = new List<Attack>();
             foreach (AttackData attackData in characterData.Attacks)

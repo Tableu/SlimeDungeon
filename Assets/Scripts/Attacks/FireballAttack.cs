@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 
 public class FireballAttack : Attack
 {
-    public override void Begin(InputAction.CallbackContext callbackContext)
+    public override void Begin()
     {
         if (character.Mana > data.ManaCost && character.currentAttack == null)
         {
@@ -26,22 +26,27 @@ public class FireballAttack : Attack
             }
 
             character.animator.SetTrigger("Attack");
-            if (character.isPlayer && character.playerInputActions != null)
+            if (character is PlayerController player)
             {
-                character.playerInputActions.Attack.Disable();
-                character.playerInputActions.Movement.Disable();
+                player.playerInputActions.Attack.Disable();
+                player.playerInputActions.Movement.Disable();
             }
 
             OnSpellCast?.Invoke();
         }
     }
 
+    public override void End(InputAction.CallbackContext callbackContext)
+    {
+        
+    }
+
     public override void End()
     {
-        if (character.isPlayer && character.playerInputActions != null)
+        if (character is PlayerController player)
         {
-            character.playerInputActions.Attack.Enable();
-            character.playerInputActions.Movement.Enable();
+            player.playerInputActions.Attack.Enable();
+            player.playerInputActions.Movement.Enable();
         }
 
         character.currentAttack = null;
@@ -57,20 +62,11 @@ public class FireballAttack : Attack
 
     public override void CleanUp()
     {
-        if (character.isPlayer && character.playerInputActions != null)
-        {
-            character.playerInputActions.Attack.Primary.started -= Begin;
-        }
-
         character.attacks.Remove(this);
         character.currentAttack = null;
     }
 
     public FireballAttack(Character character, AttackData data) : base(character, data)
     {
-        if (character.isPlayer && character.playerInputActions != null)
-        {
-            character.playerInputActions.Attack.Primary.started += Begin;
-        }
     }
 }

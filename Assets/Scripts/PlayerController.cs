@@ -15,10 +15,22 @@ public class PlayerController : Character
     
     [SerializeField] private SkinnedMeshRenderer meshRenderer;
     [SerializeField] private Material originalMaterial;
+    
+    internal PlayerInputActions playerInputActions;
 
     private new void Start()
     {
         base.Start();
+        playerInputActions = GlobalReferences.Instance.PlayerInputActions;
+        int i = 0;
+        foreach (InputAction action in playerInputActions.Attack.Get())
+        {
+            if (attacks.Count <= i)
+                break;
+            action.started += attacks[i].Begin;
+            action.canceled += attacks[i].End;
+            i++;
+        }
         playerInputActions.Movement.Pressed.canceled += delegate(InputAction.CallbackContext context)
         {
             if (animator != null)
@@ -80,6 +92,15 @@ public class PlayerController : Character
 
     private void OnDestroy()
     {
+        int i = 0;
+        foreach (InputAction action in playerInputActions.Attack.Get())
+        {
+            if (attacks.Count <= i)
+                break;
+            action.started -= attacks[i].Begin;
+            action.canceled -= attacks[i].End;
+            i++;
+        }
         playerInputActions.Disable();
         playerInputActions.Dispose();
     }

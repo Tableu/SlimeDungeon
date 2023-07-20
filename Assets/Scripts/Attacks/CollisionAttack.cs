@@ -22,7 +22,7 @@ public class CollisionAttack : Attack
         }
     }
 
-    public override void Begin(InputAction.CallbackContext callbackContext)
+    public override void Begin()
     {
     }
 
