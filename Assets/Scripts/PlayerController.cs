@@ -9,6 +9,7 @@ using Type = Elements.Type;
 
 public class PlayerController : Character
 {
+    //todo move maxvelocity to character data
     public Vector2 MaxVelocity;
     private Vector2 _direction;
     private bool _inKnockback = false;

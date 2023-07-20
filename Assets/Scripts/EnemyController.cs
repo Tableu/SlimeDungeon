@@ -16,12 +16,15 @@ public class EnemyController : Character
     private bool _attackingPlayer = false;
     private Transform _target;
     private int _tick = 0;
+    private EnemyData _enemyData;
     
     private new void Start()
     {
         base.Start();
         _faceMaterial = smileBody.GetComponent<Renderer>().materials[1];
         _target = waypoints[0];
+        agent.updateRotation = false;
+        _enemyData = characterData as EnemyData;
     }
 
     // Update is called once per frame
@@ -51,7 +54,6 @@ public class EnemyController : Character
                     break;
                 }
 
-                // agent reaches the destination
                 if (agent.remainingDistance < agent.stoppingDistance)
                 {
                     if (_attackingPlayer)
@@ -65,6 +67,7 @@ public class EnemyController : Character
                         Invoke(nameof(WalkToNextDestination), 2f);
                     }
                 }
+                
                 animator.SetFloat("Speed", agent.velocity.magnitude);
                 break;
             case SlimeAnimationState.Jump:
@@ -76,17 +79,24 @@ public class EnemyController : Character
             case SlimeAnimationState.Attack:
                 if (animator.GetCurrentAnimatorStateInfo(0).IsName("Attack")) return;
                 StopAgent();
+                attacks[0].Begin();
                 SetFace(faces.attackFace);
                 animator.SetTrigger("Attack");
                 break;
         }
     }
 
+    private void LateUpdate()
+    {
+        if(agent.velocity.sqrMagnitude > Mathf.Epsilon)
+            transform.rotation = Quaternion.LookRotation(agent.velocity.normalized);
+    }
+
     private new void FixedUpdate()
     {
         base.FixedUpdate();
         _tick++;
-        if (_tick >= characterData.DetectTick)
+        if (_tick >= _enemyData.DetectTick)
         {
             _tick = 0;
             DetectPlayer();
@@ -117,15 +127,18 @@ public class EnemyController : Character
         if (GlobalReferences.Instance.Player != null)
         {
             var diff = transform.position - GlobalReferences.Instance.Player.transform.position;
-            if (diff.magnitude >= characterData.DeAggroRange)
+            if (diff.magnitude >= _enemyData.DeAggroRange)
             {
                 _target = waypoints[_currentWaypointIndex];
                 _attackingPlayer = false;
+                agent.stoppingDistance = _enemyData.StoppingDistance;
             }
-            else if(diff.magnitude < characterData.AggroRange)
+            else if(diff.magnitude < _enemyData.AggroRange)
             {
                 _target = GlobalReferences.Instance.Player.transform;
                 _attackingPlayer = true;
+                transform.rotation = Quaternion.LookRotation(_target.transform.position - transform.position);
+                agent.stoppingDistance = _enemyData.AttackRange;
             }
         }
     }
@@ -134,6 +147,7 @@ public class EnemyController : Character
     {
         if (message.Equals("AttackEnded"))
         {
+            attacks[0].End();
             CurrentState = SlimeAnimationState.Walk;           
         }
 

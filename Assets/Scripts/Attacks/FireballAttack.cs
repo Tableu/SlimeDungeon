@@ -1,4 +1,5 @@
 using Controller;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -6,13 +7,16 @@ public class FireballAttack : Attack
 {
     public override void Begin()
     {
-        if (character.Mana > data.ManaCost && character.currentAttack == null)
+        if (character.Mana >= data.ManaCost && character.currentAttack == null)
         {
             character.Mana -= data.ManaCost;
             character.currentAttack = this;
             Transform transform = character.transform;
             GameObject fireball = GameObject.Instantiate(data.Prefab,
                 transform.position + data.Offset * transform.forward, Quaternion.identity);
+            fireball.layer = character is PlayerController
+                ? LayerMask.NameToLayer("PlayerAttacks")
+                : LayerMask.NameToLayer("EnemyAttacks");
             var script = fireball.GetComponent<Fireball>();
             if (character.form != null)
             {

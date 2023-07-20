@@ -13664,7 +13664,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dc88481979d32346a7203aa4e27af18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterData: {fileID: 11400000, guid: cf236948ea53d63489bcc95d5cda722b, type: 2}
+  characterData: {fileID: 11400000, guid: ba20874a0ffd3ae4c893baaef65ba44e, type: 2}
   animator: {fileID: 1901822969}
   enemyMask:
     serializedVersion: 2

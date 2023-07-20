@@ -9,19 +9,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c338712535c8d274a8e9cec03e9585f1, type: 3}
+  m_Script: {fileID: 11500000, guid: eee29ab224b67ec449499822efdd63e6, type: 3}
   m_Name: Enemy
   m_EditorClassIdentifier: 
   health: 20
   armor: 0
   speed: 5
   manaRegen: 10
-  mana: 10
+  mana: 100
   elementType: 2
-  isPlayer: 0
-  bodyDamage: 5
-  aggroRange: 8
-  deAggroRange: 20
+  attacks:
+  - {fileID: 11400000, guid: c5d2a1463d32f91459e236f8fea813c9, type: 2}
+  - {fileID: 11400000, guid: 63d76e333438b3f4d9e16c4395cf0d61, type: 2}
+  attackRange: 10
+  aggroRange: 20
+  deAggroRange: 25
   detectTick: 10
-  hitStun: 0.3
-  attacks: []
+  stoppingDistance: 3

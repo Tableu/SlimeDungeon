@@ -1,6 +1,5 @@
 using Controller;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using AnimationState = Controller.AnimationState;
 
 public class FlamethrowerAttack : Attack
