@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c338712535c8d274a8e9cec03e9585f1, type: 3}
-  m_Name: Player
+  m_Script: {fileID: 11500000, guid: 0ddc77663ac069545b1f7d1a8cad2b35, type: 3}
+  m_Name: Player Data
   m_EditorClassIdentifier: 
   health: 100
   armor: 0
@@ -22,3 +22,5 @@ MonoBehaviour:
   - {fileID: 11400000, guid: c5d2a1463d32f91459e236f8fea813c9, type: 2}
   - {fileID: 11400000, guid: 730208c8c64576b49840119cffa8b51a, type: 2}
   - {fileID: 11400000, guid: b018f63bcc11b804a8fbe50c7227a381, type: 2}
+  maxVelocity: {x: 10, y: 10}
+  baseForm: {fileID: 11400000, guid: 6cb87275a0359ba4a8b741fb885df66c, type: 2}

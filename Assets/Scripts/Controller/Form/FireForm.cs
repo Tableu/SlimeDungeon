@@ -1,3 +1,4 @@
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 namespace Controller.Form
@@ -8,29 +9,35 @@ namespace Controller.Form
 
         internal new FireFormData data;
         private Slider _slider;
+        private PlayerController _playerController;
 
         public override void Equip(PlayerController playerController)
         {
+            health = data.Health;
+            speed = data.Speed;
+            elementType = data.ElementType;
             var sliderObject = Instantiate(data.Slider, GlobalReferences.Instance.Canvas.gameObject.transform);
             _slider = sliderObject.GetComponent<Slider>();
             _slider.maxValue = data.MaxTemperature;
-            this.playerController = playerController;
+            _playerController = playerController;
             foreach (Attack attack in playerController.attacks)
             {
                 attack.OnSpellCast += IncreaseTemperature;
             }
-            playerController.elementType = data.ElementType;
             playerController.ChangeModel(data);
+            playerController.playerInputActions.Movement.Pressed.canceled += MovementCanceled;
+            playerController.playerInputActions.Movement.Pressed.started += MovementStarted;
         }
 
         public override void Drop()
         {
             Destroy(_slider.gameObject);
-            foreach (Attack attack in playerController.attacks)
+            foreach (Attack attack in _playerController.attacks)
             {
                 attack.OnSpellCast -= IncreaseTemperature;
             }
-            playerController.DropForm();
+            _playerController.playerInputActions.Movement.Pressed.canceled -= MovementCanceled;
+            _playerController.playerInputActions.Movement.Pressed.started -= MovementStarted;
         }
 
         private void FixedUpdate()
@@ -66,6 +73,22 @@ namespace Controller.Form
             if (Temperature > 0)
             {
                 Temperature -= data.DecreaseRate;
+            }
+        }
+        
+        private void MovementCanceled(InputAction.CallbackContext context)
+        {
+            if (_playerController.animator != null)
+            {
+                _playerController.animator.SetFloat("Speed", 0);
+            }
+        }
+
+        private void MovementStarted(InputAction.CallbackContext context)
+        {
+            if (_playerController.animator != null)
+            {
+                _playerController.animator.SetFloat("Speed", speed);
             }
         }
     }

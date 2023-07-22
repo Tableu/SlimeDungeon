@@ -3,7 +3,6 @@ using System.Collections;
 using System.Linq;
 using Controller;
 using Controller.Form;
-using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -11,6 +10,10 @@ using Type = Elements.Type;
 
 public class PlayerController : Character
 {
+    public override float Health => form.health;
+    public override float Speed => form.speed;
+    public override Type ElementType => form.elementType;
+    
     private Vector2 _direction;
     private bool _inKnockback = false;
     
@@ -20,14 +23,16 @@ public class PlayerController : Character
     
     internal Form form;
     internal PlayerInputActions playerInputActions;
-
+    //todo merge playerdata and enemy data parameters into characterdata
     private PlayerData _playerData;
 
     private new void Start()
     {
         base.Start();
         _playerData = characterData as PlayerData;
+        //todo remove global reference playerinputactions
         playerInputActions = GlobalReferences.Instance.PlayerInputActions;
+        EquipForm(_playerData.BaseForm);
         int i = 0;
         foreach (InputAction action in playerInputActions.Spells.Get())
         {
@@ -37,20 +42,6 @@ public class PlayerController : Character
             action.canceled += attacks[i].End;
             i++;
         }
-        playerInputActions.Movement.Pressed.canceled += delegate(InputAction.CallbackContext context)
-        {
-            if (animator != null)
-            {
-                animator.SetFloat("Speed", 0);
-            }
-        };
-        playerInputActions.Movement.Pressed.started += delegate(InputAction.CallbackContext context)
-        {
-            if (animator != null)
-            {
-                animator.SetFloat("Speed", characterData.Speed);
-            }
-        };
         playerInputActions.Other.Absorb.started += delegate(InputAction.CallbackContext context)
         {
             Collider[] colliders = Physics.OverlapSphere(transform.position, 5, LayerMask.GetMask("Absorbables"));
@@ -67,7 +58,7 @@ public class PlayerController : Character
             }
         };
         manaBar.maxValue = characterData.Mana;
-        healthBar.maxValue = characterData.Health;
+        healthBar.maxValue = form.health;
     }
 
     private new void FixedUpdate()
@@ -121,7 +112,19 @@ public class PlayerController : Character
         if(!_inKnockback)
             base.TakeDamage(damage,knockback, hitStun,attackType);
     }
-    
+
+    protected override void OnDeath()
+    {
+        if (form.GetType() == _playerData.BaseForm.GetType())
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            EquipForm(_playerData.BaseForm);
+        }
+    }
+
     protected override IEnumerator ApplyKnockback(Vector3 knockback, float hitStun)
     {
         _inKnockback = true;
@@ -137,28 +140,26 @@ public class PlayerController : Character
 
     public void EquipForm(FormData formData)
     {
-        DropForm();
-        form = formData.AttachScript(gameObject);
-        form.Equip(this);
-    }
-
-    public void DropForm()
-    {
         if (form is not null)
         {
             form.Drop();
             Destroy(form);
         }
-        form = null;
-        elementType = Type.None;
+        form = formData.AttachScript(gameObject);
+        form.Equip(this);
+        Health = form.health;
+        healthBar.maxValue = form.health;
+        healthBar.value = Health;
     }
 
     public void ChangeModel(FormData data)
     {
-        DestroyImmediate(model);
-        model = Instantiate(data.Model, transform);
+        model.SetActive(false);
+        Destroy(model);
         animator.avatar = data.Avatar;
         animator.runtimeAnimatorController = data.AnimatorController;
+        model = Instantiate(data.Model, transform);
         model.layer = gameObject.layer;
+        animator.Rebind();
     }
 }

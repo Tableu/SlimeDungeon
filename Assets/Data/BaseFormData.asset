@@ -9,16 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 97d69b75ddf1a034dad0669413757e4f, type: 3}
-  m_Name: FireFormData
+  m_Script: {fileID: 11500000, guid: 22bf79be5d037184c99ebb648ef79079, type: 3}
+  m_Name: BaseFormData
   m_EditorClassIdentifier: 
   elementType: 1
   health: 50
-  speed: 5
-  model: {fileID: 873531700701352353, guid: 28d0a30d6aed6fc4c8ca473413f70c24, type: 3}
+  speed: 10
+  model: {fileID: 6891580169314388076, guid: 66ae442726d1cf4428dacb34edd61ac4, type: 3}
   animatorController: {fileID: 9100000, guid: 707b944f06051734793367fc0c69bc07, type: 2}
   avatar: {fileID: 9000000, guid: eb340672e17c0af4089e561b61cdc548, type: 3}
-  slider: {fileID: 2596077050798817512, guid: dffaf3477e40f844fb8298565db570cc, type: 3}
-  maxTemperature: 100
-  increaseRate: 10
-  decreaseRate: 0.1

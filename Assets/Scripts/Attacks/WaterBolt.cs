@@ -51,6 +51,5 @@ public class WaterBolt : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        Debug.Log(rigidbody.velocity);
     }
 }
