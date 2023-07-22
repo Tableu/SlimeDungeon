@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Character Data", menuName = "Data/Character Data")]
 public class CharacterData : ScriptableObject
 {
     [HeaderAttribute("Stats")]

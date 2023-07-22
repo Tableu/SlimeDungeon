@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2596077050798817513}
   - component: {fileID: 2596077050798817514}
   m_Layer: 5
-  m_Name: Slider
+  m_Name: Fire Bar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

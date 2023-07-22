@@ -20,7 +20,7 @@ namespace Controller.Form
                 attack.OnSpellCast += IncreaseTemperature;
             }
             playerController.elementType = data.ElementType;
-            playerController.SetMaterial(data.Material);
+            playerController.ChangeModel(data);
         }
 
         public override void Drop()

@@ -127,27 +127,9 @@
             ]
         },
         {
-            "name": "Attack",
+            "name": "Other",
             "id": "5e746e8f-7fd5-4af1-9446-61422db47d0d",
             "actions": [
-                {
-                    "name": "Primary",
-                    "type": "Button",
-                    "id": "e3293935-3e9c-4adb-961f-88f407a43a9f",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Secondary",
-                    "type": "Button",
-                    "id": "78277b6a-23b7-41cb-ace9-feb3e0bfb496",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
                 {
                     "name": "Absorb",
                     "type": "Button",
@@ -161,34 +143,80 @@
             "bindings": [
                 {
                     "name": "",
-                    "id": "191ec271-46bd-4868-b25e-0eb95bb14a54",
-                    "path": "<Keyboard>/space",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Primary",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "36f79cbf-9eb5-40fc-88db-ae613cfa117e",
-                    "path": "<Keyboard>/enter",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Secondary",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "5910b4f4-a47e-4ff5-a2ec-98b1edd9dad8",
                     "path": "<Keyboard>/j",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Absorb",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Spells",
+            "id": "26de956c-6e01-4e42-bc91-a69c5ad2c2d7",
+            "actions": [
+                {
+                    "name": "First",
+                    "type": "Button",
+                    "id": "5ca743cf-be27-4310-a182-f9bfb70d13d9",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Second",
+                    "type": "Button",
+                    "id": "d5d0cab1-e365-483d-9b3a-50769b5ab08f",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Third",
+                    "type": "Button",
+                    "id": "1cb19c05-c58b-4026-8ddf-5fb48883b99f",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "1c81b070-20e0-46f6-99be-07b48e3cdef5",
+                    "path": "<Keyboard>/u",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "First",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d66189bf-316c-4dc3-8f6b-fb2a6b5419c9",
+                    "path": "<Keyboard>/i",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Second",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e1289936-e4b5-4f67-9807-29eed580db7c",
+                    "path": "<Keyboard>/k",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Third",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

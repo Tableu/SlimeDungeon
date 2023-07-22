@@ -14,10 +14,12 @@ public class FlamethrowerAttack : Attack
         _flamethrower = GameObject.Instantiate(data.Prefab, transform.position + data.Offset*transform.forward, Quaternion.identity,transform);
         _flamethrower.transform.rotation = Quaternion.Euler(_flamethrower.transform.rotation.x, character.transform.rotation.eulerAngles.y-90, _flamethrower.transform.rotation.z);
         var script = _flamethrower.GetComponent<Flamethrower>();
-        if (character.form != null)
+        if (character is PlayerController player)
         {
-            script.Initialize(data.Damage * character.form.damageMultiplier, data.Knockback, data.HitStun,
-                transform.forward * data.Speed * character.form.speedMultiplier, character.form.sizeMultiplier, data.ElementType);
+            //player.playerInputActions.Attack.Primary.Disable();
+            player.playerInputActions.Movement.Pressed.Disable();
+            script.Initialize(data.Damage * player.form.damageMultiplier, data.Knockback, data.HitStun,
+                transform.forward * data.Speed * player.form.speedMultiplier, player.form.sizeMultiplier, data.ElementType);
         }
         else
         {
@@ -28,11 +30,6 @@ public class FlamethrowerAttack : Attack
         _oldSpeed = character.Speed;
         character.Speed = 0.5f;
         character.disableRotation = true;
-        if (character is PlayerController player)
-        {
-            player.playerInputActions.Attack.Primary.Disable();
-            player.playerInputActions.Movement.Pressed.Disable();
-        }
         character.animator.SetFloat("Speed",0);
         OnSpellCast?.Invoke();
     }
@@ -43,7 +40,7 @@ public class FlamethrowerAttack : Attack
         character.disableRotation = false;
         if (character is PlayerController player)
         {
-            player.playerInputActions.Attack.Primary.Enable();
+            //player.playerInputActions.Attack.Primary.Enable();
             player.playerInputActions.Movement.Pressed.Enable();
             if (player.playerInputActions.Movement.Direction.ReadValue<Vector2>() != Vector2.zero)
             {

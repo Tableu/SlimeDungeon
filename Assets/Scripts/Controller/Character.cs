@@ -35,7 +35,6 @@ namespace Controller
         [SerializeField] internal new Rigidbody rigidbody;
         internal Attack currentAttack;
         internal List<Attack> attacks;
-        internal Form.Form form;
         internal Elements.Type elementType;
         internal bool disableRotation = false;
         
@@ -47,7 +46,7 @@ namespace Controller
             Speed = characterData.Speed;
             Health = characterData.Health;
             Armor = characterData.Armor;
-            Mana = characterData.ManaRegen;
+            Mana = characterData.Mana;
             elementType = characterData.ElementType;
 
             attacks = new List<Attack>();

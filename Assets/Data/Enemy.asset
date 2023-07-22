@@ -15,8 +15,8 @@ MonoBehaviour:
   health: 20
   armor: 0
   speed: 5
-  manaRegen: 10
-  mana: 100
+  manaRegen: 0.1
+  mana: 20
   elementType: 2
   attacks:
   - {fileID: 11400000, guid: c5d2a1463d32f91459e236f8fea813c9, type: 2}

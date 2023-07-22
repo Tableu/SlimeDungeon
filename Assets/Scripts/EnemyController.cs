@@ -30,6 +30,8 @@ public class EnemyController : Character
     // Update is called once per frame
     private void Update()
     {
+        if (!agent.enabled)
+            return;
         switch (CurrentState)
         {
             case SlimeAnimationState.Idle:

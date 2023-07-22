@@ -1,5 +1,4 @@
 using Controller;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -18,10 +17,12 @@ public class FireballAttack : Attack
                 ? LayerMask.NameToLayer("PlayerAttacks")
                 : LayerMask.NameToLayer("EnemyAttacks");
             var script = fireball.GetComponent<Fireball>();
-            if (character.form != null)
+            if (character is PlayerController player && player.form != null)
             {
-                script.Initialize(data.Damage * character.form.damageMultiplier, data.Knockback, data.HitStun,
-                    transform.forward * data.Speed * character.form.speedMultiplier, character.form.sizeMultiplier, data.ElementType);
+                script.Initialize(data.Damage * player.form.damageMultiplier, data.Knockback, data.HitStun,
+                    transform.forward * data.Speed * player.form.speedMultiplier, player.form.sizeMultiplier, data.ElementType);
+                player.playerInputActions.Spells.Disable();
+                player.playerInputActions.Movement.Disable();
             }
             else
             {
@@ -30,12 +31,6 @@ public class FireballAttack : Attack
             }
 
             character.animator.SetTrigger("Attack");
-            if (character is PlayerController player)
-            {
-                player.playerInputActions.Attack.Disable();
-                player.playerInputActions.Movement.Disable();
-            }
-
             OnSpellCast?.Invoke();
         }
     }
@@ -49,7 +44,7 @@ public class FireballAttack : Attack
     {
         if (character is PlayerController player)
         {
-            player.playerInputActions.Attack.Enable();
+            player.playerInputActions.Spells.Enable();
             player.playerInputActions.Movement.Enable();
         }
 

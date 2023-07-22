@@ -15,15 +15,10 @@ MonoBehaviour:
   health: 100
   armor: 0
   speed: 5
-  manaRegen: 1
+  manaRegen: 0.1
   mana: 100
   elementType: 0
-  isPlayer: 1
-  bodyDamage: 0
-  aggroRange: 0
-  deAggroRange: 0
-  detectTick: 0
-  hitStun: 0.3
   attacks:
   - {fileID: 11400000, guid: c5d2a1463d32f91459e236f8fea813c9, type: 2}
   - {fileID: 11400000, guid: 730208c8c64576b49840119cffa8b51a, type: 2}
+  - {fileID: 11400000, guid: b018f63bcc11b804a8fbe50c7227a381, type: 2}

@@ -149,27 +149,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             ]
         },
         {
-            ""name"": ""Attack"",
+            ""name"": ""Other"",
             ""id"": ""5e746e8f-7fd5-4af1-9446-61422db47d0d"",
             ""actions"": [
-                {
-                    ""name"": ""Primary"",
-                    ""type"": ""Button"",
-                    ""id"": ""e3293935-3e9c-4adb-961f-88f407a43a9f"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Secondary"",
-                    ""type"": ""Button"",
-                    ""id"": ""78277b6a-23b7-41cb-ace9-feb3e0bfb496"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
                 {
                     ""name"": ""Absorb"",
                     ""type"": ""Button"",
@@ -183,34 +165,80 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             ""bindings"": [
                 {
                     ""name"": """",
-                    ""id"": ""191ec271-46bd-4868-b25e-0eb95bb14a54"",
-                    ""path"": ""<Keyboard>/space"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Primary"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""36f79cbf-9eb5-40fc-88db-ae613cfa117e"",
-                    ""path"": ""<Keyboard>/enter"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Secondary"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""5910b4f4-a47e-4ff5-a2ec-98b1edd9dad8"",
                     ""path"": ""<Keyboard>/j"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Absorb"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""Spells"",
+            ""id"": ""26de956c-6e01-4e42-bc91-a69c5ad2c2d7"",
+            ""actions"": [
+                {
+                    ""name"": ""First"",
+                    ""type"": ""Button"",
+                    ""id"": ""5ca743cf-be27-4310-a182-f9bfb70d13d9"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Second"",
+                    ""type"": ""Button"",
+                    ""id"": ""d5d0cab1-e365-483d-9b3a-50769b5ab08f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Third"",
+                    ""type"": ""Button"",
+                    ""id"": ""1cb19c05-c58b-4026-8ddf-5fb48883b99f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""1c81b070-20e0-46f6-99be-07b48e3cdef5"",
+                    ""path"": ""<Keyboard>/u"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""First"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d66189bf-316c-4dc3-8f6b-fb2a6b5419c9"",
+                    ""path"": ""<Keyboard>/i"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Second"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e1289936-e4b5-4f67-9807-29eed580db7c"",
+                    ""path"": ""<Keyboard>/k"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Third"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -223,11 +251,14 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Movement = asset.FindActionMap("Movement", throwIfNotFound: true);
         m_Movement_Direction = m_Movement.FindAction("Direction", throwIfNotFound: true);
         m_Movement_Pressed = m_Movement.FindAction("Pressed", throwIfNotFound: true);
-        // Attack
-        m_Attack = asset.FindActionMap("Attack", throwIfNotFound: true);
-        m_Attack_Primary = m_Attack.FindAction("Primary", throwIfNotFound: true);
-        m_Attack_Secondary = m_Attack.FindAction("Secondary", throwIfNotFound: true);
-        m_Attack_Absorb = m_Attack.FindAction("Absorb", throwIfNotFound: true);
+        // Other
+        m_Other = asset.FindActionMap("Other", throwIfNotFound: true);
+        m_Other_Absorb = m_Other.FindAction("Absorb", throwIfNotFound: true);
+        // Spells
+        m_Spells = asset.FindActionMap("Spells", throwIfNotFound: true);
+        m_Spells_First = m_Spells.FindAction("First", throwIfNotFound: true);
+        m_Spells_Second = m_Spells.FindAction("Second", throwIfNotFound: true);
+        m_Spells_Third = m_Spells.FindAction("Third", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -340,76 +371,126 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     }
     public MovementActions @Movement => new MovementActions(this);
 
-    // Attack
-    private readonly InputActionMap m_Attack;
-    private List<IAttackActions> m_AttackActionsCallbackInterfaces = new List<IAttackActions>();
-    private readonly InputAction m_Attack_Primary;
-    private readonly InputAction m_Attack_Secondary;
-    private readonly InputAction m_Attack_Absorb;
-    public struct AttackActions
+    // Other
+    private readonly InputActionMap m_Other;
+    private List<IOtherActions> m_OtherActionsCallbackInterfaces = new List<IOtherActions>();
+    private readonly InputAction m_Other_Absorb;
+    public struct OtherActions
     {
         private @PlayerInputActions m_Wrapper;
-        public AttackActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Primary => m_Wrapper.m_Attack_Primary;
-        public InputAction @Secondary => m_Wrapper.m_Attack_Secondary;
-        public InputAction @Absorb => m_Wrapper.m_Attack_Absorb;
-        public InputActionMap Get() { return m_Wrapper.m_Attack; }
+        public OtherActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Absorb => m_Wrapper.m_Other_Absorb;
+        public InputActionMap Get() { return m_Wrapper.m_Other; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(AttackActions set) { return set.Get(); }
-        public void AddCallbacks(IAttackActions instance)
+        public static implicit operator InputActionMap(OtherActions set) { return set.Get(); }
+        public void AddCallbacks(IOtherActions instance)
         {
-            if (instance == null || m_Wrapper.m_AttackActionsCallbackInterfaces.Contains(instance)) return;
-            m_Wrapper.m_AttackActionsCallbackInterfaces.Add(instance);
-            @Primary.started += instance.OnPrimary;
-            @Primary.performed += instance.OnPrimary;
-            @Primary.canceled += instance.OnPrimary;
-            @Secondary.started += instance.OnSecondary;
-            @Secondary.performed += instance.OnSecondary;
-            @Secondary.canceled += instance.OnSecondary;
+            if (instance == null || m_Wrapper.m_OtherActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_OtherActionsCallbackInterfaces.Add(instance);
             @Absorb.started += instance.OnAbsorb;
             @Absorb.performed += instance.OnAbsorb;
             @Absorb.canceled += instance.OnAbsorb;
         }
 
-        private void UnregisterCallbacks(IAttackActions instance)
+        private void UnregisterCallbacks(IOtherActions instance)
         {
-            @Primary.started -= instance.OnPrimary;
-            @Primary.performed -= instance.OnPrimary;
-            @Primary.canceled -= instance.OnPrimary;
-            @Secondary.started -= instance.OnSecondary;
-            @Secondary.performed -= instance.OnSecondary;
-            @Secondary.canceled -= instance.OnSecondary;
             @Absorb.started -= instance.OnAbsorb;
             @Absorb.performed -= instance.OnAbsorb;
             @Absorb.canceled -= instance.OnAbsorb;
         }
 
-        public void RemoveCallbacks(IAttackActions instance)
+        public void RemoveCallbacks(IOtherActions instance)
         {
-            if (m_Wrapper.m_AttackActionsCallbackInterfaces.Remove(instance))
+            if (m_Wrapper.m_OtherActionsCallbackInterfaces.Remove(instance))
                 UnregisterCallbacks(instance);
         }
 
-        public void SetCallbacks(IAttackActions instance)
+        public void SetCallbacks(IOtherActions instance)
         {
-            foreach (var item in m_Wrapper.m_AttackActionsCallbackInterfaces)
+            foreach (var item in m_Wrapper.m_OtherActionsCallbackInterfaces)
                 UnregisterCallbacks(item);
-            m_Wrapper.m_AttackActionsCallbackInterfaces.Clear();
+            m_Wrapper.m_OtherActionsCallbackInterfaces.Clear();
             AddCallbacks(instance);
         }
     }
-    public AttackActions @Attack => new AttackActions(this);
+    public OtherActions @Other => new OtherActions(this);
+
+    // Spells
+    private readonly InputActionMap m_Spells;
+    private List<ISpellsActions> m_SpellsActionsCallbackInterfaces = new List<ISpellsActions>();
+    private readonly InputAction m_Spells_First;
+    private readonly InputAction m_Spells_Second;
+    private readonly InputAction m_Spells_Third;
+    public struct SpellsActions
+    {
+        private @PlayerInputActions m_Wrapper;
+        public SpellsActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @First => m_Wrapper.m_Spells_First;
+        public InputAction @Second => m_Wrapper.m_Spells_Second;
+        public InputAction @Third => m_Wrapper.m_Spells_Third;
+        public InputActionMap Get() { return m_Wrapper.m_Spells; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(SpellsActions set) { return set.Get(); }
+        public void AddCallbacks(ISpellsActions instance)
+        {
+            if (instance == null || m_Wrapper.m_SpellsActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_SpellsActionsCallbackInterfaces.Add(instance);
+            @First.started += instance.OnFirst;
+            @First.performed += instance.OnFirst;
+            @First.canceled += instance.OnFirst;
+            @Second.started += instance.OnSecond;
+            @Second.performed += instance.OnSecond;
+            @Second.canceled += instance.OnSecond;
+            @Third.started += instance.OnThird;
+            @Third.performed += instance.OnThird;
+            @Third.canceled += instance.OnThird;
+        }
+
+        private void UnregisterCallbacks(ISpellsActions instance)
+        {
+            @First.started -= instance.OnFirst;
+            @First.performed -= instance.OnFirst;
+            @First.canceled -= instance.OnFirst;
+            @Second.started -= instance.OnSecond;
+            @Second.performed -= instance.OnSecond;
+            @Second.canceled -= instance.OnSecond;
+            @Third.started -= instance.OnThird;
+            @Third.performed -= instance.OnThird;
+            @Third.canceled -= instance.OnThird;
+        }
+
+        public void RemoveCallbacks(ISpellsActions instance)
+        {
+            if (m_Wrapper.m_SpellsActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(ISpellsActions instance)
+        {
+            foreach (var item in m_Wrapper.m_SpellsActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_SpellsActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public SpellsActions @Spells => new SpellsActions(this);
     public interface IMovementActions
     {
         void OnDirection(InputAction.CallbackContext context);
         void OnPressed(InputAction.CallbackContext context);
     }
-    public interface IAttackActions
+    public interface IOtherActions
     {
-        void OnPrimary(InputAction.CallbackContext context);
-        void OnSecondary(InputAction.CallbackContext context);
         void OnAbsorb(InputAction.CallbackContext context);
+    }
+    public interface ISpellsActions
+    {
+        void OnFirst(InputAction.CallbackContext context);
+        void OnSecond(InputAction.CallbackContext context);
+        void OnThird(InputAction.CallbackContext context);
     }
 }

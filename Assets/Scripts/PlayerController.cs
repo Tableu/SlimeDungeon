@@ -3,28 +3,33 @@ using System.Collections;
 using System.Linq;
 using Controller;
 using Controller.Form;
+using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 using Type = Elements.Type;
 
 public class PlayerController : Character
 {
-    //todo move maxvelocity to character data
-    public Vector2 MaxVelocity;
     private Vector2 _direction;
     private bool _inKnockback = false;
     
-    [SerializeField] private SkinnedMeshRenderer meshRenderer;
-    [SerializeField] private Material originalMaterial;
+    [SerializeField] private Slider manaBar;
+    [SerializeField] private Slider healthBar;
+    [SerializeField] private GameObject model;
     
+    internal Form form;
     internal PlayerInputActions playerInputActions;
+
+    private PlayerData _playerData;
 
     private new void Start()
     {
         base.Start();
+        _playerData = characterData as PlayerData;
         playerInputActions = GlobalReferences.Instance.PlayerInputActions;
         int i = 0;
-        foreach (InputAction action in playerInputActions.Attack.Get())
+        foreach (InputAction action in playerInputActions.Spells.Get())
         {
             if (attacks.Count <= i)
                 break;
@@ -46,7 +51,7 @@ public class PlayerController : Character
                 animator.SetFloat("Speed", characterData.Speed);
             }
         };
-        playerInputActions.Attack.Absorb.started += delegate(InputAction.CallbackContext context)
+        playerInputActions.Other.Absorb.started += delegate(InputAction.CallbackContext context)
         {
             Collider[] colliders = Physics.OverlapSphere(transform.position, 5, LayerMask.GetMask("Absorbables"));
             var orderedByProximity = colliders.OrderBy(c => (transform.position - c.transform.position).sqrMagnitude)
@@ -61,11 +66,15 @@ public class PlayerController : Character
                 }
             }
         };
+        manaBar.maxValue = characterData.Mana;
+        healthBar.maxValue = characterData.Health;
     }
 
     private new void FixedUpdate()
     {
         base.FixedUpdate();
+        manaBar.value = Mana;
+        healthBar.value = Health;
         _direction = playerInputActions.Movement.Direction.ReadValue<Vector2>();
         
         if (_direction != Vector2.zero && !_inKnockback)
@@ -77,16 +86,16 @@ public class PlayerController : Character
             }
 
             rigidbody.AddForce(new Vector3(_direction.x*Speed, 0, _direction.y*Speed), ForceMode.Impulse);
-            if (Mathf.Abs(rigidbody.velocity.x) > MaxVelocity.x)
+            if (Mathf.Abs(rigidbody.velocity.x) > _playerData.MaxVelocity.x)
             {
-                rigidbody.velocity = new Vector3(Mathf.Sign(rigidbody.velocity.x) * MaxVelocity.x, 0,
+                rigidbody.velocity = new Vector3(Mathf.Sign(rigidbody.velocity.x) * _playerData.MaxVelocity.x, 0,
                     rigidbody.velocity.z);
             }
 
-            if (Mathf.Abs(rigidbody.velocity.z) > MaxVelocity.y)
+            if (Mathf.Abs(rigidbody.velocity.z) > _playerData.MaxVelocity.y)
             {
                 rigidbody.velocity =
-                    new Vector3(rigidbody.velocity.x, 0, Mathf.Sign(rigidbody.velocity.z) * MaxVelocity.y);
+                    new Vector3(rigidbody.velocity.x, 0, Mathf.Sign(rigidbody.velocity.z) * _playerData.MaxVelocity.y);
             }
         }
     }
@@ -94,7 +103,7 @@ public class PlayerController : Character
     private void OnDestroy()
     {
         int i = 0;
-        foreach (InputAction action in playerInputActions.Attack.Get())
+        foreach (InputAction action in playerInputActions.Spells.Get())
         {
             if (attacks.Count <= i)
                 break;
@@ -102,6 +111,7 @@ public class PlayerController : Character
             action.canceled -= attacks[i].End;
             i++;
         }
+        healthBar.value = Health;
         playerInputActions.Disable();
         playerInputActions.Dispose();
     }
@@ -140,12 +150,15 @@ public class PlayerController : Character
             Destroy(form);
         }
         form = null;
-        meshRenderer.material = originalMaterial;
         elementType = Type.None;
     }
 
-    public void SetMaterial(Material material)
+    public void ChangeModel(FormData data)
     {
-        meshRenderer.material = material;
+        DestroyImmediate(model);
+        model = Instantiate(data.Model, transform);
+        animator.avatar = data.Avatar;
+        animator.runtimeAnimatorController = data.AnimatorController;
+        model.layer = gameObject.layer;
     }
 }
