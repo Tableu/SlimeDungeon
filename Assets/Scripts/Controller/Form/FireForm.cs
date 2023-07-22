@@ -1,3 +1,4 @@
+using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
@@ -24,7 +25,6 @@ namespace Controller.Form
             {
                 attack.OnSpellCast += IncreaseTemperature;
             }
-            playerController.ChangeModel(data);
             playerController.playerInputActions.Movement.Pressed.canceled += MovementCanceled;
             playerController.playerInputActions.Movement.Pressed.started += MovementStarted;
         }
@@ -38,6 +38,12 @@ namespace Controller.Form
             }
             _playerController.playerInputActions.Movement.Pressed.canceled -= MovementCanceled;
             _playerController.playerInputActions.Movement.Pressed.started -= MovementStarted;
+        }
+        
+        public void OnAnimatorMove()
+        {
+            Vector3 position = _playerController.animator.rootPosition;
+            _playerController.transform.position = position;
         }
 
         private void FixedUpdate()
@@ -82,6 +88,7 @@ namespace Controller.Form
             {
                 _playerController.animator.SetFloat("Speed", 0);
             }
+            _playerController.rigidbody.velocity = Vector3.zero;
         }
 
         private void MovementStarted(InputAction.CallbackContext context)

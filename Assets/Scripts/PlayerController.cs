@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using Controller;
 using Controller.Form;
@@ -10,7 +11,11 @@ using Type = Elements.Type;
 
 public class PlayerController : Character
 {
-    public override float Health => form.health;
+    public override float Health
+    {
+        get => form.health;
+        internal set => form.health = value;
+    }
     public override float Speed => form.speed;
     public override Type ElementType => form.elementType;
     
@@ -28,7 +33,13 @@ public class PlayerController : Character
 
     private new void Start()
     {
-        base.Start();
+        Armor = characterData.Armor;
+        Mana = characterData.Mana;
+        attacks = new List<Attack>();
+        foreach (AttackData attackData in characterData.Attacks)
+        {
+            attackData.EquipAttack(this);
+        }
         _playerData = characterData as PlayerData;
         //todo remove global reference playerinputactions
         playerInputActions = GlobalReferences.Instance.PlayerInputActions;
@@ -115,7 +126,7 @@ public class PlayerController : Character
 
     protected override void OnDeath()
     {
-        if (form.GetType() == _playerData.BaseForm.GetType())
+        if (form.data.GetType() == _playerData.BaseForm.GetType())
         {
             Destroy(gameObject);
         }
@@ -145,21 +156,20 @@ public class PlayerController : Character
             form.Drop();
             Destroy(form);
         }
-        form = formData.AttachScript(gameObject);
+        ChangeModel(formData);
+        form = formData.AttachScript(model);
         form.Equip(this);
         Health = form.health;
         healthBar.maxValue = form.health;
         healthBar.value = Health;
     }
 
-    public void ChangeModel(FormData data)
+    private void ChangeModel(FormData data)
     {
         model.SetActive(false);
         Destroy(model);
-        animator.avatar = data.Avatar;
-        animator.runtimeAnimatorController = data.AnimatorController;
         model = Instantiate(data.Model, transform);
         model.layer = gameObject.layer;
-        animator.Rebind();
+        animator = model.GetComponent<Animator>();
     }
 }
