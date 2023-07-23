@@ -37,7 +37,6 @@ namespace Controller
         }
 
         [SerializeField] internal CharacterData characterData;
-        [SerializeField] internal Animator animator;
         [SerializeField] internal LayerMask enemyMask;
         [SerializeField] internal new Rigidbody rigidbody;
         internal Attack currentAttack;
@@ -71,12 +70,6 @@ namespace Controller
             }
         }
 
-        public void AlertObservers(string message)
-        {
-            if(currentAttack != null && Enum.TryParse(message, out Controller.AnimationState state))
-                currentAttack.PassMessage(state);
-        }
-
         public virtual void TakeDamage(float damage, Vector3 knockback, float hitStun, Elements.Type attackType)
         {
             StartCoroutine(ApplyKnockback(knockback, hitStun));
@@ -92,6 +85,8 @@ namespace Controller
         {
             Destroy(gameObject);
         }
+
+        public abstract void Attack();
 
         public void OnCollisionEnter(Collision other)
         {

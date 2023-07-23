@@ -8,12 +8,6 @@ public class GlobalReferences : MonoBehaviour
     [SerializeField] private GameObject player;
     [SerializeField] private Canvas canvas;
     [SerializeField] private ElementTypeManager typeManager;
-    
-    public PlayerInputActions PlayerInputActions
-    {
-        get;
-        private set;
-    }
 
     public GameObject Player => player;
     public Canvas Canvas => canvas;
@@ -29,8 +23,5 @@ public class GlobalReferences : MonoBehaviour
         {
             _instance = this;
         }
-
-        PlayerInputActions = new PlayerInputActions();
-        PlayerInputActions.Enable();
     }
 }

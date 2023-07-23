@@ -41,8 +41,8 @@ public class PlayerController : Character
             attackData.EquipAttack(this);
         }
         _playerData = characterData as PlayerData;
-        //todo remove global reference playerinputactions
-        playerInputActions = GlobalReferences.Instance.PlayerInputActions;
+        playerInputActions = new PlayerInputActions();
+        playerInputActions.Enable();
         EquipForm(_playerData.BaseForm);
         int i = 0;
         foreach (InputAction action in playerInputActions.Spells.Get())
@@ -140,13 +140,11 @@ public class PlayerController : Character
     {
         _inKnockback = true;
         playerInputActions.Disable();
-        animator.applyRootMotion = false;
         rigidbody.velocity = Vector3.zero;
         rigidbody.AddForce(knockback, ForceMode.Impulse);
         yield return new WaitForSeconds(hitStun);
         playerInputActions.Enable();
         _inKnockback = false;
-        animator.applyRootMotion = true;
     }
 
     public void EquipForm(FormData formData)
@@ -164,12 +162,16 @@ public class PlayerController : Character
         healthBar.value = Health;
     }
 
+    public override void Attack()
+    {
+        form.Attack();
+    }
+
     private void ChangeModel(FormData data)
     {
         model.SetActive(false);
         Destroy(model);
         model = Instantiate(data.Model, transform);
         model.layer = gameObject.layer;
-        animator = model.GetComponent<Animator>();
     }
 }

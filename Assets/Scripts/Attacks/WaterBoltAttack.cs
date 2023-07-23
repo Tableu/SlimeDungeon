@@ -35,8 +35,7 @@ public class WaterBoltAttack : Attack
                 script.Initialize(data.Damage, data.Knockback, data.HitStun,
                     transform.forward * data.Speed, 1, data.ElementType,3);
             }
-
-            character.animator.SetTrigger("Attack");
+            character.Attack();
             OnSpellCast?.Invoke();
         }
     }

@@ -16,6 +16,7 @@ public class FlamethrowerAttack : Attack
         var script = _flamethrower.GetComponent<Flamethrower>();
         if (character is PlayerController player)
         {
+            //todo fix flamethrower attack
             //player.playerInputActions.Attack.Primary.Disable();
             player.playerInputActions.Movement.Pressed.Disable();
             script.Initialize(data.Damage * player.form.damageMultiplier, data.Knockback, data.HitStun,
@@ -30,7 +31,7 @@ public class FlamethrowerAttack : Attack
         _oldSpeed = character.Speed;
         character.Speed = 0.5f;
         character.disableRotation = true;
-        character.animator.SetFloat("Speed",0);
+        //character.animator.SetFloat("Speed",0);
         OnSpellCast?.Invoke();
     }
 
@@ -44,7 +45,7 @@ public class FlamethrowerAttack : Attack
             player.playerInputActions.Movement.Pressed.Enable();
             if (player.playerInputActions.Movement.Direction.ReadValue<Vector2>() != Vector2.zero)
             {
-                character.animator.SetFloat("Speed", 1);
+                //character.animator.SetFloat("Speed", 1);
             }
         }
         character.Speed = _oldSpeed;

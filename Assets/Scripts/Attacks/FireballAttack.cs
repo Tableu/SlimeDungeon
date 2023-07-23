@@ -29,8 +29,8 @@ public class FireballAttack : Attack
                 script.Initialize(data.Damage, data.Knockback, data.HitStun,
                     transform.forward * data.Speed, 1, data.ElementType);
             }
-
-            character.animator.SetTrigger("Attack");
+            
+            character.Attack();
             OnSpellCast?.Invoke();
         }
     }

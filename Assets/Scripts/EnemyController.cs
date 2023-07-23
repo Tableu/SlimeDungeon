@@ -10,6 +10,7 @@ public class EnemyController : Character
     [SerializeField] private Transform[] waypoints;
     [SerializeField] private GameObject smileBody;
     [SerializeField] private Face faces;
+    [SerializeField] internal Animator animator;
     
     private Material _faceMaterial;
     private int _currentWaypointIndex;
@@ -145,7 +146,7 @@ public class EnemyController : Character
         }
     }
     // Animation Event
-    public new void AlertObservers(string message)
+    public void AlertObservers(string message)
     {
         if (message.Equals("AttackEnded"))
         {
@@ -166,6 +167,12 @@ public class EnemyController : Character
         transform.position = position;
         agent.nextPosition = transform.position;
     }
+
+    public override void Attack()
+    {
+        animator.SetTrigger("Attack");
+    }
+    
 
     public override void TakeDamage(float damage, Vector3 knockback, float hitStun, Elements.Type attackType)
     {

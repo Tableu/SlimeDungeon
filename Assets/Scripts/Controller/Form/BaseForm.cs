@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -12,6 +13,7 @@ namespace Controller.Form
             speed = data.Speed;
             elementType = data.ElementType;
             _playerController = playerController;
+            animator = GetComponent<Animator>();
             
             playerController.playerInputActions.Movement.Pressed.canceled += MovementCanceled;
             playerController.playerInputActions.Movement.Pressed.started += MovementStarted;
@@ -25,24 +27,34 @@ namespace Controller.Form
         
         public void OnAnimatorMove()
         {
-            Vector3 position = _playerController.animator.rootPosition;
+            Vector3 position = animator.rootPosition;
             _playerController.transform.position = position;
+        }
+        public void AlertObservers(string message)
+        {
+            if(_playerController.currentAttack != null && Enum.TryParse(message, out Controller.AnimationState state))
+                _playerController.currentAttack.PassMessage(state);
+        }
+
+        public override void Attack()
+        {
+            animator.SetTrigger("Attack");
         }
 
         private void MovementCanceled(InputAction.CallbackContext context)
         {
-            if (_playerController.animator != null)
+            if (animator != null)
             {
-                _playerController.animator.SetFloat("Speed", 0);
+                animator.SetFloat("Speed", 0);
             }
             _playerController.rigidbody.velocity = Vector3.zero;
         }
 
         private void MovementStarted(InputAction.CallbackContext context)
         {
-            if (_playerController.animator != null)
+            if (animator != null)
             {
-                _playerController.animator.SetFloat("Speed", speed);
+                animator.SetFloat("Speed", speed);
             }
         }
     }

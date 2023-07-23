@@ -13,8 +13,10 @@ namespace Controller.Form
         internal float health;
         internal float speed;
         internal Type elementType;
+        protected Animator animator;
         public abstract void Equip(PlayerController playerController);
         public abstract void Drop();
+        public abstract void Attack();
     }
 
     public enum Forms

@@ -11,6 +11,7 @@ public class ChickenForm : Form
         speed = data.Speed;
         elementType = data.ElementType;
         _playerController = playerController;
+        animator = GetComponent<Animator>();
 
         _playerController.playerInputActions.Movement.Pressed.started += MovementPressed;
         _playerController.playerInputActions.Movement.Pressed.canceled += MovementCanceled;
@@ -26,14 +27,19 @@ public class ChickenForm : Form
         _playerController.playerInputActions.Movement.HorizontalPressed.canceled -= HorizontalMovementCanceled;
     }
 
+    public override void Attack()
+    {
+        
+    }
+
     private void MovementPressed(InputAction.CallbackContext context)
     {
-        _playerController.animator.SetBool("Run", true);
+        animator.SetBool("Run", true);
     }
     
     private void MovementCanceled(InputAction.CallbackContext context)
     {
-        _playerController.animator.SetBool("Run", false);
+        animator.SetBool("Run", false);
         _playerController.rigidbody.velocity = Vector3.zero;
     }
 
