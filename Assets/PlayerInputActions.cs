@@ -44,6 +44,24 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Vertical Pressed"",
+                    ""type"": ""Button"",
+                    ""id"": ""c606de6b-60e6-44e5-8aa7-4d1847cbf9aa"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Horizontal Pressed"",
+                    ""type"": ""Button"",
+                    ""id"": ""583fe800-3c52-49f6-b1a6-481fc8221e18"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -145,6 +163,50 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""Direction"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ec4150aa-beff-4d2e-b93d-520767f8750a"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Vertical Pressed"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""93a0b2b9-6876-47bf-83c2-7a5814ccdace"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Vertical Pressed"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""14986c73-5a8d-4176-b522-7869e90ebf6b"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Horizontal Pressed"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f27322d3-72f8-4561-bdb6-5002b61bb865"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Horizontal Pressed"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -251,6 +313,8 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Movement = asset.FindActionMap("Movement", throwIfNotFound: true);
         m_Movement_Direction = m_Movement.FindAction("Direction", throwIfNotFound: true);
         m_Movement_Pressed = m_Movement.FindAction("Pressed", throwIfNotFound: true);
+        m_Movement_VerticalPressed = m_Movement.FindAction("Vertical Pressed", throwIfNotFound: true);
+        m_Movement_HorizontalPressed = m_Movement.FindAction("Horizontal Pressed", throwIfNotFound: true);
         // Other
         m_Other = asset.FindActionMap("Other", throwIfNotFound: true);
         m_Other_Absorb = m_Other.FindAction("Absorb", throwIfNotFound: true);
@@ -322,12 +386,16 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private List<IMovementActions> m_MovementActionsCallbackInterfaces = new List<IMovementActions>();
     private readonly InputAction m_Movement_Direction;
     private readonly InputAction m_Movement_Pressed;
+    private readonly InputAction m_Movement_VerticalPressed;
+    private readonly InputAction m_Movement_HorizontalPressed;
     public struct MovementActions
     {
         private @PlayerInputActions m_Wrapper;
         public MovementActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @Direction => m_Wrapper.m_Movement_Direction;
         public InputAction @Pressed => m_Wrapper.m_Movement_Pressed;
+        public InputAction @VerticalPressed => m_Wrapper.m_Movement_VerticalPressed;
+        public InputAction @HorizontalPressed => m_Wrapper.m_Movement_HorizontalPressed;
         public InputActionMap Get() { return m_Wrapper.m_Movement; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -343,6 +411,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Pressed.started += instance.OnPressed;
             @Pressed.performed += instance.OnPressed;
             @Pressed.canceled += instance.OnPressed;
+            @VerticalPressed.started += instance.OnVerticalPressed;
+            @VerticalPressed.performed += instance.OnVerticalPressed;
+            @VerticalPressed.canceled += instance.OnVerticalPressed;
+            @HorizontalPressed.started += instance.OnHorizontalPressed;
+            @HorizontalPressed.performed += instance.OnHorizontalPressed;
+            @HorizontalPressed.canceled += instance.OnHorizontalPressed;
         }
 
         private void UnregisterCallbacks(IMovementActions instance)
@@ -353,6 +427,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Pressed.started -= instance.OnPressed;
             @Pressed.performed -= instance.OnPressed;
             @Pressed.canceled -= instance.OnPressed;
+            @VerticalPressed.started -= instance.OnVerticalPressed;
+            @VerticalPressed.performed -= instance.OnVerticalPressed;
+            @VerticalPressed.canceled -= instance.OnVerticalPressed;
+            @HorizontalPressed.started -= instance.OnHorizontalPressed;
+            @HorizontalPressed.performed -= instance.OnHorizontalPressed;
+            @HorizontalPressed.canceled -= instance.OnHorizontalPressed;
         }
 
         public void RemoveCallbacks(IMovementActions instance)
@@ -482,6 +562,8 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     {
         void OnDirection(InputAction.CallbackContext context);
         void OnPressed(InputAction.CallbackContext context);
+        void OnVerticalPressed(InputAction.CallbackContext context);
+        void OnHorizontalPressed(InputAction.CallbackContext context);
     }
     public interface IOtherActions
     {

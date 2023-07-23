@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class FireAbsorbable : MonoBehaviour, IAbsorbable
 {
-    [SerializeField] private FireFormData data;
+    [SerializeField] private FormData data;
 
     public void Absorb(PlayerController character)
     {
