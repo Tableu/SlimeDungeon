@@ -26,3 +26,5 @@ MonoBehaviour:
   deAggroRange: 25
   detectTick: 10
   stoppingDistance: 3
+  formData: {fileID: 11400000, guid: a970de915398ce943a6aed23fd89c099, type: 2}
+  formItemPrefab: {fileID: 0}

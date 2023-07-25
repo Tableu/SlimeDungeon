@@ -186,6 +186,14 @@ public class EnemyController : Character
         }
     }
 
+    protected override void OnDeath()
+    {
+        GameObject item = Instantiate(enemyData.FormData.Item, transform.position, Quaternion.identity);
+        FormItem script = item.GetComponent<FormItem>();
+        script.Initialize(enemyData.FormData);
+        Destroy(gameObject);
+    }
+
     protected override IEnumerator ApplyKnockback(Vector3 knockback, float hitStun)
     {
         if (hitStun > 0)

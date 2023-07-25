@@ -56,15 +56,15 @@ public class PlayerController : Character
         }
         playerInputActions.Other.Absorb.started += delegate(InputAction.CallbackContext context)
         {
-            Collider[] colliders = Physics.OverlapSphere(transform.position, 5, LayerMask.GetMask("Absorbables"));
+            Collider[] colliders = Physics.OverlapSphere(transform.position, 5, LayerMask.GetMask("FormItems"));
             var orderedByProximity = colliders.OrderBy(c => (transform.position - c.transform.position).sqrMagnitude)
                 .ToArray();
             foreach (var col in orderedByProximity)
             {
-                var absorbable = col.GetComponent<IAbsorbable>();
+                var absorbable = col.GetComponent<FormItem>();
                 if (absorbable != null)
                 {
-                    absorbable.Absorb(this);
+                    absorbable.PickUp(this);
                     break;
                 }
             }
