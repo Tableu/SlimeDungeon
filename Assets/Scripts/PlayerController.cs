@@ -26,26 +26,26 @@ public class PlayerController : Character
     [SerializeField] private Slider manaBar;
     [SerializeField] private Slider healthBar;
     [SerializeField] private GameObject model;
+    [SerializeField] private PlayerData playerData;
     
     internal Form form;
     internal PlayerInputActions playerInputActions;
-    //todo merge playerdata and enemy data parameters into characterdata
-    private PlayerData _playerData;
+    internal override CharacterData CharacterData => playerData;
 
     private new void Start()
     {
-        Armor = characterData.Armor;
-        Mana = characterData.Mana;
+        Armor = playerData.Armor;
+        Mana = playerData.Mana;
         attacks = new List<Attack>();
-        foreach (AttackData attackData in characterData.Attacks)
+        foreach (AttackData attackData in playerData.Attacks)
         {
             attackData.EquipAttack(this);
         }
-        _playerData = characterData as PlayerData;
+
         playerInputActions = new PlayerInputActions();
         playerInputActions.Enable();
-        EquipForm(_playerData.BaseForm);
-        int i = 0;
+        EquipForm(playerData.BaseForm);
+        var i = 0;
         foreach (InputAction action in playerInputActions.Spells.Get())
         {
             if (attacks.Count <= i)
@@ -69,7 +69,7 @@ public class PlayerController : Character
                 }
             }
         };
-        manaBar.maxValue = characterData.Mana;
+        manaBar.maxValue = playerData.Mana;
         healthBar.maxValue = form.health;
     }
 
@@ -89,16 +89,16 @@ public class PlayerController : Character
             }
 
             rigidbody.AddForce(new Vector3(_direction.x*Speed, 0, _direction.y*Speed), ForceMode.Impulse);
-            if (Mathf.Abs(rigidbody.velocity.x) > _playerData.MaxVelocity.x)
+            if (Mathf.Abs(rigidbody.velocity.x) > playerData.MaxVelocity.x)
             {
-                rigidbody.velocity = new Vector3(Mathf.Sign(rigidbody.velocity.x) * _playerData.MaxVelocity.x, 0,
+                rigidbody.velocity = new Vector3(Mathf.Sign(rigidbody.velocity.x) * playerData.MaxVelocity.x, 0,
                     rigidbody.velocity.z);
             }
 
-            if (Mathf.Abs(rigidbody.velocity.z) > _playerData.MaxVelocity.y)
+            if (Mathf.Abs(rigidbody.velocity.z) > playerData.MaxVelocity.y)
             {
                 rigidbody.velocity =
-                    new Vector3(rigidbody.velocity.x, 0, Mathf.Sign(rigidbody.velocity.z) * _playerData.MaxVelocity.y);
+                    new Vector3(rigidbody.velocity.x, 0, Mathf.Sign(rigidbody.velocity.z) * playerData.MaxVelocity.y);
             }
         }
     }
@@ -127,13 +127,13 @@ public class PlayerController : Character
 
     protected override void OnDeath()
     {
-        if (form.data.GetType() == _playerData.BaseForm.GetType())
+        if (form.data.GetType() == playerData.BaseForm.GetType())
         {
             Destroy(gameObject);
         }
         else
         {
-            EquipForm(_playerData.BaseForm);
+            EquipForm(playerData.BaseForm);
         }
     }
 
@@ -161,6 +161,8 @@ public class PlayerController : Character
         Health = form.health;
         healthBar.maxValue = form.health;
         healthBar.value = Health;
+        if (healthBar.transform is RectTransform rt) 
+            rt.sizeDelta = new Vector2(form.health * 2, rt.sizeDelta.y);
     }
 
     public override void Attack()

@@ -16,3 +16,4 @@ MonoBehaviour:
   health: 20
   speed: 5
   model: {fileID: 1311290861401530, guid: 312b31977ed9b2d48a14849ebb8c7fb3, type: 3}
+  spellOffset: {x: 1, y: 0.5, z: 1}

@@ -5246,7 +5246,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2596077050798817513, guid: 963dc85215ddcf941ae205d9addd582b, type: 3}
       propertyPath: m_Pivot.x
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2596077050798817513, guid: 963dc85215ddcf941ae205d9addd582b, type: 3}
       propertyPath: m_Pivot.y
@@ -5310,7 +5310,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2596077050798817513, guid: 963dc85215ddcf941ae205d9addd582b, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 98
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 2596077050798817513, guid: 963dc85215ddcf941ae205d9addd582b, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -13900,7 +13900,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dc88481979d32346a7203aa4e27af18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterData: {fileID: 11400000, guid: ba20874a0ffd3ae4c893baaef65ba44e, type: 2}
   enemyMask:
     serializedVersion: 2
     m_Bits: 256
@@ -13913,6 +13912,8 @@ MonoBehaviour:
   smileBody: {fileID: 1901822968}
   faces: {fileID: 11400000, guid: 8b8a7554fceb39841840f45a2d8da540, type: 2}
   animator: {fileID: 1901822969}
+  spellOffset: {x: 0, y: 0, z: 0}
+  enemyData: {fileID: 11400000, guid: ba20874a0ffd3ae4c893baaef65ba44e, type: 2}
 --- !u!54 &1901822971
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -15683,6 +15684,10 @@ PrefabInstance:
       propertyPath: rigidbody
       value: 
       objectReference: {fileID: 6118174223459350816}
+    - target: {fileID: 6118174223459350817, guid: 4da3c2fdefb9dd34ab704d2858eab7e9, type: 3}
+      propertyPath: playerData
+      value: 
+      objectReference: {fileID: 11400000, guid: 981442e40bdc9ec4c930620b3fba501d, type: 2}
     - target: {fileID: 6565506008153144069, guid: 4da3c2fdefb9dd34ab704d2858eab7e9, type: 3}
       propertyPath: m_ApplyRootMotion
       value: 0

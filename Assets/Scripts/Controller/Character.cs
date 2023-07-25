@@ -42,7 +42,11 @@ namespace Controller
             get;
         }
 
-        [SerializeField] internal CharacterData characterData;
+        internal abstract CharacterData CharacterData
+        {
+            get;
+        }
+
         [SerializeField] internal LayerMask enemyMask;
         [SerializeField] internal new Rigidbody rigidbody;
         internal Attack currentAttack;
@@ -54,14 +58,14 @@ namespace Controller
 
         protected void Start()
         {
-            Speed = characterData.Speed;
-            Health = characterData.Health;
-            Armor = characterData.Armor;
-            Mana = characterData.Mana;
-            ElementType = characterData.ElementType;
+            Speed = CharacterData.Speed;
+            Health = CharacterData.Health;
+            Armor = CharacterData.Armor;
+            Mana = CharacterData.Mana;
+            ElementType = CharacterData.ElementType;
 
             attacks = new List<Attack>();
-            foreach (AttackData attackData in characterData.Attacks)
+            foreach (AttackData attackData in CharacterData.Attacks)
             {
                 attackData.EquipAttack(this);
             }
@@ -69,10 +73,10 @@ namespace Controller
 
         protected void FixedUpdate()
         {
-            Mana += characterData.ManaRegen;
-            if (Mana > characterData.Mana)
+            Mana += CharacterData.ManaRegen;
+            if (Mana > CharacterData.Mana)
             {
-                Mana = characterData.Mana;
+                Mana = CharacterData.Mana;
             }
         }
 

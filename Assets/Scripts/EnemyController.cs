@@ -13,21 +13,22 @@ public class EnemyController : Character
     [SerializeField] private Face faces;
     [SerializeField] internal Animator animator;
     [SerializeField] private Vector3 spellOffset;
+    [SerializeField] private EnemyData enemyData;
     
     private Material _faceMaterial;
     private int _currentWaypointIndex;
     private bool _attackingPlayer = false;
     private Transform _target;
     private int _tick = 0;
-    private EnemyData _enemyData;
-    
+
+    internal override CharacterData CharacterData => enemyData;
+
     private new void Start()
     {
         base.Start();
         _faceMaterial = smileBody.GetComponent<Renderer>().materials[1];
         _target = waypoints[0];
         agent.updateRotation = false;
-        _enemyData = characterData as EnemyData;
     }
 
     // Update is called once per frame
@@ -101,7 +102,7 @@ public class EnemyController : Character
     {
         base.FixedUpdate();
         _tick++;
-        if (_tick >= _enemyData.DetectTick)
+        if (_tick >= enemyData.DetectTick)
         {
             _tick = 0;
             DetectPlayer();
@@ -132,18 +133,18 @@ public class EnemyController : Character
         if (GlobalReferences.Instance.Player != null)
         {
             var diff = transform.position - GlobalReferences.Instance.Player.transform.position;
-            if (diff.magnitude >= _enemyData.DeAggroRange)
+            if (diff.magnitude >= enemyData.DeAggroRange)
             {
                 _target = waypoints[_currentWaypointIndex];
                 _attackingPlayer = false;
-                agent.stoppingDistance = _enemyData.StoppingDistance;
+                agent.stoppingDistance = enemyData.StoppingDistance;
             }
-            else if(diff.magnitude < _enemyData.AggroRange)
+            else if(diff.magnitude < enemyData.AggroRange)
             {
                 _target = GlobalReferences.Instance.Player.transform;
                 _attackingPlayer = true;
                 transform.rotation = Quaternion.LookRotation(_target.transform.position - transform.position);
-                agent.stoppingDistance = _enemyData.AttackRange;
+                agent.stoppingDistance = enemyData.AttackRange;
             }
         }
     }
