@@ -6,11 +6,13 @@ using UnityEngine.AI;
 public class EnemyController : Character
 {
     public SlimeAnimationState CurrentState;
+    public override Vector3 SpellOffset => spellOffset;
     [SerializeField] private NavMeshAgent agent;
     [SerializeField] private Transform[] waypoints;
     [SerializeField] private GameObject smileBody;
     [SerializeField] private Face faces;
     [SerializeField] internal Animator animator;
+    [SerializeField] private Vector3 spellOffset;
     
     private Material _faceMaterial;
     private int _currentWaypointIndex;

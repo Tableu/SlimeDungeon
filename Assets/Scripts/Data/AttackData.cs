@@ -6,7 +6,6 @@ using Type = Elements.Type;
 [Serializable]
 public abstract class AttackData : ScriptableObject
 {
-    [SerializeField] private float offset;
     [SerializeField] private float speed;
     [SerializeField] private float damage;
     [SerializeField] private float knockback;
@@ -15,8 +14,7 @@ public abstract class AttackData : ScriptableObject
     [SerializeField] private float cooldown;
     [SerializeField] private Type elementType;
     [SerializeField] private GameObject prefab;
-
-    public float Offset => offset;
+    
     public float Speed => speed;
     public float Damage => damage;
     public float Knockback => knockback;

@@ -29,7 +29,8 @@ public class ChickenForm : Form
 
     public override void Attack()
     {
-        
+        if(_playerController.currentAttack != null)
+            _playerController.currentAttack.End();
     }
 
     private void MovementPressed(InputAction.CallbackContext context)

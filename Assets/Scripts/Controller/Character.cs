@@ -36,6 +36,12 @@ namespace Controller
             get;
         }
 
+        public virtual Vector3 SpellOffset
+        {
+            internal set;
+            get;
+        }
+
         [SerializeField] internal CharacterData characterData;
         [SerializeField] internal LayerMask enemyMask;
         [SerializeField] internal new Rigidbody rigidbody;

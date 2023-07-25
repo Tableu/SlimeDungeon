@@ -18,7 +18,8 @@ public class PlayerController : Character
     }
     public override float Speed => form.speed;
     public override Type ElementType => form.elementType;
-    
+    public override Vector3 SpellOffset => form.data.SpellOffset;
+
     private Vector2 _direction;
     private bool _inKnockback = false;
     

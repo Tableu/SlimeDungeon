@@ -13,11 +13,13 @@ namespace Controller.Form
         
         [HeaderAttribute("References")]
         [SerializeField] private GameObject model;
+        [SerializeField] private Vector3 spellOffset;
 
         public Elements.Type ElementType => elementType;
         public float Health => health;
         public float Speed => speed;
         public GameObject Model => model;
+        public Vector3 SpellOffset => spellOffset;
 
         public abstract Form AttachScript(GameObject gameObject);
     }

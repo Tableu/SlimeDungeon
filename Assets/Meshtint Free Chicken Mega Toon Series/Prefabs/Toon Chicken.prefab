@@ -304,6 +304,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4303844821561524}
   - component: {fileID: 95943282229431942}
+  - component: {fileID: 5839839073035630728}
   m_Layer: 0
   m_Name: Toon Chicken
   m_TagString: Untagged
@@ -352,6 +353,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!135 &5839839073035630728
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1311290861401530}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.15
+  m_Center: {x: 0, y: 0.14, z: 0}
 --- !u!1 &1325880688823160
 GameObject:
   m_ObjectHideFlags: 0

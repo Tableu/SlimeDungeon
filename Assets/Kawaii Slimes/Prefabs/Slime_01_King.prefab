@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8955322500898459853}
   - component: {fileID: 4644947880375382704}
+  - component: {fileID: 3815851989884497574}
   m_Layer: 0
   m_Name: Slime_01_King
   m_TagString: Untagged
@@ -55,6 +56,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!135 &3815851989884497574
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 873531700701352353}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.22
+  m_Center: {x: 0, y: 0.22, z: 0}
 --- !u!1 &2555473679859470979
 GameObject:
   m_ObjectHideFlags: 0

@@ -11,7 +11,7 @@ public class FlamethrowerAttack : Attack
     {
         character.currentAttack = this;
         Transform transform = character.transform;
-        _flamethrower = GameObject.Instantiate(data.Prefab, transform.position + data.Offset*transform.forward, Quaternion.identity,transform);
+        _flamethrower = GameObject.Instantiate(data.Prefab, transform.position + new Vector3(character.SpellOffset.x*transform.forward.x, character.SpellOffset.y, character.SpellOffset.z*transform.forward.z), Quaternion.identity,transform);
         _flamethrower.transform.rotation = Quaternion.Euler(_flamethrower.transform.rotation.x, character.transform.rotation.eulerAngles.y-90, _flamethrower.transform.rotation.z);
         var script = _flamethrower.GetComponent<Flamethrower>();
         if (character is PlayerController player)

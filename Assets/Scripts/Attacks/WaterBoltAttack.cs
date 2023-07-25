@@ -17,7 +17,7 @@ public class WaterBoltAttack : Attack
             character.currentAttack = this;
             Transform transform = character.transform;
             GameObject fireball = GameObject.Instantiate(data.Prefab,
-                transform.position + data.Offset * transform.forward, Quaternion.identity);
+                transform.position + new Vector3(character.SpellOffset.x*transform.forward.x, character.SpellOffset.y, character.SpellOffset.z*transform.forward.z), Quaternion.identity);
             fireball.layer = character is PlayerController
                 ? LayerMask.NameToLayer("PlayerAttacks")
                 : LayerMask.NameToLayer("EnemyAttacks");
