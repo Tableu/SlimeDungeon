@@ -71,7 +71,22 @@ public class PlayerController : Character
         };
         manaBar.maxValue = playerData.Mana;
         healthBar.maxValue = form.health;
+        
+        if (manaBar.transform is RectTransform rt) 
+            rt.sizeDelta = new Vector2(playerData.Mana * 2, rt.sizeDelta.y);
     }
+
+    /*private void Update()
+    {
+        var mousePos = Mouse.current.position.ReadValue();
+        var ray = Camera.main.ScreenPointToRay(mousePos);
+        if (Physics.Raycast(ray, out RaycastHit hitData, 1000, LayerMask.GetMask("Walls","Default")))
+        {
+            var diff = hitData.point - transform.position;
+            var target = new Vector3(diff.x, transform.position.y, diff.z);
+            transform.rotation = Quaternion.LookRotation(Vector3.RotateTowards(transform.forward, target, Mathf.Infinity, 0.0f));
+        }
+    }*/
 
     private new void FixedUpdate()
     {

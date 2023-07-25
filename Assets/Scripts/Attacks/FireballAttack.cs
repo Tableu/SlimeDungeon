@@ -10,7 +10,14 @@ public class FireballAttack : Attack
         {
             character.Mana -= data.ManaCost;
             character.currentAttack = this;
+            
             Transform transform = character.transform;
+            Collider col = AttackTargeting.SphereScan(transform, data.TargetingRange, character.enemyMask);
+            if (col != null)
+            {
+                AttackTargeting.RotateTowards(transform, col.transform);
+            }
+
             GameObject fireball = GameObject.Instantiate(data.Prefab,
                 transform.position + new Vector3(character.SpellOffset.x*transform.forward.x, character.SpellOffset.y, character.SpellOffset.z*transform.forward.z), Quaternion.identity);
             fireball.layer = character is PlayerController

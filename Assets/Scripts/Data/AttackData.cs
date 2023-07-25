@@ -12,6 +12,7 @@ public abstract class AttackData : ScriptableObject
     [SerializeField] private float manaCost;
     [SerializeField] private float hitStun;
     [SerializeField] private float cooldown;
+    [SerializeField] private float targetingRange;
     [SerializeField] private Type elementType;
     [SerializeField] private GameObject prefab;
     
@@ -23,6 +24,7 @@ public abstract class AttackData : ScriptableObject
     public float Cooldown => cooldown;
     public GameObject Prefab => prefab;
     public Type ElementType => elementType;
+    public float TargetingRange => targetingRange;
         
     public abstract Attack EquipAttack(Character character);
 }
