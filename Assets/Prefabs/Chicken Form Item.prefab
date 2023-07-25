@@ -48,6 +48,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 2
   height: 0.25
+  rotateSpeed: 1
 --- !u!135 &-7807326871117664411
 SphereCollider:
   m_ObjectHideFlags: 0
