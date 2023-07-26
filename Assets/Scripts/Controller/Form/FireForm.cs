@@ -10,7 +10,7 @@ namespace Controller.Form
         public float Temperature { get; private set; }
 
         internal new FireFormData data;
-        private Slider _slider;
+        private Slider _statBarSlider;
         private PlayerController _playerController;
 
         public override void Equip(PlayerController playerController)
@@ -19,8 +19,8 @@ namespace Controller.Form
             speed = data.Speed;
             elementType = data.ElementType;
             var sliderObject = Instantiate(data.Slider, GlobalReferences.Instance.Canvas.gameObject.transform);
-            _slider = sliderObject.GetComponent<Slider>();
-            _slider.maxValue = data.MaxTemperature;
+            _statBarSlider = sliderObject.GetComponent<Slider>();
+            _statBarSlider.maxValue = data.MaxTemperature;
             _playerController = playerController;
             foreach (Attack attack in playerController.attacks)
             {
@@ -33,7 +33,7 @@ namespace Controller.Form
 
         public override void Drop()
         {
-            Destroy(_slider.gameObject);
+            Destroy(_statBarSlider.gameObject);
             foreach (Attack attack in _playerController.attacks)
             {
                 attack.OnSpellCast -= IncreaseTemperature;
@@ -57,9 +57,9 @@ namespace Controller.Form
         private void FixedUpdate()
         {
             DecreaseTemperature();
-            if (_slider != null)
+            if (_statBarSlider != null)
             {
-                _slider.value = Temperature;
+                _statBarSlider.value = Temperature;
                 if (Temperature > data.MaxTemperature / 2)
                 {
                     sizeMultiplier = 2;
