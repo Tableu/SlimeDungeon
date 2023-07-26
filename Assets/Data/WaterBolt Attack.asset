@@ -12,12 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa492b6445062a2439345c96af308be8, type: 3}
   m_Name: WaterBolt Attack
   m_EditorClassIdentifier: 
-  offset: 2
   speed: 15
   damage: 5
   knockback: 0.1
   manaCost: 5
   hitStun: 0.1
   cooldown: 0
+  targetingRange: 0
   elementType: 2
   prefab: {fileID: 4424843077080825869, guid: e8fcee42ca0e72b439520217d134e1f5, type: 3}
+  icon: {fileID: 8801855715008105287, guid: 5b67097a244870044bbfba72e325b729, type: 3}

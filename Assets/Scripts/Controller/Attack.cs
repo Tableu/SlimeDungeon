@@ -1,4 +1,8 @@
 using System;
+using System.Collections;
+using System.Threading;
+using System.Threading.Tasks;
+using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace Controller
@@ -14,6 +18,8 @@ namespace Controller
     {
         protected Character character;
         protected AttackData data;
+        protected CancellationTokenSource cancellationTokenSource;
+        protected bool cooldownActive = false;
 
         protected Attack(Character character, AttackData data)
         {
@@ -35,7 +41,24 @@ namespace Controller
         internal abstract void PassMessage(AnimationState state);
         public abstract void CleanUp();
 
+        public virtual async void Cooldown(float duration)
+        {
+            cancellationTokenSource = new CancellationTokenSource();
+            if (duration == 0)
+                return;
+            float time = 0;
+            cooldownActive = true;
+            while (time < duration)
+            {
+                time += Time.fixedDeltaTime;
+                OnCooldown?.Invoke(time / duration);
+                await Task.Yield();
+            }
+            cooldownActive = false;
+            Debug.Log("done");
+        }
+
         public Action OnSpellCast;
-        public Action OnCooldown;
+        public Action<float> OnCooldown;
     }
 }

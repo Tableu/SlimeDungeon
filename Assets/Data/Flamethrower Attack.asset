@@ -12,12 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13f93e3f92fe66d4ab5178248ebbf643, type: 3}
   m_Name: Flamethrower Attack
   m_EditorClassIdentifier: 
-  offset: 2
   speed: 4
   damage: 1
   knockback: 0
   manaCost: 0
   hitStun: 0
   cooldown: 0
+  targetingRange: 0
   elementType: 1
   prefab: {fileID: 2829376769235719667, guid: 5126df3142e56e64683735a787d5bedc, type: 3}
+  icon: {fileID: 1135579071110884410, guid: 5b67097a244870044bbfba72e325b729, type: 3}

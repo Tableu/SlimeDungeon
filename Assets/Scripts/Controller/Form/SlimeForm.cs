@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 
 namespace Controller.Form
 {
-    public class BaseForm : Form
+    public class SlimeForm : Form
     {
         private PlayerController _playerController;
         public override void Equip(PlayerController playerController)

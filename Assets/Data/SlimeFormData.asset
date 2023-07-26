@@ -10,10 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 22bf79be5d037184c99ebb648ef79079, type: 3}
-  m_Name: BaseFormData
+  m_Name: SlimeFormData
   m_EditorClassIdentifier: 
   elementType: 1
   health: 50
   speed: 5
   model: {fileID: 6891580169314388076, guid: 66ae442726d1cf4428dacb34edd61ac4, type: 3}
+  item: {fileID: 0}
+  icon: {fileID: 2933387467584884181, guid: 5b67097a244870044bbfba72e325b729, type: 3}
   spellOffset: {x: 1, y: 1, z: 1}

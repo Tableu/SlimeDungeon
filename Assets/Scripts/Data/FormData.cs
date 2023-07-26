@@ -14,6 +14,7 @@ namespace Controller.Form
         [HeaderAttribute("References")]
         [SerializeField] private GameObject model;
         [SerializeField] private GameObject item;
+        [SerializeField] private Sprite icon;
         [SerializeField] private Vector3 spellOffset;
 
         public Elements.Type ElementType => elementType;
@@ -22,6 +23,7 @@ namespace Controller.Form
         public GameObject Model => model;
         public Vector3 SpellOffset => spellOffset;
         public GameObject Item => item;
+        public Sprite Icon => icon;
 
         public abstract Form AttachScript(GameObject gameObject);
     }

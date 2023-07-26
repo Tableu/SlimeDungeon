@@ -6,7 +6,7 @@ public class FireballAttack : Attack
 {
     public override void Begin()
     {
-        if (character.Mana >= data.ManaCost && character.currentAttack == null)
+        if (character.Mana >= data.ManaCost && character.currentAttack == null && !cooldownActive)
         {
             character.Mana -= data.ManaCost;
             character.currentAttack = this;
@@ -39,6 +39,7 @@ public class FireballAttack : Attack
             
             character.Attack();
             OnSpellCast?.Invoke();
+            Cooldown(data.Cooldown);
         }
     }
 
@@ -70,6 +71,7 @@ public class FireballAttack : Attack
     {
         character.attacks.Remove(this);
         character.currentAttack = null;
+        cancellationTokenSource?.Cancel();
     }
 
     public FireballAttack(Character character, AttackData data) : base(character, data)

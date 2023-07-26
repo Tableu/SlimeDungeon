@@ -11,7 +11,7 @@ public class WaterBoltAttack : Attack
 
     public override void Begin()
     {
-        if (character.Mana >= data.ManaCost && character.currentAttack == null)
+        if (character.Mana >= data.ManaCost && character.currentAttack == null && !cooldownActive)
         {
             character.Mana -= data.ManaCost;
             character.currentAttack = this;

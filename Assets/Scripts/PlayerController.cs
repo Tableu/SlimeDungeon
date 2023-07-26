@@ -25,8 +25,10 @@ public class PlayerController : Character
     
     [SerializeField] private Slider manaBar;
     [SerializeField] private Slider healthBar;
+    [SerializeField] private Image formIcon;
     [SerializeField] private GameObject model;
     [SerializeField] private PlayerData playerData;
+    [SerializeField] private List<Icon> spellIcons;
     
     internal Form form;
     internal PlayerInputActions playerInputActions;
@@ -42,10 +44,18 @@ public class PlayerController : Character
             attackData.EquipAttack(this);
         }
 
+        var i = 0;
+        foreach (Attack attack in attacks)
+        {
+            attack.OnCooldown += spellIcons[i].OnCooldown;
+            spellIcons[i].SetIcon(playerData.Attacks[i].Icon);
+            i++;
+        }
+
         playerInputActions = new PlayerInputActions();
         playerInputActions.Enable();
         EquipForm(playerData.BaseForm);
-        var i = 0;
+        i = 0;
         foreach (InputAction action in playerInputActions.Spells.Get())
         {
             if (attacks.Count <= i)
@@ -129,6 +139,11 @@ public class PlayerController : Character
             action.canceled -= attacks[i].End;
             i++;
         }
+        i = 0;
+        foreach (Attack attack in attacks)
+        {
+            attack.OnCooldown -= spellIcons[i].OnCooldown;
+        }
         healthBar.value = Health;
         playerInputActions.Disable();
         playerInputActions.Dispose();
@@ -173,6 +188,7 @@ public class PlayerController : Character
         ChangeModel(formData);
         form = formData.AttachScript(model);
         form.Equip(this);
+        formIcon.sprite = formData.Icon;
         Health = form.health;
         healthBar.maxValue = form.health;
         healthBar.value = Health;
