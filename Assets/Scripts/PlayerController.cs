@@ -39,6 +39,7 @@ public class PlayerController : Character
     public Action OnFormChange;
     public Action<AttackData, int> OnAttackEquip;
     public Action<AttackData> OnAttackUnEquip;
+    public Action<AttackData> OnAttackUnlocked;
 
     private void Awake()
     {
@@ -72,15 +73,15 @@ public class PlayerController : Character
         }
         _playerInputActions.Other.Absorb.started += delegate(InputAction.CallbackContext context)
         {
-            Collider[] colliders = Physics.OverlapSphere(transform.position, 5, LayerMask.GetMask("FormItems"));
+            Collider[] colliders = Physics.OverlapSphere(transform.position, 5, LayerMask.GetMask("Items"));
             var orderedByProximity = colliders.OrderBy(c => (transform.position - c.transform.position).sqrMagnitude)
                 .ToArray();
             foreach (var col in orderedByProximity)
             {
-                var absorbable = col.GetComponent<FormItem>();
-                if (absorbable != null)
+                var item = col.GetComponent<Item>();
+                if (item != null)
                 {
-                    absorbable.PickUp(this);
+                    item.PickUp(this);
                     break;
                 }
             }
@@ -211,6 +212,12 @@ public class PlayerController : Character
         OnAttackEquip?.Invoke(attackData, index);
         inputs.actions[index].started += attacks[index].Begin;
         inputs.actions[index].canceled += attacks[index].End;
+    }
+
+    public void UnlockAttack(AttackData attackData)
+    {
+        _unlockedAttacks.Add(attackData);
+        OnAttackUnlocked?.Invoke(attackData);
     }
 
     public override void Attack()

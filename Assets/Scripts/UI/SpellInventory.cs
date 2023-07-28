@@ -22,6 +22,8 @@ public class SpellInventory : MonoBehaviour
         }
         
         controller.OnAttackUnEquip += OnAttackUnEquip;
+        controller.OnAttackUnlocked += AddSpell;
+        gameObject.SetActive(false);
     }
 
     public void AddSpell(AttackData data)
@@ -51,5 +53,6 @@ public class SpellInventory : MonoBehaviour
     private void OnDestroy()
     {
         controller.OnAttackUnEquip -= OnAttackUnEquip;
+        controller.OnAttackUnlocked -= AddSpell;
     }
 }
