@@ -11,52 +11,58 @@ using Type = Elements.Type;
 
 public class PlayerController : Character
 {
-    public override float Health
-    {
-        get => form.health;
-        internal set => form.health = value;
-    }
-    public override float Speed => form.speed;
-    public override Type ElementType => form.elementType;
-    public override Vector3 SpellOffset => form.data.SpellOffset;
-
-    private Vector2 _direction;
-    private bool _inKnockback = false;
-    
     [SerializeField] private Slider manaBar;
     [SerializeField] private Slider healthBar;
-    [SerializeField] private Image formIcon;
     [SerializeField] private GameObject model;
     [SerializeField] private PlayerData playerData;
-    [SerializeField] private List<Icon> spellIcons;
     
-    internal Form form;
-    internal PlayerInputActions playerInputActions;
-    internal override CharacterData CharacterData => playerData;
+    private Vector2 _direction;
+    private bool _inKnockback = false;
+    private Form _form;
+    private PlayerInputActions _playerInputActions;
+    private List<AttackData> _unlockedAttacks;
+    
+    public override float Health
+    {
+        get => _form.health;
+        internal set => _form.health = value;
+    }
+    public override float Speed => _form.speed;
+    public override Type ElementType => _form.elementType;
+    public override Vector3 SpellOffset => _form.data.SpellOffset;
+    public Form Form => _form;
+    public PlayerInputActions PlayerInputActions => _playerInputActions;
+
+    public override CharacterData CharacterData => playerData;
+    public List<AttackData> UnlockedAttacks => _unlockedAttacks;
+
+    public Action OnFormChange;
+    public Action<AttackData, int> OnAttackEquip;
+    public Action<AttackData> OnAttackUnEquip;
+
+    private void Awake()
+    {
+        attacks = new List<Attack>();
+        _unlockedAttacks = new List<AttackData>();
+        var i = 0;
+        foreach (AttackData attackData in playerData.Attacks)
+        {
+            attackData.EquipAttack(this, i);
+            _unlockedAttacks.Add(attackData);
+            i++;
+        }
+    }
 
     private new void Start()
     {
         Armor = playerData.Armor;
         Mana = playerData.Mana;
-        attacks = new List<Attack>();
-        foreach (AttackData attackData in playerData.Attacks)
-        {
-            attackData.EquipAttack(this);
-        }
-
-        var i = 0;
-        foreach (Attack attack in attacks)
-        {
-            attack.OnCooldown += spellIcons[i].OnCooldown;
-            spellIcons[i].SetIcon(playerData.Attacks[i].Icon);
-            i++;
-        }
-
-        playerInputActions = new PlayerInputActions();
-        playerInputActions.Enable();
+        
+        _playerInputActions = new PlayerInputActions();
+        _playerInputActions.Enable();
         EquipForm(playerData.BaseForm);
-        i = 0;
-        foreach (InputAction action in playerInputActions.Spells.Get())
+        var i = 0;
+        foreach (InputAction action in _playerInputActions.Spells.Get())
         {
             if (attacks.Count <= i)
                 break;
@@ -64,7 +70,7 @@ public class PlayerController : Character
             action.canceled += attacks[i].End;
             i++;
         }
-        playerInputActions.Other.Absorb.started += delegate(InputAction.CallbackContext context)
+        _playerInputActions.Other.Absorb.started += delegate(InputAction.CallbackContext context)
         {
             Collider[] colliders = Physics.OverlapSphere(transform.position, 5, LayerMask.GetMask("FormItems"));
             var orderedByProximity = colliders.OrderBy(c => (transform.position - c.transform.position).sqrMagnitude)
@@ -80,12 +86,13 @@ public class PlayerController : Character
             }
         };
         manaBar.maxValue = playerData.Mana;
-        healthBar.maxValue = form.health;
+        healthBar.maxValue = _form.health;
         
         if (manaBar.transform is RectTransform rt) 
             rt.sizeDelta = new Vector2(playerData.Mana * 2, rt.sizeDelta.y);
     }
 
+    //Code for rotating the player to follow the mouse
     /*private void Update()
     {
         var mousePos = Mouse.current.position.ReadValue();
@@ -103,7 +110,7 @@ public class PlayerController : Character
         base.FixedUpdate();
         manaBar.value = Mana;
         healthBar.value = Health;
-        _direction = playerInputActions.Movement.Direction.ReadValue<Vector2>();
+        _direction = _playerInputActions.Movement.Direction.ReadValue<Vector2>();
         
         if (_direction != Vector2.zero && !_inKnockback)
         {
@@ -131,7 +138,7 @@ public class PlayerController : Character
     private void OnDestroy()
     {
         int i = 0;
-        foreach (InputAction action in playerInputActions.Spells.Get())
+        foreach (InputAction action in _playerInputActions.Spells.Get())
         {
             if (attacks.Count <= i)
                 break;
@@ -139,14 +146,9 @@ public class PlayerController : Character
             action.canceled -= attacks[i].End;
             i++;
         }
-        i = 0;
-        foreach (Attack attack in attacks)
-        {
-            attack.OnCooldown -= spellIcons[i].OnCooldown;
-        }
         healthBar.value = Health;
-        playerInputActions.Disable();
-        playerInputActions.Dispose();
+        _playerInputActions.Disable();
+        _playerInputActions.Dispose();
     }
     
     public override void TakeDamage(float damage, Vector3 knockback, float hitStun, Elements.Type attackType)
@@ -157,7 +159,7 @@ public class PlayerController : Character
 
     protected override void OnDeath()
     {
-        if (form.data.GetType() == playerData.BaseForm.GetType())
+        if (_form.data.GetType() == playerData.BaseForm.GetType())
         {
             Destroy(gameObject);
         }
@@ -170,35 +172,50 @@ public class PlayerController : Character
     protected override IEnumerator ApplyKnockback(Vector3 knockback, float hitStun)
     {
         _inKnockback = true;
-        playerInputActions.Disable();
+        _playerInputActions.Disable();
         rigidbody.velocity = Vector3.zero;
         rigidbody.AddForce(knockback, ForceMode.Impulse);
         yield return new WaitForSeconds(hitStun);
-        playerInputActions.Enable();
+        _playerInputActions.Enable();
         _inKnockback = false;
     }
 
     public void EquipForm(FormData formData)
     {
-        if (form is not null)
+        if (_form is not null)
         {
-            form.Drop();
-            Destroy(form);
+            _form.Drop();
+            Destroy(_form);
         }
         ChangeModel(formData);
-        form = formData.AttachScript(model);
-        form.Equip(this);
-        formIcon.sprite = formData.Icon;
-        Health = form.health;
-        healthBar.maxValue = form.health;
+        _form = formData.AttachScript(model);
+        _form.Equip(this);
+        OnFormChange?.Invoke();
+        Health = _form.health;
+        healthBar.maxValue = _form.health;
         healthBar.value = Health;
         if (healthBar.transform is RectTransform rt) 
-            rt.sizeDelta = new Vector2(form.health * 2, rt.sizeDelta.y);
+            rt.sizeDelta = new Vector2(_form.health * 2, rt.sizeDelta.y);
+    }
+
+    public void EquipAttack(AttackData attackData, int index)
+    {
+        OnAttackUnEquip?.Invoke(attacks[index].Data);
+        var inputs = _playerInputActions.Spells.Get();
+        inputs.actions[index].started -= attacks[index].Begin;
+        inputs.actions[index].canceled -= attacks[index].End;
+        attacks[index].CleanUp();
+        
+        attackData.EquipAttack(this, index);
+        
+        OnAttackEquip?.Invoke(attackData, index);
+        inputs.actions[index].started += attacks[index].Begin;
+        inputs.actions[index].canceled += attacks[index].End;
     }
 
     public override void Attack()
     {
-        form.Attack();
+        _form.Attack();
     }
 
     private void ChangeModel(FormData data)

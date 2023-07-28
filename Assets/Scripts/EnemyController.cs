@@ -21,7 +21,7 @@ public class EnemyController : Character
     private Transform _target;
     private int _tick = 0;
 
-    internal override CharacterData CharacterData => enemyData;
+    public override CharacterData CharacterData => enemyData;
 
     private new void Start()
     {

@@ -28,12 +28,12 @@ public class WaterBoltAttack : Attack
                 : LayerMask.NameToLayer("EnemyAttacks");
             var script = fireball.GetComponent<WaterBolt>();
             
-            if (character is PlayerController player && player.form != null)
+            if (character is PlayerController player && player.Form != null)
             {
-                player.playerInputActions.Spells.Disable();
-                player.playerInputActions.Movement.Disable();
-                script.Initialize(data.Damage * player.form.damageMultiplier, data.Knockback, data.HitStun,
-                    transform.forward * data.Speed * player.form.speedMultiplier, player.form.sizeMultiplier, data.ElementType,3);
+                player.PlayerInputActions.Spells.Disable();
+                player.PlayerInputActions.Movement.Disable();
+                script.Initialize(data.Damage * player.Form.damageMultiplier, data.Knockback, data.HitStun,
+                    transform.forward * data.Speed * player.Form.speedMultiplier, player.Form.sizeMultiplier, data.ElementType,3);
             }
             else
             {
@@ -54,8 +54,8 @@ public class WaterBoltAttack : Attack
     {
         if (character is PlayerController player)
         {
-            player.playerInputActions.Spells.Enable();
-            player.playerInputActions.Movement.Enable();
+            player.PlayerInputActions.Spells.Enable();
+            player.PlayerInputActions.Movement.Enable();
         }
 
         character.currentAttack = null;

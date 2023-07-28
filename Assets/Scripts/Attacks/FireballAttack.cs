@@ -24,12 +24,12 @@ public class FireballAttack : Attack
                 ? LayerMask.NameToLayer("PlayerAttacks")
                 : LayerMask.NameToLayer("EnemyAttacks");
             var script = fireball.GetComponent<Fireball>();
-            if (character is PlayerController player && player.form != null)
+            if (character is PlayerController player && player.Form != null)
             {
-                script.Initialize(data.Damage * player.form.damageMultiplier, data.Knockback, data.HitStun,
-                    transform.forward * data.Speed * player.form.speedMultiplier, player.form.sizeMultiplier, data.ElementType);
-                player.playerInputActions.Spells.Disable();
-                player.playerInputActions.Movement.Disable();
+                script.Initialize(data.Damage * player.Form.damageMultiplier, data.Knockback, data.HitStun,
+                    transform.forward * data.Speed * player.Form.speedMultiplier, player.Form.sizeMultiplier, data.ElementType);
+                player.PlayerInputActions.Spells.Disable();
+                player.PlayerInputActions.Movement.Disable();
             }
             else
             {
@@ -52,8 +52,8 @@ public class FireballAttack : Attack
     {
         if (character is PlayerController player)
         {
-            player.playerInputActions.Spells.Enable();
-            player.playerInputActions.Movement.Enable();
+            player.PlayerInputActions.Spells.Enable();
+            player.PlayerInputActions.Movement.Enable();
         }
 
         character.currentAttack = null;

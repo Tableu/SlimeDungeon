@@ -42,7 +42,7 @@ namespace Controller
             get;
         }
 
-        internal abstract CharacterData CharacterData
+        public abstract CharacterData CharacterData
         {
             get;
         }
@@ -65,9 +65,11 @@ namespace Controller
             ElementType = CharacterData.ElementType;
 
             attacks = new List<Attack>();
+            var i = 0;
             foreach (AttackData attackData in CharacterData.Attacks)
             {
-                attackData.EquipAttack(this);
+                attackData.EquipAttack(this,i);
+                i++;
             }
         }
 

@@ -13,18 +13,18 @@ public class ChickenForm : Form
         _playerController = playerController;
         animator = GetComponent<Animator>();
 
-        _playerController.playerInputActions.Movement.Pressed.started += MovementPressed;
-        _playerController.playerInputActions.Movement.Pressed.canceled += MovementCanceled;
-        _playerController.playerInputActions.Movement.VerticalPressed.canceled += VerticalMovementCanceled;
-        _playerController.playerInputActions.Movement.HorizontalPressed.canceled += HorizontalMovementCanceled;
+        _playerController.PlayerInputActions.Movement.Pressed.started += MovementPressed;
+        _playerController.PlayerInputActions.Movement.Pressed.canceled += MovementCanceled;
+        _playerController.PlayerInputActions.Movement.VerticalPressed.canceled += VerticalMovementCanceled;
+        _playerController.PlayerInputActions.Movement.HorizontalPressed.canceled += HorizontalMovementCanceled;
     }
 
     public override void Drop()
     {
-        _playerController.playerInputActions.Movement.Pressed.started -= MovementPressed;
-        _playerController.playerInputActions.Movement.Pressed.canceled -= MovementCanceled;
-        _playerController.playerInputActions.Movement.VerticalPressed.canceled -= VerticalMovementCanceled;
-        _playerController.playerInputActions.Movement.HorizontalPressed.canceled -= HorizontalMovementCanceled;
+        _playerController.PlayerInputActions.Movement.Pressed.started -= MovementPressed;
+        _playerController.PlayerInputActions.Movement.Pressed.canceled -= MovementCanceled;
+        _playerController.PlayerInputActions.Movement.VerticalPressed.canceled -= VerticalMovementCanceled;
+        _playerController.PlayerInputActions.Movement.HorizontalPressed.canceled -= HorizontalMovementCanceled;
     }
 
     public override void Attack()

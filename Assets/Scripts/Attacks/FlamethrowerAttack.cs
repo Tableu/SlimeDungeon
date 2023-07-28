@@ -23,9 +23,9 @@ public class FlamethrowerAttack : Attack
         {
             //todo fix flamethrower attack
             //player.playerInputActions.Attack.Primary.Disable();
-            player.playerInputActions.Movement.Pressed.Disable();
-            script.Initialize(data.Damage * player.form.damageMultiplier, data.Knockback, data.HitStun,
-                transform.forward * data.Speed * player.form.speedMultiplier, player.form.sizeMultiplier, data.ElementType);
+            player.PlayerInputActions.Movement.Pressed.Disable();
+            script.Initialize(data.Damage * player.Form.damageMultiplier, data.Knockback, data.HitStun,
+                transform.forward * data.Speed * player.Form.speedMultiplier, player.Form.sizeMultiplier, data.ElementType);
         }
         else
         {
@@ -47,8 +47,8 @@ public class FlamethrowerAttack : Attack
         if (character is PlayerController player)
         {
             //player.playerInputActions.Attack.Primary.Enable();
-            player.playerInputActions.Movement.Pressed.Enable();
-            if (player.playerInputActions.Movement.Direction.ReadValue<Vector2>() != Vector2.zero)
+            player.PlayerInputActions.Movement.Pressed.Enable();
+            if (player.PlayerInputActions.Movement.Direction.ReadValue<Vector2>() != Vector2.zero)
             {
                 //character.animator.SetFloat("Speed", 1);
             }

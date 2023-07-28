@@ -15,14 +15,14 @@ namespace Controller.Form
             _playerController = playerController;
             animator = GetComponent<Animator>();
             
-            playerController.playerInputActions.Movement.Pressed.canceled += MovementCanceled;
-            playerController.playerInputActions.Movement.Pressed.started += MovementStarted;
+            playerController.PlayerInputActions.Movement.Pressed.canceled += MovementCanceled;
+            playerController.PlayerInputActions.Movement.Pressed.started += MovementStarted;
         }
 
         public override void Drop()
         {
-            _playerController.playerInputActions.Movement.Pressed.canceled -= MovementCanceled;
-            _playerController.playerInputActions.Movement.Pressed.started -= MovementStarted;
+            _playerController.PlayerInputActions.Movement.Pressed.canceled -= MovementCanceled;
+            _playerController.PlayerInputActions.Movement.Pressed.started -= MovementStarted;
         }
         
         public void OnAnimatorMove()

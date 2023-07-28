@@ -1,17 +1,20 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Icon : MonoBehaviour
+public class SpellBarIcon : MonoBehaviour
 {
     [SerializeField] private Image icon;
-    void Start()
-    {
-        EmptyIcon();
-    }
+    private int _index;
 
-    public void EmptyIcon()
+    public int Index => _index;
+    private void Awake()
     {
         icon.enabled = false;
+    }
+    
+    public void Initialize(int index)
+    {
+        _index = index;
     }
 
     public void OnCooldown(float duration)

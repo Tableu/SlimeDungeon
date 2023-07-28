@@ -21,6 +21,8 @@ namespace Controller
         protected CancellationTokenSource cancellationTokenSource;
         protected bool cooldownActive = false;
 
+        public AttackData Data => data;
+
         protected Attack(Character character, AttackData data)
         {
             this.character = character;
@@ -55,7 +57,6 @@ namespace Controller
                 await Task.Yield();
             }
             cooldownActive = false;
-            Debug.Log("done");
         }
 
         public Action OnSpellCast;
