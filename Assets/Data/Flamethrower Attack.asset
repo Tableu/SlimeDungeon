@@ -21,4 +21,4 @@ MonoBehaviour:
   targetingRange: 0
   elementType: 1
   prefab: {fileID: 2829376769235719667, guid: 5126df3142e56e64683735a787d5bedc, type: 3}
-  icon: {fileID: 1135579071110884410, guid: 5b67097a244870044bbfba72e325b729, type: 3}
+  icon: {fileID: 21300000, guid: 8b03ad0628d8cec43a17e35fbc3086e4, type: 3}

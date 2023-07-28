@@ -52,6 +52,8 @@ public class PlayerController : Character
             _unlockedAttacks.Add(attackData);
             i++;
         }
+        _playerInputActions = new PlayerInputActions();
+        _playerInputActions.Enable();
     }
 
     private new void Start()
@@ -59,8 +61,6 @@ public class PlayerController : Character
         Armor = playerData.Armor;
         Mana = playerData.Mana;
         
-        _playerInputActions = new PlayerInputActions();
-        _playerInputActions.Enable();
         EquipForm(playerData.BaseForm);
         var i = 0;
         foreach (InputAction action in _playerInputActions.Spells.Get())

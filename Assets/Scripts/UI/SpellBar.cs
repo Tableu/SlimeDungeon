@@ -20,8 +20,8 @@ public class SpellBar : MonoBehaviour
             {
                 spellIcons.Add(script);
                 attack.OnCooldown += script.OnCooldown;
-                script.SetIcon(playerController.CharacterData.Attacks[i].Icon);
-                script.Initialize(i);
+                script.Initialize(i, playerController);
+                script.SetIcon(playerController.CharacterData.Attacks[i].Icon, playerController.CharacterData.Attacks[i].ManaCost);
             }
 
             i++;
@@ -33,7 +33,7 @@ public class SpellBar : MonoBehaviour
     private void OnAttackEquip(AttackData attackData, int index)
     {
         playerController.attacks[index].OnCooldown += spellIcons[index].OnCooldown;
-        spellIcons[index].SetIcon(attackData.Icon);
+        spellIcons[index].SetIcon(attackData.Icon, attackData.ManaCost);
     }
 
     private void OnDestroy()
