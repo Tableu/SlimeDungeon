@@ -89,11 +89,11 @@ namespace Controller
             Health -= damage*typeMultiplier;
             if (Health <= 0)
             {
-                OnDeath();
+                HandleDeath();
             }
         }
 
-        protected virtual void OnDeath()
+        protected virtual void HandleDeath()
         {
             Destroy(gameObject);
         }

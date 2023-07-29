@@ -11,32 +11,34 @@ using Type = Elements.Type;
 
 public class PlayerController : Character
 {
-    [SerializeField] private Slider manaBar;
-    [SerializeField] private Slider healthBar;
     [SerializeField] private GameObject model;
     [SerializeField] private PlayerData playerData;
     
     private Vector2 _direction;
     private bool _inKnockback = false;
-    private Form _form;
+    private Form _currentForm;
+    private List<FormData> _forms;
+    private int maxFormCount;
     private PlayerInputActions _playerInputActions;
     private List<AttackData> _unlockedAttacks;
     
     public override float Health
     {
-        get => _form.health;
-        internal set => _form.health = value;
+        get => _currentForm.health;
+        internal set => _currentForm.health = value;
     }
-    public override float Speed => _form.speed;
-    public override Type ElementType => _form.elementType;
-    public override Vector3 SpellOffset => _form.data.SpellOffset;
-    public Form Form => _form;
+    public override float Speed => _currentForm.speed;
+    public override Type ElementType => _currentForm.elementType;
+    public override Vector3 SpellOffset => _currentForm.data.SpellOffset;
+    public Form CurrentForm => _currentForm;
+    public List<FormData> Forms => _forms;
     public PlayerInputActions PlayerInputActions => _playerInputActions;
 
     public override CharacterData CharacterData => playerData;
     public List<AttackData> UnlockedAttacks => _unlockedAttacks;
 
     public Action OnFormChange;
+    public Action OnDeath;
     public Action<AttackData, int> OnAttackEquip;
     public Action<AttackData> OnAttackUnEquip;
     public Action<AttackData> OnAttackUnlocked;
@@ -44,6 +46,7 @@ public class PlayerController : Character
     private void Awake()
     {
         attacks = new List<Attack>();
+        _forms = new List<FormData>();
         _unlockedAttacks = new List<AttackData>();
         var i = 0;
         foreach (AttackData attackData in playerData.Attacks)
@@ -54,14 +57,13 @@ public class PlayerController : Character
         }
         _playerInputActions = new PlayerInputActions();
         _playerInputActions.Enable();
+        EquipForm(playerData.BaseForm);
+        Armor = playerData.Armor;
+        Mana = playerData.Mana;
     }
 
     private new void Start()
     {
-        Armor = playerData.Armor;
-        Mana = playerData.Mana;
-        
-        EquipForm(playerData.BaseForm);
         var i = 0;
         foreach (InputAction action in _playerInputActions.Spells.Get())
         {
@@ -86,11 +88,6 @@ public class PlayerController : Character
                 }
             }
         };
-        manaBar.maxValue = playerData.Mana;
-        healthBar.maxValue = _form.health;
-        
-        if (manaBar.transform is RectTransform rt) 
-            rt.sizeDelta = new Vector2(playerData.Mana * 2, rt.sizeDelta.y);
     }
 
     //Code for rotating the player to follow the mouse
@@ -109,8 +106,6 @@ public class PlayerController : Character
     private new void FixedUpdate()
     {
         base.FixedUpdate();
-        manaBar.value = Mana;
-        healthBar.value = Health;
         _direction = _playerInputActions.Movement.Direction.ReadValue<Vector2>();
         
         if (_direction != Vector2.zero && !_inKnockback)
@@ -138,6 +133,7 @@ public class PlayerController : Character
 
     private void OnDestroy()
     {
+        OnDeath?.Invoke();
         int i = 0;
         foreach (InputAction action in _playerInputActions.Spells.Get())
         {
@@ -147,7 +143,6 @@ public class PlayerController : Character
             action.canceled -= attacks[i].End;
             i++;
         }
-        healthBar.value = Health;
         _playerInputActions.Disable();
         _playerInputActions.Dispose();
     }
@@ -158,9 +153,9 @@ public class PlayerController : Character
             base.TakeDamage(damage,knockback, hitStun,attackType);
     }
 
-    protected override void OnDeath()
+    protected override void HandleDeath()
     {
-        if (_form.data.GetType() == playerData.BaseForm.GetType())
+        if (_currentForm.data.GetType() == playerData.BaseForm.GetType())
         {
             Destroy(gameObject);
         }
@@ -183,20 +178,26 @@ public class PlayerController : Character
 
     public void EquipForm(FormData formData)
     {
-        if (_form is not null)
+        if (_forms.Count >= maxFormCount)
         {
-            _form.Drop();
-            Destroy(_form);
+            if (_currentForm is not null)
+            {
+                _currentForm.Drop();
+                _forms.Remove(_currentForm.data); 
+                Destroy(_currentForm);
+            }
+            ChangeModel(formData);
+            _forms.Add(formData);
+            _currentForm = formData.AttachScript(model);
+            _currentForm.Equip(this);
+            Health = _currentForm.health;
+            OnFormChange?.Invoke();
         }
-        ChangeModel(formData);
-        _form = formData.AttachScript(model);
-        _form.Equip(this);
-        OnFormChange?.Invoke();
-        Health = _form.health;
-        healthBar.maxValue = _form.health;
-        healthBar.value = Health;
-        if (healthBar.transform is RectTransform rt) 
-            rt.sizeDelta = new Vector2(_form.health * 2, rt.sizeDelta.y);
+        else
+        {
+            _forms.Add(formData);
+        }
+        
     }
 
     public void EquipAttack(AttackData attackData, int index)
@@ -222,7 +223,7 @@ public class PlayerController : Character
 
     public override void Attack()
     {
-        _form.Attack();
+        _currentForm.Attack();
     }
 
     private void ChangeModel(FormData data)

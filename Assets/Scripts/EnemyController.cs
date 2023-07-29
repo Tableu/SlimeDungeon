@@ -186,7 +186,7 @@ public class EnemyController : Character
         }
     }
 
-    protected override void OnDeath()
+    protected override void HandleDeath()
     {
         GameObject item = Instantiate(enemyData.FormData.Item, transform.position, Quaternion.identity);
         FormItem script = item.GetComponent<FormItem>();
