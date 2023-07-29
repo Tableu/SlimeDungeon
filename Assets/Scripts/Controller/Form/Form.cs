@@ -19,6 +19,19 @@ namespace Controller.Form
         public abstract void Attack();
     }
 
+    public class SavedForm
+    {
+        private FormData _data;
+        public FormData Data => _data;
+        public float Health;
+
+        public SavedForm(FormData data)
+        {
+            _data = data;
+            Health = data.Health;
+        }
+    }
+
     public enum Forms
     {
         FireForm

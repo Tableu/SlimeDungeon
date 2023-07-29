@@ -22,7 +22,6 @@ public class SpellBarIcon : MonoBehaviour
         var inputMap = controller.PlayerInputActions.Spells.Get();
         keyText.text = inputMap.actions[index].controls[0].name.ToUpper();
         _index = index;
-        _controller = controller;
     }
 
     public void OnCooldown(float duration)
