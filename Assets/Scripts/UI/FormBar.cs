@@ -23,7 +23,6 @@ public class FormBar : MonoBehaviour
                 if(playerController.Forms.Count > i)
                     script.SetIcon(playerController.Forms[i]);
             }
-            i++;
         }
 
         playerController.OnFormAdd += OnFormChange;

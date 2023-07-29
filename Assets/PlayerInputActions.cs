@@ -215,13 +215,22 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             ""id"": ""5e746e8f-7fd5-4af1-9446-61422db47d0d"",
             ""actions"": [
                 {
-                    ""name"": ""Absorb"",
+                    ""name"": ""Pick Up"",
                     ""type"": ""Button"",
                     ""id"": ""454766d4-066d-4d95-a041-f13828a8f79e"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SwitchForms"",
+                    ""type"": ""Value"",
+                    ""id"": ""1b378a4c-613f-417f-9fc7-0ab326de32f8"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -232,9 +241,42 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Absorb"",
+                    ""action"": ""Pick Up"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""52f0de9a-9ba7-4af6-a7d4-a96991681fc1"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SwitchForms"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""74989b14-f043-420c-a3b3-3c4f0cbca633"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SwitchForms"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""7b3d31d8-50b5-46fd-a649-d701241385e1"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SwitchForms"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         },
@@ -317,7 +359,8 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Movement_HorizontalPressed = m_Movement.FindAction("Horizontal Pressed", throwIfNotFound: true);
         // Other
         m_Other = asset.FindActionMap("Other", throwIfNotFound: true);
-        m_Other_Absorb = m_Other.FindAction("Absorb", throwIfNotFound: true);
+        m_Other_PickUp = m_Other.FindAction("Pick Up", throwIfNotFound: true);
+        m_Other_SwitchForms = m_Other.FindAction("SwitchForms", throwIfNotFound: true);
         // Spells
         m_Spells = asset.FindActionMap("Spells", throwIfNotFound: true);
         m_Spells_First = m_Spells.FindAction("First", throwIfNotFound: true);
@@ -454,12 +497,14 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     // Other
     private readonly InputActionMap m_Other;
     private List<IOtherActions> m_OtherActionsCallbackInterfaces = new List<IOtherActions>();
-    private readonly InputAction m_Other_Absorb;
+    private readonly InputAction m_Other_PickUp;
+    private readonly InputAction m_Other_SwitchForms;
     public struct OtherActions
     {
         private @PlayerInputActions m_Wrapper;
         public OtherActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Absorb => m_Wrapper.m_Other_Absorb;
+        public InputAction @PickUp => m_Wrapper.m_Other_PickUp;
+        public InputAction @SwitchForms => m_Wrapper.m_Other_SwitchForms;
         public InputActionMap Get() { return m_Wrapper.m_Other; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -469,16 +514,22 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         {
             if (instance == null || m_Wrapper.m_OtherActionsCallbackInterfaces.Contains(instance)) return;
             m_Wrapper.m_OtherActionsCallbackInterfaces.Add(instance);
-            @Absorb.started += instance.OnAbsorb;
-            @Absorb.performed += instance.OnAbsorb;
-            @Absorb.canceled += instance.OnAbsorb;
+            @PickUp.started += instance.OnPickUp;
+            @PickUp.performed += instance.OnPickUp;
+            @PickUp.canceled += instance.OnPickUp;
+            @SwitchForms.started += instance.OnSwitchForms;
+            @SwitchForms.performed += instance.OnSwitchForms;
+            @SwitchForms.canceled += instance.OnSwitchForms;
         }
 
         private void UnregisterCallbacks(IOtherActions instance)
         {
-            @Absorb.started -= instance.OnAbsorb;
-            @Absorb.performed -= instance.OnAbsorb;
-            @Absorb.canceled -= instance.OnAbsorb;
+            @PickUp.started -= instance.OnPickUp;
+            @PickUp.performed -= instance.OnPickUp;
+            @PickUp.canceled -= instance.OnPickUp;
+            @SwitchForms.started -= instance.OnSwitchForms;
+            @SwitchForms.performed -= instance.OnSwitchForms;
+            @SwitchForms.canceled -= instance.OnSwitchForms;
         }
 
         public void RemoveCallbacks(IOtherActions instance)
@@ -567,7 +618,8 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     }
     public interface IOtherActions
     {
-        void OnAbsorb(InputAction.CallbackContext context);
+        void OnPickUp(InputAction.CallbackContext context);
+        void OnSwitchForms(InputAction.CallbackContext context);
     }
     public interface ISpellsActions
     {

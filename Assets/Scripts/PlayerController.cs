@@ -61,7 +61,7 @@ public class PlayerController : Character
         _playerInputActions = new PlayerInputActions();
         _playerInputActions.Enable();
         _formIndex = 0;
-        EquipForm(playerData.BaseForm);
+        AddForm(playerData.BaseForm);
         Armor = playerData.Armor;
         Mana = playerData.Mana;
         _maxFormCount = playerData.MaxFormCount;
@@ -78,7 +78,7 @@ public class PlayerController : Character
             action.canceled += attacks[i].End;
             i++;
         }
-        _playerInputActions.Other.Absorb.started += delegate(InputAction.CallbackContext context)
+        _playerInputActions.Other.PickUp.started += delegate(InputAction.CallbackContext context)
         {
             Collider[] colliders = Physics.OverlapSphere(transform.position, 5, LayerMask.GetMask("Items"));
             var orderedByProximity = colliders.OrderBy(c => (transform.position - c.transform.position).sqrMagnitude)
@@ -93,6 +93,7 @@ public class PlayerController : Character
                 }
             }
         };
+        _playerInputActions.Other.SwitchForms.started += SwitchForms;
     }
 
     //Code for rotating the player to follow the mouse
@@ -148,6 +149,7 @@ public class PlayerController : Character
             action.canceled -= attacks[i].End;
             i++;
         }
+        _playerInputActions.Other.SwitchForms.started -= SwitchForms;
         _playerInputActions.Disable();
         _playerInputActions.Dispose();
     }
@@ -184,25 +186,16 @@ public class PlayerController : Character
         _inKnockback = false;
     }
 
-    public void EquipForm(FormData formData)
+    public void AddForm(FormData formData)
     {
         if (_forms.Count >= _maxFormCount)
         {
-            if (_currentForm is not null)
-            {
-                _currentForm.Drop();
-                Destroy(_currentForm);
-            }
             if(_forms.Count > 0)
                 _forms.RemoveAt(_formIndex);
-            ChangeModel(formData);
             SavedForm savedForm = new SavedForm(formData);
-            _forms.Insert(_formIndex, savedForm);
             _currentSavedForm = savedForm;
-            _currentForm = formData.AttachScript(model);
-            _currentForm.Equip(this);
-            Health = _currentForm.health;
-            OnFormChange?.Invoke();
+            _forms.Insert(_formIndex, savedForm);
+            EquipForm(formData);
             OnFormAdd?.Invoke(savedForm, _formIndex);
         }
         else
@@ -213,10 +206,40 @@ public class PlayerController : Character
         }
         
     }
-    
-    public void SwitchForms(int direction)
+
+    private void EquipForm(FormData formData)
     {
-        
+        if (_currentForm is not null)
+        {
+            _currentForm.Drop();
+            Destroy(_currentForm);
+        }
+        ChangeModel(formData);
+        _currentForm = formData.AttachScript(model);
+        _currentForm.Equip(this);
+        Health = _currentForm.health;
+        OnFormChange?.Invoke();
+    }
+    
+    public void SwitchForms(InputAction.CallbackContext context)
+    {
+        int oldIndex = _formIndex;
+        _formIndex += (int)context.ReadValue<float>();
+        if (_formIndex >= _forms.Count)
+        {
+            _formIndex = 0;
+        }
+
+        if (_formIndex < 0)
+        {
+            _formIndex = _forms.Count - 1;
+        }
+
+        if (_formIndex != oldIndex)
+        {
+            _currentSavedForm = _forms[_formIndex];
+            EquipForm(_forms[_formIndex].Data);
+        }
     }
 
     public void EquipAttack(AttackData attackData, int index)

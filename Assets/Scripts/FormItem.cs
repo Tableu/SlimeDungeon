@@ -10,7 +10,7 @@ public class FormItem : Item
 
     public override void PickUp(PlayerController character)
     {
-        character.EquipForm(_data);
+        character.AddForm(_data);
         Destroy(gameObject);
     }
 }

@@ -23,3 +23,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b018f63bcc11b804a8fbe50c7227a381, type: 2}
   maxVelocity: {x: 3, y: 3}
   baseForm: {fileID: 11400000, guid: 6cb87275a0359ba4a8b741fb885df66c, type: 2}
+  maxFormCount: 3
