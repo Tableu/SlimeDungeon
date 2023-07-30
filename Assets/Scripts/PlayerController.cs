@@ -190,8 +190,14 @@ public class PlayerController : Character
     {
         if (_forms.Count >= _maxFormCount)
         {
-            if(_forms.Count > 0)
+            if (_forms.Count > 0)
+            {
+                GameObject item = Instantiate(_forms[_formIndex].Data.Item, transform.position, Quaternion.identity);
+                FormItem script = item.GetComponent<FormItem>();
+                script.Initialize(_forms[_formIndex].Data);
                 _forms.RemoveAt(_formIndex);
+            }
+
             SavedForm savedForm = new SavedForm(formData);
             _currentSavedForm = savedForm;
             _forms.Insert(_formIndex, savedForm);
