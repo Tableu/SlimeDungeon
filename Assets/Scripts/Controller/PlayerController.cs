@@ -34,7 +34,7 @@ public class PlayerController : Character
     public FormManager FormManager => _formManager;
     
     public Action OnDeath;
-    public Action OnFaint;
+    public Action OnFormFaint;
     public Action OnDamage;
     public Action<AttackData, int> OnAttackEquip;
     public Action<AttackData> OnAttackUnEquip;
@@ -162,7 +162,7 @@ public class PlayerController : Character
         }
         else
         {
-            OnFaint?.Invoke();
+            OnFormFaint?.Invoke();
         }
     }
 

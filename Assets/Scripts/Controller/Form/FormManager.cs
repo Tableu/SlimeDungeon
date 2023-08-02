@@ -31,8 +31,10 @@ public class FormManager
         _maxFormCount = ((PlayerData)_playerController.CharacterData).MaxFormCount;
         AddForm(((PlayerData)_playerController.CharacterData).BaseForm);
         EquipForm(((PlayerData)_playerController.CharacterData).BaseForm);
+        _currentFormInstance = _forms[0];
         _playerController.PlayerInputActions.Other.SwitchForms.started += SwitchForms;
         _playerController.OnDamage += OnDamage;
+        _playerController.OnFormFaint += OnFormFaint;
     }
 
     ~FormManager()
@@ -40,6 +42,7 @@ public class FormManager
         if (_playerController == null) return;
         _playerController.PlayerInputActions.Other.SwitchForms.started -= SwitchForms;
         _playerController.OnDamage -= OnDamage;
+        _playerController.OnFormFaint -= OnFormFaint;
     }
     
     public void AddForm(FormData formData)
@@ -84,7 +87,41 @@ public class FormManager
     public void SwitchForms(InputAction.CallbackContext context)
     {
         int oldIndex = _formIndex;
-        _formIndex += (int)context.ReadValue<float>();
+        int diff = (int)context.ReadValue<float>();
+        int formIndex = _formIndex+diff;
+        if (formIndex >= _forms.Count)
+        {
+            formIndex = 0;
+        }
+
+        if (formIndex < 0)
+        {
+            formIndex = _forms.Count - 1;
+        }
+        
+        while (formIndex != oldIndex)
+        {
+            if (_forms[formIndex].Health > 0)
+            {
+                _formIndex = formIndex;
+                _currentFormInstance = _forms[_formIndex];
+                EquipForm(_forms[_formIndex].Data);
+                return;
+            }
+
+            formIndex += diff;
+            if (formIndex >= _forms.Count)
+            {
+                formIndex = 0;
+            }
+
+            if (formIndex < 0)
+            {
+                formIndex = _forms.Count - 1;
+            }
+        }
+        
+        /*_formIndex += (int)context.ReadValue<float>();
         if (_formIndex >= _forms.Count)
         {
             _formIndex = 0;
@@ -99,12 +136,26 @@ public class FormManager
         {
             _currentFormInstance = _forms[_formIndex];
             EquipForm(_forms[_formIndex].Data);
-        }
+        }*/
     }
 
     private void OnDamage()
     {
         _currentFormInstance.Health = _playerController.Health;
+    }
+
+    private void OnFormFaint()
+    {
+        foreach (FormInstance formInstance in _forms)
+        {
+            if (formInstance.Health > 0)
+            {
+                _currentFormInstance = formInstance;
+                EquipForm(formInstance.Data);
+                return;
+            }
+        }
+        Object.Destroy(_playerController.gameObject);
     }
     
     private void ChangeModel(FormData data)
