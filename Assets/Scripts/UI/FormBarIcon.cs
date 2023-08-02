@@ -8,7 +8,7 @@ public class FormBarIcon : MonoBehaviour
     [SerializeField] private Slider slider;
     private int _index;
     private PlayerController _controller;
-    private SavedForm _form;
+    private FormInstance _formInstance;
     private void Awake()
     {
         icon.enabled = false;
@@ -17,9 +17,9 @@ public class FormBarIcon : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (_form != null)
+        if (_formInstance != null)
         {
-            slider.value = _form.Health;
+            slider.value = _formInstance.Health;
         }
     }
 
@@ -29,12 +29,12 @@ public class FormBarIcon : MonoBehaviour
         _index = index;
     }
     
-    public void SetIcon(SavedForm form)
+    public void SetIcon(FormInstance formInstance)
     {
         icon.enabled = true;
-        icon.sprite = form.Data.Icon;
-        _form = form;
-        slider.maxValue = form.Health;
+        icon.sprite = formInstance.Data.Icon;
+        _formInstance = formInstance;
+        slider.maxValue = formInstance.Health;
         slider.gameObject.SetActive(true);
     }
 }

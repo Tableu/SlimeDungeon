@@ -8,9 +8,9 @@ public class FormItem : Item
         _data = data;
     }
 
-    public override void PickUp(PlayerController character)
+    public override void PickUp(PlayerController playerController)
     {
-        character.AddForm(_data);
+        playerController.FormManager.AddForm(_data);
         Destroy(gameObject);
     }
 }
