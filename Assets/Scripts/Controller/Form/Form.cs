@@ -19,13 +19,13 @@ namespace Controller.Form
         public abstract void Attack();
     }
 
-    public class SavedForm
+    public class FormInstance
     {
         private FormData _data;
         public FormData Data => _data;
         public float Health;
 
-        public SavedForm(FormData data)
+        public FormInstance(FormData data)
         {
             _data = data;
             Health = data.Health;

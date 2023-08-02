@@ -24,8 +24,8 @@ public class FlamethrowerAttack : Attack
             //todo fix flamethrower attack
             //player.playerInputActions.Attack.Primary.Disable();
             player.PlayerInputActions.Movement.Pressed.Disable();
-            script.Initialize(data.Damage * player.CurrentForm.damageMultiplier, data.Knockback, data.HitStun,
-                transform.forward * data.Speed * player.CurrentForm.speedMultiplier, player.CurrentForm.sizeMultiplier, data.ElementType);
+            script.Initialize(data.Damage * player.FormManager.CurrentForm.damageMultiplier, data.Knockback, data.HitStun,
+                transform.forward * data.Speed * player.FormManager.CurrentForm.speedMultiplier, player.FormManager.CurrentForm.sizeMultiplier, data.ElementType);
         }
         else
         {

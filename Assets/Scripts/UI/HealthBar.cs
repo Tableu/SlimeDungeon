@@ -1,4 +1,3 @@
-using Controller.Form;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,7 +10,7 @@ public class HealthBar : MonoBehaviour
     {
         slider.maxValue = controller.Health;
         controller.OnDeath += OnDeath;
-        controller.OnFormChange += OnFormChange;
+        controller.FormManager.OnFormChange += OnFormChange;
     }
 
     private void FixedUpdate()
@@ -23,7 +22,7 @@ public class HealthBar : MonoBehaviour
     {
         slider.value = controller.Health;
         controller.OnDeath -= OnDeath;
-        controller.OnFormChange -= OnFormChange;
+        controller.FormManager.OnFormChange -= OnFormChange;
     }
 
     private void OnFormChange()
@@ -39,7 +38,7 @@ public class HealthBar : MonoBehaviour
         if (controller != null)
         {
             controller.OnDeath -= OnDeath;
-            controller.OnFormChange -= OnFormChange;
+            controller.FormManager.OnFormChange -= OnFormChange;
         }
     }
 }

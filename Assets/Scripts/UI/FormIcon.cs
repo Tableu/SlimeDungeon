@@ -9,16 +9,16 @@ public class FormIcon : MonoBehaviour
 
     private void Start()
     {
-        playerController.OnFormChange += OnFormChange;
+        playerController.FormManager.OnFormChange += OnFormChange;
     }
 
     private void OnFormChange()
     {
-        image.sprite = playerController.CurrentForm.data.Icon;
+        image.sprite = playerController.FormManager.CurrentForm.data.Icon;
     }
 
     private void OnDestroy()
     {
-        playerController.OnFormChange -= OnFormChange;
+        playerController.FormManager.OnFormChange -= OnFormChange;
     }
 }
