@@ -8,7 +8,7 @@ public class FormBarIcon : MonoBehaviour
     [SerializeField] private Slider slider;
     private int _index;
     private PlayerController _controller;
-    private FormInstance _formInstance;
+    private Form _formInstance;
     private void Awake()
     {
         icon.enabled = false;
@@ -29,7 +29,7 @@ public class FormBarIcon : MonoBehaviour
         _index = index;
     }
     
-    public void SetIcon(FormInstance formInstance)
+    public void SetIcon(Form formInstance)
     {
         icon.enabled = true;
         icon.sprite = formInstance.Data.Icon;

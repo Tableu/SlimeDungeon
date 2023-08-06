@@ -28,7 +28,7 @@ public class FormBar : MonoBehaviour
         playerController.FormManager.OnFormAdd += OnFormChange;
     }
 
-    private void OnFormChange(FormInstance formInstance, int index)
+    private void OnFormChange(Form formInstance, int index)
     {
         formIcons[index].SetIcon(formInstance);
     }

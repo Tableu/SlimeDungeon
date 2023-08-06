@@ -25,6 +25,6 @@ namespace Controller.Form
         public GameObject Item => item;
         public Sprite Icon => icon;
 
-        public abstract Form AttachScript(GameObject gameObject);
+        public abstract FormAnimator AttachScript(GameObject gameObject);
     }
 }

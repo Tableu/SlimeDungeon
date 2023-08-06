@@ -21,12 +21,12 @@ public class PlayerController : Character
     
     public override float Health
     {
-        get => _formManager.CurrentForm.health;
-        internal set => _formManager.CurrentForm.health = value;
+        get => _formManager.CurrentForm.Health;
+        internal set => _formManager.CurrentForm.Health = value;
     }
-    public override float Speed => _formManager.CurrentForm.speed;
-    public override Type ElementType => _formManager.CurrentForm.elementType;
-    public override Vector3 SpellOffset => _formManager.CurrentForm.data.SpellOffset;
+    public override float Speed => _formManager.CurrentForm.Speed;
+    public override Type ElementType => _formManager.CurrentForm.ElementType;
+    public override Vector3 SpellOffset => _formManager.CurrentForm.Data.SpellOffset;
     public PlayerInputActions PlayerInputActions => _playerInputActions;
     public override CharacterData CharacterData => playerData;
     public List<AttackData> UnlockedAttacks => _unlockedAttacks;
@@ -156,7 +156,7 @@ public class PlayerController : Character
 
     protected override void HandleDeath()
     {
-        if (_formManager.CurrentForm.data.GetType() == playerData.BaseForm.GetType())
+        if (_formManager.CurrentForm.Data.GetType() == playerData.BaseForm.GetType())
         {
             Destroy(gameObject);
         }
@@ -205,7 +205,7 @@ public class PlayerController : Character
     #region Event Functions
     private void OnFormChange()
     {
-        Health = _formManager.CurrentForm.health;
+        Health = _formManager.CurrentForm.Health;
     }
     #endregion
 }

@@ -2,35 +2,30 @@ using Controller.Form;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class ChickenForm : Form
+public class ChickenForm : FormAnimator
 {
-    private PlayerController _playerController;
-    public override void Equip(PlayerController playerController)
+    public override void Initialize(Form form)
     {
-        health = data.Health;
-        speed = data.Speed;
-        elementType = data.ElementType;
-        _playerController = playerController;
         animator = GetComponent<Animator>();
-
-        _playerController.PlayerInputActions.Movement.Pressed.started += MovementPressed;
-        _playerController.PlayerInputActions.Movement.Pressed.canceled += MovementCanceled;
-        _playerController.PlayerInputActions.Movement.VerticalPressed.canceled += VerticalMovementCanceled;
-        _playerController.PlayerInputActions.Movement.HorizontalPressed.canceled += HorizontalMovementCanceled;
+        this.form = form;
+        form.PlayerController.PlayerInputActions.Movement.Pressed.started += MovementPressed;
+        form.PlayerController.PlayerInputActions.Movement.Pressed.canceled += MovementCanceled;
+        form.PlayerController.PlayerInputActions.Movement.VerticalPressed.canceled += VerticalMovementCanceled;
+        form.PlayerController.PlayerInputActions.Movement.HorizontalPressed.canceled += HorizontalMovementCanceled;
     }
 
-    public override void Drop()
+    private void OnDestroy()
     {
-        _playerController.PlayerInputActions.Movement.Pressed.started -= MovementPressed;
-        _playerController.PlayerInputActions.Movement.Pressed.canceled -= MovementCanceled;
-        _playerController.PlayerInputActions.Movement.VerticalPressed.canceled -= VerticalMovementCanceled;
-        _playerController.PlayerInputActions.Movement.HorizontalPressed.canceled -= HorizontalMovementCanceled;
+        form.PlayerController.PlayerInputActions.Movement.Pressed.started -= MovementPressed;
+        form.PlayerController.PlayerInputActions.Movement.Pressed.canceled -= MovementCanceled;
+        form.PlayerController.PlayerInputActions.Movement.VerticalPressed.canceled -= VerticalMovementCanceled;
+        form.PlayerController.PlayerInputActions.Movement.HorizontalPressed.canceled -= HorizontalMovementCanceled;
     }
 
     public override void Attack()
     {
-        if(_playerController.currentAttack != null)
-            _playerController.currentAttack.End();
+        if(form.PlayerController.currentAttack != null)
+            form.PlayerController.currentAttack.End();
     }
 
     private void MovementPressed(InputAction.CallbackContext context)
@@ -41,17 +36,17 @@ public class ChickenForm : Form
     private void MovementCanceled(InputAction.CallbackContext context)
     {
         animator.SetBool("Run", false);
-        _playerController.rigidbody.velocity = Vector3.zero;
+        form.PlayerController.rigidbody.velocity = Vector3.zero;
     }
 
     private void VerticalMovementCanceled(InputAction.CallbackContext context)
     {
-        var velocity = _playerController.rigidbody.velocity;
-        _playerController.rigidbody.velocity = new Vector3(velocity.x, velocity.y, 0);
+        var velocity = form.PlayerController.rigidbody.velocity;
+        form.PlayerController.rigidbody.velocity = new Vector3(velocity.x, velocity.y, 0);
     }
     private void HorizontalMovementCanceled(InputAction.CallbackContext context)
     {
-        var velocity = _playerController.rigidbody.velocity;
-        _playerController.rigidbody.velocity = new Vector3(0, velocity.y, velocity.z);
+        var velocity = form.PlayerController.rigidbody.velocity;
+        form.PlayerController.rigidbody.velocity = new Vector3(0, velocity.y, velocity.z);
     }
 }

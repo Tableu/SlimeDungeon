@@ -15,11 +15,10 @@ namespace Controller.Form
         public float IncreaseRate => increaseRate;
         public float DecreaseRate => decreaseRate;
 
-        public override Form AttachScript(GameObject gameObject)
+        public override FormAnimator AttachScript(GameObject gameObject)
         {
-            FireForm form = gameObject.AddComponent<FireForm>();
-            form.data = this;
-            return form;
+            FireFormAnimator formAnimator = gameObject.AddComponent<FireFormAnimator>();
+            return formAnimator;
         }
     }
 }

@@ -26,8 +26,8 @@ public class FireballAttack : Attack
             var script = fireball.GetComponent<Fireball>();
             if (character is PlayerController player && player.FormManager.CurrentForm != null)
             {
-                script.Initialize(data.Damage * player.FormManager.CurrentForm.damageMultiplier, data.Knockback, data.HitStun,
-                    transform.forward * data.Speed * player.FormManager.CurrentForm.speedMultiplier, player.FormManager.CurrentForm.sizeMultiplier, data.ElementType);
+                script.Initialize(data.Damage * player.FormManager.CurrentForm.DamageMultiplier, data.Knockback, data.HitStun,
+                    transform.forward * data.Speed * player.FormManager.CurrentForm.SpeedMultiplier, player.FormManager.CurrentForm.SizeMultiplier, data.ElementType);
                 player.PlayerInputActions.Spells.Disable();
                 player.PlayerInputActions.Movement.Disable();
             }

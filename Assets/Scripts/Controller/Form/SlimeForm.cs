@@ -4,36 +4,32 @@ using UnityEngine.InputSystem;
 
 namespace Controller.Form
 {
-    public class SlimeForm : Form
+    public class SlimeForm : FormAnimator
     {
-        private PlayerController _playerController;
-        public override void Equip(PlayerController playerController)
+        public override void Initialize(Form form)
         {
-            health = data.Health;
-            speed = data.Speed;
-            elementType = data.ElementType;
-            _playerController = playerController;
+            this.form = form;
             animator = GetComponent<Animator>();
             
-            playerController.PlayerInputActions.Movement.Pressed.canceled += MovementCanceled;
-            playerController.PlayerInputActions.Movement.Pressed.started += MovementStarted;
+            form.PlayerController.PlayerInputActions.Movement.Pressed.canceled += MovementCanceled;
+            form.PlayerController.PlayerInputActions.Movement.Pressed.started += MovementStarted;
         }
 
-        public override void Drop()
+        private void OnDestroy()
         {
-            _playerController.PlayerInputActions.Movement.Pressed.canceled -= MovementCanceled;
-            _playerController.PlayerInputActions.Movement.Pressed.started -= MovementStarted;
+            form.PlayerController.PlayerInputActions.Movement.Pressed.canceled -= MovementCanceled;
+            form.PlayerController.PlayerInputActions.Movement.Pressed.started -= MovementStarted;
         }
         
         public void OnAnimatorMove()
         {
             Vector3 position = animator.rootPosition;
-            _playerController.transform.position = position;
+            form.PlayerController.transform.position = position;
         }
         public void AlertObservers(string message)
         {
-            if(_playerController.currentAttack != null && Enum.TryParse(message, out Controller.AnimationState state))
-                _playerController.currentAttack.PassMessage(state);
+            if(form.PlayerController.currentAttack != null && Enum.TryParse(message, out Controller.AnimationState state))
+                form.PlayerController.currentAttack.PassMessage(state);
         }
 
         public override void Attack()
@@ -47,14 +43,14 @@ namespace Controller.Form
             {
                 animator.SetFloat("Speed", 0);
             }
-            _playerController.rigidbody.velocity = Vector3.zero;
+            form.PlayerController.rigidbody.velocity = Vector3.zero;
         }
 
         private void MovementStarted(InputAction.CallbackContext context)
         {
             if (animator != null)
             {
-                animator.SetFloat("Speed", speed);
+                animator.SetFloat("Speed", form.Speed);
             }
         }
     }

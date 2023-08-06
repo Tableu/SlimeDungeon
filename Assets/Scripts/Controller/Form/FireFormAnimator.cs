@@ -1,66 +1,67 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 namespace Controller.Form
 {
-    public class FireForm : Form
+    public class FireFormAnimator : FormAnimator
     {
         public float Temperature { get; private set; }
 
-        internal new FireFormData data;
+        private FireFormData _data;
         private Slider _statBarSlider;
-        private PlayerController _playerController;
 
-        public override void Equip(PlayerController playerController)
+        public override void Initialize(Form form)
         {
-            health = data.Health;
-            speed = data.Speed;
-            elementType = data.ElementType;
-            var sliderObject = Instantiate(data.Slider, GlobalReferences.Instance.Canvas.gameObject.transform);
+            this.form = form;
+            animator = GetComponent<Animator>();
+            _data = form.Data as FireFormData;
+            var sliderObject = Instantiate(_data.Slider, GlobalReferences.Instance.Canvas.gameObject.transform);
             _statBarSlider = sliderObject.GetComponent<Slider>();
-            _statBarSlider.maxValue = data.MaxTemperature;
-            _playerController = playerController;
-            foreach (Attack attack in playerController.attacks)
+            _statBarSlider.maxValue = _data.MaxTemperature;
+            
+            foreach (Attack attack in form.PlayerController.attacks)
             {
                 attack.OnSpellCast += IncreaseTemperature;
             }
-            playerController.PlayerInputActions.Movement.Pressed.canceled += MovementCanceled;
-            playerController.PlayerInputActions.Movement.Pressed.started += MovementStarted;
+            form.PlayerController.PlayerInputActions.Movement.Pressed.canceled += MovementCanceled;
+            form.PlayerController.PlayerInputActions.Movement.Pressed.started += MovementStarted;
             animator = GetComponent<Animator>();
         }
 
-        public override void Drop()
+        private void OnDestroy()
         {
             Destroy(_statBarSlider.gameObject);
-            foreach (Attack attack in _playerController.attacks)
+            foreach (Attack attack in form.PlayerController.attacks)
             {
                 attack.OnSpellCast -= IncreaseTemperature;
             }
-            _playerController.PlayerInputActions.Movement.Pressed.canceled -= MovementCanceled;
-            _playerController.PlayerInputActions.Movement.Pressed.started -= MovementStarted;
+            form.PlayerController.PlayerInputActions.Movement.Pressed.canceled -= MovementCanceled;
+            form.PlayerController.PlayerInputActions.Movement.Pressed.started -= MovementStarted;
         }
         
         public void OnAnimatorMove()
         {
             Vector3 position = animator.rootPosition;
-            _playerController.transform.position = position;
+            form.PlayerController.transform.position = position;
         }
         
         public void AlertObservers(string message)
         {
-            if(_playerController.currentAttack != null && Enum.TryParse(message, out Controller.AnimationState state))
-                _playerController.currentAttack.PassMessage(state);
+            if(form.PlayerController.currentAttack != null && Enum.TryParse(message, out Controller.AnimationState state))
+                form.PlayerController.currentAttack.PassMessage(state);
         }
 
         private void FixedUpdate()
         {
             DecreaseTemperature();
+            /*
             if (_statBarSlider != null)
             {
                 _statBarSlider.value = Temperature;
-                if (Temperature > data.MaxTemperature / 2)
+                if (Temperature > _data.MaxTemperature / 2)
                 {
                     sizeMultiplier = 2;
                     damageMultiplier = 2;
@@ -70,7 +71,7 @@ namespace Controller.Form
                     sizeMultiplier = 1;
                     damageMultiplier = 1;
                 }
-            }
+            }*/
         }
 
         public override void Attack()
@@ -80,10 +81,10 @@ namespace Controller.Form
 
         private void IncreaseTemperature()
         {
-            Temperature += data.IncreaseRate;
-            if (Temperature > data.MaxTemperature)
+            Temperature += _data.IncreaseRate;
+            if (Temperature > _data.MaxTemperature)
             {
-                Temperature = data.MaxTemperature;
+                Temperature = _data.MaxTemperature;
             }
         }
 
@@ -91,7 +92,7 @@ namespace Controller.Form
         {
             if (Temperature > 0)
             {
-                Temperature -= data.DecreaseRate;
+                Temperature -= _data.DecreaseRate;
             }
         }
         
@@ -101,14 +102,14 @@ namespace Controller.Form
             {
                 animator.SetFloat("Speed", 0);
             }
-            _playerController.rigidbody.velocity = Vector3.zero;
+            form.PlayerController.rigidbody.velocity = Vector3.zero;
         }
 
         private void MovementStarted(InputAction.CallbackContext context)
         {
             if (animator != null)
             {
-                animator.SetFloat("Speed", speed);
+                animator.SetFloat("Speed", form.Speed);
             }
         }
     }
