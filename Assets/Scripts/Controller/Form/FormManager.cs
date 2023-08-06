@@ -44,7 +44,7 @@ public class FormManager
         _playerController.OnDamage -= OnDamage;
         _playerController.OnFormFaint -= OnFormFaint;
     }
-    
+    #region Public Methods
     public void AddForm(FormData formData)
     {
         if (_forms.Count >= _maxFormCount)
@@ -69,19 +69,6 @@ public class FormManager
             _forms.Add(formInstance);
             OnFormAdd?.Invoke(formInstance, _forms.Count-1);
         }
-    }
-    
-    private void EquipForm(FormData formData)
-    {
-        if (_currentForm is not null)
-        {
-            _currentForm.Drop();
-            Object.Destroy(_currentForm);
-        }
-        ChangeModel(formData);
-        _currentForm = formData.AttachScript(_model);
-        _currentForm.Equip(_playerController);
-        OnFormChange?.Invoke();
     }
     
     public void SwitchForms(InputAction.CallbackContext context)
@@ -120,25 +107,59 @@ public class FormManager
                 formIndex = _forms.Count - 1;
             }
         }
-        
-        /*_formIndex += (int)context.ReadValue<float>();
-        if (_formIndex >= _forms.Count)
-        {
-            _formIndex = 0;
-        }
-
-        if (_formIndex < 0)
-        {
-            _formIndex = _forms.Count - 1;
-        }
-
-        if (_formIndex != oldIndex)
-        {
-            _currentFormInstance = _forms[_formIndex];
-            EquipForm(_forms[_formIndex].Data);
-        }*/
     }
 
+    public void HealForm(float amount)
+    {
+        if (Math.Abs(_currentForm.health - _currentForm.data.Health) > Mathf.Epsilon)
+        {
+            _currentForm.health += amount;
+        }
+        else
+        {
+            foreach (var formInstance in _forms)
+            {
+                if (Math.Abs(_currentForm.health - _currentForm.data.Health) > Mathf.Epsilon)
+                {
+                    formInstance.Health += amount;
+                }
+            }
+        }
+    }
+
+    public void HealForms(float amount)
+    {
+        foreach (var formInstance in _forms)
+        {
+            formInstance.Health += amount;
+        }
+        _currentForm.health += amount;
+    }
+    
+    #endregion
+    #region Private Methods
+    private void EquipForm(FormData formData)
+    {
+        if (_currentForm is not null)
+        {
+            _currentForm.Drop();
+            Object.Destroy(_currentForm);
+        }
+        ChangeModel(formData);
+        _currentForm = formData.AttachScript(_model);
+        _currentForm.Equip(_playerController);
+        OnFormChange?.Invoke();
+    }
+    
+    private void ChangeModel(FormData data)
+    {
+        _model.SetActive(false);
+        Object.Destroy(_model);
+        _model = Object.Instantiate(data.Model, _playerController.transform);
+        _model.layer = _playerController.gameObject.layer;
+    }
+    #endregion
+    #region Event Functions
     private void OnDamage()
     {
         _currentFormInstance.Health = _playerController.Health;
@@ -157,12 +178,5 @@ public class FormManager
         }
         Object.Destroy(_playerController.gameObject);
     }
-    
-    private void ChangeModel(FormData data)
-    {
-        _model.SetActive(false);
-        Object.Destroy(_model);
-        _model = Object.Instantiate(data.Model, _playerController.transform);
-        _model.layer = _playerController.gameObject.layer;
-    }
+    #endregion
 }

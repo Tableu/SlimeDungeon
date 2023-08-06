@@ -30,7 +30,6 @@ public class PlayerController : Character
     public PlayerInputActions PlayerInputActions => _playerInputActions;
     public override CharacterData CharacterData => playerData;
     public List<AttackData> UnlockedAttacks => _unlockedAttacks;
-
     public FormManager FormManager => _formManager;
     
     public Action OnDeath;
@@ -39,7 +38,7 @@ public class PlayerController : Character
     public Action<AttackData, int> OnAttackEquip;
     public Action<AttackData> OnAttackUnEquip;
     public Action<AttackData> OnAttackUnlocked;
-
+    #region Unity Event Functions
     private void Awake()
     {
         attacks = new List<Attack>();
@@ -58,7 +57,7 @@ public class PlayerController : Character
         Armor = playerData.Armor;
         Mana = playerData.Mana;
     }
-
+    
     private new void Start()
     {
         var i = 0;
@@ -144,7 +143,8 @@ public class PlayerController : Character
         _playerInputActions.Disable();
         _playerInputActions.Dispose();
     }
-    
+    #endregion
+    #region Base Class Overrides
     public override void TakeDamage(float damage, Vector3 knockback, float hitStun, Elements.Type attackType)
     {
         if (!_inKnockback)
@@ -176,7 +176,12 @@ public class PlayerController : Character
         _playerInputActions.Enable();
         _inKnockback = false;
     }
-
+    
+    public override void Attack()
+    {
+        _formManager.CurrentForm.Attack();
+    }
+    #endregion
     public void EquipAttack(AttackData attackData, int index)
     {
         OnAttackUnEquip?.Invoke(attacks[index].Data);
@@ -197,14 +202,10 @@ public class PlayerController : Character
         _unlockedAttacks.Add(attackData);
         OnAttackUnlocked?.Invoke(attackData);
     }
-
+    #region Event Functions
     private void OnFormChange()
     {
         Health = _formManager.CurrentForm.health;
     }
-
-    public override void Attack()
-    {
-        _formManager.CurrentForm.Attack();
-    }
+    #endregion
 }
