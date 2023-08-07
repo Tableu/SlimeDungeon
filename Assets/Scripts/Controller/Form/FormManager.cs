@@ -32,11 +32,17 @@ public class FormManager
         _forms = new List<Form>();
         _formIndex = 0;
         _maxFormCount = ((PlayerData)_playerController.CharacterData).MaxFormCount;
-        AddForm(((PlayerData)_playerController.CharacterData).BaseForm);
-        EquipForm(((PlayerData)_playerController.CharacterData).BaseForm);
+        
         _playerController.PlayerInputActions.Other.SwitchForms.started += SwitchForms;
         _playerController.OnDamage += OnDamage;
         _playerController.OnFormFaint += OnFormFaint;
+
+        Form form = new Form(((PlayerData)_playerController.CharacterData).StartForm, _playerController);
+        _forms.Add(form);
+        OnFormAdd?.Invoke(form, _forms.Count-1);
+        ChangeModel(form.Data);
+        CurrentForm.Equip(_model);
+        OnFormChange?.Invoke();
     }
 
     ~FormManager()
@@ -47,28 +53,23 @@ public class FormManager
         _playerController.OnFormFaint -= OnFormFaint;
     }
     #region Public Methods
-    public void AddForm(FormData formData)
+    public void AddForm(Form form)
     {
         if (_forms.Count >= _maxFormCount)
         {
             if (_forms.Count > 0)
             {
-                GameObject item = Object.Instantiate(_forms[_formIndex].Data.Item, _playerController.transform.position, Quaternion.identity);
+                GameObject item = Object.Instantiate(CurrentForm.Data.Item, _playerController.transform.position, Quaternion.identity);
                 FormItem script = item.GetComponent<FormItem>();
-                script.Initialize(_forms[_formIndex].Data);
-                _forms.RemoveAt(_formIndex);
+                script.Initialize(CurrentForm);
             }
-
-            Form formInstance = new Form(formData, _playerController);
-            _forms.Insert(_formIndex, formInstance);
-            EquipForm(formData);
-            OnFormAdd?.Invoke(formInstance, _formIndex);
+            EquipForm(form);
+            OnFormAdd?.Invoke(form, _formIndex);
         }
         else
         {
-            Form formInstance = new Form(formData, _playerController);
-            _forms.Add(formInstance);
-            OnFormAdd?.Invoke(formInstance, _forms.Count-1);
+            _forms.Add(form);
+            OnFormAdd?.Invoke(form, _forms.Count-1);
         }
     }
     
@@ -89,10 +90,10 @@ public class FormManager
         
         while (formIndex != oldIndex)
         {
-            if (_forms[formIndex].Health > 0)
+            if (CurrentForm.Health > 0)
             {
                 _formIndex = formIndex;
-                EquipForm(_forms[_formIndex].Data);
+                EquipForm(CurrentForm);
                 return;
             }
 
@@ -137,14 +138,14 @@ public class FormManager
     
     #endregion
     #region Private Methods
-    private void EquipForm(FormData formData)
+    private void EquipForm(Form form)
     {
         if (CurrentForm is not null)
         {
             CurrentForm.Drop();
         }
-        ChangeModel(formData);
-        CurrentForm = new Form(formData, _playerController);
+        ChangeModel(form.Data);
+        CurrentForm = form;
         CurrentForm.Equip(_model);
         OnFormChange?.Invoke();
     }
@@ -169,7 +170,7 @@ public class FormManager
         {
             if (form.Health > 0)
             {
-                EquipForm(form.Data);
+                EquipForm(form);
                 return;
             }
         }

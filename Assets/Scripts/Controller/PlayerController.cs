@@ -156,7 +156,7 @@ public class PlayerController : Character
 
     protected override void HandleDeath()
     {
-        if (_formManager.CurrentForm.Data.GetType() == playerData.BaseForm.GetType())
+        if (_formManager.CurrentForm.Data.GetType() == playerData.StartForm.GetType())
         {
             Destroy(gameObject);
         }

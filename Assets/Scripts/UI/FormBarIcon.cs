@@ -34,7 +34,7 @@ public class FormBarIcon : MonoBehaviour
         icon.enabled = true;
         icon.sprite = formInstance.Data.Icon;
         _formInstance = formInstance;
-        slider.maxValue = formInstance.Health;
+        slider.maxValue = formInstance.Data.Health;
         slider.gameObject.SetActive(true);
     }
 }
