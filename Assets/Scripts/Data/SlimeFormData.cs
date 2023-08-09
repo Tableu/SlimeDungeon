@@ -6,7 +6,7 @@ public class SlimeFormData : FormData
 {
     public override FormAnimator AttachScript(GameObject gameObject)
     {
-        SlimeForm form = gameObject.AddComponent<SlimeForm>();
-        return form;
+        SlimeFormAnimator formAnimator = gameObject.AddComponent<SlimeFormAnimator>();
+        return formAnimator;
     }
 }

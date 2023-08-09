@@ -16,6 +16,7 @@ namespace Controller.Form
         [SerializeField] private GameObject item;
         [SerializeField] private Sprite icon;
         [SerializeField] private Vector3 spellOffset;
+        [SerializeField] private AttackData basicAttack;
 
         public Elements.Type ElementType => elementType;
         public float Health => health;
@@ -24,6 +25,7 @@ namespace Controller.Form
         public Vector3 SpellOffset => spellOffset;
         public GameObject Item => item;
         public Sprite Icon => icon;
+        public AttackData BasicAttack => basicAttack;
 
         public abstract FormAnimator AttachScript(GameObject gameObject);
     }

@@ -15,7 +15,7 @@ MonoBehaviour:
   elementType: 1
   health: 50
   speed: 5
-  model: {fileID: 6891580169314388076, guid: 66ae442726d1cf4428dacb34edd61ac4, type: 3}
+  model: {fileID: 6891580169314388076, guid: 52732899676774346a0d78a023c67f93, type: 3}
   item: {fileID: 834991341219302362, guid: 32c86c1cde944a049a1e3999b11b2b40, type: 3}
   icon: {fileID: 21300000, guid: 9429c38729b289348a9814b01b7a7631, type: 3}
   spellOffset: {x: 1, y: 1, z: 1}

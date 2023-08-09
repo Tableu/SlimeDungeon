@@ -6,7 +6,7 @@ public class ChickenFormData : FormData
 {
     public override FormAnimator AttachScript(GameObject gameObject)
     {
-        ChickenForm form = gameObject.AddComponent<ChickenForm>();
-        return form;
+        ChickenFormAnimator formAnimator = gameObject.AddComponent<ChickenFormAnimator>();
+        return formAnimator;
     }
 }

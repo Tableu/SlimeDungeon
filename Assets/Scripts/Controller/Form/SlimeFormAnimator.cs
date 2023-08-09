@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 
 namespace Controller.Form
 {
-    public class SlimeForm : FormAnimator
+    public class SlimeFormAnimator : FormAnimator
     {
         public override void Initialize(Form form)
         {

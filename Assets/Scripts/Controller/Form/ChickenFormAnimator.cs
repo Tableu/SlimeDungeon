@@ -2,7 +2,7 @@ using Controller.Form;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class ChickenForm : FormAnimator
+public class ChickenFormAnimator : FormAnimator
 {
     public override void Initialize(Form form)
     {

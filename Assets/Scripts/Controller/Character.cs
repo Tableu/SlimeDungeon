@@ -65,11 +65,10 @@ namespace Controller
             ElementType = CharacterData.ElementType;
 
             attacks = new List<Attack>();
-            var i = 0;
+            
             foreach (AttackData attackData in CharacterData.Attacks)
             {
-                attackData.EquipAttack(this,i);
-                i++;
+                attacks.Add(attackData.EquipAttack(this));
             }
         }
 

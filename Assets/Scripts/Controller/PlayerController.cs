@@ -43,12 +43,11 @@ public class PlayerController : Character
     {
         attacks = new List<Attack>();
         _unlockedAttacks = new List<AttackData>();
-        var i = 0;
+        
         foreach (AttackData attackData in playerData.Attacks)
         {
-            attackData.EquipAttack(this, i);
+            attacks.Add(attackData.EquipAttack(this));
             _unlockedAttacks.Add(attackData);
-            i++;
         }
         _playerInputActions = new PlayerInputActions();
         _playerInputActions.Enable();
@@ -189,8 +188,8 @@ public class PlayerController : Character
         inputs.actions[index].started -= attacks[index].Begin;
         inputs.actions[index].canceled -= attacks[index].End;
         attacks[index].CleanUp();
-        
-        attackData.EquipAttack(this, index);
+        attacks.RemoveAt(index);
+        attacks.Insert(index, attackData.EquipAttack(this));
         
         OnAttackEquip?.Invoke(attackData, index);
         inputs.actions[index].started += attacks[index].Begin;
