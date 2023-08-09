@@ -64,8 +64,7 @@ public class PlayerController : Character
         {
             if (attacks.Count <= i)
                 break;
-            action.started += attacks[i].Begin;
-            action.canceled += attacks[i].End;
+            LinkInput(action, attacks[i]);
             i++;
         }
         _playerInputActions.Other.PickUp.started += delegate(InputAction.CallbackContext context)
@@ -134,8 +133,7 @@ public class PlayerController : Character
         {
             if (attacks.Count <= i)
                 break;
-            action.started -= attacks[i].Begin;
-            action.canceled -= attacks[i].End;
+            UnlinkInput(action, attacks[i]);
             i++;
         }
         _formManager.OnFormChange -= OnFormChange;
@@ -176,8 +174,9 @@ public class PlayerController : Character
         _inKnockback = false;
     }
     
-    public override void Attack()
+    protected override void OnAttackBegin(Attack attack)
     {
+        currentAttack = attack;
         _formManager.CurrentForm.Attack();
     }
     #endregion
@@ -185,15 +184,14 @@ public class PlayerController : Character
     {
         OnAttackUnEquip?.Invoke(attacks[index].Data);
         var inputs = _playerInputActions.Spells.Get();
-        inputs.actions[index].started -= attacks[index].Begin;
-        inputs.actions[index].canceled -= attacks[index].End;
+        UnlinkInput(inputs.actions[index], attacks[index]);
         attacks[index].CleanUp();
+        currentAttack = null;
         attacks.RemoveAt(index);
         attacks.Insert(index, attackData.EquipAttack(this));
         
         OnAttackEquip?.Invoke(attackData, index);
-        inputs.actions[index].started += attacks[index].Begin;
-        inputs.actions[index].canceled += attacks[index].End;
+        LinkInput(inputs.actions[index], attacks[index]);
     }
 
     public void UnlockAttack(AttackData attackData)
@@ -201,6 +199,23 @@ public class PlayerController : Character
         _unlockedAttacks.Add(attackData);
         OnAttackUnlocked?.Invoke(attackData);
     }
+
+    public void LinkInput(InputAction action, Attack attack)
+    {
+        action.started += attack.Begin;
+        action.canceled += attack.End;
+        attack.OnBegin += OnAttackBegin;
+        attack.OnEnd += OnAttackEnd;
+    }
+
+    public void UnlinkInput(InputAction action, Attack attack)
+    {
+        action.started -= attack.Begin;
+        action.canceled -= attack.End;
+        attack.OnBegin -= OnAttackBegin;
+        attack.OnEnd -= OnAttackEnd;
+    }
+    
     #region Event Functions
     private void OnFormChange()
     {

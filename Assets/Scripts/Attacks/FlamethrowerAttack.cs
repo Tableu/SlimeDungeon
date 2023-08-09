@@ -9,7 +9,7 @@ public class FlamethrowerAttack : Attack
 
     public override void Begin()
     {
-        character.currentAttack = this;
+        base.Begin();
         Transform transform = character.transform;
         Collider col = AttackTargeting.SphereScan(transform, data.TargetingRange, character.enemyMask);
         if (col != null)
@@ -37,12 +37,11 @@ public class FlamethrowerAttack : Attack
         character.Speed = 0.5f;
         character.disableRotation = true;
         //character.animator.SetFloat("Speed",0);
-        OnSpellCast?.Invoke();
     }
 
     public override void End()
     {
-        character.currentAttack = null;
+        base.End();
         character.disableRotation = false;
         if (character is PlayerController player)
         {
@@ -70,7 +69,6 @@ public class FlamethrowerAttack : Attack
 
     public override void CleanUp()
     {
-        character.attacks.Remove(this);
-        character.currentAttack = null;
+        
     }
 }

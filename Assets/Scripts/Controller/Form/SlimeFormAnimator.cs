@@ -28,8 +28,8 @@ namespace Controller.Form
         }
         public void AlertObservers(string message)
         {
-            if(form.PlayerController.currentAttack != null && Enum.TryParse(message, out Controller.AnimationState state))
-                form.PlayerController.currentAttack.PassMessage(state);
+            if(form.PlayerController.CurrentAttack != null && Enum.TryParse(message, out Controller.AnimationState state))
+                form.PlayerController.CurrentAttack.PassMessage(state);
         }
 
         public override void Attack()

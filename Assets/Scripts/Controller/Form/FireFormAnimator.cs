@@ -22,9 +22,9 @@ namespace Controller.Form
             _statBarSlider = sliderObject.GetComponent<Slider>();
             _statBarSlider.maxValue = _data.MaxTemperature;
             
-            foreach (Attack attack in form.PlayerController.attacks)
+            foreach (Attack attack in form.PlayerController.Attacks)
             {
-                attack.OnSpellCast += IncreaseTemperature;
+                attack.OnBegin += IncreaseTemperature;
             }
             form.PlayerController.PlayerInputActions.Movement.Pressed.canceled += MovementCanceled;
             form.PlayerController.PlayerInputActions.Movement.Pressed.started += MovementStarted;
@@ -34,9 +34,9 @@ namespace Controller.Form
         private void OnDestroy()
         {
             Destroy(_statBarSlider.gameObject);
-            foreach (Attack attack in form.PlayerController.attacks)
+            foreach (Attack attack in form.PlayerController.Attacks)
             {
-                attack.OnSpellCast -= IncreaseTemperature;
+                attack.OnBegin -= IncreaseTemperature;
             }
             form.PlayerController.PlayerInputActions.Movement.Pressed.canceled -= MovementCanceled;
             form.PlayerController.PlayerInputActions.Movement.Pressed.started -= MovementStarted;
@@ -50,8 +50,8 @@ namespace Controller.Form
         
         public void AlertObservers(string message)
         {
-            if(form.PlayerController.currentAttack != null && Enum.TryParse(message, out Controller.AnimationState state))
-                form.PlayerController.currentAttack.PassMessage(state);
+            if(form.PlayerController.CurrentAttack != null && Enum.TryParse(message, out Controller.AnimationState state))
+                form.PlayerController.CurrentAttack.PassMessage(state);
         }
 
         private void FixedUpdate()
@@ -79,7 +79,7 @@ namespace Controller.Form
             animator.SetTrigger("Attack");
         }
 
-        private void IncreaseTemperature()
+        private void IncreaseTemperature(Attack attack)
         {
             Temperature += _data.IncreaseRate;
             if (Temperature > _data.MaxTemperature)

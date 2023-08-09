@@ -24,8 +24,8 @@ public class ChickenFormAnimator : FormAnimator
 
     public override void Attack()
     {
-        if(form.PlayerController.currentAttack != null)
-            form.PlayerController.currentAttack.End();
+        if(form.PlayerController.CurrentAttack != null)
+            form.PlayerController.CurrentAttack.End();
     }
 
     private void MovementPressed(InputAction.CallbackContext context)

@@ -6,10 +6,10 @@ public class FireballAttack : Attack
 {
     public override void Begin()
     {
-        if (character.Mana >= data.ManaCost && character.currentAttack == null && !cooldownActive)
+        if (character.Mana >= data.ManaCost && character.CurrentAttack == null && !cooldownActive)
         {
+            base.Begin();
             character.Mana -= data.ManaCost;
-            character.currentAttack = this;
             
             Transform transform = character.transform;
             Collider col = AttackTargeting.SphereScan(transform, data.TargetingRange, character.enemyMask);
@@ -37,26 +37,23 @@ public class FireballAttack : Attack
                     transform.forward * data.Speed, 1, data.ElementType);
             }
             
-            character.Attack();
-            OnSpellCast?.Invoke();
             Cooldown(data.Cooldown);
         }
     }
 
     public override void End(InputAction.CallbackContext callbackContext)
     {
-        
+          End();
     }
 
     public override void End()
     {
+        base.End();
         if (character is PlayerController player)
         {
             player.PlayerInputActions.Spells.Enable();
             player.PlayerInputActions.Movement.Enable();
         }
-
-        character.currentAttack = null;
     }
 
     internal override void PassMessage(Controller.AnimationState state)
@@ -69,8 +66,6 @@ public class FireballAttack : Attack
 
     public override void CleanUp()
     {
-        character.attacks.Remove(this);
-        character.currentAttack = null;
         cancellationTokenSource?.Cancel();
     }
 

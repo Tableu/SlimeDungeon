@@ -11,10 +11,9 @@ public class WaterBoltAttack : Attack
 
     public override void Begin()
     {
-        if (character.Mana >= data.ManaCost && character.currentAttack == null && !cooldownActive)
+        if (character.Mana >= data.ManaCost && character.CurrentAttack == null && !cooldownActive)
         {
             character.Mana -= data.ManaCost;
-            character.currentAttack = this;
             Transform transform = character.transform;
             Collider col = AttackTargeting.SphereScan(transform, data.TargetingRange, character.enemyMask);
             if (col != null)
@@ -40,8 +39,8 @@ public class WaterBoltAttack : Attack
                 script.Initialize(data.Damage, data.Knockback, data.HitStun,
                     transform.forward * data.Speed, 1, data.ElementType,3);
             }
-            character.Attack();
-            OnSpellCast?.Invoke();
+            
+            OnBegin?.Invoke(this);
         }
     }
     
@@ -57,8 +56,7 @@ public class WaterBoltAttack : Attack
             player.PlayerInputActions.Spells.Enable();
             player.PlayerInputActions.Movement.Enable();
         }
-
-        character.currentAttack = null;
+        OnEnd?.Invoke(this);
     }
 
     internal override void PassMessage(AnimationState state)
@@ -71,7 +69,6 @@ public class WaterBoltAttack : Attack
 
     public override void CleanUp()
     {
-        character.attacks.Remove(this);
-        character.currentAttack = null;
+        OnEnd?.Invoke(this);
     }
 }

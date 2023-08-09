@@ -49,11 +49,12 @@ namespace Controller
 
         [SerializeField] internal LayerMask enemyMask;
         [SerializeField] internal new Rigidbody rigidbody;
-        internal Attack currentAttack;
-        internal List<Attack> attacks;
+        protected Attack currentAttack;
+        protected List<Attack> attacks;
         internal bool disableRotation = false;
-        
 
+        public Attack CurrentAttack => currentAttack;
+        public List<Attack> Attacks => attacks;
         public Action<Collision> CollisionEnter;
 
         protected void Start()
@@ -68,7 +69,10 @@ namespace Controller
             
             foreach (AttackData attackData in CharacterData.Attacks)
             {
-                attacks.Add(attackData.EquipAttack(this));
+                var attack = attackData.EquipAttack(this);
+                attack.OnBegin += OnAttackBegin;
+                attack.OnEnd += OnAttackEnd;
+                attacks.Add(attack);
             }
         }
 
@@ -97,11 +101,19 @@ namespace Controller
             Destroy(gameObject);
         }
 
-        public abstract void Attack();
+        protected abstract void OnAttackBegin(Attack attack);
 
         public void OnCollisionEnter(Collision other)
         {
             CollisionEnter?.Invoke(other);
+        }
+
+        protected void OnAttackEnd(Attack attack)
+        {
+            if (currentAttack == attack)
+            {
+                currentAttack = null;
+            }
         }
 
         protected abstract IEnumerator ApplyKnockback(Vector3 knockback, float hitStun);

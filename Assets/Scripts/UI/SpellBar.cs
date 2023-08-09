@@ -12,7 +12,7 @@ public class SpellBar : MonoBehaviour
     {
         spellIcons = new List<SpellBarIcon>();
         var i = 0;
-        foreach (Attack attack in playerController.attacks)
+        foreach (Attack attack in playerController.Attacks)
         {
             GameObject icon = Instantiate(spellIconPrefab, transform);
             var script = icon.GetComponent<SpellBarIcon>();
@@ -32,14 +32,14 @@ public class SpellBar : MonoBehaviour
 
     private void OnAttackEquip(AttackData attackData, int index)
     {
-        playerController.attacks[index].OnCooldown += spellIcons[index].OnCooldown;
+        playerController.Attacks[index].OnCooldown += spellIcons[index].OnCooldown;
         spellIcons[index].SetIcon(attackData.Icon, attackData.ManaCost);
     }
 
     private void OnDestroy()
     {
         var i = 0;
-        foreach (Attack attack in playerController.attacks)
+        foreach (Attack attack in playerController.Attacks)
         {
             attack.OnCooldown -= spellIcons[i].OnCooldown;
             i++;

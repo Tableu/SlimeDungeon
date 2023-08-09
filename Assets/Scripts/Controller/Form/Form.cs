@@ -39,11 +39,16 @@ namespace Controller.Form
             _formAnimator = _data.AttachScript(model);
             _formAnimator.Initialize(this);
             _basicAttack = _data.BasicAttack.EquipAttack(_playerController);
+            _playerController.LinkInput(_playerController.PlayerInputActions.Other.BasicAttack, _basicAttack);
         }
 
         public void Drop()
         {
             Object.Destroy(_formAnimator);
+            _playerController.UnlinkInput(_playerController.PlayerInputActions.Other.BasicAttack, _basicAttack);
+            _basicAttack.OnEnd?.Invoke(_basicAttack);
+            _basicAttack.CleanUp();
+            _basicAttack = null;
         }
 
         public void Attack()

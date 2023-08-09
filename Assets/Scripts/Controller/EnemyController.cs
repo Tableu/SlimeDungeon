@@ -171,8 +171,9 @@ public class EnemyController : Character
         agent.nextPosition = transform.position;
     }
 
-    public override void Attack()
+    protected override void OnAttackBegin(Attack attack)
     {
+        currentAttack = attack;
         animator.SetTrigger("Attack");
     }
     

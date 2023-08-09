@@ -28,14 +28,21 @@ namespace Controller
             this.character = character;
             this.data = data;
         }
-        
-        public abstract void Begin();
+
+        public virtual void Begin()
+        {
+            OnBegin?.Invoke(this);
+        }
 
         public virtual void Begin(InputAction.CallbackContext callbackContext)
         {
             Begin();
         }
-        public abstract void End();
+
+        public virtual void End()
+        {
+            OnEnd?.Invoke(this);
+        }
         public virtual void End(InputAction.CallbackContext callbackContext)
         {
             End();
@@ -59,7 +66,8 @@ namespace Controller
             cooldownActive = false;
         }
 
-        public Action OnSpellCast;
+        public Action<Attack> OnBegin;
+        public Action<Attack> OnEnd;
         public Action<float> OnCooldown;
     }
 }
