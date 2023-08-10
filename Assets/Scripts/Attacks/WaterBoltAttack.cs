@@ -31,8 +31,8 @@ public class WaterBoltAttack : Attack
             {
                 player.PlayerInputActions.Spells.Disable();
                 player.PlayerInputActions.Movement.Disable();
-                script.Initialize(data.Damage * player.FormManager.CurrentForm.DamageMultiplier, data.Knockback, data.HitStun,
-                    transform.forward * data.Speed * player.FormManager.CurrentForm.SpeedMultiplier, player.FormManager.CurrentForm.SizeMultiplier, data.ElementType,3);
+                script.Initialize(data.Damage * character.damageMultiplier, data.Knockback, data.HitStun,
+                    transform.forward * data.Speed * character.speedMultiplier, character.sizeMultiplier, data.ElementType,3);
             }
             else
             {

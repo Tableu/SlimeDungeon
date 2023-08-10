@@ -18,7 +18,7 @@ public class PlayerController : Character
     private PlayerInputActions _playerInputActions;
     private List<AttackData> _unlockedAttacks;
     private FormManager _formManager;
-    
+
     public override float Health
     {
         get => _formManager.CurrentForm.Health;

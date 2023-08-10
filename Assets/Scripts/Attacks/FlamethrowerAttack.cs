@@ -19,18 +19,13 @@ public class FlamethrowerAttack : Attack
         _flamethrower = GameObject.Instantiate(data.Prefab, transform.position + new Vector3(character.SpellOffset.x*transform.forward.x, character.SpellOffset.y, character.SpellOffset.z*transform.forward.z), Quaternion.identity,transform);
         _flamethrower.transform.rotation = Quaternion.Euler(_flamethrower.transform.rotation.x, character.transform.rotation.eulerAngles.y-90, _flamethrower.transform.rotation.z);
         var script = _flamethrower.GetComponent<Flamethrower>();
+        script.Initialize(data.Damage * character.damageMultiplier, data.Knockback, data.HitStun,
+            transform.forward * data.Speed * character.speedMultiplier, character.sizeMultiplier, data.ElementType);
         if (character is PlayerController player)
         {
             //todo fix flamethrower attack
             //player.playerInputActions.Attack.Primary.Disable();
             player.PlayerInputActions.Movement.Pressed.Disable();
-            script.Initialize(data.Damage * player.FormManager.CurrentForm.DamageMultiplier, data.Knockback, data.HitStun,
-                transform.forward * data.Speed * player.FormManager.CurrentForm.SpeedMultiplier, player.FormManager.CurrentForm.SizeMultiplier, data.ElementType);
-        }
-        else
-        {
-            script.Initialize(data.Damage, data.Knockback, data.HitStun,
-                transform.forward * data.Speed, 1, data.ElementType);
         }
 
         _oldSpeed = character.Speed;

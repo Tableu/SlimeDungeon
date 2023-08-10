@@ -6,11 +6,7 @@ namespace Controller.Form
     public class Form
     {
         private FormData _data;
-
-        //todo move multiplier logic to new feature
-        private float _damageMultiplier = 1;
-        private float _sizeMultiplier = 1;
-        private float _speedMultiplier = 1;
+        
         private float _speed;
         private PlayerController _playerController;
         private Type _elementType;
@@ -18,9 +14,6 @@ namespace Controller.Form
         private Attack _basicAttack;
         public FormData Data => _data;
         public float Health { get; set; }
-        public float DamageMultiplier => _damageMultiplier;
-        public float SizeMultiplier => _sizeMultiplier;
-        public float SpeedMultiplier => _speedMultiplier;
         public float Speed => _speed;
         public Type ElementType => _elementType;
         public PlayerController PlayerController => _playerController;

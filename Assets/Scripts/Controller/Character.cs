@@ -52,6 +52,9 @@ namespace Controller
         protected Attack currentAttack;
         protected List<Attack> attacks;
         internal bool disableRotation = false;
+        internal float damageMultiplier = 1;
+        internal float speedMultiplier = 1;
+        internal float sizeMultiplier = 1;
 
         public Attack CurrentAttack => currentAttack;
         public List<Attack> Attacks => attacks;

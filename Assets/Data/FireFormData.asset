@@ -16,8 +16,10 @@ MonoBehaviour:
   health: 50
   speed: 5
   model: {fileID: 873531700701352353, guid: 28d0a30d6aed6fc4c8ca473413f70c24, type: 3}
-  animatorController: {fileID: 9100000, guid: 707b944f06051734793367fc0c69bc07, type: 2}
-  avatar: {fileID: 9000000, guid: eb340672e17c0af4089e561b61cdc548, type: 3}
+  item: {fileID: 0}
+  icon: {fileID: 21300000, guid: 9429c38729b289348a9814b01b7a7631, type: 3}
+  spellOffset: {x: 0, y: 0, z: 0}
+  basicAttack: {fileID: 11400000, guid: c5d2a1463d32f91459e236f8fea813c9, type: 2}
   slider: {fileID: 2596077050798817512, guid: dffaf3477e40f844fb8298565db570cc, type: 3}
   maxTemperature: 100
   increaseRate: 10

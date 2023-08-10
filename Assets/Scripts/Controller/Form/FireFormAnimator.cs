@@ -1,5 +1,4 @@
 using System;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -57,21 +56,21 @@ namespace Controller.Form
         private void FixedUpdate()
         {
             DecreaseTemperature();
-            /*
+            
             if (_statBarSlider != null)
             {
                 _statBarSlider.value = Temperature;
                 if (Temperature > _data.MaxTemperature / 2)
                 {
-                    sizeMultiplier = 2;
-                    damageMultiplier = 2;
+                    form.PlayerController.sizeMultiplier = 2;
+                    form.PlayerController.damageMultiplier = 2;
                 }
                 else
                 {
-                    sizeMultiplier = 1;
-                    damageMultiplier = 1;
+                    form.PlayerController.sizeMultiplier = 1;
+                    form.PlayerController.damageMultiplier = 1;
                 }
-            }*/
+            }
         }
 
         public override void Attack()

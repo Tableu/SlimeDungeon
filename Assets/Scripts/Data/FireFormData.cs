@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Controller.Form
 {
-    [CreateAssetMenu(fileName = "FireFormData", menuName = "Data/Forms/FireForm")]
+    [CreateAssetMenu(fileName = "FireFormData", menuName = "Forms/FireForm")]
     public class FireFormData : FormData
     {
         [SerializeField] private GameObject slider;
