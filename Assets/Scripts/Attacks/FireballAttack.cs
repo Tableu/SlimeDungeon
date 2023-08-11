@@ -6,7 +6,7 @@ public class FireballAttack : Attack
 {
     public override void Begin()
     {
-        if (character.Mana >= data.ManaCost && character.CurrentAttack == null && !cooldownActive)
+        if (character.Mana >= data.ManaCost && character.CurrentAttack == null && !onCooldown)
         {
             base.Begin();
             character.Mana -= data.ManaCost;

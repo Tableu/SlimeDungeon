@@ -19,7 +19,7 @@ namespace Controller
         protected Character character;
         protected AttackData data;
         protected CancellationTokenSource cancellationTokenSource;
-        protected bool cooldownActive = false;
+        protected bool onCooldown = false;
 
         public AttackData Data => data;
 
@@ -55,15 +55,13 @@ namespace Controller
             cancellationTokenSource = new CancellationTokenSource();
             if (duration == 0)
                 return;
-            float time = 0;
-            cooldownActive = true;
-            while (time < duration)
+            OnCooldown?.Invoke(duration);
+            onCooldown = true;
+            await Task.Run(() =>
             {
-                time += Time.fixedDeltaTime;
-                OnCooldown?.Invoke(time / duration);
-                await Task.Yield();
-            }
-            cooldownActive = false;
+                Task.Delay(TimeSpan.FromSeconds(duration)).Wait(cancellationTokenSource.Token);
+                onCooldown = false;
+            });
         }
 
         public Action<Attack> OnBegin;

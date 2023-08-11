@@ -11,7 +11,7 @@ public class WaterBoltAttack : Attack
 
     public override void Begin()
     {
-        if (character.Mana >= data.ManaCost && character.CurrentAttack == null && !cooldownActive)
+        if (character.Mana >= data.ManaCost && character.CurrentAttack == null && !onCooldown)
         {
             character.Mana -= data.ManaCost;
             Transform transform = character.transform;
@@ -41,6 +41,7 @@ public class WaterBoltAttack : Attack
             }
             
             OnBegin?.Invoke(this);
+            Cooldown(data.Cooldown);
         }
     }
     
