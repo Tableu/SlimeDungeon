@@ -8,7 +8,6 @@ namespace Controller.Form
         protected Form form;
         protected Animator animator;
         public abstract void Initialize(Form form);
-        public abstract void Attack();
     }
 
     public enum Forms

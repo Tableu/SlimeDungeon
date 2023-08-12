@@ -176,7 +176,6 @@ public class PlayerController : Character
     protected override void OnAttackBegin(Attack attack)
     {
         currentAttack = attack;
-        _formManager.CurrentForm.Attack();
     }
     #endregion
     public void EquipAttack(AttackData attackData, int index)

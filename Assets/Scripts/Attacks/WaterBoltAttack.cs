@@ -37,7 +37,6 @@ public class WaterBoltAttack : Attack
 
     public override void End()
     {
-        
         OnEnd?.Invoke(this);
     }
 

@@ -73,12 +73,6 @@ namespace Controller.Form
             }
         }
 
-        public override void Attack()
-        {
-            if(form.PlayerController.CurrentAttack != null)
-                form.PlayerController.CurrentAttack.End();
-        }
-
         private void IncreaseTemperature(Attack attack)
         {
             Temperature += _data.IncreaseRate;

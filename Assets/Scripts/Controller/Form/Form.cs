@@ -43,13 +43,5 @@ namespace Controller.Form
             _basicAttack.CleanUp();
             _basicAttack = null;
         }
-
-        public void Attack()
-        {
-            if (_formAnimator != null)
-            {
-                _formAnimator.Attack();
-            }
-        }
     }
 }

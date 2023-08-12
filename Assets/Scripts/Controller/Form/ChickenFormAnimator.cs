@@ -22,12 +22,6 @@ public class ChickenFormAnimator : FormAnimator
         form.PlayerController.PlayerInputActions.Movement.HorizontalPressed.canceled -= HorizontalMovementCanceled;
     }
 
-    public override void Attack()
-    {
-        if(form.PlayerController.CurrentAttack != null)
-            form.PlayerController.CurrentAttack.End();
-    }
-
     private void MovementPressed(InputAction.CallbackContext context)
     {
         animator.SetBool("Run", true);

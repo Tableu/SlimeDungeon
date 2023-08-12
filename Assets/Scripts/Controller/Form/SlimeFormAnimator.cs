@@ -32,12 +32,6 @@ namespace Controller.Form
                 form.PlayerController.CurrentAttack.PassMessage(state);
         }
 
-        public override void Attack()
-        {
-            if(form.PlayerController.CurrentAttack != null)
-                form.PlayerController.CurrentAttack.End();
-        }
-
         private void MovementCanceled(InputAction.CallbackContext context)
         {
             if (animator != null)

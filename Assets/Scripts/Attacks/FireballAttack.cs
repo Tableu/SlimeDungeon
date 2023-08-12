@@ -27,17 +27,12 @@ public class FireballAttack : Attack
 
     public override void End(InputAction.CallbackContext callbackContext)
     {
-          End();
+        End();
     }
 
     public override void End()
     {
         base.End();
-        if (character is PlayerController player)
-        {
-            player.PlayerInputActions.Spells.Enable();
-            player.PlayerInputActions.Movement.Enable();
-        }
     }
 
     internal override void PassMessage(Controller.AnimationState state)
