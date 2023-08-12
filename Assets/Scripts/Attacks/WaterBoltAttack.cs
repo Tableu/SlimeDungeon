@@ -15,11 +15,6 @@ public class WaterBoltAttack : Attack
         {
             character.Mana -= data.ManaCost;
             Transform transform = character.transform;
-            Collider col = AttackTargeting.SphereScan(transform, data.TargetingRange, character.enemyMask);
-            if (col != null)
-            {
-                AttackTargeting.RotateTowards(transform, col.transform);
-            }
             GameObject fireball = GameObject.Instantiate(data.Prefab,
                 transform.position + new Vector3(character.SpellOffset.x*transform.forward.x, character.SpellOffset.y, character.SpellOffset.z*transform.forward.z), Quaternion.identity);
             fireball.layer = character is PlayerController
@@ -27,19 +22,9 @@ public class WaterBoltAttack : Attack
                 : LayerMask.NameToLayer("EnemyAttacks");
             var script = fireball.GetComponent<WaterBolt>();
             
-            if (character is PlayerController player && player.FormManager.CurrentForm != null)
-            {
-                player.PlayerInputActions.Spells.Disable();
-                player.PlayerInputActions.Movement.Disable();
-                script.Initialize(data.Damage * character.damageMultiplier, data.Knockback, data.HitStun,
-                    transform.forward * data.Speed * character.speedMultiplier, character.sizeMultiplier, data.ElementType,3);
-            }
-            else
-            {
-                script.Initialize(data.Damage, data.Knockback, data.HitStun,
-                    transform.forward * data.Speed, 1, data.ElementType,3);
-            }
-            
+            script.Initialize(data.Damage * character.damageMultiplier, data.Knockback, data.HitStun,
+                transform.forward * (data.Speed * character.speedMultiplier), character.sizeMultiplier, data.ElementType,3);
+
             OnBegin?.Invoke(this);
             Cooldown(data.Cooldown);
         }
@@ -52,11 +37,7 @@ public class WaterBoltAttack : Attack
 
     public override void End()
     {
-        if (character is PlayerController player)
-        {
-            player.PlayerInputActions.Spells.Enable();
-            player.PlayerInputActions.Movement.Enable();
-        }
+        
         OnEnd?.Invoke(this);
     }
 

@@ -85,17 +85,22 @@ public class PlayerController : Character
     }
 
     //Code for rotating the player to follow the mouse
-    /*private void Update()
+    private void Update()
     {
-        var mousePos = Mouse.current.position.ReadValue();
-        var ray = Camera.main.ScreenPointToRay(mousePos);
-        if (Physics.Raycast(ray, out RaycastHit hitData, 1000, LayerMask.GetMask("Walls","Default")))
+        if (!disableRotation)
         {
-            var diff = hitData.point - transform.position;
-            var target = new Vector3(diff.x, transform.position.y, diff.z);
-            transform.rotation = Quaternion.LookRotation(Vector3.RotateTowards(transform.forward, target, Mathf.Infinity, 0.0f));
+            var mousePos = Mouse.current.position.ReadValue();
+            var ray = Camera.main.ScreenPointToRay(mousePos);
+            if (Physics.Raycast(ray, out RaycastHit hitData, 1000, LayerMask.GetMask("Walls", "Default")))
+            {
+                var diff = hitData.point - transform.position;
+                var target = new Vector3(diff.x, transform.position.y, diff.z);
+                transform.rotation =
+                    Quaternion.LookRotation(Vector3.RotateTowards(transform.forward, target, Mathf.Infinity, 0.0f));
+                transform.forward = new Vector3(target.x, 0, target.z).normalized;
+            }
         }
-    }*/
+    }
 
     private new void FixedUpdate()
     {
@@ -104,12 +109,6 @@ public class PlayerController : Character
         
         if (_direction != Vector2.zero && !_inKnockback)
         {
-            if (!disableRotation)
-            {
-                float rotation = (float) (Math.Atan2(_direction.x, _direction.y) * (180 / Mathf.PI));
-                transform.rotation = Quaternion.Euler(transform.rotation.x, rotation, transform.rotation.z);
-            }
-
             rigidbody.AddForce(new Vector3(_direction.x*Speed, 0, _direction.y*Speed), ForceMode.Impulse);
             if (Mathf.Abs(rigidbody.velocity.x) > playerData.MaxVelocity.x)
             {

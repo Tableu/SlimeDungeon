@@ -43,8 +43,8 @@ namespace Controller.Form
         
         public void OnAnimatorMove()
         {
-            Vector3 position = animator.rootPosition;
-            form.PlayerController.transform.position = position;
+            //Vector3 position = animator.rootPosition;
+            //form.PlayerController.transform.position = position;
         }
         
         public void AlertObservers(string message)
@@ -75,7 +75,8 @@ namespace Controller.Form
 
         public override void Attack()
         {
-            animator.SetTrigger("Attack");
+            if(form.PlayerController.CurrentAttack != null)
+                form.PlayerController.CurrentAttack.End();
         }
 
         private void IncreaseTemperature(Attack attack)
