@@ -9,7 +9,7 @@ public class WaterBoltAttack : Attack
     {
     }
 
-    public override void Begin()
+    public override bool Begin()
     {
         if (character.Mana >= data.ManaCost && character.CurrentAttack == null && !onCooldown)
         {
@@ -27,7 +27,9 @@ public class WaterBoltAttack : Attack
 
             OnBegin?.Invoke(this);
             Cooldown(data.Cooldown);
+            return true;
         }
+        return false;
     }
     
     public override void End(InputAction.CallbackContext callbackContext)

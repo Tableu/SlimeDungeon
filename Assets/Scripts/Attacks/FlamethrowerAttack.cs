@@ -7,9 +7,9 @@ public class FlamethrowerAttack : Attack
     private GameObject _flamethrower;
     private float _oldSpeed;
 
-    public override void Begin()
+    public override bool Begin()
     {
-        base.Begin();
+        OnBegin?.Invoke(this);
         Transform transform = character.transform;
         _flamethrower = GameObject.Instantiate(data.Prefab, transform.position + new Vector3(character.SpellOffset.x*transform.forward.x, character.SpellOffset.y, character.SpellOffset.z*transform.forward.z), Quaternion.identity,transform);
         _flamethrower.transform.rotation = Quaternion.Euler(_flamethrower.transform.rotation.x, character.transform.rotation.eulerAngles.y-90, _flamethrower.transform.rotation.z);
@@ -21,11 +21,12 @@ public class FlamethrowerAttack : Attack
         character.Speed = 0.5f;
         character.disableRotation = true;
         //character.animator.SetFloat("Speed",0);
+        return true;
     }
 
     public override void End()
     {
-        base.End();
+        OnEnd?.Invoke(this);
         character.disableRotation = false;
         if (character is PlayerController player)
         {

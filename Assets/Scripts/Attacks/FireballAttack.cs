@@ -4,11 +4,11 @@ using UnityEngine.InputSystem;
 
 public class FireballAttack : Attack
 {
-    public override void Begin()
+    public override bool Begin()
     {
         if (character.Mana >= data.ManaCost && character.CurrentAttack == null && !onCooldown)
         {
-            base.Begin();
+            OnBegin?.Invoke(this);
             character.Mana -= data.ManaCost;
             
             Transform transform = character.transform;
@@ -22,7 +22,9 @@ public class FireballAttack : Attack
                 transform.forward * (data.Speed * character.speedMultiplier), character.sizeMultiplier, data.ElementType);
 
             Cooldown(data.Cooldown);
+            return true;
         }
+        return false;
     }
 
     public override void End(InputAction.CallbackContext callbackContext)
@@ -32,7 +34,7 @@ public class FireballAttack : Attack
 
     public override void End()
     {
-        base.End();
+        OnEnd?.Invoke(this);
     }
 
     internal override void PassMessage(Controller.AnimationState state)

@@ -22,8 +22,9 @@ public class CollisionAttack : Attack
         }
     }
 
-    public override void Begin()
+    public override bool Begin()
     {
+        return true;
     }
 
     public override void End()

@@ -85,17 +85,24 @@ public class EnemyController : Character
             case SlimeAnimationState.Attack:
                 if (animator.GetCurrentAnimatorStateInfo(0).IsName("Attack")) return;
                 StopAgent();
-                attacks[0].Begin();
-                SetFace(faces.attackFace);
-                animator.SetTrigger("Attack");
+                if (attacks[0].Begin())
+                {
+                    SetFace(faces.attackFace);
+                    animator.SetTrigger("Attack");
+                }
                 break;
         }
     }
 
     private void LateUpdate()
     {
-        if(agent.velocity.sqrMagnitude > Mathf.Epsilon)
+        if (agent.velocity.sqrMagnitude > Mathf.Epsilon)
+        {
             transform.rotation = Quaternion.LookRotation(agent.velocity.normalized);
+        }else if (_target != null)
+        {
+            AttackTargeting.RotateTowards(transform, _target);
+        }
     }
 
     private new void FixedUpdate()

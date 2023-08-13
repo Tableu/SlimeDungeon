@@ -29,20 +29,14 @@ namespace Controller
             this.data = data;
         }
 
-        public virtual void Begin()
-        {
-            OnBegin?.Invoke(this);
-        }
+        public abstract bool Begin();
 
         public virtual void Begin(InputAction.CallbackContext callbackContext)
         {
             Begin();
         }
 
-        public virtual void End()
-        {
-            OnEnd?.Invoke(this);
-        }
+        public abstract void End();
         public virtual void End(InputAction.CallbackContext callbackContext)
         {
             End();
