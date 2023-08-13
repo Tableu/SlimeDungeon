@@ -2,6 +2,7 @@ using System.Collections;
 using Controller;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Serialization;
 
 public class EnemyController : Character
 {
@@ -9,13 +10,12 @@ public class EnemyController : Character
     public override Vector3 SpellOffset => spellOffset;
     [SerializeField] private NavMeshAgent agent;
     [SerializeField] private Transform[] waypoints;
-    [SerializeField] private GameObject smileBody;
     [SerializeField] private Face faces;
-    [SerializeField] internal Animator animator;
+    [SerializeField] private Animator animator;
     [SerializeField] private Vector3 spellOffset;
     [SerializeField] private EnemyData enemyData;
+    [SerializeField] private Material faceMaterial;
     
-    private Material _faceMaterial;
     private int _currentWaypointIndex;
     private bool _attackingPlayer = false;
     private Transform _target;
@@ -26,7 +26,6 @@ public class EnemyController : Character
     private new void Start()
     {
         base.Start();
-        _faceMaterial = smileBody.GetComponent<Renderer>().materials[1];
         _target = waypoints[0];
         agent.updateRotation = false;
     }
@@ -99,7 +98,7 @@ public class EnemyController : Character
         if (agent.velocity.sqrMagnitude > Mathf.Epsilon)
         {
             transform.rotation = Quaternion.LookRotation(agent.velocity.normalized);
-        }else if (_target != null)
+        }else if (_target != null && _attackingPlayer)
         {
             AttackTargeting.RotateTowards(transform, _target);
         }
@@ -120,11 +119,12 @@ public class EnemyController : Character
     {
         agent.isStopped = true;
         animator.SetFloat("Speed", 0);
+        agent.velocity = Vector3.zero;
         agent.updateRotation = false;
     }
     private void SetFace(Texture tex)
     {
-        _faceMaterial.SetTexture("_MainTex", tex);
+        faceMaterial.SetTexture("_MainTex", tex);
     }
     private void WalkToNextDestination()
     {

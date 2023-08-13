@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: eee29ab224b67ec449499822efdd63e6, type: 3}
-  m_Name: Enemy
+  m_Name: Fire Slime Enemy
   m_EditorClassIdentifier: 
   health: 20
   armor: 0
   speed: 5
   manaRegen: 0.1
   mana: 20
-  elementType: 2
+  elementType: 1
   attacks:
   - {fileID: 11400000, guid: c5d2a1463d32f91459e236f8fea813c9, type: 2}
   - {fileID: 11400000, guid: 63d76e333438b3f4d9e16c4395cf0d61, type: 2}
