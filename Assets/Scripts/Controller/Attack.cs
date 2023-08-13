@@ -42,7 +42,12 @@ namespace Controller
             End();
         }
         internal abstract void PassMessage(AnimationState state);
-        public abstract void CleanUp();
+
+        public virtual void CleanUp()
+        {
+            cancellationTokenSource?.Cancel();
+            OnEnd?.Invoke(this);
+        }
 
         public virtual async void Cooldown(float duration)
         {

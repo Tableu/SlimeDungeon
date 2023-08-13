@@ -31,11 +31,6 @@ public class WaterBoltAttack : Attack
         }
         return false;
     }
-    
-    public override void End(InputAction.CallbackContext callbackContext)
-    {
-        
-    }
 
     public override void End()
     {
@@ -48,10 +43,5 @@ public class WaterBoltAttack : Attack
         {
             End();
         }
-    }
-
-    public override void CleanUp()
-    {
-        OnEnd?.Invoke(this);
     }
 }

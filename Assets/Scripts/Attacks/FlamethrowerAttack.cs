@@ -49,9 +49,4 @@ public class FlamethrowerAttack : Attack
     public FlamethrowerAttack(Character character, AttackData data) : base(character, data)
     {
     }
-
-    public override void CleanUp()
-    {
-        
-    }
 }

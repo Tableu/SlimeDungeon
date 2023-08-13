@@ -38,9 +38,8 @@ namespace Controller.Form
         public void Drop()
         {
             Object.Destroy(_formAnimator);
-            _playerController.UnlinkInput(_playerController.PlayerInputActions.Other.BasicAttack, _basicAttack);
-            _basicAttack.OnEnd?.Invoke(_basicAttack);
             _basicAttack.CleanUp();
+            _playerController.UnlinkInput(_playerController.PlayerInputActions.Other.BasicAttack, _basicAttack);
             _basicAttack = null;
         }
     }

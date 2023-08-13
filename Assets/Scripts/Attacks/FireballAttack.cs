@@ -45,11 +45,6 @@ public class FireballAttack : Attack
         }
     }
 
-    public override void CleanUp()
-    {
-        cancellationTokenSource?.Cancel();
-    }
-
     public FireballAttack(Character character, AttackData data) : base(character, data)
     {
     }

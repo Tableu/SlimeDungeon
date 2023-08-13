@@ -37,6 +37,7 @@ public class CollisionAttack : Attack
 
     public override void CleanUp()
     {
+        base.CleanUp();
         character.CollisionEnter -= CollisionEnter;
     }
 }
