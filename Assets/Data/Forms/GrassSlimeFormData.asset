@@ -19,4 +19,4 @@ MonoBehaviour:
   item: {fileID: 834991341219302362, guid: 32c86c1cde944a049a1e3999b11b2b40, type: 3}
   icon: {fileID: 21300000, guid: 9429c38729b289348a9814b01b7a7631, type: 3}
   spellOffset: {x: 1, y: 1, z: 1}
-  basicAttack: {fileID: 11400000, guid: c5d2a1463d32f91459e236f8fea813c9, type: 2}
+  basicAttack: {fileID: 11400000, guid: 26b21ae9161b48948a727fec0ee6ba51, type: 2}
