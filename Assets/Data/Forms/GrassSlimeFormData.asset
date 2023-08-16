@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 22bf79be5d037184c99ebb648ef79079, type: 3}
-  m_Name: SlimeFormData
+  m_Name: GrassSlimeFormData
   m_EditorClassIdentifier: 
-  elementType: 1
+  elementType: 4
   health: 50
   speed: 5
   model: {fileID: 6891580169314388076, guid: 52732899676774346a0d78a023c67f93, type: 3}

@@ -18,6 +18,8 @@ public class FireballAttack : Attack
                 ? LayerMask.NameToLayer("PlayerAttacks")
                 : LayerMask.NameToLayer("EnemyAttacks");
             var script = fireball.GetComponent<Fireball>();
+            if (script == null)
+                return false;
             script.Initialize(data.Damage*character.damageMultiplier, data.Knockback, data.HitStun,
                 transform.forward * (data.Speed * character.speedMultiplier), character.sizeMultiplier, data.ElementType);
 

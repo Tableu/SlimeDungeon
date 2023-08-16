@@ -229,7 +229,7 @@ GameObject:
   - component: {fileID: 2493534232821436539}
   - component: {fileID: -7961874044401809049}
   m_Layer: 0
-  m_Name: Slime Form
+  m_Name: Grass Slime Form
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
