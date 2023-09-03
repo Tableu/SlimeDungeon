@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -26,7 +28,18 @@ public class SpellBarIcon : MonoBehaviour
 
     public void OnCooldown(float duration)
     {
-        icon.fillAmount = duration;
+        StartCoroutine(Cooldown(duration));
+    }
+
+    private IEnumerator Cooldown(float duration)
+    {
+        float time = 0;
+        while (time < duration)
+        {
+            icon.fillAmount = time / duration;
+            yield return new WaitForFixedUpdate();
+            time += Time.fixedDeltaTime;
+        }
     }
 
     public void SetIcon(Sprite sprite, float manaCost)
@@ -34,5 +47,10 @@ public class SpellBarIcon : MonoBehaviour
         icon.enabled = true;
         icon.sprite = sprite;
         manaText.text = manaCost.ToString();
+    }
+
+    private void OnDestroy()
+    {
+        StopAllCoroutines();
     }
 }

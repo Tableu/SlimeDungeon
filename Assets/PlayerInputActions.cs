@@ -231,6 +231,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Basic Attack"",
+                    ""type"": ""Button"",
+                    ""id"": ""3f10eca8-ad2a-4b16-85e5-cd44e4dba28a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -277,6 +286,17 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""SwitchForms"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""85029ef0-903b-41f6-95a4-ea3aac00ddda"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Basic Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -361,6 +381,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Other = asset.FindActionMap("Other", throwIfNotFound: true);
         m_Other_PickUp = m_Other.FindAction("Pick Up", throwIfNotFound: true);
         m_Other_SwitchForms = m_Other.FindAction("SwitchForms", throwIfNotFound: true);
+        m_Other_BasicAttack = m_Other.FindAction("Basic Attack", throwIfNotFound: true);
         // Spells
         m_Spells = asset.FindActionMap("Spells", throwIfNotFound: true);
         m_Spells_First = m_Spells.FindAction("First", throwIfNotFound: true);
@@ -499,12 +520,14 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private List<IOtherActions> m_OtherActionsCallbackInterfaces = new List<IOtherActions>();
     private readonly InputAction m_Other_PickUp;
     private readonly InputAction m_Other_SwitchForms;
+    private readonly InputAction m_Other_BasicAttack;
     public struct OtherActions
     {
         private @PlayerInputActions m_Wrapper;
         public OtherActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @PickUp => m_Wrapper.m_Other_PickUp;
         public InputAction @SwitchForms => m_Wrapper.m_Other_SwitchForms;
+        public InputAction @BasicAttack => m_Wrapper.m_Other_BasicAttack;
         public InputActionMap Get() { return m_Wrapper.m_Other; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -520,6 +543,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @SwitchForms.started += instance.OnSwitchForms;
             @SwitchForms.performed += instance.OnSwitchForms;
             @SwitchForms.canceled += instance.OnSwitchForms;
+            @BasicAttack.started += instance.OnBasicAttack;
+            @BasicAttack.performed += instance.OnBasicAttack;
+            @BasicAttack.canceled += instance.OnBasicAttack;
         }
 
         private void UnregisterCallbacks(IOtherActions instance)
@@ -530,6 +556,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @SwitchForms.started -= instance.OnSwitchForms;
             @SwitchForms.performed -= instance.OnSwitchForms;
             @SwitchForms.canceled -= instance.OnSwitchForms;
+            @BasicAttack.started -= instance.OnBasicAttack;
+            @BasicAttack.performed -= instance.OnBasicAttack;
+            @BasicAttack.canceled -= instance.OnBasicAttack;
         }
 
         public void RemoveCallbacks(IOtherActions instance)
@@ -620,6 +649,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     {
         void OnPickUp(InputAction.CallbackContext context);
         void OnSwitchForms(InputAction.CallbackContext context);
+        void OnBasicAttack(InputAction.CallbackContext context);
     }
     public interface ISpellsActions
     {

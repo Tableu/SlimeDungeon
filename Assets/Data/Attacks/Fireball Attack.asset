@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f30f956518e4f1e408081b2d06152acd, type: 3}
+  m_Name: Fireball Attack
+  m_EditorClassIdentifier: 
+  speed: 30
+  damage: 10
+  knockback: 2
+  manaCost: 10
+  hitStun: 0.3
+  cooldown: 0.5
+  targetingRange: 5
+  elementType: 1
+  prefab: {fileID: 4292637640093511300, guid: 157aa440c4a506246823658fa914c881, type: 3}
+  icon: {fileID: 21300000, guid: 2d0997ac1b1fd664e98202450e7ea2d7, type: 3}

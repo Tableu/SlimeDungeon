@@ -9,56 +9,33 @@ public class WaterBoltAttack : Attack
     {
     }
 
-    public override void Begin()
+    public override bool Begin()
     {
-        if (character.Mana >= data.ManaCost && character.currentAttack == null && !cooldownActive)
+        if (character.Mana >= data.ManaCost && character.CurrentAttack == null && !onCooldown)
         {
             character.Mana -= data.ManaCost;
-            character.currentAttack = this;
             Transform transform = character.transform;
-            Collider col = AttackTargeting.SphereScan(transform, data.TargetingRange, character.enemyMask);
-            if (col != null)
-            {
-                AttackTargeting.RotateTowards(transform, col.transform);
-            }
             GameObject fireball = GameObject.Instantiate(data.Prefab,
                 transform.position + new Vector3(character.SpellOffset.x*transform.forward.x, character.SpellOffset.y, character.SpellOffset.z*transform.forward.z), Quaternion.identity);
             fireball.layer = character is PlayerController
                 ? LayerMask.NameToLayer("PlayerAttacks")
                 : LayerMask.NameToLayer("EnemyAttacks");
             var script = fireball.GetComponent<WaterBolt>();
-            
-            if (character is PlayerController player && player.FormManager.CurrentForm != null)
-            {
-                player.PlayerInputActions.Spells.Disable();
-                player.PlayerInputActions.Movement.Disable();
-                script.Initialize(data.Damage * player.FormManager.CurrentForm.damageMultiplier, data.Knockback, data.HitStun,
-                    transform.forward * data.Speed * player.FormManager.CurrentForm.speedMultiplier, player.FormManager.CurrentForm.sizeMultiplier, data.ElementType,3);
-            }
-            else
-            {
-                script.Initialize(data.Damage, data.Knockback, data.HitStun,
-                    transform.forward * data.Speed, 1, data.ElementType,3);
-            }
-            character.Attack();
-            OnSpellCast?.Invoke();
+            if (script == null)
+                return false;
+            script.Initialize(data.Damage * character.damageMultiplier, data.Knockback, data.HitStun,
+                transform.forward * (data.Speed * character.speedMultiplier), character.sizeMultiplier, data.ElementType,3);
+
+            OnBegin?.Invoke(this);
+            Cooldown(data.Cooldown);
+            return true;
         }
-    }
-    
-    public override void End(InputAction.CallbackContext callbackContext)
-    {
-        
+        return false;
     }
 
     public override void End()
     {
-        if (character is PlayerController player)
-        {
-            player.PlayerInputActions.Spells.Enable();
-            player.PlayerInputActions.Movement.Enable();
-        }
-
-        character.currentAttack = null;
+        OnEnd?.Invoke(this);
     }
 
     internal override void PassMessage(AnimationState state)
@@ -67,11 +44,5 @@ public class WaterBoltAttack : Attack
         {
             End();
         }
-    }
-
-    public override void CleanUp()
-    {
-        character.attacks.Remove(this);
-        character.currentAttack = null;
     }
 }

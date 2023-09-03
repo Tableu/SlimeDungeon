@@ -19,7 +19,7 @@ namespace Controller
         protected Character character;
         protected AttackData data;
         protected CancellationTokenSource cancellationTokenSource;
-        protected bool cooldownActive = false;
+        protected bool onCooldown = false;
 
         public AttackData Data => data;
 
@@ -28,38 +28,43 @@ namespace Controller
             this.character = character;
             this.data = data;
         }
-        
-        public abstract void Begin();
+
+        public abstract bool Begin();
 
         public virtual void Begin(InputAction.CallbackContext callbackContext)
         {
             Begin();
         }
+
         public abstract void End();
         public virtual void End(InputAction.CallbackContext callbackContext)
         {
             End();
         }
         internal abstract void PassMessage(AnimationState state);
-        public abstract void CleanUp();
+
+        public virtual void CleanUp()
+        {
+            cancellationTokenSource?.Cancel();
+            OnEnd?.Invoke(this);
+        }
 
         public virtual async void Cooldown(float duration)
         {
             cancellationTokenSource = new CancellationTokenSource();
             if (duration == 0)
                 return;
-            float time = 0;
-            cooldownActive = true;
-            while (time < duration)
+            OnCooldown?.Invoke(duration);
+            onCooldown = true;
+            await Task.Run(() =>
             {
-                time += Time.fixedDeltaTime;
-                OnCooldown?.Invoke(time / duration);
-                await Task.Yield();
-            }
-            cooldownActive = false;
+                Task.Delay(TimeSpan.FromSeconds(duration)).Wait(cancellationTokenSource.Token);
+                onCooldown = false;
+            });
         }
 
-        public Action OnSpellCast;
+        public Action<Attack> OnBegin;
+        public Action<Attack> OnEnd;
         public Action<float> OnCooldown;
     }
 }

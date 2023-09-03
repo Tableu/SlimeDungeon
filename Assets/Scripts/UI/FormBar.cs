@@ -20,15 +20,15 @@ public class FormBar : MonoBehaviour
             {
                 formIcons.Add(script);
                 script.Initialize(i, playerController);
-                if(playerController.FormManager.formInstances.Count > i)
-                    script.SetIcon(playerController.FormManager.formInstances[i]);
+                if(playerController.FormManager.Forms.Count > i)
+                    script.SetIcon(playerController.FormManager.Forms[i]);
             }
         }
 
         playerController.FormManager.OnFormAdd += OnFormChange;
     }
 
-    private void OnFormChange(FormInstance formInstance, int index)
+    private void OnFormChange(Form formInstance, int index)
     {
         formIcons[index].SetIcon(formInstance);
     }

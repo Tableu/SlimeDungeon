@@ -22,8 +22,9 @@ public class CollisionAttack : Attack
         }
     }
 
-    public override void Begin()
+    public override bool Begin()
     {
+        return true;
     }
 
     public override void End()
@@ -36,6 +37,7 @@ public class CollisionAttack : Attack
 
     public override void CleanUp()
     {
+        base.CleanUp();
         character.CollisionEnter -= CollisionEnter;
     }
 }
