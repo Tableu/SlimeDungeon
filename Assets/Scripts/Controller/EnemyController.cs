@@ -2,7 +2,6 @@ using System.Collections;
 using Controller;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.Serialization;
 
 public class EnemyController : Character
 {
@@ -13,12 +12,13 @@ public class EnemyController : Character
     [SerializeField] private Face faces;
     [SerializeField] private Animator animator;
     [SerializeField] private Vector3 spellOffset;
+    [SerializeField] private Vector2 idleTimeRange = new Vector2(2,3);
     [SerializeField] private EnemyData enemyData;
     [SerializeField] private Material faceMaterial;
     
     private int _currentWaypointIndex;
     private bool _attackingPlayer = false;
-    private Transform _target;
+    private Transform _target = null;
     private int _tick = 0;
 
     public override CharacterData CharacterData => enemyData;
@@ -26,8 +26,9 @@ public class EnemyController : Character
     private new void Start()
     {
         base.Start();
-        _target = waypoints[0];
         agent.updateRotation = false;
+        agent.SetDestination(new Vector3(Random.Range(waypoints[0].position.x, waypoints[1].position.x), waypoints[0].position.y,
+            Random.Range(waypoints[0].position.z, waypoints[1].position.z)));
     }
 
     // Update is called once per frame
@@ -53,11 +54,6 @@ public class EnemyController : Character
                 {
                     agent.SetDestination(_target.position);
                 }
-                else
-                {
-                    CurrentState = SlimeAnimationState.Idle;
-                    break;
-                }
 
                 if (agent.remainingDistance < agent.stoppingDistance)
                 {
@@ -68,8 +64,7 @@ public class EnemyController : Character
                     else
                     {
                         CurrentState = SlimeAnimationState.Idle;
-                        //wait 2s before go to next destination
-                        Invoke(nameof(WalkToNextDestination), 2f);
+                        Invoke(nameof(WalkToNextDestination), Random.Range(idleTimeRange.x, idleTimeRange.y));
                     }
                 }
                 
@@ -129,9 +124,8 @@ public class EnemyController : Character
     private void WalkToNextDestination()
     {
         CurrentState = SlimeAnimationState.Walk;
-        _currentWaypointIndex = (_currentWaypointIndex + 1) % waypoints.Length;
-        _target = waypoints[_currentWaypointIndex];
-        agent.SetDestination(_target.position);
+        agent.SetDestination(new Vector3(Random.Range(waypoints[0].position.x, waypoints[1].position.x), waypoints[0].position.y,
+            Random.Range(waypoints[0].position.z, waypoints[1].position.z)));
         SetFace(faces.WalkFace);
     }
 
@@ -142,7 +136,7 @@ public class EnemyController : Character
             var diff = transform.position - GlobalReferences.Instance.Player.transform.position;
             if (diff.magnitude >= enemyData.DeAggroRange)
             {
-                _target = waypoints[_currentWaypointIndex];
+                _target = null;
                 _attackingPlayer = false;
                 agent.stoppingDistance = enemyData.StoppingDistance;
             }
