@@ -77901,27 +77901,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Grass Slime
       objectReference: {fileID: 0}
-    - target: {fileID: 6042655304471014048, guid: 68b415f9bad327e41a6b1447cff3df71, type: 3}
-      propertyPath: m_Radius
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6042655304471014060, guid: 68b415f9bad327e41a6b1447cff3df71, type: 3}
-      propertyPath: enemyData
-      value: 
-      objectReference: {fileID: 11400000, guid: c6e70fb41566c1e40a63007e357243bc, type: 2}
-    - target: {fileID: 6042655304471014060, guid: 68b415f9bad327e41a6b1447cff3df71, type: 3}
-      propertyPath: idleTimeRange.x
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6042655304471014060, guid: 68b415f9bad327e41a6b1447cff3df71, type: 3}
-      propertyPath: idleTimeRange.y
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6042655304471014060, guid: 68b415f9bad327e41a6b1447cff3df71, type: 3}
+    - target: {fileID: 8317631748330841508, guid: 68b415f9bad327e41a6b1447cff3df71, type: 3}
       propertyPath: waypoints.Array.data[0]
       value: 
       objectReference: {fileID: 1844351277}
-    - target: {fileID: 6042655304471014060, guid: 68b415f9bad327e41a6b1447cff3df71, type: 3}
+    - target: {fileID: 8317631748330841508, guid: 68b415f9bad327e41a6b1447cff3df71, type: 3}
       propertyPath: waypoints.Array.data[1]
       value: 
       objectReference: {fileID: 14010672}
@@ -79831,37 +79815,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1762544897}
     m_Modifications:
-    - target: {fileID: 1097483168939663460, guid: 30063cbd858626a4db730947f21d210a, type: 3}
-      propertyPath: m_Radius
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1097483168939663464, guid: 30063cbd858626a4db730947f21d210a, type: 3}
-      propertyPath: enemyData
-      value: 
-      objectReference: {fileID: 11400000, guid: 43131a2d664ad9145863978c4ae01cdb, type: 2}
-    - target: {fileID: 1097483168939663464, guid: 30063cbd858626a4db730947f21d210a, type: 3}
-      propertyPath: idleTimeRange.x
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1097483168939663464, guid: 30063cbd858626a4db730947f21d210a, type: 3}
-      propertyPath: idleTimeRange.y
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1097483168939663464, guid: 30063cbd858626a4db730947f21d210a, type: 3}
+    - target: {fileID: 2407352696285154958, guid: 30063cbd858626a4db730947f21d210a, type: 3}
       propertyPath: waypoints.Array.data[0]
       value: 
       objectReference: {fileID: 1844351277}
-    - target: {fileID: 1097483168939663464, guid: 30063cbd858626a4db730947f21d210a, type: 3}
+    - target: {fileID: 2407352696285154958, guid: 30063cbd858626a4db730947f21d210a, type: 3}
       propertyPath: waypoints.Array.data[1]
       value: 
       objectReference: {fileID: 14010672}
     - target: {fileID: 5923733835745486290, guid: 30063cbd858626a4db730947f21d210a, type: 3}
       propertyPath: m_Name
       value: Water Slime
-      objectReference: {fileID: 0}
-    - target: {fileID: 5923733835745486290, guid: 30063cbd858626a4db730947f21d210a, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6448737012318093160, guid: 30063cbd858626a4db730947f21d210a, type: 3}
       propertyPath: m_RootOrder
@@ -80336,34 +80300,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1062181426651133041, guid: 4fd2af36cb21a8d4781e0e073e124da2, type: 3}
+      propertyPath: waypoints.Array.data[0]
+      value: 
+      objectReference: {fileID: 1844351277}
+    - target: {fileID: 1062181426651133041, guid: 4fd2af36cb21a8d4781e0e073e124da2, type: 3}
+      propertyPath: waypoints.Array.data[1]
+      value: 
+      objectReference: {fileID: 14010672}
     - target: {fileID: 1068915873035841302, guid: 4fd2af36cb21a8d4781e0e073e124da2, type: 3}
       propertyPath: m_Name
       value: Fire Slime
       objectReference: {fileID: 0}
-    - target: {fileID: 1068915873035841302, guid: 4fd2af36cb21a8d4781e0e073e124da2, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6042655304471014048, guid: 4fd2af36cb21a8d4781e0e073e124da2, type: 3}
-      propertyPath: m_Radius
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6042655304471014060, guid: 4fd2af36cb21a8d4781e0e073e124da2, type: 3}
-      propertyPath: idleTimeRange.x
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6042655304471014060, guid: 4fd2af36cb21a8d4781e0e073e124da2, type: 3}
-      propertyPath: idleTimeRange.y
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6042655304471014060, guid: 4fd2af36cb21a8d4781e0e073e124da2, type: 3}
-      propertyPath: waypoints.Array.data[0]
-      value: 
-      objectReference: {fileID: 1844351277}
-    - target: {fileID: 6042655304471014060, guid: 4fd2af36cb21a8d4781e0e073e124da2, type: 3}
-      propertyPath: waypoints.Array.data[1]
-      value: 
-      objectReference: {fileID: 14010672}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4fd2af36cb21a8d4781e0e073e124da2, type: 3}
 --- !u!4 &6930307404473389057 stripped

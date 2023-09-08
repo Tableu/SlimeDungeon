@@ -1,22 +1,26 @@
+using System;
 using System.Collections;
 using Controller;
 using UnityEngine;
 using UnityEngine.AI;
+using Random = UnityEngine.Random;
 
-public class EnemyController : Character
+public enum EnemyControllerState
 {
-    public SlimeAnimationState CurrentState;
+    Idle,Walk,Attack,Damage
+}
+
+public abstract class EnemyController : Character
+{
+    public EnemyControllerState CurrentState;
     public override Vector3 SpellOffset => spellOffset;
-    [SerializeField] private NavMeshAgent agent;
+    [SerializeField] protected NavMeshAgent agent;
     [SerializeField] private Transform[] waypoints;
-    [SerializeField] private Face faces;
-    [SerializeField] private Animator animator;
     [SerializeField] private Vector3 spellOffset;
+    [SerializeField] protected Animator animator;
     [SerializeField] private Vector2 idleTimeRange = new Vector2(2,3);
     [SerializeField] private EnemyData enemyData;
-    [SerializeField] private Material faceMaterial;
     
-    private int _currentWaypointIndex;
     private bool _attackingPlayer = false;
     private Transform _target = null;
     private int _tick = 0;
@@ -29,62 +33,33 @@ public class EnemyController : Character
         agent.updateRotation = false;
         agent.SetDestination(new Vector3(Random.Range(waypoints[0].position.x, waypoints[1].position.x), waypoints[0].position.y,
             Random.Range(waypoints[0].position.z, waypoints[1].position.z)));
+        ChangeState(EnemyControllerState.Walk);
     }
 
-    // Update is called once per frame
-    private void Update()
+    protected void Update()
     {
         if (!agent.enabled)
             return;
-        switch (CurrentState)
+        if (CurrentState == EnemyControllerState.Walk)
         {
-            case SlimeAnimationState.Idle:
-                if (animator.GetCurrentAnimatorStateInfo(0).IsName("Idle")) return;
-                StopAgent();
-                SetFace(faces.Idleface);
-                break;
-            case SlimeAnimationState.Walk:
-                if (animator.GetCurrentAnimatorStateInfo(0).IsName("Walk")) return;
-                agent.isStopped = false;
-                agent.updateRotation = true;
-                SetFace(faces.Idleface);
-                if (waypoints[0] == null) return;
-                
-                if (_target != null)
-                {
-                    agent.SetDestination(_target.position);
-                }
+            if (_target != null)
+            {
+                agent.SetDestination(_target.position);
+            }
 
-                if (agent.remainingDistance < agent.stoppingDistance)
-                {
-                    if (_attackingPlayer)
-                    {
-                        CurrentState = SlimeAnimationState.Attack;
-                    }
-                    else
-                    {
-                        CurrentState = SlimeAnimationState.Idle;
-                        Invoke(nameof(WalkToNextDestination), Random.Range(idleTimeRange.x, idleTimeRange.y));
-                    }
-                }
-                
-                animator.SetFloat("Speed", agent.velocity.magnitude);
-                break;
-            case SlimeAnimationState.Jump:
-                if (animator.GetCurrentAnimatorStateInfo(0).IsName("Jump")) return;
+            if (agent.remainingDistance < agent.stoppingDistance)
+            {
                 StopAgent();
-                SetFace(faces.jumpFace);
-                animator.SetTrigger("Jump");
-                break;
-            case SlimeAnimationState.Attack:
-                if (animator.GetCurrentAnimatorStateInfo(0).IsName("Attack")) return;
-                StopAgent();
-                if (attacks[0].Begin())
-                {
-                    SetFace(faces.attackFace);
-                    animator.SetTrigger("Attack");
+                if (_attackingPlayer)
+                { 
+                    ChangeState(EnemyControllerState.Attack);
                 }
-                break;
+                else
+                {
+                    ChangeState(EnemyControllerState.Idle);
+                    Invoke(nameof(WalkToNextDestination), Random.Range(idleTimeRange.x, idleTimeRange.y));
+                }
+            }
         }
     }
 
@@ -110,23 +85,24 @@ public class EnemyController : Character
         }
     }
 
-    private void StopAgent()
+    protected void StopAgent()
     {
         agent.isStopped = true;
-        animator.SetFloat("Speed", 0);
-        agent.velocity = Vector3.zero;
         agent.updateRotation = false;
     }
-    private void SetFace(Texture tex)
+
+    protected void Walk()
     {
-        faceMaterial.SetTexture("_MainTex", tex);
+        agent.isStopped = false;
+        agent.updateRotation = true;
+        ChangeState(EnemyControllerState.Walk);
     }
-    private void WalkToNextDestination()
+    
+    protected void WalkToNextDestination()
     {
-        CurrentState = SlimeAnimationState.Walk;
+        Walk();
         agent.SetDestination(new Vector3(Random.Range(waypoints[0].position.x, waypoints[1].position.x), waypoints[0].position.y,
             Random.Range(waypoints[0].position.z, waypoints[1].position.z)));
-        SetFace(faces.WalkFace);
     }
 
     private void DetectPlayer()
@@ -155,12 +131,7 @@ public class EnemyController : Character
         if (message.Equals("AttackEnded"))
         {
             attacks[0].End();
-            CurrentState = SlimeAnimationState.Walk;           
-        }
-
-        if (message.Equals("JumpEnded"))
-        {
-            CurrentState = SlimeAnimationState.Idle;
+            Walk();          
         }
     }
     public void OnAnimatorMove()
@@ -175,15 +146,15 @@ public class EnemyController : Character
     protected override void OnAttackBegin(Attack attack)
     {
         currentAttack = attack;
-        animator.SetTrigger("Attack");
+        StopAgent();
     }
     
 
     public override void TakeDamage(float damage, Vector3 knockback, float hitStun, Elements.Type attackType)
     {
-        if (CurrentState != SlimeAnimationState.Damage)
+        if (CurrentState != EnemyControllerState.Damage)
         {
-            CurrentState = SlimeAnimationState.Damage;
+            ChangeState(EnemyControllerState.Damage);
             base.TakeDamage(damage, knockback, hitStun, attackType);
         }
     }
@@ -201,7 +172,7 @@ public class EnemyController : Character
         if (hitStun > 0)
         {
             CancelInvoke(nameof(WalkToNextDestination));
-            animator.SetFloat("Speed", 0);
+            ChangeState(EnemyControllerState.Damage);
             agent.enabled = false;
             rigidbody.isKinematic = false;
             rigidbody.velocity = knockback;
@@ -210,6 +181,8 @@ public class EnemyController : Character
             rigidbody.isKinematic = true;
             agent.enabled = true;
         }
-        CurrentState = SlimeAnimationState.Walk;
+        Walk();
     }
+
+    protected abstract void ChangeState(EnemyControllerState state);
 }
