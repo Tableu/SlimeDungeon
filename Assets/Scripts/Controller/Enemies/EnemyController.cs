@@ -30,6 +30,7 @@ public abstract class EnemyController : Character
     private new void Start()
     {
         base.Start();
+        agent.speed = Speed;
         agent.updateRotation = false;
         agent.SetDestination(new Vector3(Random.Range(waypoints[0].position.x, waypoints[1].position.x), waypoints[0].position.y,
             Random.Range(waypoints[0].position.z, waypoints[1].position.z)));
@@ -52,7 +53,7 @@ public abstract class EnemyController : Character
                 StopAgent();
                 if (_attackingPlayer)
                 { 
-                    ChangeState(EnemyControllerState.Attack);
+                    Attack();
                 }
                 else
                 {
@@ -96,6 +97,18 @@ public abstract class EnemyController : Character
         agent.isStopped = false;
         agent.updateRotation = true;
         ChangeState(EnemyControllerState.Walk);
+    }
+
+    private void Attack()
+    {
+        if (attacks[0].Begin())
+        {
+            ChangeState(EnemyControllerState.Attack);
+        }
+        else
+        {
+            Walk();
+        }
     }
     
     protected void WalkToNextDestination()

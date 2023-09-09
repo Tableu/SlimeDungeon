@@ -10,20 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: eee29ab224b67ec449499822efdd63e6, type: 3}
-  m_Name: Grass Slime Enemy Data
+  m_Name: Chicken Enemy
   m_EditorClassIdentifier: 
-  health: 20
+  health: 10
   armor: 0
-  speed: 1
-  manaRegen: 0.1
+  speed: 10
+  manaRegen: 10
   mana: 20
-  elementType: 4
+  elementType: 1
   attacks:
-  - {fileID: 11400000, guid: 26b21ae9161b48948a727fec0ee6ba51, type: 2}
-  - {fileID: 11400000, guid: 63d76e333438b3f4d9e16c4395cf0d61, type: 2}
-  attackRange: 10
-  aggroRange: 20
-  deAggroRange: 25
+  - {fileID: 11400000, guid: c5d2a1463d32f91459e236f8fea813c9, type: 2}
+  attackRange: 5
+  aggroRange: 10
+  deAggroRange: 20
   detectTick: 10
   stoppingDistance: 3
-  formData: {fileID: 11400000, guid: 6cb87275a0359ba4a8b741fb885df66c, type: 2}
+  formData: {fileID: 11400000, guid: a970de915398ce943a6aed23fd89c099, type: 2}

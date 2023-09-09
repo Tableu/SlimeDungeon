@@ -32,15 +32,8 @@ public class SlimeEnemyController : EnemyController
                 animator.SetFloat("Speed", agent.velocity.magnitude);
                 break;
             case EnemyControllerState.Attack:
-                if (attacks[0].Begin())
-                {
-                    SetFace(faces.attackFace);
-                    animator.SetTrigger("Attack");
-                }
-                else
-                {
-                    Walk();
-                }
+                SetFace(faces.attackFace);
+                animator.SetTrigger("Attack");
                 break;
             case EnemyControllerState.Damage:
                 animator.SetFloat("Speed", 0);
