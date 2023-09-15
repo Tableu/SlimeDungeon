@@ -18,11 +18,13 @@ namespace Controller
             internal set;
             get;
         }
-        public float Armor
+        public float StunMeter
         {
             internal set;
             get;
         }
+
+        public float StunPercent => (StunMeter / CharacterData.StunResist)*100;
 
         public float Mana
         {
@@ -64,7 +66,7 @@ namespace Controller
         {
             Speed = CharacterData.Speed;
             Health = CharacterData.Health;
-            Armor = CharacterData.Armor;
+            StunMeter = 0;
             Mana = CharacterData.Mana;
             ElementType = CharacterData.ElementType;
 
@@ -93,6 +95,21 @@ namespace Controller
             StartCoroutine(ApplyKnockback(knockback, hitStun));
             float typeMultiplier = GlobalReferences.Instance.TypeManager.GetTypeMultiplier(ElementType, attackType);
             Health -= damage*typeMultiplier;
+            if (StunMeter < CharacterData.StunResist)
+            {
+                StunMeter += damage * typeMultiplier;
+                if (StunMeter >= CharacterData.StunResist)
+                {
+                    StunMeter = CharacterData.StunResist;
+
+                }
+            }
+            else if(typeMultiplier > 1)
+            {
+                //todo stun implementation
+                StunMeter = 0;
+            }
+
             if (Health <= 0)
             {
                 HandleDeath();

@@ -53,7 +53,7 @@ public class PlayerController : Character
         _playerInputActions.Enable();
         _formManager = new FormManager(this, model);
         _formManager.OnFormChange += OnFormChange;
-        Armor = playerData.Armor;
+        StunMeter = playerData.StunResist;
         Mana = playerData.Mana;
     }
     
