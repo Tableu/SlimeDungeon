@@ -20,6 +20,7 @@ public abstract class EnemyController : Character
     [SerializeField] protected Animator animator;
     [SerializeField] private Vector2 idleTimeRange = new Vector2(2,3);
     [SerializeField] private EnemyData enemyData;
+    [SerializeField] private bool moveWhileAttacking;
     
     private bool _attackingPlayer = false;
     private Transform _target = null;
@@ -50,13 +51,16 @@ public abstract class EnemyController : Character
 
             if (agent.remainingDistance < agent.stoppingDistance)
             {
-                StopAgent();
+                
                 if (_attackingPlayer)
                 { 
+                    if(!moveWhileAttacking)
+                        StopAgent(); 
                     Attack();
                 }
                 else
                 {
+                    StopAgent();
                     ChangeState(EnemyControllerState.Idle);
                     Invoke(nameof(WalkToNextDestination), Random.Range(idleTimeRange.x, idleTimeRange.y));
                 }

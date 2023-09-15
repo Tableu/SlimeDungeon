@@ -15,12 +15,12 @@ MonoBehaviour:
   health: 10
   armor: 0
   speed: 10
-  manaRegen: 10
+  manaRegen: 1
   mana: 20
   elementType: 1
   attacks:
   - {fileID: 11400000, guid: c5d2a1463d32f91459e236f8fea813c9, type: 2}
-  attackRange: 5
+  attackRange: 8
   aggroRange: 10
   deAggroRange: 20
   detectTick: 10
