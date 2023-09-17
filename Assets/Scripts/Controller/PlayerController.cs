@@ -177,6 +177,12 @@ public class PlayerController : Character
     {
         currentAttack = attack;
     }
+
+    protected override IEnumerator ApplyStun()
+    {
+        throw new NotImplementedException();
+    }
+
     #endregion
     public void EquipAttack(AttackData attackData, int index)
     {

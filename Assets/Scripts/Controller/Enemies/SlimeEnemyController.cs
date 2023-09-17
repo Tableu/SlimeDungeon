@@ -25,6 +25,7 @@ public class SlimeEnemyController : EnemyController
         switch (CurrentState)
         {
             case EnemyControllerState.Idle:
+            case EnemyControllerState.Stunned:
                 SetFace(faces.Idleface);
                 break;
             case EnemyControllerState.Walk:

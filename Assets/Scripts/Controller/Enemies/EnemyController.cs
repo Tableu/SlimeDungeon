@@ -7,7 +7,7 @@ using Random = UnityEngine.Random;
 
 public enum EnemyControllerState
 {
-    Idle,Walk,Attack,Damage
+    Idle,Walk,Attack,Damage,Stunned
 }
 
 public abstract class EnemyController : Character
@@ -70,12 +70,16 @@ public abstract class EnemyController : Character
 
     private void LateUpdate()
     {
-        if (agent.velocity.sqrMagnitude > Mathf.Epsilon)
+        if (CurrentState != EnemyControllerState.Stunned)
         {
-            transform.rotation = Quaternion.LookRotation(agent.velocity.normalized);
-        }else if (_target != null && _attackingPlayer)
-        {
-            AttackTargeting.RotateTowards(transform, _target);
+            if (agent.velocity.sqrMagnitude > Mathf.Epsilon)
+            {
+                transform.rotation = Quaternion.LookRotation(agent.velocity.normalized);
+            }
+            else if (_target != null && _attackingPlayer)
+            {
+                AttackTargeting.RotateTowards(transform, _target);
+            }
         }
     }
 
@@ -124,7 +128,7 @@ public abstract class EnemyController : Character
 
     private void DetectPlayer()
     {
-        if (GlobalReferences.Instance.Player != null)
+        if (GlobalReferences.Instance.Player != null && CurrentState != EnemyControllerState.Stunned)
         {
             var diff = transform.position - GlobalReferences.Instance.Player.transform.position;
             if (diff.magnitude >= enemyData.DeAggroRange)
@@ -182,6 +186,18 @@ public abstract class EnemyController : Character
         FormItem script = item.GetComponent<FormItem>();
         script.Initialize(enemyData.FormData);
         Destroy(gameObject);
+    }
+    
+    protected override IEnumerator ApplyStun()
+    {
+        CancelInvoke(nameof(WalkToNextDestination));
+        ChangeState(EnemyControllerState.Stunned);
+        agent.enabled = false;
+        agent.updateRotation = false;
+        yield return new WaitForSeconds(2);
+        agent.enabled = true;
+        agent.updateRotation = true;
+        ChangeState(EnemyControllerState.Walk);
     }
 
     protected override IEnumerator ApplyKnockback(Vector3 knockback, float hitStun)

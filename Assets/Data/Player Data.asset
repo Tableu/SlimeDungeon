@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Player Data
   m_EditorClassIdentifier: 
   health: 100
-  armor: 0
+  stunResist: 10
   speed: 5
   manaRegen: 0.1
   mana: 100

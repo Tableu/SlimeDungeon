@@ -6,6 +6,7 @@ public class ChickenEnemyController : EnemyController
         switch (CurrentState)
         {
             case EnemyControllerState.Idle:
+            case EnemyControllerState.Stunned:
                 animator.SetBool("Walk", false);
                 animator.SetBool("Run", false);
                 break;

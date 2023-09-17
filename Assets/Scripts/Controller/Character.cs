@@ -101,12 +101,11 @@ namespace Controller
                 if (StunMeter >= CharacterData.StunResist)
                 {
                     StunMeter = CharacterData.StunResist;
-
                 }
             }
             else if(typeMultiplier > 1)
             {
-                //todo stun implementation
+                StartCoroutine(ApplyStun());
                 StunMeter = 0;
             }
 
@@ -115,6 +114,8 @@ namespace Controller
                 HandleDeath();
             }
         }
+
+        protected abstract IEnumerator ApplyStun();
 
         protected virtual void HandleDeath()
         {
