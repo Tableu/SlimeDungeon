@@ -12,5 +12,4 @@ public class PlayerData : CharacterData
     public Vector2 MaxVelocity => maxVelocity;
     public FormData StartForm => startForm;
     public int MaxFormCount => maxFormCount;
-
 }

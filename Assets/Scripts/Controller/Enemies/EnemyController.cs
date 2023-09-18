@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using Controller;
 using UnityEngine;
@@ -21,16 +20,27 @@ public abstract class EnemyController : Character
     [SerializeField] private Vector2 idleTimeRange = new Vector2(2,3);
     [SerializeField] private EnemyData enemyData;
     [SerializeField] private bool moveWhileAttacking;
+    [SerializeField] private ParticleSystem stunEffect;
+    [SerializeField] private ParticleSystem stunAura;
     
     private bool _attackingPlayer = false;
     private Transform _target = null;
     private int _tick = 0;
 
     public override CharacterData CharacterData => enemyData;
+    
+    public float StunMeter
+    {
+        internal set;
+        get;
+    }
+
+    public float StunPercent => (StunMeter / CharacterData.StunResist)*100;
 
     private new void Start()
     {
         base.Start();
+        StunMeter = 0;
         agent.speed = Speed;
         agent.updateRotation = false;
         agent.SetDestination(new Vector3(Random.Range(waypoints[0].position.x, waypoints[1].position.x), waypoints[0].position.y,
@@ -176,7 +186,33 @@ public abstract class EnemyController : Character
         if (CurrentState != EnemyControllerState.Damage)
         {
             ChangeState(EnemyControllerState.Damage);
-            base.TakeDamage(damage, knockback, hitStun, attackType);
+            float typeMultiplier = GlobalReferences.Instance.TypeManager.GetTypeMultiplier(ElementType, attackType);
+            Health -= damage*typeMultiplier;
+            if (Health <= 0)
+            {
+                HandleDeath();
+                return;
+            }
+
+            if (CurrentState != EnemyControllerState.Stunned)
+            {
+                if (StunMeter < CharacterData.StunResist)
+                {
+                    StunMeter += damage * typeMultiplier;
+                    if (StunMeter >= CharacterData.StunResist)
+                    {
+                        StunMeter = CharacterData.StunResist;
+                    }
+                }
+                else if (typeMultiplier > 1)
+                {
+                    StartCoroutine(ApplyStun());
+                    StunMeter = 0;
+                    return;
+                }
+
+                StartCoroutine(ApplyKnockback(knockback, hitStun));
+            }
         }
     }
 
@@ -185,16 +221,21 @@ public abstract class EnemyController : Character
         GameObject item = Instantiate(enemyData.FormData.Item, transform.position, Quaternion.identity);
         FormItem script = item.GetComponent<FormItem>();
         script.Initialize(enemyData.FormData);
+        StopCoroutine(ApplyStun());
         Destroy(gameObject);
     }
     
-    protected override IEnumerator ApplyStun()
+    private IEnumerator ApplyStun()
     {
         CancelInvoke(nameof(WalkToNextDestination));
         ChangeState(EnemyControllerState.Stunned);
         agent.enabled = false;
         agent.updateRotation = false;
+        stunEffect.Play();
+        stunAura.Play();
         yield return new WaitForSeconds(2);
+        stunAura.Clear();
+        stunAura.Stop();
         agent.enabled = true;
         agent.updateRotation = true;
         ChangeState(EnemyControllerState.Walk);

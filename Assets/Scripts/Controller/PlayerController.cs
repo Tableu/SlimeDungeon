@@ -53,7 +53,6 @@ public class PlayerController : Character
         _playerInputActions.Enable();
         _formManager = new FormManager(this, model);
         _formManager.OnFormChange += OnFormChange;
-        StunMeter = playerData.StunResist;
         Mana = playerData.Mana;
     }
     
@@ -145,7 +144,14 @@ public class PlayerController : Character
     {
         if (!_inKnockback)
         {
-            base.TakeDamage(damage, knockback, hitStun, attackType);
+            float typeMultiplier = GlobalReferences.Instance.TypeManager.GetTypeMultiplier(ElementType, attackType);
+            Health -= damage*typeMultiplier;
+            if (Health <= 0)
+            {
+                HandleDeath();
+                return;
+            }
+            StartCoroutine(ApplyKnockback(knockback, hitStun));
             OnDamage?.Invoke();
         }
     }
@@ -176,11 +182,6 @@ public class PlayerController : Character
     protected override void OnAttackBegin(Attack attack)
     {
         currentAttack = attack;
-    }
-
-    protected override IEnumerator ApplyStun()
-    {
-        throw new NotImplementedException();
     }
 
     #endregion
