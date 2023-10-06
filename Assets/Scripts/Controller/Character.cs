@@ -54,6 +54,7 @@ namespace Controller
         public Attack CurrentAttack => currentAttack;
         public List<Attack> Attacks => attacks;
         public Action<Collision> CollisionEnter;
+        public Action OnDeath;
 
         protected void Start()
         {

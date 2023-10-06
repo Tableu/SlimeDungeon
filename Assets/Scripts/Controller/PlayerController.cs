@@ -32,7 +32,6 @@ public class PlayerController : Character
     public List<AttackData> UnlockedAttacks => _unlockedAttacks;
     public FormManager FormManager => _formManager;
     
-    public Action OnDeath;
     public Action OnFormFaint;
     public Action OnDamage;
     public Action<AttackData, int> OnAttackEquip;

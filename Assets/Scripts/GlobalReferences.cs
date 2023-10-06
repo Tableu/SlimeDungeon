@@ -8,10 +8,12 @@ public class GlobalReferences : MonoBehaviour
     [SerializeField] private GameObject player;
     [SerializeField] private Canvas canvas;
     [SerializeField] private ElementTypeManager typeManager;
+    [SerializeField] private GameObject enemyHealthbars;
 
     public GameObject Player => player;
     public Canvas Canvas => canvas;
     public ElementTypeManager TypeManager => typeManager;
+    public GameObject EnemyHealthbars => enemyHealthbars;
 
     private void Awake()
     {

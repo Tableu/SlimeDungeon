@@ -22,7 +22,8 @@ public abstract class EnemyController : Character
     [SerializeField] private bool moveWhileAttacking;
     [SerializeField] private ParticleSystem stunEffect;
     [SerializeField] private ParticleSystem stunAura;
-    
+    [SerializeField] private GameObject enemyHealthbar;
+
     private bool _attackingPlayer = false;
     private Transform _target = null;
     private int _tick = 0;
@@ -40,6 +41,9 @@ public abstract class EnemyController : Character
     private new void Start()
     {
         base.Start();
+        GameObject healthbar = Instantiate(enemyHealthbar, transform.position, Quaternion.identity, GlobalReferences.Instance.EnemyHealthbars.transform);
+        var script = healthbar.GetComponent<EnemyHealthBar>();
+        script.Initialize(this);
         StunMeter = 0;
         agent.speed = Speed;
         agent.updateRotation = false;
@@ -222,6 +226,7 @@ public abstract class EnemyController : Character
         FormItem script = item.GetComponent<FormItem>();
         script.Initialize(enemyData.FormData);
         StopCoroutine(ApplyStun());
+        OnDeath.Invoke();
         Destroy(gameObject);
     }
     
