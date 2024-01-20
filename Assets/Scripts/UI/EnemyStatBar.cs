@@ -1,9 +1,10 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class EnemyHealthBar : MonoBehaviour
+public class EnemyStatBar : MonoBehaviour
 {
-    [SerializeField] private Slider slider;
+    [SerializeField] private Slider healthSlider;
+    [SerializeField] private Slider stunSlider;
     [SerializeField] private Vector3 offset;
     [SerializeField] private Canvas canvas;
     private EnemyController _controller;
@@ -11,7 +12,8 @@ public class EnemyHealthBar : MonoBehaviour
     public void Initialize(EnemyController controller)
     {
         _controller = controller;
-        slider.maxValue = _controller.CharacterData.Health;
+        healthSlider.maxValue = _controller.CharacterData.Health;
+        stunSlider.maxValue = _controller.CharacterData.StunResist;
         _controller.OnDeath += OnDeath;
         canvas.worldCamera = Camera.main;
     }
@@ -24,13 +26,16 @@ public class EnemyHealthBar : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if(_controller != null)
-            slider.value = _controller.Health;
+        if (_controller != null)
+        {
+            healthSlider.value = _controller.Health;
+            stunSlider.value = _controller.StunMeter;
+        }
     }
 
     private void OnDeath()
     {
-        slider.value = _controller.Health;
+        healthSlider.value = _controller.Health;
         _controller.OnDeath -= OnDeath;
         Destroy(gameObject);
     }

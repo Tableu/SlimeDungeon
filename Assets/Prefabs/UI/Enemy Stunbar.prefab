@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1234548095013705996}
   - component: {fileID: 1234548095013705999}
   m_Layer: 9
-  m_Name: Enemy Healthbar
+  m_Name: Enemy Stunbar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -37,7 +37,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 60, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 16.08424, y: 2.63}
+  m_AnchoredPosition: {x: 16.084229, y: 2.630005}
   m_SizeDelta: {x: 10, y: 5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &1234548095013705997
@@ -83,7 +83,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &1234548095013705999
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -97,7 +97,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slider: {fileID: 3829995515596823481}
-  offset: {x: 0, y: 4, z: 0}
+  offset: {x: 0, y: 3, z: 0}
   canvas: {fileID: 1234548095013705997}
 --- !u!1 &1234548095867931330
 GameObject:
@@ -243,7 +243,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -7904214316921149014, guid: 5b67097a244870044bbfba72e325b729, type: 3}
+  m_Sprite: {fileID: 645092453454402935, guid: 5b67097a244870044bbfba72e325b729, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -319,7 +319,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -3344875544598875602, guid: 5b67097a244870044bbfba72e325b729, type: 3}
+  m_Sprite: {fileID: 1917657991484293299, guid: 5b67097a244870044bbfba72e325b729, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -395,7 +395,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -6034670552469499588, guid: 5b67097a244870044bbfba72e325b729, type: 3}
+  m_Sprite: {fileID: -5766303750328084760, guid: 5b67097a244870044bbfba72e325b729, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -493,7 +493,7 @@ GameObject:
   - component: {fileID: 3829995515596823481}
   - component: {fileID: 1234548095147635014}
   m_Layer: 5
-  m_Name: Enemy Health Bar
+  m_Name: Enemy Stun Bar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -519,7 +519,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0.74}
-  m_SizeDelta: {x: 160, y: 20}
+  m_SizeDelta: {x: 100, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &3829995515596823481
 MonoBehaviour:

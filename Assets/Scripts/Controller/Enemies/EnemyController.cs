@@ -42,7 +42,7 @@ public abstract class EnemyController : Character
     {
         base.Start();
         GameObject healthbar = Instantiate(enemyHealthbar, transform.position, Quaternion.identity, GlobalReferences.Instance.EnemyHealthbars.transform);
-        var script = healthbar.GetComponent<EnemyHealthBar>();
+        var script = healthbar.GetComponent<EnemyStatBar>();
         script.Initialize(this);
         StunMeter = 0;
         agent.speed = Speed;
