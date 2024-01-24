@@ -11,7 +11,6 @@ public enum EnemyControllerState
 
 public abstract class EnemyController : Character
 {
-    public EnemyControllerState CurrentState;
     public override Vector3 SpellOffset => spellOffset;
     [SerializeField] protected NavMeshAgent agent;
     [SerializeField] private Transform[] waypoints;
@@ -32,7 +31,13 @@ public abstract class EnemyController : Character
     
     public float StunMeter
     {
-        internal set;
+        private set;
+        get;
+    }
+
+    public EnemyControllerState CurrentState
+    {
+        protected set;
         get;
     }
 
@@ -211,7 +216,6 @@ public abstract class EnemyController : Character
                 else if (typeMultiplier > 1)
                 {
                     StartCoroutine(ApplyStun());
-                    StunMeter = 0;
                     return;
                 }
 
@@ -222,9 +226,9 @@ public abstract class EnemyController : Character
 
     protected override void HandleDeath()
     {
-        GameObject item = Instantiate(enemyData.FormData.Item, transform.position, Quaternion.identity);
+        /*GameObject item = Instantiate(enemyData.FormData.Item, transform.position, Quaternion.identity);
         FormItem script = item.GetComponent<FormItem>();
-        script.Initialize(enemyData.FormData);
+        script.Initialize(enemyData.FormData);*/
         StopCoroutine(ApplyStun());
         OnDeath.Invoke();
         Destroy(gameObject);
@@ -239,6 +243,7 @@ public abstract class EnemyController : Character
         stunEffect.Play();
         stunAura.Play();
         yield return new WaitForSeconds(2);
+        StunMeter = 0;
         stunAura.Clear();
         stunAura.Stop();
         agent.enabled = true;

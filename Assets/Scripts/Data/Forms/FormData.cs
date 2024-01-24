@@ -10,6 +10,7 @@ namespace Controller.Form
         [SerializeField] private Elements.Type elementType;
         [SerializeField] private float health;
         [SerializeField] private float speed;
+        [SerializeField] private float captureMultiplier;
         
         [HeaderAttribute("References")]
         [SerializeField] private GameObject model;
@@ -21,6 +22,7 @@ namespace Controller.Form
         public Elements.Type ElementType => elementType;
         public float Health => health;
         public float Speed => speed;
+        public float CaptureMultiplier => captureMultiplier;
         public GameObject Model => model;
         public Vector3 SpellOffset => spellOffset;
         public GameObject Item => item;

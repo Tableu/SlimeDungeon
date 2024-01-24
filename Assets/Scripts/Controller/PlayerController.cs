@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Controller;
+using Controller.Form;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Type = Elements.Type;
@@ -67,10 +68,24 @@ public class PlayerController : Character
         }
         _playerInputActions.Other.PickUp.started += delegate(InputAction.CallbackContext context)
         {
-            Collider[] colliders = Physics.OverlapSphere(transform.position, 5, LayerMask.GetMask("Items"));
-            var orderedByProximity = colliders.OrderBy(c => (transform.position - c.transform.position).sqrMagnitude)
+            Collider[] enemyColliders = Physics.OverlapSphere(transform.position, 5, LayerMask.GetMask("Enemy"));
+            var enemiesOrderedByProximity = enemyColliders.OrderBy(c => (transform.position - c.transform.position).sqrMagnitude)
                 .ToArray();
-            foreach (var col in orderedByProximity)
+            foreach (var col in enemiesOrderedByProximity)
+            {
+                var enemy = col.GetComponent<EnemyController>();
+                if (enemy != null && enemy.CurrentState == EnemyControllerState.Stunned)
+                {
+                    FormManager.AddForm(new Form((enemy.CharacterData as EnemyData)?.FormData, this));
+                    enemy.TakeDamage(1000, Vector3.zero, 0, Type.None);
+                    return;
+                }
+            }
+
+            Collider[] itemColliders = Physics.OverlapSphere(transform.position, 5, LayerMask.GetMask("Items"));
+            var itemsOrderedByProximity = itemColliders.OrderBy(c => (transform.position - c.transform.position).sqrMagnitude)
+                .ToArray();
+            foreach (var col in itemsOrderedByProximity)
             {
                 var item = col.GetComponent<Item>();
                 if (item != null)
