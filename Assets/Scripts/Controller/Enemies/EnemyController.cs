@@ -171,7 +171,8 @@ public abstract class EnemyController : Character
         if (message.Equals("AttackEnded"))
         {
             attacks[0].End();
-            Walk();          
+            if(CurrentState != EnemyControllerState.Stunned)
+                Walk();          
         }
     }
     public void OnAnimatorMove()
@@ -265,7 +266,8 @@ public abstract class EnemyController : Character
             rigidbody.isKinematic = true;
             agent.enabled = true;
         }
-        Walk();
+        if(CurrentState != EnemyControllerState.Stunned)
+            Walk();
     }
 
     protected abstract void ChangeState(EnemyControllerState state);

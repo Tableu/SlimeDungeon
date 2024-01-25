@@ -6,6 +6,7 @@ using Controller;
 using Controller.Form;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Random = UnityEngine.Random;
 using Type = Elements.Type;
 
 public class PlayerController : Character
@@ -66,7 +67,8 @@ public class PlayerController : Character
             LinkInput(action, attacks[i]);
             i++;
         }
-        _playerInputActions.Other.PickUp.started += delegate(InputAction.CallbackContext context)
+        
+        _playerInputActions.Other.Absorb.started += delegate(InputAction.CallbackContext context)
         {
             Collider[] enemyColliders = Physics.OverlapSphere(transform.position, 5, LayerMask.GetMask("Enemy"));
             var enemiesOrderedByProximity = enemyColliders.OrderBy(c => (transform.position - c.transform.position).sqrMagnitude)
@@ -74,14 +76,20 @@ public class PlayerController : Character
             foreach (var col in enemiesOrderedByProximity)
             {
                 var enemy = col.GetComponent<EnemyController>();
-                if (enemy != null && enemy.CurrentState == EnemyControllerState.Stunned)
+                if (enemy != null && enemy.CharacterData is EnemyData data && enemy.CurrentState == EnemyControllerState.Stunned)
                 {
-                    FormManager.AddForm(new Form((enemy.CharacterData as EnemyData)?.FormData, this));
-                    enemy.TakeDamage(1000, Vector3.zero, 0, Type.None);
-                    return;
+                    if (data.FormData.CaptureDifficulty * enemy.Health < Random.Range(21,25))
+                    {
+                        FormManager.AddForm(new Form(data.FormData, this));
+                        enemy.TakeDamage(1000, Vector3.zero, 0, Type.None);
+                    }
+                    break;
                 }
             }
-
+        };
+        
+        _playerInputActions.Other.PickUp.started += delegate(InputAction.CallbackContext context)
+        {
             Collider[] itemColliders = Physics.OverlapSphere(transform.position, 5, LayerMask.GetMask("Items"));
             var itemsOrderedByProximity = itemColliders.OrderBy(c => (transform.position - c.transform.position).sqrMagnitude)
                 .ToArray();
@@ -234,7 +242,7 @@ public class PlayerController : Character
         attack.OnBegin -= OnAttackBegin;
         attack.OnEnd -= OnAttackEnd;
     }
-    
+
     #region Event Functions
     private void OnFormChange()
     {
