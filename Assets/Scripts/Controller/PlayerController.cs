@@ -129,9 +129,13 @@ public class PlayerController : Character
     private new void FixedUpdate()
     {
         base.FixedUpdate();
+        if (_inKnockback)
+            return;
         _direction = _playerInputActions.Movement.Direction.ReadValue<Vector2>();
         
-        if (_direction != Vector2.zero && !_inKnockback)
+        
+        
+        if (_direction != Vector2.zero)
         {
             if (_lastDirection != _direction)
             {
@@ -152,6 +156,10 @@ public class PlayerController : Character
             }
 
             _lastDirection = _direction;
+        }
+        else
+        {
+            rigidbody.velocity = Vector3.zero;
         }
     }
 

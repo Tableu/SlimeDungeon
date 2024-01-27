@@ -1,6 +1,5 @@
 using Controller;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using AnimationState = Controller.AnimationState;
 
 public class CollisionAttack : Attack
@@ -14,7 +13,7 @@ public class CollisionAttack : Attack
 
     private void CollisionEnter(Collision other)
     {
-        if (character.enemyMask == (character.enemyMask | (1 << other.gameObject.layer)))
+        if (character.EnemyMask == (character.EnemyMask | (1 << other.gameObject.layer)))
         {
             IDamageable health = other.gameObject.GetComponent<IDamageable>();
             health.TakeDamage(_data.Damage,(other.transform.position - character.transform.position).normalized*_data.Knockback, 

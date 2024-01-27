@@ -38,7 +38,6 @@ namespace Controller.Form
             {
                 animator.SetFloat("Speed", 0);
             }
-            form.PlayerController.rigidbody.velocity = Vector3.zero;
         }
 
         private void MovementStarted(InputAction.CallbackContext context)

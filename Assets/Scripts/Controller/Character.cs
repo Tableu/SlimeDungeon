@@ -42,8 +42,8 @@ namespace Controller
             get;
         }
 
-        [SerializeField] internal LayerMask enemyMask;
-        [SerializeField] internal new Rigidbody rigidbody;
+        [SerializeField] private LayerMask enemyMask;
+        [SerializeField] protected new Rigidbody rigidbody;
         protected Attack currentAttack;
         protected List<Attack> attacks;
         internal bool disableRotation = false;
@@ -52,6 +52,7 @@ namespace Controller
         internal float sizeMultiplier = 1;
 
         public Attack CurrentAttack => currentAttack;
+        public LayerMask EnemyMask;
         public List<Attack> Attacks => attacks;
         public Action<Collision> CollisionEnter;
         public Action OnDeath;
