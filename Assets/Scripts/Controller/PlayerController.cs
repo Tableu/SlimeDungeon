@@ -15,12 +15,14 @@ public class PlayerController : Character
     [SerializeField] private GameObject model;
     
     private Vector2 _direction;
+    private Vector2 _lastDirection;
     private bool _inKnockback = false;
     
     private PlayerInputActions _playerInputActions;
     private List<AttackData> _unlockedAttacks;
     private FormManager _formManager;
 
+    public Vector2 MaxVelocity => _formManager.CurrentForm.MaxVelocity;
     public override float Health
     {
         get => _formManager.CurrentForm.Health;
@@ -55,6 +57,7 @@ public class PlayerController : Character
         _formManager = new FormManager(this, model);
         _formManager.OnFormChange += OnFormChange;
         Mana = playerData.Mana;
+        _lastDirection = Vector2.zero;
     }
     
     private new void Start()
@@ -130,18 +133,25 @@ public class PlayerController : Character
         
         if (_direction != Vector2.zero && !_inKnockback)
         {
-            rigidbody.AddForce(new Vector3(_direction.x*Speed, 0, _direction.y*Speed), ForceMode.Impulse);
-            if (Mathf.Abs(rigidbody.velocity.x) > playerData.MaxVelocity.x)
+            if (_lastDirection != _direction)
             {
-                rigidbody.velocity = new Vector3(Mathf.Sign(rigidbody.velocity.x) * playerData.MaxVelocity.x, 0,
+                rigidbody.velocity = Vector3.zero;
+            }
+            
+            rigidbody.AddForce(new Vector3(_direction.x*Speed, 0, _direction.y*Speed), ForceMode.Impulse);
+            if (Mathf.Abs(rigidbody.velocity.x) > MaxVelocity.x)
+            {
+                rigidbody.velocity = new Vector3(Mathf.Sign(rigidbody.velocity.x) * MaxVelocity.x, 0,
                     rigidbody.velocity.z);
             }
 
-            if (Mathf.Abs(rigidbody.velocity.z) > playerData.MaxVelocity.y)
+            if (Mathf.Abs(rigidbody.velocity.z) > MaxVelocity.y)
             {
                 rigidbody.velocity =
-                    new Vector3(rigidbody.velocity.x, 0, Mathf.Sign(rigidbody.velocity.z) * playerData.MaxVelocity.y);
+                    new Vector3(rigidbody.velocity.x, 0, Mathf.Sign(rigidbody.velocity.z) * MaxVelocity.y);
             }
+
+            _lastDirection = _direction;
         }
     }
 

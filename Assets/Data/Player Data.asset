@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 100
   stunResist: 10
-  speed: 5
+  speed: 2
   manaRegen: 0.1
   mana: 100
   elementType: 1
   attacks: []
-  maxVelocity: {x: 3, y: 3}
   startForm: {fileID: 11400000, guid: 6cb87275a0359ba4a8b741fb885df66c, type: 2}
   maxFormCount: 1

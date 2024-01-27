@@ -8,6 +8,7 @@ namespace Controller.Form
         private FormData _data;
         
         private float _speed;
+        private Vector2 _maxVelocity;
         private PlayerController _playerController;
         private Type _elementType;
         private FormAnimator _formAnimator;
@@ -15,6 +16,7 @@ namespace Controller.Form
         public FormData Data => _data;
         public float Health { get; set; }
         public float Speed => _speed;
+        public Vector2 MaxVelocity => _maxVelocity;
         public Type ElementType => _elementType;
         public PlayerController PlayerController => _playerController;
 
@@ -24,6 +26,7 @@ namespace Controller.Form
             _playerController = playerController;
             Health = data.Health;
             _speed = data.Speed;
+            _maxVelocity = data.MaxVelocity;
             _elementType = data.ElementType;
         }
 
