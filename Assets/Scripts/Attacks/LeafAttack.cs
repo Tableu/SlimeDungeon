@@ -11,7 +11,6 @@ public class LeafAttack : Attack
         if (character.Mana >= data.ManaCost && character.CurrentAttack == null && !onCooldown)
         {
             OnBegin?.Invoke(this);
-            character.Mana -= data.ManaCost;
             
             Transform transform = character.transform;
             GameObject leaf = GameObject.Instantiate(data.Prefab,
@@ -22,8 +21,8 @@ public class LeafAttack : Attack
             var script = leaf.GetComponent<Leaf>();
             if (script == null)
                 return false;
-            script.Initialize(data.Damage*character.damageMultiplier, data.Knockback, data.HitStun,
-                transform.forward * (data.Speed * character.speedMultiplier), character.sizeMultiplier, data.ElementType);
+            script.Initialize(data.Damage*character.DamageMultiplier, data.Knockback, data.HitStun,
+                transform.forward * (data.Speed * character.SpeedMultiplier), character.SizeMultiplier, data.ElementType);
 
             Cooldown(data.Cooldown);
             return true;

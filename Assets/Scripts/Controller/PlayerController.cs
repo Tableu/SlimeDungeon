@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Controller;
 using Controller.Form;
+using Systems.Modifiers;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Random = UnityEngine.Random;
@@ -26,9 +27,8 @@ public class PlayerController : Character
     public override float Health
     {
         get => _formManager.CurrentForm.Health;
-        internal set => _formManager.CurrentForm.Health = value;
+        protected set => _formManager.CurrentForm.Health = value;
     }
-    public override float Speed => _formManager.CurrentForm.Speed;
     public override Type ElementType => _formManager.CurrentForm.ElementType;
     public override Vector3 SpellOffset => _formManager.CurrentForm.Data.SpellOffset;
     public PlayerInputActions PlayerInputActions => _playerInputActions;
@@ -44,6 +44,7 @@ public class PlayerController : Character
     #region Unity Event Functions
     private void Awake()
     {
+        Mana = playerData.Mana;
         attacks = new List<Attack>();
         _unlockedAttacks = new List<AttackData>();
         
@@ -56,7 +57,8 @@ public class PlayerController : Character
         _playerInputActions.Enable();
         _formManager = new FormManager(this, model);
         _formManager.OnFormChange += OnFormChange;
-        Mana = playerData.Mana;
+        Speed = new ModifiableStat(_formManager.CurrentForm.Speed);
+        
         _lastDirection = Vector2.zero;
     }
     
@@ -132,9 +134,7 @@ public class PlayerController : Character
         if (_inKnockback)
             return;
         _direction = _playerInputActions.Movement.Direction.ReadValue<Vector2>();
-        
-        
-        
+
         if (_direction != Vector2.zero)
         {
             if (_lastDirection != _direction)
@@ -221,7 +221,7 @@ public class PlayerController : Character
     
     protected override void OnAttackBegin(Attack attack)
     {
-        currentAttack = attack;
+        base.OnAttackBegin(attack);
     }
 
     #endregion
@@ -265,6 +265,7 @@ public class PlayerController : Character
     private void OnFormChange()
     {
         Health = _formManager.CurrentForm.Health;
+        Speed.UpdateBaseValue(_formManager.CurrentForm.Speed);
     }
     #endregion
 }

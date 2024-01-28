@@ -62,13 +62,11 @@ namespace Controller.Form
                 _statBarSlider.value = Temperature;
                 if (Temperature > _data.MaxTemperature / 2)
                 {
-                    form.PlayerController.sizeMultiplier = 2;
-                    form.PlayerController.damageMultiplier = 2;
+                    form.PlayerController.SetMultipliers(2, 2, 1);
                 }
                 else
                 {
-                    form.PlayerController.sizeMultiplier = 1;
-                    form.PlayerController.damageMultiplier = 1;
+                    form.PlayerController.SetMultipliers(1, 1, 1);
                 }
             }
         }

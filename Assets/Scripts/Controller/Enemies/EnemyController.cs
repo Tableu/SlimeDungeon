@@ -186,7 +186,7 @@ public abstract class EnemyController : Character
 
     protected override void OnAttackBegin(Attack attack)
     {
-        currentAttack = attack;
+        base.OnAttackBegin(attack);
         StopAgent();
     }
     

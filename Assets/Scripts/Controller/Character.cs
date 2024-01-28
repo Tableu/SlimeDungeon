@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Systems.Modifiers;
 using UnityEngine;
 using Type = Elements.Type;
 
@@ -8,32 +9,32 @@ namespace Controller
 {
     public abstract class Character : MonoBehaviour, IDamageable
     {
-        public virtual float Speed
+        public ModifiableStat Speed
         {
-            internal set;
+            protected set;
             get;
         }
         public virtual float Health
         {
-            internal set;
+            protected set;
             get;
         }
 
         public float Mana
         {
-            internal set;
+            protected set;
             get;
         }
 
         public virtual Type ElementType
         {
-            internal set;
+            protected set;
             get;
         }
 
         public virtual Vector3 SpellOffset
         {
-            internal set;
+            protected set;
             get;
         }
 
@@ -46,10 +47,27 @@ namespace Controller
         [SerializeField] protected new Rigidbody rigidbody;
         protected Attack currentAttack;
         protected List<Attack> attacks;
-        internal bool disableRotation = false;
-        internal float damageMultiplier = 1;
-        internal float speedMultiplier = 1;
-        internal float sizeMultiplier = 1;
+
+        protected bool disableRotation = false;
+
+        //todo refactor spell multipliers
+        public float DamageMultiplier
+        {
+            protected set;
+            get;
+        } = 1;
+
+        public float SpeedMultiplier
+        {
+            protected set;
+            get;
+        } = 1;
+
+        public float SizeMultiplier
+        {
+            protected set;
+            get;
+        } = 1;
 
         public Attack CurrentAttack => currentAttack;
         public LayerMask EnemyMask;
@@ -59,7 +77,7 @@ namespace Controller
 
         protected void Start()
         {
-            Speed = CharacterData.Speed;
+            Speed = new ModifiableStat(CharacterData.Speed);
             Health = CharacterData.Health;
             Mana = CharacterData.Mana;
             ElementType = CharacterData.ElementType;
@@ -91,7 +109,11 @@ namespace Controller
             Destroy(gameObject);
         }
 
-        protected abstract void OnAttackBegin(Attack attack);
+        protected virtual void OnAttackBegin(Attack attack)
+        {
+            currentAttack = attack;
+            Mana -= attack.Data.ManaCost;
+        }
 
         public void OnCollisionEnter(Collision other)
         {
@@ -104,6 +126,23 @@ namespace Controller
             {
                 currentAttack = null;
             }
+        }
+
+        public void SetMultipliers(float size, float damage, float speed)
+        {
+            SizeMultiplier = size;
+            DamageMultiplier = damage;
+            SpeedMultiplier = speed;
+        }
+
+        public void DisableRotation()
+        {
+            disableRotation = true;
+        }
+
+        public void EnableRotation()
+        {
+            disableRotation = false;
         }
 
         protected abstract IEnumerator ApplyKnockback(Vector3 knockback, float hitStun);
