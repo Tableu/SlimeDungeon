@@ -14,6 +14,7 @@ public class PlayerController : Character
 {
     [SerializeField] private PlayerData playerData;
     [SerializeField] private GameObject model;
+    [SerializeField] private ParticleSystem walkingSmokeParticleSystem;
     
     private Vector2 _direction;
     private Vector2 _lastDirection;
@@ -72,6 +73,16 @@ public class PlayerController : Character
             LinkInput(action, attacks[i]);
             i++;
         }
+        
+        _playerInputActions.Movement.Pressed.started += delegate(InputAction.CallbackContext context)
+        {
+            walkingSmokeParticleSystem.Play();
+        };
+        
+        _playerInputActions.Movement.Pressed.canceled += delegate(InputAction.CallbackContext context)
+        {
+            walkingSmokeParticleSystem.Stop();
+        };
         
         _playerInputActions.Other.Absorb.started += delegate(InputAction.CallbackContext context)
         {
