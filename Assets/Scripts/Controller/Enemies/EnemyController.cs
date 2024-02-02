@@ -2,6 +2,7 @@ using System.Collections;
 using Controller;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public enum EnemyControllerState
@@ -21,7 +22,7 @@ public abstract class EnemyController : Character
     [SerializeField] private bool moveWhileAttacking;
     [SerializeField] private ParticleSystem stunEffect;
     [SerializeField] private ParticleSystem stunAura;
-    [SerializeField] private GameObject enemyHealthbar;
+    [FormerlySerializedAs("enemyHealthbar")] [SerializeField] private GameObject enemyStatBars;
 
     private bool _attackingPlayer = false;
     private Transform _target = null;
@@ -46,8 +47,8 @@ public abstract class EnemyController : Character
     private new void Start()
     {
         base.Start();
-        GameObject healthbar = Instantiate(enemyHealthbar, transform.position, Quaternion.identity, GlobalReferences.Instance.EnemyHealthbars.transform);
-        var script = healthbar.GetComponent<EnemyStatBar>();
+        GameObject statbars = Instantiate(enemyStatBars, transform.position, enemyStatBars.transform.rotation, GlobalReferences.Instance.EnemyHealthbars.transform);
+        var script = statbars.GetComponent<EnemyStatBar>();
         script.Initialize(this);
         StunMeter = 0;
         agent.speed = Speed;
