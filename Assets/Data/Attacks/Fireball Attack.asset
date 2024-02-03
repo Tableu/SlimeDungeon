@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Fireball Attack
   m_EditorClassIdentifier: 
   speed: 30
-  damage: 10
+  damage: 20
   knockback: 2
   manaCost: 10
   hitStun: 0.3

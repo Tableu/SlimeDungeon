@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eee29ab224b67ec449499822efdd63e6, type: 3}
   m_Name: Chicken Enemy
   m_EditorClassIdentifier: 
-  health: 10
+  health: 50
   stunResist: 10
   speed: 10
-  manaRegen: 1
+  manaRegen: 0.1
   mana: 20
   elementType: 1
   attacks:

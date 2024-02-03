@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: WaterBolt Attack
   m_EditorClassIdentifier: 
   speed: 15
-  damage: 5
+  damage: 15
   knockback: 0.1
   manaCost: 5
   hitStun: 0.1

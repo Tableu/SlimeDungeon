@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: WaterSlimeFormData
   m_EditorClassIdentifier: 
   elementType: 2
-  health: 50
+  health: 100
   speed: 5
   maxVelocity: {x: 5, y: 5}
   captureDifficulty: 1

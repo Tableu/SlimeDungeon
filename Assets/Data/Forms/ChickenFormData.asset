@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: ChickenFormData
   m_EditorClassIdentifier: 
   elementType: 1
-  health: 20
-  speed: 5
-  maxVelocity: {x: 5, y: 5}
+  health: 50
+  speed: 8
+  maxVelocity: {x: 8, y: 8}
   captureDifficulty: 1
   model: {fileID: 1311290861401530, guid: c04e0f8d8c08e38449d6943f41bf1a0b, type: 3}
   item: {fileID: 834991341219302362, guid: e3734db998ba25e40855a1a4c1ecc07b, type: 3}

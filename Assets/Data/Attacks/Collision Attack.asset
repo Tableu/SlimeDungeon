@@ -12,12 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37e73c80bc0ab5b4c865bc00aef45ac6, type: 3}
   m_Name: Collision Attack
   m_EditorClassIdentifier: 
-  offset: 0
   speed: 0
   damage: 10
   knockback: 10
   manaCost: 0
   hitStun: 0.5
   cooldown: 0
-  elementType: 1
+  targetingRange: 0
+  elementType: 0
   prefab: {fileID: 0}
+  icon: {fileID: 0}

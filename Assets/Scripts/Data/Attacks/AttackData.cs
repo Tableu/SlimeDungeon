@@ -12,7 +12,8 @@ public abstract class AttackData : ScriptableObject
     [SerializeField] private float manaCost;
     [SerializeField] private float hitStun;
     [SerializeField] private float cooldown;
-    [SerializeField] private float targetingRange;
+    //todo remove - isn't needed since player rotates to follow mouse
+    //[SerializeField] private float targetingRange;
     [SerializeField] private Type elementType;
     [SerializeField] private GameObject prefab;
     [SerializeField] private Sprite icon;
@@ -25,7 +26,7 @@ public abstract class AttackData : ScriptableObject
     public float Cooldown => cooldown;
     public GameObject Prefab => prefab;
     public Type ElementType => elementType;
-    public float TargetingRange => targetingRange;
+    //public float TargetingRange => targetingRange;
     public Sprite Icon => icon;
         
     public abstract Attack EquipAttack(Character character);
