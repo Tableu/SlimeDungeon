@@ -26,6 +26,7 @@ public abstract class EnemyController : Character
 
     private bool _attackingPlayer = false;
     private Transform _target = null;
+    private Vector3 _targetPosition;
     private int _tick = 0;
 
     public override CharacterData CharacterData => enemyData;
@@ -66,7 +67,7 @@ public abstract class EnemyController : Character
         {
             if (_target != null)
             {
-                agent.SetDestination(_target.position);
+                agent.SetDestination(_targetPosition);
             }
 
             if (agent.remainingDistance < agent.stoppingDistance)
@@ -160,6 +161,7 @@ public abstract class EnemyController : Character
             else if(diff.magnitude < enemyData.AggroRange)
             {
                 _target = GlobalReferences.Instance.Player.transform;
+                _targetPosition = _target.position + new Vector3(Random.Range(-1,1), 0, Random.Range(-1,1));
                 _attackingPlayer = true;
                 transform.rotation = Quaternion.LookRotation(_target.transform.position - transform.position);
                 agent.stoppingDistance = enemyData.AttackRange;
@@ -175,14 +177,6 @@ public abstract class EnemyController : Character
             if(CurrentState != EnemyControllerState.Stunned)
                 Walk();          
         }
-    }
-    public void OnAnimatorMove()
-    {
-        // apply root motion to AI
-        Vector3 position = animator.rootPosition;
-        position.y = agent.nextPosition.y;
-        transform.position = position;
-        agent.nextPosition = transform.position;
     }
 
     protected override void OnAttackBegin(Attack attack)
@@ -228,6 +222,7 @@ public abstract class EnemyController : Character
 
     protected override void HandleDeath()
     {
+        //todo remove this
         /*GameObject item = Instantiate(enemyData.FormData.Item, transform.position, Quaternion.identity);
         FormItem script = item.GetComponent<FormItem>();
         script.Initialize(enemyData.FormData);*/
