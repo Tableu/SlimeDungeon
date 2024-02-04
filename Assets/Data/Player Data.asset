@@ -19,5 +19,5 @@ MonoBehaviour:
   mana: 100
   elementType: 1
   attacks: []
-  startForm: {fileID: 11400000, guid: 6cb87275a0359ba4a8b741fb885df66c, type: 2}
+  startForm: {fileID: 11400000, guid: 1bcd57858ce771b4086d405e05eea620, type: 2}
   maxFormCount: 1

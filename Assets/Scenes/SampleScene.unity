@@ -106,15 +106,15 @@ NavMeshSettings:
   m_BuildSettings:
     serializedVersion: 2
     agentTypeID: 0
-    agentRadius: 0.5
+    agentRadius: 1
     agentHeight: 0.5
-    agentSlope: 45
+    agentSlope: 35.3
     agentClimb: 0.4
     ledgeDropHeight: 0
     maxJumpAcrossDistance: 0
     minRegionArea: 2
     manualCellSize: 0
-    cellSize: 0.16666667
+    cellSize: 0.33333334
     manualTileSize: 0
     tileSize: 256
     accuratePlacement: 0
@@ -71312,8 +71312,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 14010672}
     - target: {fileID: 6042655304471014048, guid: 99564821069a52a4ea7a22344aa60da2, type: 3}
+      propertyPath: m_AutoRepath
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6042655304471014048, guid: 99564821069a52a4ea7a22344aa60da2, type: 3}
+      propertyPath: m_AutoBraking
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6042655304471014048, guid: 99564821069a52a4ea7a22344aa60da2, type: 3}
       propertyPath: m_Acceleration
       value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 6042655304471014048, guid: 99564821069a52a4ea7a22344aa60da2, type: 3}
+      propertyPath: m_WalkableMask
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 99564821069a52a4ea7a22344aa60da2, type: 3}
@@ -78016,6 +78028,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Grass Slime
       objectReference: {fileID: 0}
+    - target: {fileID: 6042655304471014048, guid: 68b415f9bad327e41a6b1447cff3df71, type: 3}
+      propertyPath: m_AutoRepath
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6042655304471014048, guid: 68b415f9bad327e41a6b1447cff3df71, type: 3}
+      propertyPath: m_AutoBraking
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6042655304471014048, guid: 68b415f9bad327e41a6b1447cff3df71, type: 3}
+      propertyPath: m_WalkableMask
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 8317631748330841508, guid: 68b415f9bad327e41a6b1447cff3df71, type: 3}
       propertyPath: enemyStatBars
       value: 
@@ -79938,6 +79962,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1762544897}
     m_Modifications:
+    - target: {fileID: 1097483168939663460, guid: 30063cbd858626a4db730947f21d210a, type: 3}
+      propertyPath: m_AutoRepath
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1097483168939663460, guid: 30063cbd858626a4db730947f21d210a, type: 3}
+      propertyPath: m_AutoBraking
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1097483168939663460, guid: 30063cbd858626a4db730947f21d210a, type: 3}
+      propertyPath: m_WalkableMask
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 2407352696285154958, guid: 30063cbd858626a4db730947f21d210a, type: 3}
       propertyPath: enemyStatBars
       value: 
@@ -80450,6 +80486,18 @@ PrefabInstance:
     - target: {fileID: 1068915873035841302, guid: 4fd2af36cb21a8d4781e0e073e124da2, type: 3}
       propertyPath: m_Name
       value: Fire Slime
+      objectReference: {fileID: 0}
+    - target: {fileID: 6042655304471014048, guid: 4fd2af36cb21a8d4781e0e073e124da2, type: 3}
+      propertyPath: m_AutoRepath
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6042655304471014048, guid: 4fd2af36cb21a8d4781e0e073e124da2, type: 3}
+      propertyPath: m_AutoBraking
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6042655304471014048, guid: 4fd2af36cb21a8d4781e0e073e124da2, type: 3}
+      propertyPath: m_WalkableMask
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4fd2af36cb21a8d4781e0e073e124da2, type: 3}

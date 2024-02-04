@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 namespace Controller.Form
 {
+    //todo fix fire form slider
     public class FireFormAnimator : FormAnimator
     {
         public float Temperature { get; private set; }
@@ -17,9 +18,9 @@ namespace Controller.Form
             this.form = form;
             animator = GetComponent<Animator>();
             _data = form.Data as FireFormData;
-            var sliderObject = Instantiate(_data.Slider, GlobalReferences.Instance.Canvas.gameObject.transform);
-            _statBarSlider = sliderObject.GetComponent<Slider>();
-            _statBarSlider.maxValue = _data.MaxTemperature;
+            //var sliderObject = Instantiate(_data.Slider, GlobalReferences.Instance.Canvas.gameObject.transform);
+            //_statBarSlider = sliderObject.GetComponent<Slider>();
+            //_statBarSlider.maxValue = _data.MaxTemperature;
             
             foreach (Attack attack in form.PlayerController.Attacks)
             {
@@ -32,7 +33,7 @@ namespace Controller.Form
 
         private void OnDestroy()
         {
-            Destroy(_statBarSlider.gameObject);
+            //Destroy(_statBarSlider.gameObject);
             foreach (Attack attack in form.PlayerController.Attacks)
             {
                 attack.OnBegin -= IncreaseTemperature;
@@ -56,18 +57,19 @@ namespace Controller.Form
         private void FixedUpdate()
         {
             DecreaseTemperature();
-            
+
             if (_statBarSlider != null)
             {
                 _statBarSlider.value = Temperature;
-                if (Temperature > _data.MaxTemperature / 2)
-                {
-                    form.PlayerController.SetMultipliers(2, 2, 1);
-                }
-                else
-                {
-                    form.PlayerController.SetMultipliers(1, 1, 1);
-                }
+            }
+
+            if (Temperature > _data.MaxTemperature / 2)
+            {
+                form.PlayerController.SetMultipliers(2, 2, 1);
+            }
+            else
+            {
+                form.PlayerController.SetMultipliers(1, 1, 1);
             }
         }
 
