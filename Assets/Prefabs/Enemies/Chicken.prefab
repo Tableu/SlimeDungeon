@@ -98,9 +98,9 @@ NavMeshAgent:
   m_GameObject: {fileID: 1068915873035841302}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.1
+  m_Radius: 0.5
   m_Speed: 1
-  m_Acceleration: 8
+  m_Acceleration: 100
   avoidancePriority: 50
   m_AngularSpeed: 200
   m_StoppingDistance: 3
@@ -109,7 +109,7 @@ NavMeshAgent:
   m_AutoRepath: 1
   m_Height: 1
   m_BaseOffset: 0
-  m_WalkableMask: 4294967295
+  m_WalkableMask: 5
   m_ObstacleAvoidanceType: 4
 --- !u!114 &4739055384753935876
 MonoBehaviour:
@@ -127,7 +127,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   rigidbody: {fileID: 6042655304471014061}
-  CurrentState: 0
+  EnemyMask:
+    serializedVersion: 2
+    m_Bits: 0
   agent: {fileID: 6042655304471014048}
   waypoints:
   - {fileID: 0}
@@ -139,6 +141,7 @@ MonoBehaviour:
   moveWhileAttacking: 0
   stunEffect: {fileID: 1294409137733998528}
   stunAura: {fileID: 6350538473073523532}
+  enemyStatBars: {fileID: 0}
 --- !u!1001 &1632680865806460489
 PrefabInstance:
   m_ObjectHideFlags: 0
