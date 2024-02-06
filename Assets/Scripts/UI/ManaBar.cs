@@ -9,9 +9,6 @@ public class ManaBar : MonoBehaviour
     private void Start()
     {
         slider.maxValue = controller.Mana;
-
-        if (slider.transform is RectTransform rt) 
-            rt.sizeDelta = new Vector2(controller.Mana * 2, rt.sizeDelta.y);
     }
 
     private void FixedUpdate()

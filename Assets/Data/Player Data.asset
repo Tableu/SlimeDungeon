@@ -18,6 +18,9 @@ MonoBehaviour:
   manaRegen: 0.1
   mana: 100
   elementType: 1
-  attacks: []
+  attacks:
+  - {fileID: 11400000, guid: c5d2a1463d32f91459e236f8fea813c9, type: 2}
+  - {fileID: 11400000, guid: 26b21ae9161b48948a727fec0ee6ba51, type: 2}
+  - {fileID: 11400000, guid: b018f63bcc11b804a8fbe50c7227a381, type: 2}
   startForm: {fileID: 11400000, guid: 1bcd57858ce771b4086d405e05eea620, type: 2}
   maxFormCount: 1
