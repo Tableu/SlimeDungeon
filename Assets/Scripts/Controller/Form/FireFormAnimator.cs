@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace Controller.Form
 {
-    //todo fix fire form slider
+    //todo fix fire form slider and attack temperature increase/decrease
     public class FireFormAnimator : FormAnimator
     {
         public float Temperature { get; private set; }
@@ -22,10 +22,10 @@ namespace Controller.Form
             //_statBarSlider = sliderObject.GetComponent<Slider>();
             //_statBarSlider.maxValue = _data.MaxTemperature;
             
-            foreach (Attack attack in form.PlayerController.Attacks)
+            /*foreach (Attack attack in form.PlayerController.Attacks)
             {
                 attack.OnBegin += IncreaseTemperature;
-            }
+            }*/
             form.PlayerController.PlayerInputActions.Movement.Pressed.canceled += MovementCanceled;
             form.PlayerController.PlayerInputActions.Movement.Pressed.started += MovementStarted;
             animator = GetComponent<Animator>();
@@ -34,10 +34,10 @@ namespace Controller.Form
         private void OnDestroy()
         {
             //Destroy(_statBarSlider.gameObject);
-            foreach (Attack attack in form.PlayerController.Attacks)
+            /*foreach (Attack attack in form.PlayerController.Attacks)
             {
                 attack.OnBegin -= IncreaseTemperature;
-            }
+            }*/
             form.PlayerController.PlayerInputActions.Movement.Pressed.canceled -= MovementCanceled;
             form.PlayerController.PlayerInputActions.Movement.Pressed.started -= MovementStarted;
         }

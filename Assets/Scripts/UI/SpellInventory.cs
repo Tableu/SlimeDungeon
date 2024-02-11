@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Controller;
 using UnityEngine;
 
 public class SpellInventory : MonoBehaviour
@@ -21,7 +22,7 @@ public class SpellInventory : MonoBehaviour
             icon.enabled = false;
         }
         
-        controller.OnAttackUnEquip += OnAttackUnEquip;
+        controller.OnAttackUnEquipped += OnAttackUnEquip;
         controller.OnAttackUnlocked += AddSpell;
         gameObject.SetActive(false);
     }
@@ -39,11 +40,12 @@ public class SpellInventory : MonoBehaviour
         controller.EquipAttack(data, index);
     }
 
-    private void OnAttackUnEquip(AttackData data)
+    private void OnAttackUnEquip(Attack attack, int index)
     {
+        //todo refactor to handle duplicates
         foreach (var icon in inventoryIconList)
         {
-            if (icon.Data == data)
+            if (icon.Data == attack.Data)
             {
                 icon.enabled = true;
             }
@@ -52,7 +54,7 @@ public class SpellInventory : MonoBehaviour
 
     private void OnDestroy()
     {
-        controller.OnAttackUnEquip -= OnAttackUnEquip;
+        controller.OnAttackUnEquipped -= OnAttackUnEquip;
         controller.OnAttackUnlocked -= AddSpell;
     }
 }

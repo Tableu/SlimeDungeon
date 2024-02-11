@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Controller;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,23 +11,22 @@ public class SpellBarIcon : MonoBehaviour
     [SerializeField] private TextMeshProUGUI keyText;
     [SerializeField] private TextMeshProUGUI manaText;
     private int _index;
-    private PlayerController _controller;
+    private Attack _attack;
 
     public int Index => _index;
     private void Awake()
     {
         icon.enabled = false;
+        manaText.enabled = false;
     }
     
-    public void Initialize(int index, PlayerController controller)
+    public void Initialize(int index, string inputKey)
     {
-        _controller = controller;
-        var inputMap = controller.PlayerInputActions.Spells.Get();
-        keyText.text = inputMap.actions[index].controls[0].name.ToUpper();
+        keyText.text = inputKey;
         _index = index;
     }
 
-    public void OnCooldown(float duration)
+    private void OnCooldown(float duration)
     {
         StartCoroutine(Cooldown(duration));
     }
@@ -42,15 +42,31 @@ public class SpellBarIcon : MonoBehaviour
         }
     }
 
-    public void SetIcon(Sprite sprite, float manaCost)
+    public void EquipAttack(Attack attack)
     {
         icon.enabled = true;
-        icon.sprite = sprite;
-        manaText.text = manaCost.ToString();
+        icon.sprite = attack.Data.Icon;
+        manaText.enabled = true;
+        manaText.text = attack.Data.ManaCost.ToString();
+        attack.OnCooldown += OnCooldown;
+        _attack = attack;
     }
+
+    public void UnEquipAttack()
+    {
+        icon.enabled = false;
+        manaText.enabled = false;
+        if (_attack != null)
+        {
+            _attack.OnCooldown -= OnCooldown;
+            _attack = null;
+        }
+    }
+
 
     private void OnDestroy()
     {
         StopAllCoroutines();
+        UnEquipAttack();
     }
 }

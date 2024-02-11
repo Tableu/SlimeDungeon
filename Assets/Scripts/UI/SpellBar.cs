@@ -11,39 +11,35 @@ public class SpellBar : MonoBehaviour
     private void Start()
     {
         spellIcons = new List<SpellBarIcon>();
-        var i = 0;
-        foreach (Attack attack in playerController.Attacks)
+        var inputMap = playerController.PlayerInputActions.Spells.Get();
+        for (int i = 0; i < ((PlayerData) playerController.CharacterData).MaxSpellCount; i++)
         {
             GameObject icon = Instantiate(spellIconPrefab, transform);
             var script = icon.GetComponent<SpellBarIcon>();
             if (script != null)
             {
                 spellIcons.Add(script);
-                attack.OnCooldown += script.OnCooldown;
-                script.Initialize(i, playerController);
-                script.SetIcon(playerController.CharacterData.Attacks[i].Icon, playerController.CharacterData.Attacks[i].ManaCost);
+                script.Initialize(i, inputMap.actions[i].controls[0].name.ToUpper());
             }
-
-            i++;
         }
-        
-        playerController.OnAttackEquip += OnAttackEquip;
+
+        playerController.OnAttackEquipped += OnAttackEquipped;
+        playerController.OnAttackUnEquipped += OnAttackUnEquipped;
+        playerController.InitializeAttacks();
     }
 
-    private void OnAttackEquip(AttackData attackData, int index)
+    private void OnAttackEquipped(Attack attack, int index)
     {
-        playerController.Attacks[index].OnCooldown += spellIcons[index].OnCooldown;
-        spellIcons[index].SetIcon(attackData.Icon, attackData.ManaCost);
+        spellIcons[index].EquipAttack(attack);
+    }
+
+    private void OnAttackUnEquipped(Attack attack, int index)
+    {
+        spellIcons[index].UnEquipAttack();
     }
 
     private void OnDestroy()
     {
-        var i = 0;
-        foreach (Attack attack in playerController.Attacks)
-        {
-            attack.OnCooldown -= spellIcons[i].OnCooldown;
-            i++;
-        }
-        playerController.OnAttackEquip -= OnAttackEquip;
+        playerController.OnAttackEquipped -= OnAttackEquipped;
     }
 }

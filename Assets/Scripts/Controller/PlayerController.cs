@@ -39,41 +39,29 @@ public class PlayerController : Character
     
     public Action OnFormFaint;
     public Action OnDamage;
-    public Action<AttackData, int> OnAttackEquip;
-    public Action<AttackData> OnAttackUnEquip;
+    public Action<Attack, int> OnAttackEquipped;
+    public Action<Attack, int> OnAttackUnEquipped;
     public Action<AttackData> OnAttackUnlocked;
     #region Unity Event Functions
     private void Awake()
     {
         Mana = playerData.Mana;
-        attacks = new List<Attack>();
+        attacks = new List<Attack>(new Attack[playerData.MaxSpellCount]);
         _unlockedAttacks = new List<AttackData>();
-        
-        foreach (AttackData attackData in playerData.Attacks)
-        {
-            attacks.Add(attackData.EquipAttack(this));
-            _unlockedAttacks.Add(attackData);
-        }
         _playerInputActions = new PlayerInputActions();
         _playerInputActions.Enable();
         _formManager = new FormManager(this, model);
         _formManager.OnFormChange += OnFormChange;
         Speed = new ModifiableStat(_formManager.CurrentForm.Speed);
-        
+        foreach (AttackData attackData in playerData.Attacks)
+        {
+            _unlockedAttacks.Add(attackData);
+        }
         _lastDirection = Vector2.zero;
     }
     
     private new void Start()
     {
-        var i = 0;
-        foreach (InputAction action in _playerInputActions.Spells.Get())
-        {
-            if (attacks.Count <= i)
-                break;
-            LinkInput(action, attacks[i]);
-            i++;
-        }
-        
         _playerInputActions.Movement.Pressed.started += delegate(InputAction.CallbackContext context)
         {
             walkingSmokeParticleSystem.Play();
@@ -180,7 +168,7 @@ public class PlayerController : Character
         int i = 0;
         foreach (InputAction action in _playerInputActions.Spells.Get())
         {
-            if (attacks.Count <= i)
+            if (attacks.Count <= i || attacks[i] != null)
                 break;
             UnlinkInput(action, attacks[i]);
             i++;
@@ -236,18 +224,39 @@ public class PlayerController : Character
     }
 
     #endregion
+
+    public void InitializeAttacks()
+    {
+        var i = 0;
+        foreach (AttackData attackData in playerData.Attacks)
+        {
+            EquipAttack(attackData,i);
+            i++;
+        }
+    }
+    
     public void EquipAttack(AttackData attackData, int index)
     {
-        OnAttackUnEquip?.Invoke(attacks[index].Data);
+        var inputs = _playerInputActions.Spells.Get();
+        if (attacks[index] != null)
+        {
+            UnlinkInput(inputs.actions[index], attacks[index]);
+            attacks[index].CleanUp();
+            currentAttack = null;
+        }
+        attacks[index] = attackData.EquipAttack(this);
+        OnAttackEquipped?.Invoke(attacks[index], index);
+        
+        LinkInput(inputs.actions[index], attacks[index]);
+    }
+
+    public void UnEquipAttack(int index)
+    {
+        OnAttackUnEquipped?.Invoke(attacks[index], index);
         var inputs = _playerInputActions.Spells.Get();
         UnlinkInput(inputs.actions[index], attacks[index]);
         attacks[index].CleanUp();
         currentAttack = null;
-        attacks.RemoveAt(index);
-        attacks.Insert(index, attackData.EquipAttack(this));
-        
-        OnAttackEquip?.Invoke(attackData, index);
-        LinkInput(inputs.actions[index], attacks[index]);
     }
 
     public void UnlockAttack(AttackData attackData)

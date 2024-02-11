@@ -71,7 +71,6 @@ namespace Controller
 
         public Attack CurrentAttack => currentAttack;
         public LayerMask EnemyMask;
-        public List<Attack> Attacks => attacks;
         public Action<Collision> CollisionEnter;
         public Action OnDeath;
 
