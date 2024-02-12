@@ -42,6 +42,7 @@ public class PlayerController : Character
     public Action<Attack, int> OnAttackEquipped;
     public Action<Attack, int> OnAttackUnEquipped;
     public Action<AttackData> OnAttackUnlocked;
+    public Action<AttackData> OnAttackRemoved;
     #region Unity Event Functions
     private void Awake()
     {
@@ -52,12 +53,16 @@ public class PlayerController : Character
         _playerInputActions.Enable();
         _formManager = new FormManager(this, model);
         _formManager.OnFormChange += OnFormChange;
-        Speed = new ModifiableStat(_formManager.CurrentForm.Speed);
+        _formManager.OnFormAdd += OnFormAdd;
+        _formManager.OnFormRemoved += OnFormRemoved;
+        
+        Speed = new ModifiableStat(playerData.Speed);
         foreach (AttackData attackData in playerData.Attacks)
         {
             _unlockedAttacks.Add(attackData);
         }
         _lastDirection = Vector2.zero;
+        _formManager.InitializeForm();
     }
     
     private new void Start()
@@ -168,12 +173,14 @@ public class PlayerController : Character
         int i = 0;
         foreach (InputAction action in _playerInputActions.Spells.Get())
         {
-            if (attacks.Count <= i || attacks[i] != null)
+            if (attacks.Count <= i || attacks[i] == null)
                 break;
             UnlinkInput(action, attacks[i]);
             i++;
         }
         _formManager.OnFormChange -= OnFormChange;
+        _formManager.OnFormAdd -= OnFormAdd;
+        _formManager.OnFormRemoved -= OnFormRemoved;
         _playerInputActions.Disable();
         _playerInputActions.Dispose();
     }
@@ -228,9 +235,11 @@ public class PlayerController : Character
     public void InitializeAttacks()
     {
         var i = 0;
-        foreach (AttackData attackData in playerData.Attacks)
+        foreach (AttackData attackData in _unlockedAttacks)
         {
             EquipAttack(attackData,i);
+            if (i >= playerData.MaxSpellCount)
+                break;
             i++;
         }
     }
@@ -265,6 +274,12 @@ public class PlayerController : Character
         OnAttackUnlocked?.Invoke(attackData);
     }
 
+    public void RemoveAttack(AttackData attackData)
+    {
+        _unlockedAttacks.Remove(attackData);
+        OnAttackRemoved?.Invoke(attackData);
+    }
+
     public void LinkInput(InputAction action, Attack attack)
     {
         action.started += attack.Begin;
@@ -286,6 +301,27 @@ public class PlayerController : Character
     {
         Health = _formManager.CurrentForm.Health;
         Speed.UpdateBaseValue(_formManager.CurrentForm.Speed);
+    }
+
+    private void OnFormAdd(Form form, int index)
+    {
+        foreach (AttackData attackData in form.Data.Spells)
+        {
+            UnlockAttack(attackData);
+        }
+    }
+
+    private void OnFormRemoved(Form form)
+    {
+        foreach (AttackData attackData in form.Data.Spells)
+        {
+            int index = attacks.FindIndex(attack => attack.Data == attackData);
+            if (index != -1)
+            {
+                UnEquipAttack(index);
+            }
+            RemoveAttack(attackData);
+        }
     }
     #endregion
 }

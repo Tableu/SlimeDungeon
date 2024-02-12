@@ -24,6 +24,7 @@ public class FormManager
     
     public Action OnFormChange;
     public Action<Form, int> OnFormAdd;
+    public Action<Form> OnFormRemoved;
 
     public FormManager(PlayerController playerController, GameObject model)
     {
@@ -36,13 +37,6 @@ public class FormManager
         _playerController.PlayerInputActions.Other.SwitchForms.started += SwitchForms;
         _playerController.OnDamage += OnDamage;
         _playerController.OnFormFaint += OnFormFaint;
-
-        Form form = new Form(((PlayerData)_playerController.CharacterData).StartForm, _playerController);
-        _forms.Add(form);
-        OnFormAdd?.Invoke(form, _forms.Count-1);
-        ChangeModel(form.Data);
-        CurrentForm.Equip(_model);
-        OnFormChange?.Invoke();
     }
 
     ~FormManager()
@@ -53,6 +47,16 @@ public class FormManager
         _playerController.OnFormFaint -= OnFormFaint;
     }
     #region Public Methods
+
+    public void InitializeForm()
+    {
+        Form form = new Form(((PlayerData)_playerController.CharacterData).StartForm, _playerController);
+        _forms.Add(form);
+        OnFormAdd?.Invoke(form, _forms.Count-1);
+        ChangeModel(form.Data);
+        CurrentForm.Equip(_model);
+        OnFormChange?.Invoke();
+    }
     public void AddForm(Form form)
     {
         if (_forms.Count >= _maxFormCount)
@@ -62,6 +66,7 @@ public class FormManager
                 GameObject item = Object.Instantiate(CurrentForm.Data.Item, _playerController.transform.position, Quaternion.identity);
                 FormItem script = item.GetComponent<FormItem>();
                 script.Initialize(CurrentForm);
+                OnFormRemoved?.Invoke(CurrentForm);
             }
             EquipForm(form);
             OnFormAdd?.Invoke(form, _formIndex);

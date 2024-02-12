@@ -34,7 +34,6 @@ public class SpellInventoryIcon : DraggableItem
                 if (spellBarIcon != null)
                 {
                     _inventory.EquipSpell(spellBarIcon.Index, _data);
-                    this.enabled = false;
                     return;
                 }
             }

@@ -22,6 +22,8 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: 9429c38729b289348a9814b01b7a7631, type: 3}
   spellOffset: {x: 0, y: 0, z: 0}
   basicAttack: {fileID: 11400000, guid: c5d2a1463d32f91459e236f8fea813c9, type: 2}
+  spells:
+  - {fileID: 11400000, guid: c5d2a1463d32f91459e236f8fea813c9, type: 2}
   slider: {fileID: 2596077050798817512, guid: dffaf3477e40f844fb8298565db570cc, type: 3}
   maxTemperature: 100
   increaseRate: 10

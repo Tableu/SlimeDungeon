@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Controller;
 using UnityEngine;
@@ -12,18 +11,16 @@ public class SpellInventory : MonoBehaviour
     private void Start()
     {
         inventoryIconList = new List<SpellInventoryIcon>();
+
         foreach (var attackData in controller.UnlockedAttacks)
         {
             AddSpell(attackData);
         }
 
-        foreach (var icon in inventoryIconList)
-        {
-            icon.enabled = false;
-        }
-        
-        controller.OnAttackUnEquipped += OnAttackUnEquip;
+        controller.OnAttackEquipped += OnSpellEquipped;
+        controller.OnAttackUnEquipped += OnSpellUnEquip;
         controller.OnAttackUnlocked += AddSpell;
+        controller.OnAttackRemoved += RemoveSpell;
         gameObject.SetActive(false);
     }
 
@@ -40,7 +37,23 @@ public class SpellInventory : MonoBehaviour
         controller.EquipAttack(data, index);
     }
 
-    private void OnAttackUnEquip(Attack attack, int index)
+    public void RemoveSpell(AttackData data)
+    {
+        int index = inventoryIconList.FindIndex(icon => icon.Data == data);
+        if (index != -1)
+        {
+            Destroy(inventoryIconList[index]);
+            inventoryIconList.RemoveAt(index);
+        }
+    }
+
+    private void OnSpellEquipped(Attack attack, int index)
+    {
+        int iconIndex = inventoryIconList.FindIndex(icon => icon.Data == attack.Data);
+        inventoryIconList[iconIndex].enabled = false;
+    }
+
+    private void OnSpellUnEquip(Attack attack, int index)
     {
         //todo refactor to handle duplicates
         foreach (var icon in inventoryIconList)
@@ -54,7 +67,8 @@ public class SpellInventory : MonoBehaviour
 
     private void OnDestroy()
     {
-        controller.OnAttackUnEquipped -= OnAttackUnEquip;
+        controller.OnAttackUnEquipped -= OnSpellUnEquip;
         controller.OnAttackUnlocked -= AddSpell;
+        controller.OnAttackRemoved -= RemoveSpell;
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Controller.Form
@@ -19,6 +20,7 @@ namespace Controller.Form
         [SerializeField] private Sprite icon;
         [SerializeField] private Vector3 spellOffset;
         [SerializeField] private AttackData basicAttack;
+        [SerializeField] private List<AttackData> spells;
 
         public Elements.Type ElementType => elementType;
         public float Health => health;
@@ -30,6 +32,7 @@ namespace Controller.Form
         public GameObject Item => item;
         public Sprite Icon => icon;
         public AttackData BasicAttack => basicAttack;
+        public List<AttackData> Spells => spells;
 
         public abstract FormAnimator AttachScript(GameObject gameObject);
     }
