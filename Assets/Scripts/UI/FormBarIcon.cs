@@ -6,8 +6,6 @@ public class FormBarIcon : MonoBehaviour
 {
     [SerializeField] private Image icon;
     [SerializeField] private Slider slider;
-    private int _index;
-    private PlayerController _controller;
     private Form _formInstance;
     private void Awake()
     {
@@ -23,12 +21,6 @@ public class FormBarIcon : MonoBehaviour
         }
     }
 
-    public void Initialize(int index, PlayerController controller)
-    {
-        _controller = controller;
-        _index = index;
-    }
-    
     public void SetIcon(Form formInstance)
     {
         icon.enabled = true;

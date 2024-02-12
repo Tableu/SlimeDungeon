@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Controller.Form;
 using UnityEngine;
@@ -19,7 +18,6 @@ public class FormBar : MonoBehaviour
             if (script != null)
             {
                 formIcons.Add(script);
-                script.Initialize(i, playerController);
                 if(playerController.FormManager.Forms.Count > i)
                     script.SetIcon(playerController.FormManager.Forms[i]);
             }
