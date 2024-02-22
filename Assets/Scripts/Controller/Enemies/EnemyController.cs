@@ -1,5 +1,6 @@
 using System.Collections;
 using Controller;
+using Controller.Form;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Serialization;
@@ -7,7 +8,7 @@ using Random = UnityEngine.Random;
 
 public enum EnemyControllerState
 {
-    Idle,Walk,Attack,Damage,Stunned
+    Idle,Walk,Attack,Stunned
 }
 
 public abstract class EnemyController : Character
@@ -28,10 +29,11 @@ public abstract class EnemyController : Character
     private Transform _target = null;
     private Vector3 _targetPosition;
     private int _tick = 0;
+    private int _stunCounter = 0;
 
     public override CharacterData CharacterData => enemyData;
     
-    public float StunMeter
+    public float SuperEffectiveStunMeter
     {
         private set;
         get;
@@ -43,7 +45,7 @@ public abstract class EnemyController : Character
         get;
     }
 
-    public float StunPercent => (StunMeter / CharacterData.StunResist)*100;
+    public float StunPercent => (SuperEffectiveStunMeter / CharacterData.StunResist)*100;
 
     private new void Start()
     {
@@ -51,7 +53,7 @@ public abstract class EnemyController : Character
         GameObject statbars = Instantiate(enemyStatBars, transform.position, enemyStatBars.transform.rotation, GlobalReferences.Instance.EnemyHealthbars.transform);
         var script = statbars.GetComponent<EnemyStatBar>();
         script.Initialize(this);
-        StunMeter = 0;
+        SuperEffectiveStunMeter = 0;
         agent.speed = Speed;
         agent.updateRotation = false;
         agent.SetDestination(new Vector3(Random.Range(waypoints[0].position.x, waypoints[1].position.x), waypoints[0].position.y,
@@ -188,82 +190,88 @@ public abstract class EnemyController : Character
 
     public override void TakeDamage(float damage, Vector3 knockback, float hitStun, Elements.Type attackType)
     {
-        if (CurrentState != EnemyControllerState.Damage)
+        float typeMultiplier = GlobalReferences.Instance.TypeManager.GetTypeMultiplier(ElementType, attackType);
+        Health -= damage*typeMultiplier;
+        if (Health <= 0)
         {
-            ChangeState(EnemyControllerState.Damage);
-            float typeMultiplier = GlobalReferences.Instance.TypeManager.GetTypeMultiplier(ElementType, attackType);
-            Health -= damage*typeMultiplier;
-            if (Health <= 0)
-            {
-                HandleDeath();
-                return;
-            }
+            HandleDeath();
+            return;
+        }
 
-            if (CurrentState != EnemyControllerState.Stunned)
+        StartCoroutine(HandleKnockback(knockback, hitStun, typeMultiplier));
+        
+        if (SuperEffectiveStunMeter < CharacterData.StunResist)
+        {
+            SuperEffectiveStunMeter += damage * typeMultiplier;
+            if (SuperEffectiveStunMeter >= CharacterData.StunResist)
             {
-                if (StunMeter < CharacterData.StunResist)
-                {
-                    StunMeter += damage * typeMultiplier;
-                    if (StunMeter >= CharacterData.StunResist)
-                    {
-                        StunMeter = CharacterData.StunResist;
-                    }
-                }
-                else if (typeMultiplier > 1)
-                {
-                    StartCoroutine(ApplyStun());
-                    return;
-                }
-
-                StartCoroutine(ApplyKnockback(knockback, hitStun));
+                SuperEffectiveStunMeter = CharacterData.StunResist;
             }
         }
     }
 
     protected override void HandleDeath()
     {
-        //todo remove this
-        /*GameObject item = Instantiate(enemyData.FormData.Item, transform.position, Quaternion.identity);
-        FormItem script = item.GetComponent<FormItem>();
-        script.Initialize(enemyData.FormData);*/
-        StopCoroutine(ApplyStun());
         OnDeath.Invoke();
         Destroy(gameObject);
     }
-    
-    private IEnumerator ApplyStun()
+
+    protected override IEnumerator HandleKnockback(Vector3 knockback, float hitStun, float typeMultiplier)
+    {
+        bool isStunMeterFull = SuperEffectiveStunMeter >= CharacterData.StunResist;
+        bool isSuperEffective = typeMultiplier > 1;
+        bool applySuperEffectiveStun = isStunMeterFull && isSuperEffective;
+        if (applySuperEffectiveStun)
+        {
+            hitStun += 2;
+        }
+        
+        if (hitStun > 0)
+        {
+            if (applySuperEffectiveStun)
+            {
+                stunEffect.Play();
+                stunAura.Play();
+                ApplyStun(knockback);
+                yield return new WaitForSeconds(hitStun);
+                SuperEffectiveStunMeter = 0;
+                stunAura.Clear();
+                stunAura.Stop();
+                RemoveStun();
+            }
+            else
+            {
+                ApplyStun(knockback);
+                yield return new WaitForSeconds(hitStun);
+                RemoveStun();
+            }
+        }
+        if(_stunCounter == 0)
+            Walk();
+    }
+
+    private void ApplyStun(Vector3 knockback)
     {
         CancelInvoke(nameof(WalkToNextDestination));
         ChangeState(EnemyControllerState.Stunned);
         agent.enabled = false;
         agent.updateRotation = false;
-        stunEffect.Play();
-        stunAura.Play();
-        yield return new WaitForSeconds(2);
-        StunMeter = 0;
-        stunAura.Clear();
-        stunAura.Stop();
-        agent.enabled = true;
-        agent.updateRotation = true;
-        ChangeState(EnemyControllerState.Walk);
+        rigidbody.isKinematic = false;
+        rigidbody.AddForce(knockback);
+        _stunCounter++;
     }
 
-    protected override IEnumerator ApplyKnockback(Vector3 knockback, float hitStun)
+    private void RemoveStun()
     {
-        if (hitStun > 0)
+        _stunCounter--;
+        if (_stunCounter == 0)
         {
-            CancelInvoke(nameof(WalkToNextDestination));
-            ChangeState(EnemyControllerState.Damage);
-            agent.enabled = false;
-            rigidbody.isKinematic = false;
-            rigidbody.velocity = knockback;
-            yield return new WaitForSeconds(hitStun);
+            agent.enabled = true;
+            agent.updateRotation = true;
             rigidbody.velocity = Vector3.zero;
             rigidbody.isKinematic = true;
-            agent.enabled = true;
+            ChangeState(EnemyControllerState.Walk);
         }
-        if(CurrentState != EnemyControllerState.Stunned)
-            Walk();
     }
 
     protected abstract void ChangeState(EnemyControllerState state);

@@ -29,7 +29,7 @@ public class EnemyStatBar : MonoBehaviour
         if (_controller != null)
         {
             healthSlider.value = _controller.Health;
-            stunSlider.value = _controller.StunMeter;
+            stunSlider.value = _controller.SuperEffectiveStunMeter;
         }
     }
 

@@ -197,7 +197,7 @@ public class PlayerController : Character
                 HandleDeath();
                 return;
             }
-            StartCoroutine(ApplyKnockback(knockback, hitStun));
+            StartCoroutine(HandleKnockback(knockback, hitStun, typeMultiplier));
             OnDamage?.Invoke();
         }
     }
@@ -214,7 +214,7 @@ public class PlayerController : Character
         }
     }
 
-    protected override IEnumerator ApplyKnockback(Vector3 knockback, float hitStun)
+    protected override IEnumerator HandleKnockback(Vector3 knockback, float hitStun, float typeMultiplier)
     {
         _inKnockback = true;
         _playerInputActions.Disable();

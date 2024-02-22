@@ -39,6 +39,7 @@ public class Fireball : MonoBehaviour
         }
         fireball.Stop();
         GameObject g = Instantiate(explosion, transform.position, Quaternion.identity);
+        g.layer = gameObject.layer;
         var explosionParticle = g.GetComponent<ParticleSystem>();
         var shape = explosionParticle.shape;
         shape.radius *= _sizeMultiplier;

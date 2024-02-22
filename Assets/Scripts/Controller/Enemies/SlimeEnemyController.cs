@@ -27,6 +27,7 @@ public class SlimeEnemyController : EnemyController
             case EnemyControllerState.Idle:
             case EnemyControllerState.Stunned:
                 SetFace(faces.Idleface);
+                animator.SetFloat("Speed", 0);
                 break;
             case EnemyControllerState.Walk:
                 SetFace(faces.WalkFace);
@@ -35,9 +36,6 @@ public class SlimeEnemyController : EnemyController
             case EnemyControllerState.Attack:
                 SetFace(faces.attackFace);
                 animator.SetTrigger("Attack");
-                break;
-            case EnemyControllerState.Damage:
-                animator.SetFloat("Speed", 0);
                 break;
         }
     }

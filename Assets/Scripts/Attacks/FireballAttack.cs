@@ -1,6 +1,5 @@
 using Controller;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class FireballAttack : Attack
 {
@@ -26,11 +25,6 @@ public class FireballAttack : Attack
             return true;
         }
         return false;
-    }
-
-    public override void End(InputAction.CallbackContext callbackContext)
-    {
-        End();
     }
 
     public override void End()

@@ -18,10 +18,6 @@ public class ChickenEnemyController : EnemyController
                 attacks[0].End();
                 Walk();   
                 break;
-            case EnemyControllerState.Damage:
-                animator.SetBool("Walk", true);
-                animator.SetBool("Run", false);
-                break;
         }
     }
 }

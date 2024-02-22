@@ -144,6 +144,6 @@ namespace Controller
             disableRotation = false;
         }
 
-        protected abstract IEnumerator ApplyKnockback(Vector3 knockback, float hitStun);
+        protected abstract IEnumerator HandleKnockback(Vector3 knockback, float hitStun, float typeMultiplier);
     }
 }
