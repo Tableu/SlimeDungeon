@@ -26,6 +26,13 @@ namespace Controller.Form
             {
                 attack.OnBegin += IncreaseTemperature;
             }*/
+            if (form.PlayerController.PlayerInputActions.Movement.Pressed.inProgress)
+            {
+                if (animator != null)
+                {
+                    animator.SetFloat("Speed", form.Speed);
+                }
+            }
             form.PlayerController.PlayerInputActions.Movement.Pressed.canceled += MovementCanceled;
             form.PlayerController.PlayerInputActions.Movement.Pressed.started += MovementStarted;
             animator = GetComponent<Animator>();

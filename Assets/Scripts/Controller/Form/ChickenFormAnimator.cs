@@ -8,6 +8,13 @@ public class ChickenFormAnimator : FormAnimator
     {
         animator = GetComponent<Animator>();
         this.form = form;
+        if (form.PlayerController.PlayerInputActions.Movement.Pressed.inProgress)
+        {
+            if (animator != null)
+            {
+                animator.SetBool("Run", true);
+            }
+        }
         form.PlayerController.PlayerInputActions.Movement.Pressed.started += MovementPressed;
         form.PlayerController.PlayerInputActions.Movement.Pressed.canceled += MovementCanceled;
     }

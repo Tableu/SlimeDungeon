@@ -11,6 +11,14 @@ namespace Controller.Form
             this.form = form;
             animator = GetComponent<Animator>();
             
+            if (form.PlayerController.PlayerInputActions.Movement.Pressed.inProgress)
+            {
+                if (animator != null)
+                {
+                    animator.SetFloat("Speed", form.Speed);
+                }
+            }
+            
             form.PlayerController.PlayerInputActions.Movement.Pressed.canceled += MovementCanceled;
             form.PlayerController.PlayerInputActions.Movement.Pressed.started += MovementStarted;
         }

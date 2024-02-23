@@ -178,22 +178,13 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Absorb"",
-                    ""type"": ""Button"",
-                    ""id"": ""afb8562f-903e-406f-88ab-410ee1028b97"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
                 {
                     ""name"": """",
                     ""id"": ""5910b4f4-a47e-4ff5-a2ec-98b1edd9dad8"",
-                    ""path"": ""<Keyboard>/j"",
+                    ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -242,17 +233,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Basic Attack"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""bb2f3f86-955c-4be9-a7e5-40f6cb15f5e6"",
-                    ""path"": ""<Keyboard>/k"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Absorb"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -338,7 +318,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Other_PickUp = m_Other.FindAction("Pick Up", throwIfNotFound: true);
         m_Other_SwitchForms = m_Other.FindAction("SwitchForms", throwIfNotFound: true);
         m_Other_BasicAttack = m_Other.FindAction("Basic Attack", throwIfNotFound: true);
-        m_Other_Absorb = m_Other.FindAction("Absorb", throwIfNotFound: true);
         // Spells
         m_Spells = asset.FindActionMap("Spells", throwIfNotFound: true);
         m_Spells_First = m_Spells.FindAction("First", throwIfNotFound: true);
@@ -462,7 +441,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Other_PickUp;
     private readonly InputAction m_Other_SwitchForms;
     private readonly InputAction m_Other_BasicAttack;
-    private readonly InputAction m_Other_Absorb;
     public struct OtherActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -470,7 +448,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         public InputAction @PickUp => m_Wrapper.m_Other_PickUp;
         public InputAction @SwitchForms => m_Wrapper.m_Other_SwitchForms;
         public InputAction @BasicAttack => m_Wrapper.m_Other_BasicAttack;
-        public InputAction @Absorb => m_Wrapper.m_Other_Absorb;
         public InputActionMap Get() { return m_Wrapper.m_Other; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -489,9 +466,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @BasicAttack.started += instance.OnBasicAttack;
             @BasicAttack.performed += instance.OnBasicAttack;
             @BasicAttack.canceled += instance.OnBasicAttack;
-            @Absorb.started += instance.OnAbsorb;
-            @Absorb.performed += instance.OnAbsorb;
-            @Absorb.canceled += instance.OnAbsorb;
         }
 
         private void UnregisterCallbacks(IOtherActions instance)
@@ -505,9 +479,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @BasicAttack.started -= instance.OnBasicAttack;
             @BasicAttack.performed -= instance.OnBasicAttack;
             @BasicAttack.canceled -= instance.OnBasicAttack;
-            @Absorb.started -= instance.OnAbsorb;
-            @Absorb.performed -= instance.OnAbsorb;
-            @Absorb.canceled -= instance.OnAbsorb;
         }
 
         public void RemoveCallbacks(IOtherActions instance)
@@ -597,7 +568,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         void OnPickUp(InputAction.CallbackContext context);
         void OnSwitchForms(InputAction.CallbackContext context);
         void OnBasicAttack(InputAction.CallbackContext context);
-        void OnAbsorb(InputAction.CallbackContext context);
     }
     public interface ISpellsActions
     {
