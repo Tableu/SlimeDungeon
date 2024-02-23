@@ -253,8 +253,6 @@ public abstract class EnemyController : Character, ICapturable
         }
     }
 
-    
-
     private void ApplyStun(Vector3 knockback)
     {
         CancelInvoke(nameof(WalkToNextDestination));
