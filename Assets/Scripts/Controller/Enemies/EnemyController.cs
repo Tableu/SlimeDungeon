@@ -118,6 +118,13 @@ public abstract class EnemyController : Character, ICapturable
             DetectPlayer();
         }
     }
+
+    private void OnCollisionEnter(Collision other)
+    {
+        if(enemyData.EnableCollisionDamage)
+            CollisionAttack(other);
+    }
+
     #endregion
     #region Base Class Overrides
     protected override void OnAttackBegin(Attack attack)
@@ -309,6 +316,17 @@ public abstract class EnemyController : Character, ICapturable
         GameObject item = Instantiate(data.Item, transform.position, Quaternion.identity);
         FormItem script = item.GetComponent<FormItem>();
         script.Initialize(data);
+    }
+    
+    private void CollisionAttack(Collision other)
+    {
+        if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
+        {
+            CollisionData collisionData = enemyData.CollisionData;
+            IDamageable health = other.gameObject.GetComponent<IDamageable>();
+            health.TakeDamage(collisionData.Damage,(other.transform.position - transform.position).normalized*collisionData.Knockback, 
+                collisionData.HitStun, CharacterData.ElementType);
+        }
     }
     
     protected abstract void ChangeState(EnemyControllerState state);

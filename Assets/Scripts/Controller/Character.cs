@@ -42,8 +42,9 @@ namespace Controller
         {
             get;
         }
-
-        [SerializeField] private LayerMask enemyMask;
+        
+        //not currently needed
+        //[SerializeField] protected LayerMask enemyMask;
         [SerializeField] protected new Rigidbody rigidbody;
         protected Attack currentAttack;
         protected List<Attack> attacks;
@@ -70,8 +71,7 @@ namespace Controller
         } = 1;
 
         public Attack CurrentAttack => currentAttack;
-        public LayerMask EnemyMask;
-        public Action<Collision> CollisionEnter;
+        //public LayerMask EnemyMask => enemyMask;
         public Action OnDeath;
 
         protected void Start()
@@ -112,11 +112,6 @@ namespace Controller
         {
             currentAttack = attack;
             Mana -= attack.Data.ManaCost;
-        }
-
-        public void OnCollisionEnter(Collision other)
-        {
-            CollisionEnter?.Invoke(other);
         }
 
         protected void OnAttackEnd(Attack attack)
