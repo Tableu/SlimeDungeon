@@ -18,7 +18,6 @@ MonoBehaviour:
   manaCost: 10
   hitStun: 0.3
   cooldown: 0.5
-  targetingRange: 5
   elementType: 1
   prefab: {fileID: 4292637640093511300, guid: 157aa440c4a506246823658fa914c881, type: 3}
   icon: {fileID: 21300000, guid: 2d0997ac1b1fd664e98202450e7ea2d7, type: 3}

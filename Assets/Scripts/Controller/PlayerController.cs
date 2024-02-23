@@ -76,27 +76,7 @@ public class PlayerController : Character
         {
             walkingSmokeParticleSystem.Stop();
         };
-        
-        _playerInputActions.Other.Absorb.started += delegate(InputAction.CallbackContext context)
-        {
-            Collider[] enemyColliders = Physics.OverlapSphere(transform.position, 5, LayerMask.GetMask("Enemy"));
-            var enemiesOrderedByProximity = enemyColliders.OrderBy(c => (transform.position - c.transform.position).sqrMagnitude)
-                .ToArray();
-            foreach (var col in enemiesOrderedByProximity)
-            {
-                var enemy = col.GetComponent<EnemyController>();
-                if (enemy != null && enemy.CharacterData is EnemyData data && enemy.CurrentState == EnemyControllerState.Stunned)
-                {
-                    if (data.FormData.CaptureDifficulty * enemy.Health < Random.Range(21,25))
-                    {
-                        FormManager.AddForm(new Form(data.FormData, this));
-                        enemy.TakeDamage(1000, Vector3.zero, 0, Type.None);
-                    }
-                    break;
-                }
-            }
-        };
-        
+
         _playerInputActions.Other.PickUp.started += delegate(InputAction.CallbackContext context)
         {
             Collider[] itemColliders = Physics.OverlapSphere(transform.position, 5, LayerMask.GetMask("Items"));

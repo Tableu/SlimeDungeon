@@ -11,7 +11,7 @@ public enum EnemyControllerState
     Idle,Walk,Attack,Stunned
 }
 
-public abstract class EnemyController : Character
+public abstract class EnemyController : Character, ICapturable
 {
     public override Vector3 SpellOffset => spellOffset;
     [SerializeField] protected NavMeshAgent agent;
@@ -23,6 +23,7 @@ public abstract class EnemyController : Character
     [SerializeField] private bool moveWhileAttacking;
     [SerializeField] private ParticleSystem stunEffect;
     [SerializeField] private ParticleSystem stunAura;
+    [SerializeField] private GameObject captureEffect;
     [FormerlySerializedAs("enemyHealthbar")] [SerializeField] private GameObject enemyStatBars;
 
     private bool _attackingPlayer = false;
@@ -46,7 +47,8 @@ public abstract class EnemyController : Character
     }
 
     public float StunPercent => (SuperEffectiveStunMeter / CharacterData.StunResist)*100;
-
+    
+    #region Unity Event Functions
     private new void Start()
     {
         base.Start();
@@ -116,71 +118,8 @@ public abstract class EnemyController : Character
             DetectPlayer();
         }
     }
-
-    protected void StopAgent()
-    {
-        agent.isStopped = true;
-        agent.updateRotation = false;
-    }
-
-    protected void Walk()
-    {
-        agent.isStopped = false;
-        agent.updateRotation = true;
-        ChangeState(EnemyControllerState.Walk);
-    }
-
-    private void Attack()
-    {
-        if (attacks[0].Begin())
-        {
-            ChangeState(EnemyControllerState.Attack);
-        }
-        else
-        {
-            Walk();
-        }
-    }
-    
-    protected void WalkToNextDestination()
-    {
-        Walk();
-        agent.SetDestination(new Vector3(Random.Range(waypoints[0].position.x, waypoints[1].position.x), waypoints[0].position.y,
-            Random.Range(waypoints[0].position.z, waypoints[1].position.z)));
-    }
-
-    private void DetectPlayer()
-    {
-        if (GlobalReferences.Instance.Player != null && CurrentState != EnemyControllerState.Stunned)
-        {
-            var diff = transform.position - GlobalReferences.Instance.Player.transform.position;
-            if (diff.magnitude >= enemyData.DeAggroRange)
-            {
-                _target = null;
-                _attackingPlayer = false;
-                agent.stoppingDistance = enemyData.StoppingDistance;
-            }
-            else if(diff.magnitude < enemyData.AggroRange)
-            {
-                _target = GlobalReferences.Instance.Player.transform;
-                _targetPosition = _target.position + new Vector3(Random.Range(-1,1), 0, Random.Range(-1,1));
-                _attackingPlayer = true;
-                transform.rotation = Quaternion.LookRotation(_target.transform.position - transform.position);
-                agent.stoppingDistance = enemyData.AttackRange;
-            }
-        }
-    }
-    // Animation Event
-    public void AlertObservers(string message)
-    {
-        if (message.Equals("AttackEnded"))
-        {
-            attacks[0].End();
-            if(CurrentState != EnemyControllerState.Stunned)
-                Walk();          
-        }
-    }
-
+    #endregion
+    #region Base Class Overrides
     protected override void OnAttackBegin(Attack attack)
     {
         base.OnAttackBegin(attack);
@@ -249,6 +188,72 @@ public abstract class EnemyController : Character
         if(_stunCounter == 0)
             Walk();
     }
+    #endregion
+    protected void StopAgent()
+    {
+        agent.isStopped = true;
+        agent.updateRotation = false;
+    }
+
+    protected void Walk()
+    {
+        agent.isStopped = false;
+        agent.updateRotation = true;
+        ChangeState(EnemyControllerState.Walk);
+    }
+
+    private void Attack()
+    {
+        if (attacks[0].Begin())
+        {
+            ChangeState(EnemyControllerState.Attack);
+        }
+        else
+        {
+            Walk();
+        }
+    }
+    
+    protected void WalkToNextDestination()
+    {
+        Walk();
+        agent.SetDestination(new Vector3(Random.Range(waypoints[0].position.x, waypoints[1].position.x), waypoints[0].position.y,
+            Random.Range(waypoints[0].position.z, waypoints[1].position.z)));
+    }
+
+    private void DetectPlayer()
+    {
+        if (GlobalReferences.Instance.Player != null && CurrentState != EnemyControllerState.Stunned)
+        {
+            var diff = transform.position - GlobalReferences.Instance.Player.transform.position;
+            if (diff.magnitude >= enemyData.DeAggroRange)
+            {
+                _target = null;
+                _attackingPlayer = false;
+                agent.stoppingDistance = enemyData.StoppingDistance;
+            }
+            else if(diff.magnitude < enemyData.AggroRange)
+            {
+                _target = GlobalReferences.Instance.Player.transform;
+                _targetPosition = _target.position + new Vector3(Random.Range(-1,1), 0, Random.Range(-1,1));
+                _attackingPlayer = true;
+                transform.rotation = Quaternion.LookRotation(_target.transform.position - transform.position);
+                agent.stoppingDistance = enemyData.AttackRange;
+            }
+        }
+    }
+    // Animation Event
+    public void AlertObservers(string message)
+    {
+        if (message.Equals("AttackEnded"))
+        {
+            attacks[0].End();
+            if(CurrentState != EnemyControllerState.Stunned)
+                Walk();          
+        }
+    }
+
+    
 
     private void ApplyStun(Vector3 knockback)
     {
@@ -274,5 +279,39 @@ public abstract class EnemyController : Character
         }
     }
 
+    public void AttemptCapture(float hitStun)
+    {
+        StartCoroutine(AttemptCaptureCoroutine(hitStun));
+    }
+
+    private IEnumerator AttemptCaptureCoroutine(float hitStun)
+    {
+        bool captured = enemyData.FormData.CaptureDifficulty*Health < Random.Range(21,25);
+        if (SuperEffectiveStunMeter >= 100)
+        {
+            hitStun++;
+        }
+        ApplyStun(Vector3.zero);
+        captureEffect.SetActive(true);
+        yield return new WaitForSeconds(hitStun);
+        captureEffect.SetActive(false);
+        if (captured)
+        {
+            SpawnFormItem(enemyData.FormData);
+            HandleDeath();
+        }
+        else
+        {
+            RemoveStun();
+        }
+    }
+    
+    private void SpawnFormItem(FormData data)
+    {
+        GameObject item = Instantiate(data.Item, transform.position, Quaternion.identity);
+        FormItem script = item.GetComponent<FormItem>();
+        script.Initialize(data);
+    }
+    
     protected abstract void ChangeState(EnemyControllerState state);
 }

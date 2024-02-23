@@ -50457,7 +50457,7 @@ MonoBehaviour:
   renderers:
   - {fileID: 337576209}
   - {fileID: 466769499}
-  testData: {fileID: 11400000, guid: c5d2a1463d32f91459e236f8fea813c9, type: 2}
+  testData: {fileID: 0}
 --- !u!65 &1389817329
 BoxCollider:
   m_ObjectHideFlags: 0
