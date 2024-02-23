@@ -20,10 +20,14 @@ MonoBehaviour:
   elementType: 2
   attacks:
   - {fileID: 11400000, guid: b018f63bcc11b804a8fbe50c7227a381, type: 2}
-  - {fileID: 11400000, guid: 63d76e333438b3f4d9e16c4395cf0d61, type: 2}
   attackRange: 10
   aggroRange: 20
   deAggroRange: 25
   detectTick: 10
   stoppingDistance: 3
   formData: {fileID: 11400000, guid: 95a6adf61836ab04cb2e889076b0745e, type: 2}
+  enableCollisionDamage: 1
+  collisonData:
+    Damage: 10
+    HitStun: 0.5
+    Knockback: 10
