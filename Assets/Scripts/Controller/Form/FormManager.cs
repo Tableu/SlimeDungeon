@@ -97,8 +97,11 @@ public class FormManager
         {
             if (CurrentForm.Health > 0)
             {
+                CurrentForm.Drop();
                 _formIndex = formIndex;
-                EquipForm(CurrentForm);
+                ChangeModel(CurrentForm.Data);
+                CurrentForm.Equip(_model);
+                OnFormChange?.Invoke();
                 return;
             }
 
