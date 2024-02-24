@@ -7,7 +7,6 @@ using Controller.Form;
 using Systems.Modifiers;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using Random = UnityEngine.Random;
 using Type = Elements.Type;
 
 public class PlayerController : Character
@@ -15,6 +14,7 @@ public class PlayerController : Character
     [SerializeField] private PlayerData playerData;
     [SerializeField] private GameObject model;
     [SerializeField] private ParticleSystem walkingSmokeParticleSystem;
+    [SerializeField] private ParticleSystem switchFormParticleSystem;
     
     private Vector2 _direction;
     private Vector2 _lastDirection;
@@ -63,6 +63,7 @@ public class PlayerController : Character
         }
         _lastDirection = Vector2.zero;
         _formManager.InitializeForm();
+        switchFormParticleSystem.Stop();
     }
     
     private new void Start()
@@ -281,6 +282,7 @@ public class PlayerController : Character
     {
         Health = _formManager.CurrentForm.Health;
         Speed.UpdateBaseValue(_formManager.CurrentForm.Speed);
+        switchFormParticleSystem.Play();
     }
 
     private void OnFormAdd(Form form, int index)
