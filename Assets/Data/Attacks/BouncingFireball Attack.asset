@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef32d62da573e5a40b151e2c6318ca8b, type: 3}
+  m_Name: BouncingFireball Attack
+  m_EditorClassIdentifier: 
+  speed: 40
+  damage: 20
+  knockback: 10
+  manaCost: 10
+  hitStun: 1
+  cooldown: 2
+  elementType: 1
+  prefab: {fileID: 3134170781979577925, guid: 89583c669eaed8c42a06aae0c2db7641, type: 3}
+  icon: {fileID: 21300000, guid: 96281732b7dd97f43848d6dec60fd16b, type: 3}
+  maxBounceCount: 3
+  launchAngle: {x: 1, y: -0.2}

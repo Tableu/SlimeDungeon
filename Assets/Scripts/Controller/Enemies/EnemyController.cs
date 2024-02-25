@@ -158,7 +158,7 @@ public abstract class EnemyController : Character, ICapturable
 
     protected override void HandleDeath()
     {
-        OnDeath.Invoke();
+        OnDeath?.Invoke();
         Destroy(gameObject);
     }
 

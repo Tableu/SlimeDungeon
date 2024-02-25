@@ -102,7 +102,7 @@ public class PlayerController : Character
         {
             var mousePos = Mouse.current.position.ReadValue();
             var ray = Camera.main.ScreenPointToRay(mousePos);
-            if (Physics.Raycast(ray, out RaycastHit hitData, 1000, LayerMask.GetMask("Walls", "Default")))
+            if (Physics.Raycast(ray, out RaycastHit hitData, 1000, LayerMask.GetMask("Walls", "Default", "Floor")))
             {
                 var diff = hitData.point - transform.position;
                 var target = new Vector3(diff.x, transform.position.y, diff.z);
