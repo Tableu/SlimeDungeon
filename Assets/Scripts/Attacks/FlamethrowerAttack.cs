@@ -37,11 +37,6 @@ public class FlamethrowerAttack : Attack
         _flamethrower.transform.SetParent(null, true);
     }
     
-    public override void Performed()
-    {
-        return;
-    }
-    
     public override void LinkInput(InputAction action)
     {
         inputAction = action;

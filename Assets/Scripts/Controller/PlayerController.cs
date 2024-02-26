@@ -146,6 +146,11 @@ public class PlayerController : Character
         {
             rigidbody.velocity = Vector3.zero;
         }
+        
+        if (_playerInputActions.Other.BasicAttack.IsPressed() && _formManager.CurrentForm != null && _formManager.CurrentForm.BasicAttack != null)
+        {
+            _formManager.CurrentForm.BasicAttack.Begin();
+        }
     }
 
     private void OnDestroy()

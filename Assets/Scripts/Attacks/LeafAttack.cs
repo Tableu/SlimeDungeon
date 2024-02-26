@@ -6,7 +6,7 @@ public class LeafAttack : Attack
 {
     public override bool Begin()
     {
-        if (character.Mana >= data.ManaCost && !onCooldown)
+        if (character.Mana >= data.ManaCost)
         {
             Transform transform = character.transform;
             GameObject leaf = GameObject.Instantiate(data.Prefab,
@@ -19,17 +19,11 @@ public class LeafAttack : Attack
                 return false;
             script.Initialize(data.Damage*character.DamageMultiplier, data.Knockback, data.HitStun,
                 transform.forward * (data.Speed * character.SpeedMultiplier), character.SizeMultiplier, data.ElementType);
-
             Cooldown(data.Cooldown);
             character.ApplyManaCost(data.ManaCost);
             return true;
         }
         return false;
-    }
-
-    public override void Performed()
-    {
-        return;
     }
 
     public override void End()
@@ -53,5 +47,6 @@ public class LeafAttack : Attack
 
     public LeafAttack(Character character, AttackData data) : base(character, data)
     {
+        
     }
 }

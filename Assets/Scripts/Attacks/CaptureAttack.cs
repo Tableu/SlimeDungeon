@@ -26,11 +26,6 @@ public class CaptureAttack : Attack
         return false;
     }
 
-    public override void Performed()
-    {
-        return;
-    }
-
     public override void End()
     {
         return;

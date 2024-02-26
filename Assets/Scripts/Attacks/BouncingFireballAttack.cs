@@ -35,11 +35,6 @@ public class BouncingFireballAttack : Attack
         return false;
     }
 
-    public override void Performed()
-    {
-        return;
-    }
-
     public override void End()
     {
         return;

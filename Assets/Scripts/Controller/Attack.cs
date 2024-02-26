@@ -41,12 +41,6 @@ namespace Controller
             End();
         }
 
-        public abstract void Performed();
-        public virtual void Performed(InputAction.CallbackContext callbackContext)
-        {
-            Performed();
-        }
-
         public abstract void LinkInput(InputAction action);
         public abstract void UnlinkInput();
 

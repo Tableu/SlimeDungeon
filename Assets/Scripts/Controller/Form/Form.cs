@@ -20,6 +20,7 @@ namespace Controller.Form
         public Vector2 MaxVelocity => _maxVelocity;
         public Type ElementType => _elementType;
         public PlayerController PlayerController => _playerController;
+        public Attack BasicAttack => _basicAttack;
 
         public Form(FormData data, PlayerController playerController)
         {

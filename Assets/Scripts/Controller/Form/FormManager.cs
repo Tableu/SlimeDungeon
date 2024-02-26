@@ -143,7 +143,7 @@ public class FormManager
             form.Health += amount;
         }
     }
-    
+
     #endregion
     #region Private Methods
     private void EquipForm(Form form)
