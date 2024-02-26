@@ -54,7 +54,7 @@ public class FormManager
         _forms.Add(form);
         OnFormAdd?.Invoke(form, _forms.Count-1);
         ChangeModel(form.Data);
-        CurrentForm.Equip(_model);
+        CurrentForm.Equip(_model, _playerController.PlayerInputActions.Other.BasicAttack);
         OnFormChange?.Invoke();
     }
     public void AddForm(Form form)
@@ -100,7 +100,7 @@ public class FormManager
                 CurrentForm.Drop();
                 _formIndex = formIndex;
                 ChangeModel(CurrentForm.Data);
-                CurrentForm.Equip(_model);
+                CurrentForm.Equip(_model, _playerController.PlayerInputActions.Other.BasicAttack);
                 OnFormChange?.Invoke();
                 return;
             }
@@ -154,7 +154,7 @@ public class FormManager
         }
         ChangeModel(form.Data);
         CurrentForm = form;
-        CurrentForm.Equip(_model);
+        CurrentForm.Equip(_model, _playerController.PlayerInputActions.Other.BasicAttack);
         OnFormChange?.Invoke();
     }
     

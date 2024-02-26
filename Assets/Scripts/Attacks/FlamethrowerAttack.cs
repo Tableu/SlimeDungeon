@@ -1,6 +1,6 @@
 using Controller;
 using UnityEngine;
-using AnimationState = Controller.AnimationState;
+using UnityEngine.InputSystem;
 
 public class FlamethrowerAttack : Attack
 {
@@ -8,7 +8,6 @@ public class FlamethrowerAttack : Attack
 
     public override bool Begin()
     {
-        OnBegin?.Invoke(this);
         Transform transform = character.transform;
         _flamethrower = GameObject.Instantiate(data.Prefab, transform.position + new Vector3(character.SpellOffset.x*transform.forward.x, character.SpellOffset.y, character.SpellOffset.z*transform.forward.z), Quaternion.identity,transform);
         _flamethrower.transform.rotation = Quaternion.Euler(_flamethrower.transform.rotation.x, character.transform.rotation.eulerAngles.y-90, _flamethrower.transform.rotation.z);
@@ -24,7 +23,6 @@ public class FlamethrowerAttack : Attack
 
     public override void End()
     {
-        OnEnd?.Invoke(this);
         character.EnableRotation();
         if (character is PlayerController player)
         {
@@ -38,10 +36,26 @@ public class FlamethrowerAttack : Attack
         _flamethrower.GetComponent<ParticleSystem>().Stop();
         _flamethrower.transform.SetParent(null, true);
     }
-
-    internal override void PassMessage(AnimationState state)
+    
+    public override void Performed()
     {
-        
+        return;
+    }
+    
+    public override void LinkInput(InputAction action)
+    {
+        inputAction = action;
+        action.started += Begin;
+        action.canceled += End;
+    }
+
+    public override void UnlinkInput()
+    {
+        if (inputAction != null)
+        {
+            inputAction.started -= Begin;
+            inputAction.canceled -= End;
+        }
     }
 
     public FlamethrowerAttack(Character character, AttackData data) : base(character, data)

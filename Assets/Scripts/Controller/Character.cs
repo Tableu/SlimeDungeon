@@ -46,7 +46,6 @@ namespace Controller
         //not currently needed
         //[SerializeField] protected LayerMask enemyMask;
         [SerializeField] protected new Rigidbody rigidbody;
-        protected Attack currentAttack;
         protected List<Attack> attacks;
 
         protected bool disableRotation = false;
@@ -69,8 +68,6 @@ namespace Controller
             protected set;
             get;
         } = 1;
-
-        public Attack CurrentAttack => currentAttack;
         //public LayerMask EnemyMask => enemyMask;
         public Action OnDeath;
 
@@ -86,8 +83,6 @@ namespace Controller
             foreach (AttackData attackData in CharacterData.Attacks)
             {
                 var attack = attackData.EquipAttack(this);
-                attack.OnBegin += OnAttackBegin;
-                attack.OnEnd += OnAttackEnd;
                 attacks.Add(attack);
             }
         }
@@ -108,18 +103,9 @@ namespace Controller
             Destroy(gameObject);
         }
 
-        protected virtual void OnAttackBegin(Attack attack)
+        public void ApplyManaCost(float manaCost)
         {
-            currentAttack = attack;
-            Mana -= attack.Data.ManaCost;
-        }
-
-        protected void OnAttackEnd(Attack attack)
-        {
-            if (currentAttack == attack)
-            {
-                currentAttack = null;
-            }
+            Mana -= manaCost;
         }
 
         public void SetMultipliers(float size, float damage, float speed)

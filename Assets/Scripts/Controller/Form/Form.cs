@@ -1,5 +1,6 @@
 using Elements;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Controller.Form
 {
@@ -30,19 +31,19 @@ namespace Controller.Form
             _elementType = data.ElementType;
         }
 
-        public void Equip(GameObject model)
+        public void Equip(GameObject model, InputAction basicAttackAction)
         {
             _formAnimator = _data.AttachScript(model);
             _formAnimator.Initialize(this);
             _basicAttack = _data.BasicAttack.EquipAttack(_playerController);
-            _playerController.LinkInput(_playerController.PlayerInputActions.Other.BasicAttack, _basicAttack);
+            _basicAttack.LinkInput(basicAttackAction);
         }
 
         public void Drop()
         {
             Object.Destroy(_formAnimator);
             _basicAttack.CleanUp();
-            _playerController.UnlinkInput(_playerController.PlayerInputActions.Other.BasicAttack, _basicAttack);
+            _basicAttack.UnlinkInput();
             _basicAttack = null;
         }
     }

@@ -15,8 +15,7 @@ public class ChickenEnemyController : EnemyController
                 animator.SetBool("Run", true);
                 break;
             case EnemyControllerState.Attack:
-                attacks[0].End();
-                Walk();   
+                Walk();
                 break;
         }
     }

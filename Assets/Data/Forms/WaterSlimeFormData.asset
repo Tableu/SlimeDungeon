@@ -20,5 +20,6 @@ MonoBehaviour:
   model: {fileID: 3198502390492704377, guid: 5c0511541050a2445b48b29229bc4130, type: 3}
   item: {fileID: 834991341219302362, guid: e34dfc7877ea6fa4287af3cd0347d0fb, type: 3}
   icon: {fileID: 21300000, guid: 9429c38729b289348a9814b01b7a7631, type: 3}
-  spellOffset: {x: 0, y: 0, z: 0}
+  spellOffset: {x: 0, y: 0.2, z: 0}
   basicAttack: {fileID: 11400000, guid: b018f63bcc11b804a8fbe50c7227a381, type: 2}
+  spells: []

@@ -54,12 +54,6 @@ namespace Controller.Form
             //Vector3 position = animator.rootPosition;
             //form.PlayerController.transform.position = position;
         }
-        
-        public void AlertObservers(string message)
-        {
-            if(form.PlayerController.CurrentAttack != null && Enum.TryParse(message, out Controller.AnimationState state))
-                form.PlayerController.CurrentAttack.PassMessage(state);
-        }
 
         private void FixedUpdate()
         {

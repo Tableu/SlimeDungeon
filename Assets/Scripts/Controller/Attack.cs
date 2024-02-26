@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine.InputSystem;
@@ -19,6 +18,7 @@ namespace Controller
         protected AttackData data;
         protected CancellationTokenSource cancellationTokenSource;
         protected bool onCooldown = false;
+        protected InputAction inputAction;
 
         public AttackData Data => data;
 
@@ -40,12 +40,19 @@ namespace Controller
         {
             End();
         }
-        internal abstract void PassMessage(AnimationState state);
+
+        public abstract void Performed();
+        public virtual void Performed(InputAction.CallbackContext callbackContext)
+        {
+            Performed();
+        }
+
+        public abstract void LinkInput(InputAction action);
+        public abstract void UnlinkInput();
 
         public virtual void CleanUp()
         {
             cancellationTokenSource?.Cancel();
-            OnEnd?.Invoke(this);
         }
 
         public virtual async void Cooldown(float duration)
@@ -61,9 +68,7 @@ namespace Controller
                 onCooldown = false;
             });
         }
-
-        public Action<Attack> OnBegin;
-        public Action<Attack> OnEnd;
+        
         public Action<float> OnCooldown;
     }
 }

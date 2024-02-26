@@ -127,12 +127,6 @@ public abstract class EnemyController : Character, ICapturable
 
     #endregion
     #region Base Class Overrides
-    protected override void OnAttackBegin(Attack attack)
-    {
-        base.OnAttackBegin(attack);
-        StopAgent();
-    }
-    
 
     public override void TakeDamage(float damage, Vector3 knockback, float hitStun, Elements.Type attackType)
     {
@@ -254,7 +248,6 @@ public abstract class EnemyController : Character, ICapturable
     {
         if (message.Equals("AttackEnded"))
         {
-            attacks[0].End();
             if(CurrentState != EnemyControllerState.Stunned)
                 Walk();          
         }

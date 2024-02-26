@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using Controller;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -8,10 +6,8 @@ public class LeafAttack : Attack
 {
     public override bool Begin()
     {
-        if (character.Mana >= data.ManaCost && character.CurrentAttack == null && !onCooldown)
+        if (character.Mana >= data.ManaCost && !onCooldown)
         {
-            OnBegin?.Invoke(this);
-            
             Transform transform = character.transform;
             GameObject leaf = GameObject.Instantiate(data.Prefab,
                 transform.position + new Vector3(character.SpellOffset.x*transform.forward.x, character.SpellOffset.y, character.SpellOffset.z*transform.forward.z), Quaternion.identity);
@@ -25,26 +21,33 @@ public class LeafAttack : Attack
                 transform.forward * (data.Speed * character.SpeedMultiplier), character.SizeMultiplier, data.ElementType);
 
             Cooldown(data.Cooldown);
+            character.ApplyManaCost(data.ManaCost);
             return true;
         }
         return false;
     }
 
-    public override void End(InputAction.CallbackContext callbackContext)
+    public override void Performed()
     {
-        End();
+        return;
     }
 
     public override void End()
     {
-        OnEnd?.Invoke(this);
+        return;
     }
 
-    internal override void PassMessage(Controller.AnimationState state)
+    public override void LinkInput(InputAction action)
     {
-        if (Controller.AnimationState.AttackEnded == state)
+        inputAction = action;
+        action.started += Begin;
+    }
+
+    public override void UnlinkInput()
+    {
+        if (inputAction != null)
         {
-            End();
+            inputAction.started -= Begin;
         }
     }
 

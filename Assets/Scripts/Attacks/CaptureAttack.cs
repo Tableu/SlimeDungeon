@@ -1,14 +1,13 @@
 using Controller;
 using UnityEngine;
-using AnimationState = Controller.AnimationState;
+using UnityEngine.InputSystem;
 
 public class CaptureAttack : Attack
 {
     public override bool Begin()
     {
-        if (character.Mana >= data.ManaCost && character.CurrentAttack == null && !onCooldown)
+        if (character.Mana >= data.ManaCost && !onCooldown)
         {
-            OnBegin?.Invoke(this);
             Transform transform = character.transform;
             GameObject orb = GameObject.Instantiate(data.Prefab,
                 transform.position + new Vector3(character.SpellOffset.x*transform.forward.x, character.SpellOffset.y, character.SpellOffset.z*transform.forward.z), Quaternion.identity);
@@ -20,25 +19,37 @@ public class CaptureAttack : Attack
                 return false;
             script.Initialize(data.HitStun, transform.forward * data.Speed);
             Cooldown(data.Cooldown);
+            character.ApplyManaCost(data.ManaCost);
             return true;
         }
 
         return false;
     }
 
-    public override void End()
+    public override void Performed()
     {
-        OnEnd?.Invoke(this);
+        return;
     }
 
-    internal override void PassMessage(AnimationState state)
+    public override void End()
     {
-        if (AnimationState.AttackEnded == state)
-        {
-            End();
-        }
+        return;
     }
     
+    public override void LinkInput(InputAction action)
+    {
+        inputAction = action;
+        action.started += Begin;
+    }
+
+    public override void UnlinkInput()
+    {
+        if (inputAction != null)
+        {
+            inputAction.started -= Begin;
+        }
+    }
+
     public CaptureAttack(Character character, AttackData data) : base(character, data)
     {
     }

@@ -1,4 +1,4 @@
-using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Leaf : MonoBehaviour
@@ -9,6 +9,7 @@ public class Leaf : MonoBehaviour
     private float _hitStun;
     private Vector3 _force;
     private Elements.Type _type;
+    private List<GameObject> _previousCollisions = new List<GameObject>();
 
     public void Initialize(float damage, float knockback,float hitStun, Vector3 force, float sizeMultiplier, Elements.Type type)
     {
@@ -19,13 +20,15 @@ public class Leaf : MonoBehaviour
         _type = type;
         transform.localScale *= sizeMultiplier;
         rigidbody.AddForce(force, ForceMode.Impulse);
+        _previousCollisions = new List<GameObject>();
     }
 
     private void OnTriggerEnter(Collider other)
     {
         IDamageable damage = other.gameObject.GetComponent<IDamageable>();
-        if (damage != null)
+        if (damage != null && !_previousCollisions.Contains(other.gameObject))
         {
+            _previousCollisions.Add(other.gameObject);
             damage.TakeDamage(_damage,_knockback*_force.normalized, _hitStun, _type);
         }
         if(LayerMask.NameToLayer("Walls") == other.gameObject.layer)

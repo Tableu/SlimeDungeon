@@ -36,6 +36,7 @@ public class SlimeEnemyController : EnemyController
             case EnemyControllerState.Attack:
                 SetFace(faces.attackFace);
                 animator.SetTrigger("Attack");
+                StopAgent();
                 break;
         }
     }

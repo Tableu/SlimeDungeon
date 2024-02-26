@@ -1,14 +1,14 @@
 using Controller;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using AnimationState = Controller.AnimationState;
 
 public class BouncingFireballAttack : Attack
 {
     public override bool Begin()
     {
-        if (character.Mana >= data.ManaCost && character.CurrentAttack == null && !onCooldown)
+        if (character.Mana >= data.ManaCost && !onCooldown)
         {
-            OnBegin?.Invoke(this);
             Transform transform = character.transform;
             GameObject fireball = GameObject.Instantiate(data.Prefab,
                 transform.position + new Vector3(character.SpellOffset.x*transform.forward.x, character.SpellOffset.y, character.SpellOffset.z*transform.forward.z), Quaternion.identity);
@@ -28,25 +28,37 @@ public class BouncingFireballAttack : Attack
             }
             script.Initialize(data.Damage, data.Knockback, data.HitStun, launchAngle*data.Speed, maxBounces, data.ElementType);
             Cooldown(data.Cooldown);
+            character.ApplyManaCost(data.ManaCost);
             return true;
         }
 
         return false;
     }
 
-    public override void End()
+    public override void Performed()
     {
-        OnEnd?.Invoke(this);
+        return;
     }
 
-    internal override void PassMessage(AnimationState state)
+    public override void End()
     {
-        if (AnimationState.AttackEnded == state)
-        {
-            End();
-        }
+        return;
     }
     
+    public override void LinkInput(InputAction action)
+    {
+        inputAction = action;
+        action.started += Begin;
+    }
+
+    public override void UnlinkInput()
+    {
+        if (inputAction != null)
+        {
+            inputAction.started -= Begin;
+        }
+    }
+
     public BouncingFireballAttack(Character character, AttackData data) : base(character, data)
     {
     }

@@ -1,7 +1,6 @@
 using Controller;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using AnimationState = Controller.AnimationState;
 
 public class WaterBoltAttack : Attack
 {
@@ -11,7 +10,7 @@ public class WaterBoltAttack : Attack
 
     public override bool Begin()
     {
-        if (character.Mana >= data.ManaCost && character.CurrentAttack == null && !onCooldown)
+        if (character.Mana >= data.ManaCost && !onCooldown)
         {
             Transform transform = character.transform;
             GameObject fireball = GameObject.Instantiate(data.Prefab,
@@ -24,24 +23,35 @@ public class WaterBoltAttack : Attack
                 return false;
             script.Initialize(data.Damage * character.DamageMultiplier, data.Knockback, data.HitStun,
                 transform.forward * (data.Speed * character.SpeedMultiplier), character.SizeMultiplier, data.ElementType,3);
-
-            OnBegin?.Invoke(this);
+            
             Cooldown(data.Cooldown);
+            character.ApplyManaCost(data.ManaCost);
             return true;
         }
         return false;
     }
 
-    public override void End()
+    public override void Performed()
     {
-        OnEnd?.Invoke(this);
+        return;
     }
 
-    internal override void PassMessage(AnimationState state)
+    public override void End()
     {
-        if (Controller.AnimationState.AttackEnded == state)
+        return;
+    }
+    
+    public override void LinkInput(InputAction action)
+    {
+        inputAction = action;
+        action.started += Begin;
+    }
+
+    public override void UnlinkInput()
+    {
+        if (inputAction != null)
         {
-            End();
+            inputAction.started -= Begin;
         }
     }
 }

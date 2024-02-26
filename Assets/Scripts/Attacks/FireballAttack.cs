@@ -1,14 +1,13 @@
 using Controller;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class FireballAttack : Attack
 {
     public override bool Begin()
     {
-        if (character.Mana >= data.ManaCost && character.CurrentAttack == null && !onCooldown)
+        if (character.Mana >= data.ManaCost && !onCooldown)
         {
-            OnBegin?.Invoke(this);
-            
             Transform transform = character.transform;
             GameObject fireball = GameObject.Instantiate(data.Prefab,
                 transform.position + new Vector3(character.SpellOffset.x*transform.forward.x, character.SpellOffset.y, character.SpellOffset.z*transform.forward.z), Quaternion.identity);
@@ -22,21 +21,33 @@ public class FireballAttack : Attack
                 transform.forward * (data.Speed * character.SpeedMultiplier), character.SizeMultiplier, data.ElementType);
 
             Cooldown(data.Cooldown);
+            character.ApplyManaCost(data.ManaCost);
             return true;
         }
         return false;
     }
 
-    public override void End()
+    public override void Performed()
     {
-        OnEnd?.Invoke(this);
+        return;
     }
 
-    internal override void PassMessage(Controller.AnimationState state)
+    public override void End()
     {
-        if (Controller.AnimationState.AttackEnded == state)
+        return;
+    }
+    
+    public override void LinkInput(InputAction action)
+    {
+        inputAction = action;
+        action.started += Begin;
+    }
+
+    public override void UnlinkInput()
+    {
+        if (inputAction != null)
         {
-            End();
+            inputAction.started -= Begin;
         }
     }
 

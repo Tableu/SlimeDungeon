@@ -151,13 +151,13 @@ public class PlayerController : Character
     private void OnDestroy()
     {
         OnDeath?.Invoke();
-        int i = 0;
-        foreach (InputAction action in _playerInputActions.Spells.Get())
+
+        foreach (Attack attack in attacks)
         {
-            if (attacks.Count <= i || attacks[i] == null)
-                break;
-            UnlinkInput(action, attacks[i]);
-            i++;
+            if (attack != null)
+            {
+                attack.UnlinkInput();
+            }
         }
         _formManager.OnFormChange -= OnFormChange;
         _formManager.OnFormAdd -= OnFormAdd;
@@ -205,12 +205,6 @@ public class PlayerController : Character
         _playerInputActions.Enable();
         _inKnockback = false;
     }
-    
-    protected override void OnAttackBegin(Attack attack)
-    {
-        base.OnAttackBegin(attack);
-    }
-
     #endregion
 
     public void InitializeAttacks()
@@ -230,23 +224,20 @@ public class PlayerController : Character
         var inputs = _playerInputActions.Spells.Get();
         if (attacks[index] != null)
         {
-            UnlinkInput(inputs.actions[index], attacks[index]);
+            attacks[index].UnlinkInput();
             attacks[index].CleanUp();
-            currentAttack = null;
         }
         attacks[index] = attackData.EquipAttack(this);
         OnAttackEquipped?.Invoke(attacks[index], index);
         
-        LinkInput(inputs.actions[index], attacks[index]);
+        attacks[index].LinkInput(inputs.actions[index]);
     }
 
     public void UnEquipAttack(int index)
     {
         OnAttackUnEquipped?.Invoke(attacks[index], index);
-        var inputs = _playerInputActions.Spells.Get();
-        UnlinkInput(inputs.actions[index], attacks[index]);
+        attacks[index].UnlinkInput();
         attacks[index].CleanUp();
-        currentAttack = null;
     }
 
     public void UnlockAttack(AttackData attackData)
@@ -259,22 +250,6 @@ public class PlayerController : Character
     {
         _unlockedAttacks.Remove(attackData);
         OnAttackRemoved?.Invoke(attackData);
-    }
-
-    public void LinkInput(InputAction action, Attack attack)
-    {
-        action.started += attack.Begin;
-        action.canceled += attack.End;
-        attack.OnBegin += OnAttackBegin;
-        attack.OnEnd += OnAttackEnd;
-    }
-
-    public void UnlinkInput(InputAction action, Attack attack)
-    {
-        action.started -= attack.Begin;
-        action.canceled -= attack.End;
-        attack.OnBegin -= OnAttackBegin;
-        attack.OnEnd -= OnAttackEnd;
     }
 
     #region Event Functions
