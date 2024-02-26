@@ -6,11 +6,12 @@ public class LeafAttack : Attack
 {
     public override bool Begin()
     {
-        if (character.Mana >= data.ManaCost)
+        if (character.Mana >= data.ManaCost && !onCooldown)
         {
             Transform transform = character.transform;
-            GameObject leaf = GameObject.Instantiate(data.Prefab,
-                transform.position + new Vector3(character.SpellOffset.x*transform.forward.x, character.SpellOffset.y, character.SpellOffset.z*transform.forward.z), Quaternion.identity);
+            GameObject leaf = GameObject.Instantiate(data.Prefab,RandomPosition(transform)
+                , Quaternion.identity);
+            leaf.transform.rotation = Quaternion.Euler(0, Random.Range(-180,180),0);
             leaf.layer = character is PlayerController
                 ? LayerMask.NameToLayer("PlayerAttacks")
                 : LayerMask.NameToLayer("EnemyAttacks");
@@ -43,6 +44,14 @@ public class LeafAttack : Attack
         {
             inputAction.started -= Begin;
         }
+    }
+
+    private Vector3 RandomPosition(Transform transform)
+    {
+        Vector3 randomVector = new Vector3(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
+        return transform.position + new Vector3((character.SpellOffset.x+randomVector.x) * transform.forward.x, 
+            character.SpellOffset.y+randomVector.y,
+            (character.SpellOffset.z+randomVector.z) * transform.forward.z);
     }
 
     public LeafAttack(Character character, AttackData data) : base(character, data)

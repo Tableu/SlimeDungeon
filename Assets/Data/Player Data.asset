@@ -21,6 +21,6 @@ MonoBehaviour:
   attacks:
   - {fileID: 11400000, guid: 9f6a57f1d50d7e64c8b693fe11b9b7b9, type: 2}
   - {fileID: 11400000, guid: d99d32efdf526504d86ca74c35d880c4, type: 2}
-  startForm: {fileID: 11400000, guid: 1bcd57858ce771b4086d405e05eea620, type: 2}
+  startForm: {fileID: 11400000, guid: 6cb87275a0359ba4a8b741fb885df66c, type: 2}
   maxFormCount: 2
   maxSpellCount: 3
