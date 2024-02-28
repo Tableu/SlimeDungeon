@@ -31,6 +31,7 @@ public abstract class EnemyController : Character, ICapturable
     private Vector3 _targetPosition;
     private int _tick = 0;
     private int _stunCounter = 0;
+    private bool _isSuperEffectiveStunned;
 
     public override CharacterData CharacterData => enemyData;
     
@@ -160,7 +161,7 @@ public abstract class EnemyController : Character, ICapturable
     {
         bool isStunMeterFull = SuperEffectiveStunMeter >= CharacterData.StunResist;
         bool isSuperEffective = typeMultiplier > 1;
-        bool applySuperEffectiveStun = isStunMeterFull && isSuperEffective;
+        bool applySuperEffectiveStun = isStunMeterFull && isSuperEffective && !_isSuperEffectiveStunned;
         if (applySuperEffectiveStun)
         {
             hitStun += 2;
@@ -173,10 +174,13 @@ public abstract class EnemyController : Character, ICapturable
                 stunEffect.Play();
                 stunAura.Play();
                 ApplyStun(knockback);
+                _isSuperEffectiveStunned = true;
                 yield return new WaitForSeconds(hitStun);
+                _isSuperEffectiveStunned = false;
                 SuperEffectiveStunMeter = 0;
                 stunAura.Clear();
                 stunAura.Stop();
+                stunEffect.Stop();
                 RemoveStun();
             }
             else
