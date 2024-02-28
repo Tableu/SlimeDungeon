@@ -29,5 +29,5 @@ public abstract class AttackData : ScriptableObject
     //public float TargetingRange => targetingRange;
     public Sprite Icon => icon;
         
-    public abstract Attack EquipAttack(Character character);
+    public abstract Attack CreateInstance(Character character);
 }

@@ -100,8 +100,8 @@ public class PlayerController : Character
     {
         if (!disableRotation)
         {
-            var mousePos = Mouse.current.position.ReadValue();
-            var ray = Camera.main.ScreenPointToRay(mousePos);
+            Vector2 mousePos = Mouse.current.position.ReadValue();
+            Ray ray = Camera.main.ScreenPointToRay(mousePos);
             if (Physics.Raycast(ray, out RaycastHit hitData, 1000, LayerMask.GetMask("Walls", "Default", "Floor")))
             {
                 var diff = hitData.point - transform.position;
@@ -232,7 +232,7 @@ public class PlayerController : Character
             attacks[index].UnlinkInput();
             attacks[index].CleanUp();
         }
-        attacks[index] = attackData.EquipAttack(this);
+        attacks[index] = attackData.CreateInstance(this);
         OnAttackEquipped?.Invoke(attacks[index], index);
         
         attacks[index].LinkInput(inputs.actions[index]);

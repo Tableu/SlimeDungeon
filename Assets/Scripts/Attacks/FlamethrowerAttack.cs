@@ -39,6 +39,7 @@ public class FlamethrowerAttack : Attack
     
     public override void LinkInput(InputAction action)
     {
+        UnlinkInput();
         inputAction = action;
         action.started += Begin;
         action.canceled += End;

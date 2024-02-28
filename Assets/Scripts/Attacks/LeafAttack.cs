@@ -34,6 +34,7 @@ public class LeafAttack : Attack
 
     public override void LinkInput(InputAction action)
     {
+        UnlinkInput();
         inputAction = action;
         action.started += Begin;
     }

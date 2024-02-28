@@ -82,7 +82,7 @@ namespace Controller
             
             foreach (AttackData attackData in CharacterData.Attacks)
             {
-                var attack = attackData.EquipAttack(this);
+                var attack = attackData.CreateInstance(this);
                 attacks.Add(attack);
             }
         }

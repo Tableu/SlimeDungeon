@@ -37,6 +37,7 @@ public class WaterBoltAttack : Attack
     
     public override void LinkInput(InputAction action)
     {
+        UnlinkInput();
         inputAction = action;
         action.started += Begin;
     }

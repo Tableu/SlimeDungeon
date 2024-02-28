@@ -36,7 +36,7 @@ namespace Controller.Form
         {
             _formAnimator = _data.AttachScript(model);
             _formAnimator.Initialize(this);
-            _basicAttack = _data.BasicAttack.EquipAttack(_playerController);
+            _basicAttack = _data.BasicAttack.CreateInstance(_playerController);
             _basicAttack.LinkInput(basicAttackAction);
         }
 
