@@ -6,16 +6,14 @@ public class LeafStormAttack : Attack
 {
     public override bool Begin()
     {
-        if (character.Mana >= data.ManaCost && !onCooldown)
+        if (CheckManaCostAndCooldown())
         {
             Vector2 mousePos = Mouse.current.position.ReadValue();
             Ray ray = Camera.main.ScreenPointToRay(mousePos);
             if (Physics.Raycast(ray, out RaycastHit hitData, 1000, LayerMask.GetMask("Floor")))
             {
                 GameObject leafStorm = GameObject.Instantiate(data.Prefab, hitData.point, Quaternion.identity);
-                leafStorm.layer = character is PlayerController
-                    ? LayerMask.NameToLayer("PlayerAttacks")
-                    : LayerMask.NameToLayer("EnemyAttacks");
+                SetLayer(leafStorm);
                 LeafStorm script = leafStorm.GetComponent<LeafStorm>();
                 if (script == null)
                     return false;

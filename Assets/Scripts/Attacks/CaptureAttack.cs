@@ -6,14 +6,12 @@ public class CaptureAttack : Attack
 {
     public override bool Begin()
     {
-        if (character.Mana >= data.ManaCost && !onCooldown)
+        if (CheckManaCostAndCooldown())
         {
             Transform transform = character.transform;
             GameObject orb = GameObject.Instantiate(data.Prefab,
                 transform.position + new Vector3(character.SpellOffset.x*transform.forward.x, character.SpellOffset.y, character.SpellOffset.z*transform.forward.z), Quaternion.identity);
-            orb.layer = character is PlayerController
-                ? LayerMask.NameToLayer("PlayerAttacks")
-                : LayerMask.NameToLayer("EnemyAttacks");
+            SetLayer(orb);
             CaptureOrb script = orb.GetComponent<CaptureOrb>();
             if (script == null)
                 return false;

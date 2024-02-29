@@ -1,23 +1,18 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace Controller
 {
-    public enum AnimationState
-    {
-        DamageEnded,
-        AttackEnded,
-        JumpEnded
-    }
     [Serializable]
     public abstract class Attack
     {
         protected Character character;
         protected AttackData data;
         protected CancellationTokenSource cooldownCancellationTokenSource;
-        protected bool onCooldown = false;
+        protected bool onCooldown;
         protected InputAction inputAction;
 
         public AttackData Data => data;
@@ -49,7 +44,8 @@ namespace Controller
             cooldownCancellationTokenSource?.Cancel();
         }
 
-        public virtual async void Cooldown(float duration)
+        #region Helper Functions
+        protected virtual async void Cooldown(float duration)
         {
             cooldownCancellationTokenSource = new CancellationTokenSource();
             if (duration == 0)
@@ -62,6 +58,18 @@ namespace Controller
                 onCooldown = false;
             });
         }
+        protected bool CheckManaCostAndCooldown()
+        {
+            return character.Mana >= data.ManaCost && !onCooldown;
+        }
+
+        protected void SetLayer(GameObject gameObject)
+        {
+            gameObject.layer = character is PlayerController
+                ? LayerMask.NameToLayer("PlayerAttacks")
+                : LayerMask.NameToLayer("EnemyAttacks");
+        }
+        #endregion
         
         public Action<float> OnCooldown;
     }

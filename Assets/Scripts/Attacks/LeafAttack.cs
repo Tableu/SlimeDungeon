@@ -6,15 +6,12 @@ public class LeafAttack : Attack
 {
     public override bool Begin()
     {
-        if (character.Mana >= data.ManaCost && !onCooldown)
+        if (CheckManaCostAndCooldown())
         {
             Transform transform = character.transform;
-            GameObject leaf = GameObject.Instantiate(data.Prefab,RandomPosition(transform)
-                , Quaternion.identity);
+            GameObject leaf = GameObject.Instantiate(data.Prefab,RandomPosition(transform),Quaternion.identity);
             leaf.transform.rotation = Quaternion.Euler(0, Random.Range(-180,180),0);
-            leaf.layer = character is PlayerController
-                ? LayerMask.NameToLayer("PlayerAttacks")
-                : LayerMask.NameToLayer("EnemyAttacks");
+            SetLayer(leaf);
             var script = leaf.GetComponent<Leaf>();
             if (script == null)
                 return false;

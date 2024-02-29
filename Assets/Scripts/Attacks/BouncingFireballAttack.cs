@@ -1,20 +1,17 @@
 using Controller;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using AnimationState = Controller.AnimationState;
 
 public class BouncingFireballAttack : Attack
 {
     public override bool Begin()
     {
-        if (character.Mana >= data.ManaCost && !onCooldown)
+        if (CheckManaCostAndCooldown())
         {
             Transform transform = character.transform;
             GameObject fireball = GameObject.Instantiate(data.Prefab,
                 transform.position + new Vector3(character.SpellOffset.x*transform.forward.x, character.SpellOffset.y, character.SpellOffset.z*transform.forward.z), Quaternion.identity);
-            fireball.layer = character is PlayerController
-                ? LayerMask.NameToLayer("PlayerAttacks")
-                : LayerMask.NameToLayer("EnemyAttacks");
+            SetLayer(fireball);
             BouncingFireball script = fireball.GetComponent<BouncingFireball>();
             if (script == null)
                 return false;

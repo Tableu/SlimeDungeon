@@ -13,11 +13,12 @@ public class FlamethrowerAttack : Attack
 
     public override bool Begin()
     {
-        if (isActive)
+        if (isActive || character.Mana < ((FlamethrowerAttackData)data).InitialManaCost)
             return false;
         Transform transform = character.transform;
         _flamethrower = GameObject.Instantiate(data.Prefab, transform.position + new Vector3(character.SpellOffset.x*transform.forward.x, character.SpellOffset.y, character.SpellOffset.z*transform.forward.z), Quaternion.identity,transform);
         _flamethrower.transform.rotation = Quaternion.Euler(_flamethrower.transform.rotation.x, character.transform.rotation.eulerAngles.y-90, _flamethrower.transform.rotation.z);
+        SetLayer(_flamethrower);
         var script = _flamethrower.GetComponent<Flamethrower>();
         script.Initialize(data.Damage * character.DamageMultiplier, data.Knockback, data.HitStun,
             transform.forward * data.Speed * character.SpeedMultiplier, data.ElementType);
