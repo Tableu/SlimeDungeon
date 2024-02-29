@@ -6,20 +6,18 @@ public class Flamethrower : MonoBehaviour
     private float _damage;
     private float _knockback;
     private Vector3 _force;
-    private float _sizeMultiplier;
     private float _hitStun;
     private Elements.Type _type;
 
-    public void Initialize(float damage, float knockback, float hitStun, Vector3 force, float sizeMultiplier, Elements.Type type)
+    public void Initialize(float damage, float knockback, float hitStun, Vector3 force, Elements.Type type)
     {
-        _sizeMultiplier = sizeMultiplier;
         _damage = damage;
         _knockback = knockback;
         _force = force;
         _hitStun = hitStun;
         _type = type;
     }
-    private void Update()
+    private void FixedUpdate()
     {
         if (!particleSystem.IsAlive())
         {

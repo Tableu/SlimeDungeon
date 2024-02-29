@@ -16,7 +16,7 @@ namespace Controller
     {
         protected Character character;
         protected AttackData data;
-        protected CancellationTokenSource cancellationTokenSource;
+        protected CancellationTokenSource cooldownCancellationTokenSource;
         protected bool onCooldown = false;
         protected InputAction inputAction;
 
@@ -46,19 +46,19 @@ namespace Controller
 
         public virtual void CleanUp()
         {
-            cancellationTokenSource?.Cancel();
+            cooldownCancellationTokenSource?.Cancel();
         }
 
         public virtual async void Cooldown(float duration)
         {
-            cancellationTokenSource = new CancellationTokenSource();
+            cooldownCancellationTokenSource = new CancellationTokenSource();
             if (duration == 0)
                 return;
             OnCooldown?.Invoke(duration);
             onCooldown = true;
             await Task.Run(() =>
             {
-                Task.Delay(TimeSpan.FromSeconds(duration)).Wait(cancellationTokenSource.Token);
+                Task.Delay(TimeSpan.FromSeconds(duration)).Wait(cooldownCancellationTokenSource.Token);
                 onCooldown = false;
             });
         }

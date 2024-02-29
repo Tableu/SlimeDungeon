@@ -15,10 +15,9 @@ MonoBehaviour:
   speed: 4
   damage: 1
   knockback: 0
-  manaCost: 0
+  manaCost: 0.5
   hitStun: 0
   cooldown: 0
-  targetingRange: 0
   elementType: 1
   prefab: {fileID: 2829376769235719667, guid: 5126df3142e56e64683735a787d5bedc, type: 3}
   icon: {fileID: 21300000, guid: 8b03ad0628d8cec43a17e35fbc3086e4, type: 3}
