@@ -31,8 +31,10 @@ public class FlamethrowerAttack : Attack
 
     public override void End()
     {
-        character.Speed.MultiplicativeModifer += 0.5f;
+        if (!isActive)
+            return; 
         
+        character.Speed.MultiplicativeModifer += 0.5f;
         _flamethrower.GetComponent<ParticleSystem>().Stop();
         _flamethrower.transform.SetParent(null, true);
         isActive = false;
@@ -67,12 +69,13 @@ public class FlamethrowerAttack : Attack
         character.ApplyManaCost(data.ManaCost);
         await Task.Run(() =>
         {
-            while (isActive)
+            while (isActive && character.Mana >= data.ManaCost)
             {
                 Task.Delay(TimeSpan.FromSeconds(updateInterval)).Wait(manaCostCancellationTokenSource.Token);
                 character.ApplyManaCost(data.ManaCost);
             }
         });
+        End();
     }
 
     public FlamethrowerAttack(Character character, AttackData data) : base(character, data)
