@@ -42,7 +42,7 @@ public class SpellInventory : MonoBehaviour
         int index = inventoryIconList.FindIndex(icon => icon.Data == data);
         if (index != -1)
         {
-            Destroy(inventoryIconList[index]);
+            Destroy(inventoryIconList[index].gameObject);
             inventoryIconList.RemoveAt(index);
         }
     }
