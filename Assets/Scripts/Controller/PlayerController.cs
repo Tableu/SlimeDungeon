@@ -37,7 +37,6 @@ public class PlayerController : Character
     public List<AttackData> UnlockedAttacks => _unlockedAttacks;
     public FormManager FormManager => _formManager;
     
-    public Action OnFormFaint;
     public Action OnDamage;
     public Action<Attack, int> OnAttackEquipped;
     public Action<Attack, int> OnAttackUnEquipped;
@@ -147,9 +146,9 @@ public class PlayerController : Character
             rigidbody.velocity = Vector3.zero;
         }
         
-        if (_playerInputActions.Other.BasicAttack.IsPressed() && _formManager.CurrentForm != null && _formManager.CurrentForm.BasicAttack != null)
+        if (_playerInputActions.Other.BasicAttack.IsPressed() && _formManager.CurrentForm != null)
         {
-            _formManager.CurrentForm.BasicAttack.Begin();
+            _formManager.CurrentForm.CastBasicAttack();
         }
     }
 
@@ -190,14 +189,7 @@ public class PlayerController : Character
 
     protected override void HandleDeath()
     {
-        if (_formManager.CurrentForm.Data.GetType() == playerData.StartForm.GetType())
-        {
-            Destroy(gameObject);
-        }
-        else
-        {
-            OnFormFaint?.Invoke();
-        }
+        _formManager.FormFainted();
     }
 
     protected override IEnumerator HandleKnockback(Vector3 knockback, float hitStun, float typeMultiplier)
@@ -260,7 +252,6 @@ public class PlayerController : Character
     #region Event Functions
     private void OnFormChange()
     {
-        Health = _formManager.CurrentForm.Health;
         Speed.UpdateBaseValue(_formManager.CurrentForm.Speed);
         switchFormParticleSystem.Play();
     }

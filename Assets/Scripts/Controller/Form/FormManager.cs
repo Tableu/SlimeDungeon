@@ -11,13 +11,10 @@ public class FormManager
     private PlayerController _playerController;
     private List<Form> _forms;
     private int _maxFormCount;
-    private int _formIndex;
-    
-    public Form CurrentForm
-    {
-        get => _forms[_formIndex];
-        private set => _forms[_formIndex] = value;
-    }
+    private Form _currentForm;
+    private int _currentFormIndex = 0;
+
+    public Form CurrentForm => _currentForm;
 
     public List<Form> Forms => _forms;
     public int MaxFormCount => _maxFormCount;
@@ -31,12 +28,10 @@ public class FormManager
         _playerController = playerController;
         _model = model;
         _forms = new List<Form>();
-        _formIndex = 0;
         _maxFormCount = ((PlayerData)_playerController.CharacterData).MaxFormCount;
         
         _playerController.PlayerInputActions.Other.SwitchForms.started += SwitchForms;
         _playerController.OnDamage += OnDamage;
-        _playerController.OnFormFaint += OnFormFaint;
     }
 
     ~FormManager()
@@ -44,7 +39,6 @@ public class FormManager
         if (_playerController == null) return;
         _playerController.PlayerInputActions.Other.SwitchForms.started -= SwitchForms;
         _playerController.OnDamage -= OnDamage;
-        _playerController.OnFormFaint -= OnFormFaint;
     }
     #region Public Methods
 
@@ -52,10 +46,8 @@ public class FormManager
     {
         Form form = new Form(((PlayerData)_playerController.CharacterData).StartForm, _playerController);
         _forms.Add(form);
+        ChangeForm(form, _forms.Count-1);
         OnFormAdd?.Invoke(form, _forms.Count-1);
-        ChangeModel(form.Data);
-        CurrentForm.Equip(_model, _playerController.PlayerInputActions.Other.BasicAttack);
-        OnFormChange?.Invoke();
     }
     public void AddForm(Form form)
     {
@@ -63,13 +55,14 @@ public class FormManager
         {
             if (_forms.Count > 0)
             {
-                GameObject item = Object.Instantiate(CurrentForm.Data.Item, _playerController.transform.position, Quaternion.identity);
+                GameObject item = Object.Instantiate(_currentForm.Data.Item, _playerController.transform.position, Quaternion.identity);
                 FormItem script = item.GetComponent<FormItem>();
-                script.Initialize(CurrentForm);
-                OnFormRemoved?.Invoke(CurrentForm);
+                script.Initialize(_currentForm);
+                OnFormRemoved?.Invoke(_currentForm);
             }
-            EquipForm(form);
-            OnFormAdd?.Invoke(form, _formIndex);
+            ChangeForm(form, _currentFormIndex);
+            _forms[_currentFormIndex] = form;
+            OnFormAdd?.Invoke(form, _currentFormIndex);
         }
         else
         {
@@ -80,9 +73,9 @@ public class FormManager
     
     public void SwitchForms(InputAction.CallbackContext context)
     {
-        int oldIndex = _formIndex;
+        int oldIndex = _currentFormIndex;
         int diff = (int)context.ReadValue<float>();
-        int formIndex = _formIndex+diff;
+        int formIndex = _currentFormIndex+diff;
         if (formIndex >= _forms.Count)
         {
             formIndex = 0;
@@ -95,13 +88,9 @@ public class FormManager
         
         while (formIndex != oldIndex)
         {
-            if (CurrentForm.Health > 0)
+            if (_forms[formIndex].Health > 0)
             {
-                CurrentForm.Drop();
-                _formIndex = formIndex;
-                ChangeModel(CurrentForm.Data);
-                CurrentForm.Equip(_model, _playerController.PlayerInputActions.Other.BasicAttack);
-                OnFormChange?.Invoke();
+                ChangeForm(_forms[formIndex],formIndex);
                 return;
             }
 
@@ -120,15 +109,15 @@ public class FormManager
 
     public void HealForm(float amount)
     {
-        if (Math.Abs(CurrentForm.Health - CurrentForm.Data.Health) > Mathf.Epsilon)
+        if (Math.Abs(_currentForm.Health - _currentForm.Data.Health) > Mathf.Epsilon)
         {
-            CurrentForm.Health += amount;
+            _currentForm.Health += amount;
         }
         else
         {
             foreach (var formInstance in _forms)
             {
-                if (Math.Abs(CurrentForm.Health - CurrentForm.Data.Health) > Mathf.Epsilon)
+                if (Math.Abs(_currentForm.Health - _currentForm.Data.Health) > Mathf.Epsilon)
                 {
                     formInstance.Health += amount;
                 }
@@ -143,21 +132,35 @@ public class FormManager
             form.Health += amount;
         }
     }
+    
+    public void FormFainted()
+    {
+        int index = 0;
+        foreach (Form form in _forms)
+        {
+            if (form.Health > 0)
+            {
+                ChangeForm(form, index);
+                return;
+            }
 
+            index++;
+        }
+        Object.Destroy(_playerController.gameObject);
+    }
     #endregion
     #region Private Methods
-    private void EquipForm(Form form)
+
+    private void ChangeForm(Form newForm, int newIndex)
     {
-        if (CurrentForm is not null)
-        {
-            CurrentForm.Drop();
-        }
-        ChangeModel(form.Data);
-        CurrentForm = form;
-        CurrentForm.Equip(_model, _playerController.PlayerInputActions.Other.BasicAttack);
+        if(_currentForm is not null)
+            _currentForm.Drop();
+        _currentForm = newForm;
+        _currentFormIndex = newIndex;
+        ChangeModel(newForm.Data);
+        _currentForm.Equip(_model, _playerController.PlayerInputActions.Other.BasicAttack);
         OnFormChange?.Invoke();
     }
-    
     private void ChangeModel(FormData data)
     {
         _model.SetActive(false);
@@ -169,20 +172,7 @@ public class FormManager
     #region Event Functions
     private void OnDamage()
     {
-        CurrentForm.Health = _playerController.Health;
-    }
-
-    private void OnFormFaint()
-    {
-        foreach (Form form in _forms)
-        {
-            if (form.Health > 0)
-            {
-                EquipForm(form);
-                return;
-            }
-        }
-        Object.Destroy(_playerController.gameObject);
+        _currentForm.Health = _playerController.Health;
     }
     #endregion
 }
