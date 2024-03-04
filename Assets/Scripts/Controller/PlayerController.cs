@@ -268,7 +268,7 @@ public class PlayerController : Character
     {
         foreach (AttackData attackData in form.Data.Spells)
         {
-            int index = attacks.FindIndex(attack => attack.Data == attackData);
+            int index = attacks.FindIndex(attack => attack?.Data == attackData);
             if (index != -1)
             {
                 UnEquipAttack(index);
