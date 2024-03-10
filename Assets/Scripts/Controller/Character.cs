@@ -44,7 +44,7 @@ namespace Controller
         }
         
         //not currently needed
-        //[SerializeField] protected LayerMask enemyMask;
+        [SerializeField] protected LayerMask enemyMask;
         [SerializeField] protected new Rigidbody rigidbody;
         protected List<Attack> attacks;
 
@@ -68,7 +68,7 @@ namespace Controller
             protected set;
             get;
         } = 1;
-        //public LayerMask EnemyMask => enemyMask;
+        public LayerMask EnemyMask => enemyMask;
         public Action OnDeath;
 
         protected void Start()

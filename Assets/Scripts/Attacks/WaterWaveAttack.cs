@@ -19,12 +19,12 @@ public class WaterWaveAttack : Attack
                 data.Prefab.transform.rotation.eulerAngles.x, 
                 data.Prefab.transform.rotation.eulerAngles.y+transform.rotation.eulerAngles.y, 
                 data.Prefab.transform.rotation.eulerAngles.z);
-            SetLayer(wave);
+            wave.layer = LayerMask.NameToLayer("TriggerColliderAttacks");
             var script = wave.GetComponent<WaterWave>();
             if (script == null)
                 return false;
             script.Initialize(data.Damage, data.Knockback, data.HitStun,
-                transform.forward*data.Speed, character.ElementType);
+                transform.forward*data.Speed, character.ElementType, character.EnemyMask);
             Cooldown(data.Cooldown);
             character.ApplyManaCost(data.ManaCost);
             return true;
