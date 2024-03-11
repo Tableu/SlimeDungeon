@@ -40,4 +40,9 @@ public class SlimeEnemyController : EnemyController
                 break;
         }
     }
+    
+    public void OnAnimatorMove()
+    {
+        //I'm not sure why this works, but movement breaks without it
+    }
 }

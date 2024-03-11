@@ -264,7 +264,8 @@ public abstract class EnemyController : Character, ICapturable
         agent.enabled = false;
         agent.updateRotation = false;
         rigidbody.isKinematic = false;
-        rigidbody.AddForce(knockback);
+        rigidbody.velocity = Vector3.zero;
+        rigidbody.AddForce(knockback, ForceMode.Impulse);
         _stunCounter++;
     }
 

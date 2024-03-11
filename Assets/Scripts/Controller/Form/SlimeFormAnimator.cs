@@ -30,8 +30,7 @@ namespace Controller.Form
         
         public void OnAnimatorMove()
         {
-            //Vector3 position = animator.rootPosition;
-            //form.PlayerController.transform.position = position;
+            //I'm not sure why this works, but movement breaks without it
         }
 
         private void MovementCanceled(InputAction.CallbackContext context)
