@@ -17,10 +17,13 @@ namespace Controller
             get;
         }
         protected CancellationTokenSource cooldownCancellationTokenSource;
-        protected bool onCooldown;
         protected InputAction inputAction;
 
-        
+        public bool OnCooldown
+        {
+            get;
+            private set;
+        }
 
         protected Attack(Character character, AttackData data)
         {
@@ -55,17 +58,17 @@ namespace Controller
             cooldownCancellationTokenSource = new CancellationTokenSource();
             if (duration == 0)
                 return;
-            OnCooldown?.Invoke(duration);
-            onCooldown = true;
+            OnCooldownEvent?.Invoke(duration);
+            OnCooldown = true;
             await Task.Run(() =>
             {
                 Task.Delay(TimeSpan.FromSeconds(duration)).Wait(cooldownCancellationTokenSource.Token);
-                onCooldown = false;
+                OnCooldown = false;
             });
         }
         protected bool CheckManaCostAndCooldown()
         {
-            return character.Mana >= Data.ManaCost && !onCooldown;
+            return character.Mana >= Data.ManaCost && !OnCooldown;
         }
 
         protected void SetLayer(GameObject gameObject)
@@ -76,6 +79,6 @@ namespace Controller
         }
         #endregion
         
-        public Action<float> OnCooldown;
+        public Action<float> OnCooldownEvent;
     }
 }

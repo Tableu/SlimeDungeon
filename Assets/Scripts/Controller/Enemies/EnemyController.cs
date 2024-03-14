@@ -210,7 +210,7 @@ public abstract class EnemyController : Character, ICapturable
 
     private void Attack()
     {
-        if (attacks[0].Begin())
+        if (attacks[0] != null && attacks[0].Begin())
         {
             ChangeState(EnemyControllerState.Attack);
         }

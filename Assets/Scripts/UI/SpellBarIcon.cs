@@ -48,7 +48,7 @@ public class SpellBarIcon : MonoBehaviour
         icon.sprite = attack.Data.Icon;
         manaText.enabled = true;
         manaText.text = attack.Data.ManaCost.ToString();
-        attack.OnCooldown += OnCooldown;
+        attack.OnCooldownEvent += OnCooldown;
         _attack = attack;
     }
 
@@ -58,7 +58,7 @@ public class SpellBarIcon : MonoBehaviour
         manaText.enabled = false;
         if (_attack != null)
         {
-            _attack.OnCooldown -= OnCooldown;
+            _attack.OnCooldownEvent -= OnCooldown;
             _attack = null;
         }
     }

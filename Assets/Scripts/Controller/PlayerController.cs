@@ -218,12 +218,16 @@ public class PlayerController : Character
     
     public void EquipAttack(AttackData attackData, int index)
     {
-        var inputs = _playerInputActions.Spells.Get();
-        if (attacks[index] != null)
+        if (index < 0 || index >= attacks.Count)
+            return;
+        bool attackInSlot = attacks[index] != null;
+        if (attackInSlot && attacks[index].OnCooldown)
+            return;
+        if (attackInSlot)
         {
-            attacks[index].UnlinkInput();
-            attacks[index].CleanUp();
+            UnEquipAttack(index);
         }
+        var inputs = _playerInputActions.Spells.Get();
         attacks[index] = attackData.CreateInstance(this);
         OnAttackEquipped?.Invoke(attacks[index], index);
         
@@ -232,6 +236,8 @@ public class PlayerController : Character
 
     public void UnEquipAttack(int index)
     {
+        if (index < 0 || index >= attacks.Count)
+            return;
         OnAttackUnEquipped?.Invoke(attacks[index], index);
         attacks[index].UnlinkInput();
         attacks[index].CleanUp();
