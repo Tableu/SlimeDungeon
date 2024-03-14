@@ -115,16 +115,6 @@ namespace Controller
             SpeedMultiplier = speed;
         }
 
-        public void DisableRotation()
-        {
-            disableRotation = true;
-        }
-
-        public void EnableRotation()
-        {
-            disableRotation = false;
-        }
-
         protected abstract IEnumerator HandleKnockback(Vector3 knockback, float hitStun, float typeMultiplier);
     }
 }
