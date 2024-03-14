@@ -19,8 +19,8 @@ public class WaterBoltAttack : Attack
             var script = waterbolt.GetComponent<WaterBolt>();
             if (script == null)
                 return false;
-            script.Initialize(Data.Damage * character.DamageMultiplier, Data.Knockback, Data.HitStun,
-                transform.forward * (Data.Speed * character.SpeedMultiplier), character.SizeMultiplier, Data.ElementType,3);
+            script.Initialize(Data.Damage, Data.Knockback, Data.HitStun,
+                transform.forward * Data.Speed, Data.ElementType,3);
             
             Cooldown(Data.Cooldown);
             character.ApplyManaCost(Data.ManaCost);

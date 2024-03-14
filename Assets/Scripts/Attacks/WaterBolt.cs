@@ -2,21 +2,17 @@ using UnityEngine;
 
 public class WaterBolt : MonoBehaviour
 {
-    [SerializeField] private ParticleSystem waterbolt;
     [SerializeField] private new Rigidbody rigidbody;
-    [SerializeField] private new SphereCollider collider;
     private float _damage;
     private float _knockback;
     private float _hitStun;
     private Vector3 _force;
-    private float _sizeMultiplier = 1;
     private Elements.Type _type;
     private int _maxBounces;
     private int _bounceCount = 0;
 
-    public void Initialize(float damage, float knockback,float hitStun, Vector3 force, float sizeMultiplier, Elements.Type type, int maxBounces)
+    public void Initialize(float damage, float knockback,float hitStun, Vector3 force, Elements.Type type, int maxBounces)
     {
-        _sizeMultiplier = sizeMultiplier;
         _hitStun = hitStun;
         _damage = damage;
         _knockback = knockback;
@@ -24,12 +20,6 @@ public class WaterBolt : MonoBehaviour
         _type = type;
         _maxBounces = maxBounces;
         rigidbody.AddForce(force, ForceMode.Impulse);
-        var shape = waterbolt.shape;
-        shape.radius *= sizeMultiplier;
-        collider.radius *= sizeMultiplier;
-        var main = waterbolt.main;
-        main.startSpeed = new ParticleSystem.MinMaxCurve(main.startSpeed.constant*sizeMultiplier);
-        main.startSize = new ParticleSystem.MinMaxCurve(main.startSize.constant*sizeMultiplier);
     }
     
     private void OnCollisionEnter(Collision other)

@@ -49,25 +49,7 @@ namespace Controller
         protected List<Attack> attacks;
 
         protected bool disableRotation = false;
-
-        //todo refactor spell multipliers
-        public float DamageMultiplier
-        {
-            protected set;
-            get;
-        } = 1;
-
-        public float SpeedMultiplier
-        {
-            protected set;
-            get;
-        } = 1;
-
-        public float SizeMultiplier
-        {
-            protected set;
-            get;
-        } = 1;
+        
         public LayerMask EnemyMask => enemyMask;
         public Action OnDeath;
 
@@ -106,13 +88,6 @@ namespace Controller
         public void ApplyManaCost(float manaCost)
         {
             Mana -= manaCost;
-        }
-
-        public void SetMultipliers(float size, float damage, float speed)
-        {
-            SizeMultiplier = size;
-            DamageMultiplier = damage;
-            SpeedMultiplier = speed;
         }
 
         protected abstract IEnumerator HandleKnockback(Vector3 knockback, float hitStun, float typeMultiplier);

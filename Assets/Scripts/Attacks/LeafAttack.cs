@@ -15,8 +15,8 @@ public class LeafAttack : Attack
             var script = leaf.GetComponent<Leaf>();
             if (script == null)
                 return false;
-            script.Initialize(Data.Damage*character.DamageMultiplier, Data.Knockback, Data.HitStun,
-                transform.forward * (Data.Speed * character.SpeedMultiplier), character.SizeMultiplier, Data.ElementType);
+            script.Initialize(Data.Damage, Data.Knockback, Data.HitStun,
+                transform.forward * Data.Speed, Data.ElementType);
             Cooldown(Data.Cooldown);
             character.ApplyManaCost(Data.ManaCost);
             return true;

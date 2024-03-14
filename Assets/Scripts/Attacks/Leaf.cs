@@ -11,14 +11,13 @@ public class Leaf : MonoBehaviour
     private Elements.Type _type;
     private List<GameObject> _previousCollisions = new List<GameObject>();
 
-    public void Initialize(float damage, float knockback,float hitStun, Vector3 force, float sizeMultiplier, Elements.Type type)
+    public void Initialize(float damage, float knockback,float hitStun, Vector3 force, Elements.Type type)
     {
         _hitStun = hitStun;
         _damage = damage;
         _knockback = knockback;
         _force = force;
         _type = type;
-        transform.localScale *= sizeMultiplier;
         rigidbody.AddForce(force, ForceMode.Impulse);
         _previousCollisions = new List<GameObject>();
     }
