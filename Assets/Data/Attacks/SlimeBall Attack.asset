@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 541da07ae0110c741aa0d48139cb3b3b, type: 3}
+  m_Name: SlimeBall Attack
+  m_EditorClassIdentifier: 
+  speed: 5
+  damage: 1
+  knockback: 0
+  manaCost: 50
+  hitStun: 0
+  cooldown: 5
+  elementType: 4
+  prefab: {fileID: 798176772263355702, guid: 1888bdf6ad2007544974d7209668b9cd, type: 3}
+  icon: {fileID: 21300000, guid: 43932b67c71640244a46b122a525ad3a, type: 3}
+  slimeArea: {fileID: 5680880271148677449, guid: 277eee97f4eaabf4c847b0cbc742b5d2, type: 3}
+  slow: 4
+  duration: 5
+  damagePerTick: 0.2

@@ -118,6 +118,7 @@ public abstract class EnemyController : Character, ICapturable
             _tick = 0;
             DetectPlayer();
         }
+        agent.speed = Speed;
     }
 
     private void OnCollisionEnter(Collision other)
