@@ -9,15 +9,15 @@ public class CaptureAttack : Attack
         if (CheckManaCostAndCooldown())
         {
             Transform transform = character.transform;
-            GameObject orb = GameObject.Instantiate(data.Prefab,
+            GameObject orb = GameObject.Instantiate(Data.Prefab,
                 transform.position + new Vector3(character.SpellOffset.x*transform.forward.x, character.SpellOffset.y, character.SpellOffset.z*transform.forward.z), Quaternion.identity);
             SetLayer(orb);
             CaptureOrb script = orb.GetComponent<CaptureOrb>();
             if (script == null)
                 return false;
-            script.Initialize(data.HitStun, transform.forward * data.Speed);
-            Cooldown(data.Cooldown);
-            character.ApplyManaCost(data.ManaCost);
+            script.Initialize(Data.HitStun, transform.forward * Data.Speed);
+            Cooldown(Data.Cooldown);
+            character.ApplyManaCost(Data.ManaCost);
             return true;
         }
 

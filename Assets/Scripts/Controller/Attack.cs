@@ -10,17 +10,22 @@ namespace Controller
     public abstract class Attack
     {
         protected Character character;
-        protected AttackData data;
+
+        public AttackData Data
+        {
+            protected set;
+            get;
+        }
         protected CancellationTokenSource cooldownCancellationTokenSource;
         protected bool onCooldown;
         protected InputAction inputAction;
 
-        public AttackData Data => data;
+        
 
         protected Attack(Character character, AttackData data)
         {
             this.character = character;
-            this.data = data;
+            Data = data;
         }
 
         public abstract bool Begin();
@@ -60,7 +65,7 @@ namespace Controller
         }
         protected bool CheckManaCostAndCooldown()
         {
-            return character.Mana >= data.ManaCost && !onCooldown;
+            return character.Mana >= Data.ManaCost && !onCooldown;
         }
 
         protected void SetLayer(GameObject gameObject)

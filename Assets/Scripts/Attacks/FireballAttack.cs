@@ -9,17 +9,16 @@ public class FireballAttack : Attack
         if (CheckManaCostAndCooldown())
         {
             Transform transform = character.transform;
-            GameObject fireball = GameObject.Instantiate(data.Prefab,
+            GameObject fireball = GameObject.Instantiate(Data.Prefab,
                 transform.position + new Vector3(character.SpellOffset.x*transform.forward.x, character.SpellOffset.y, character.SpellOffset.z*transform.forward.z), Quaternion.identity);
             SetLayer(fireball);
             var script = fireball.GetComponent<Fireball>();
             if (script == null)
                 return false;
-            script.Initialize(data.Damage*character.DamageMultiplier, data.Knockback, data.HitStun,
-                transform.forward * (data.Speed * character.SpeedMultiplier), character.SizeMultiplier, data.ElementType);
-
-            Cooldown(data.Cooldown);
-            character.ApplyManaCost(data.ManaCost);
+            script.Initialize(Data.Damage*character.DamageMultiplier, Data.Knockback, Data.HitStun,
+                transform.forward * (Data.Speed * character.SpeedMultiplier), character.SizeMultiplier, Data.ElementType);
+            Cooldown(Data.Cooldown);
+            character.ApplyManaCost(Data.ManaCost);
             return true;
         }
         return false;

@@ -11,22 +11,22 @@ public class WaterWaveAttack : Attack
         if (CheckManaCostAndCooldown())
         {
             Transform transform = character.transform;
-            GameObject wave = GameObject.Instantiate(data.Prefab,
+            GameObject wave = GameObject.Instantiate(Data.Prefab,
                 transform.position + 
                 new Vector3(character.SpellOffset.x*transform.forward.x, character.SpellOffset.y, character.SpellOffset.z*transform.forward.z), 
                 Quaternion.identity);
             wave.transform.rotation = Quaternion.Euler(
-                data.Prefab.transform.rotation.eulerAngles.x, 
-                data.Prefab.transform.rotation.eulerAngles.y+transform.rotation.eulerAngles.y, 
-                data.Prefab.transform.rotation.eulerAngles.z);
+                Data.Prefab.transform.rotation.eulerAngles.x, 
+                Data.Prefab.transform.rotation.eulerAngles.y+transform.rotation.eulerAngles.y, 
+                Data.Prefab.transform.rotation.eulerAngles.z);
             wave.layer = LayerMask.NameToLayer("TriggerColliderAttacks");
             var script = wave.GetComponent<WaterWave>();
             if (script == null)
                 return false;
-            script.Initialize(data.Damage, data.Knockback, data.HitStun,
-                transform.forward*data.Speed, character.ElementType, character.EnemyMask);
-            Cooldown(data.Cooldown);
-            character.ApplyManaCost(data.ManaCost);
+            script.Initialize(Data.Damage, Data.Knockback, Data.HitStun,
+                transform.forward*Data.Speed, Data.ElementType, character.EnemyMask);
+            Cooldown(Data.Cooldown);
+            character.ApplyManaCost(Data.ManaCost);
             return true;
         }
 

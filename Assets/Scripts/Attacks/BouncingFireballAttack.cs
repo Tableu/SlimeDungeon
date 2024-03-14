@@ -4,12 +4,13 @@ using UnityEngine.InputSystem;
 
 public class BouncingFireballAttack : Attack
 {
+    private BouncingFireballAttackData _data;
     public override bool Begin()
     {
         if (CheckManaCostAndCooldown())
         {
             Transform transform = character.transform;
-            GameObject fireball = GameObject.Instantiate(data.Prefab,
+            GameObject fireball = GameObject.Instantiate(Data.Prefab,
                 transform.position + new Vector3(character.SpellOffset.x*transform.forward.x, character.SpellOffset.y, character.SpellOffset.z*transform.forward.z), Quaternion.identity);
             SetLayer(fireball);
             BouncingFireball script = fireball.GetComponent<BouncingFireball>();
@@ -18,14 +19,13 @@ public class BouncingFireballAttack : Attack
             
             int maxBounces = 0;
             Vector3 launchAngle = transform.forward;
-            if (data is BouncingFireballAttackData fireballData)
-            {
-                maxBounces = fireballData.MaxBounceCount;
-                launchAngle = new Vector3(launchAngle.x*fireballData.LaunchAngle.x, fireballData.LaunchAngle.y, launchAngle.z*fireballData.LaunchAngle.x);
-            }
-            script.Initialize(data.Damage, data.Knockback, data.HitStun, launchAngle*data.Speed, maxBounces, data.ElementType);
-            Cooldown(data.Cooldown);
-            character.ApplyManaCost(data.ManaCost);
+            
+            maxBounces = _data.MaxBounceCount;
+            launchAngle = new Vector3(launchAngle.x*_data.LaunchAngle.x, _data.LaunchAngle.y, launchAngle.z*_data.LaunchAngle.x);
+            
+            script.Initialize(Data.Damage, Data.Knockback, Data.HitStun, launchAngle*Data.Speed, maxBounces, Data.ElementType);
+            Cooldown(Data.Cooldown);
+            character.ApplyManaCost(Data.ManaCost);
             return true;
         }
 
@@ -52,7 +52,8 @@ public class BouncingFireballAttack : Attack
         }
     }
 
-    public BouncingFireballAttack(Character character, AttackData data) : base(character, data)
+    public BouncingFireballAttack(Character character, BouncingFireballAttackData data) : base(character, data)
     {
+        _data = data;
     }
 }

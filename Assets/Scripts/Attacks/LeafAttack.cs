@@ -9,16 +9,16 @@ public class LeafAttack : Attack
         if (CheckManaCostAndCooldown())
         {
             Transform transform = character.transform;
-            GameObject leaf = GameObject.Instantiate(data.Prefab,RandomPosition(transform),Quaternion.identity);
+            GameObject leaf = GameObject.Instantiate(Data.Prefab,RandomPosition(transform),Quaternion.identity);
             leaf.transform.rotation = Quaternion.Euler(0, Random.Range(-180,180),0);
             SetLayer(leaf);
             var script = leaf.GetComponent<Leaf>();
             if (script == null)
                 return false;
-            script.Initialize(data.Damage*character.DamageMultiplier, data.Knockback, data.HitStun,
-                transform.forward * (data.Speed * character.SpeedMultiplier), character.SizeMultiplier, data.ElementType);
-            Cooldown(data.Cooldown);
-            character.ApplyManaCost(data.ManaCost);
+            script.Initialize(Data.Damage*character.DamageMultiplier, Data.Knockback, Data.HitStun,
+                transform.forward * (Data.Speed * character.SpeedMultiplier), character.SizeMultiplier, Data.ElementType);
+            Cooldown(Data.Cooldown);
+            character.ApplyManaCost(Data.ManaCost);
             return true;
         }
         return false;

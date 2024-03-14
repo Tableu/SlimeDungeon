@@ -13,15 +13,15 @@ public class FlamethrowerAttack : Attack
 
     public override bool Begin()
     {
-        if (isActive || character.Mana < ((FlamethrowerAttackData)data).InitialManaCost)
+        if (isActive || character.Mana < ((FlamethrowerAttackData)Data).InitialManaCost)
             return false;
         Transform transform = character.transform;
-        _flamethrower = GameObject.Instantiate(data.Prefab, transform.position + new Vector3(character.SpellOffset.x*transform.forward.x, character.SpellOffset.y, character.SpellOffset.z*transform.forward.z), Quaternion.identity,transform);
+        _flamethrower = GameObject.Instantiate(Data.Prefab, transform.position + new Vector3(character.SpellOffset.x*transform.forward.x, character.SpellOffset.y, character.SpellOffset.z*transform.forward.z), Quaternion.identity,transform);
         _flamethrower.transform.rotation = Quaternion.Euler(_flamethrower.transform.rotation.x, character.transform.rotation.eulerAngles.y-90, _flamethrower.transform.rotation.z);
         SetLayer(_flamethrower);
         var script = _flamethrower.GetComponent<Flamethrower>();
-        script.Initialize(data.Damage * character.DamageMultiplier, data.Knockback, data.HitStun,
-            transform.forward * data.Speed * character.SpeedMultiplier, data.ElementType);
+        script.Initialize(Data.Damage * character.DamageMultiplier, Data.Knockback, Data.HitStun,
+            transform.forward * Data.Speed * character.SpeedMultiplier, Data.ElementType);
 
         character.Speed.MultiplicativeModifer -= 0.5f;
         isActive = true;
@@ -66,13 +66,13 @@ public class FlamethrowerAttack : Attack
     private async void ApplyManaCost(float updateInterval)
     {
         manaCostCancellationTokenSource = new CancellationTokenSource();
-        character.ApplyManaCost(data.ManaCost);
+        character.ApplyManaCost(Data.ManaCost);
         await Task.Run(() =>
         {
-            while (isActive && character.Mana >= data.ManaCost)
+            while (isActive && character.Mana >= Data.ManaCost)
             {
                 Task.Delay(TimeSpan.FromSeconds(updateInterval)).Wait(manaCostCancellationTokenSource.Token);
-                character.ApplyManaCost(data.ManaCost);
+                character.ApplyManaCost(Data.ManaCost);
             }
         });
         End();
