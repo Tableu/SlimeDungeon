@@ -23,5 +23,5 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: 43932b67c71640244a46b122a525ad3a, type: 3}
   slimeArea: {fileID: 5680880271148677449, guid: 277eee97f4eaabf4c847b0cbc742b5d2, type: 3}
   slow: 4
-  duration: 5
+  duration: 3
   damagePerTick: 0.2
