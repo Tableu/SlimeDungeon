@@ -6,7 +6,6 @@ public class CaptureOrbAttackData : AttackData
 {
     public override Attack CreateInstance(Character character)
     {
-        Attack attack = new CaptureAttack(character, this);
-        return attack;
+        return new BasicAttack<CaptureOrb>(character, this);
     }
 }

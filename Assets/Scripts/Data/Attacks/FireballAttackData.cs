@@ -6,7 +6,6 @@ public class FireballAttackData : AttackData
 {
     public override Attack CreateInstance(Character character)
     {
-        Attack attack = new FireballAttack(character, this);
-        return attack;
+        return new BasicAttack<Fireball>(character, this);
     }
 }

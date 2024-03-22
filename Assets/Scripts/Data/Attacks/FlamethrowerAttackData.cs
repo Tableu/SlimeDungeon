@@ -8,7 +8,6 @@ public class FlamethrowerAttackData : AttackData
     public float InitialManaCost => initialManaCost;
     public override Attack CreateInstance(Character character)
     {
-        Attack attack = new FlamethrowerAttack(character, this);
-        return attack;
+        return new FlamethrowerAttack(character, this);
     }
 }

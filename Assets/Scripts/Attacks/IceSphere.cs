@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class IceSphere : MonoBehaviour
+public class IceSphere : MonoBehaviour, BasicProjectile
 {
     [SerializeField] private ParticleSystem iceSphere;
     [SerializeField] private ParticleSystem snowExplosion;
@@ -12,7 +12,7 @@ public class IceSphere : MonoBehaviour
     private Elements.Type _type;
     private bool _exploding;
 
-    public void Initialize(float damage, float hitStun, Vector3 force, Elements.Type type)
+    public void Initialize(float damage, float hitStun, float knockback, Vector3 force, Elements.Type type)
     {
         _damage = damage;
         _hitStun = hitStun;

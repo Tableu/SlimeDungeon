@@ -1,17 +1,13 @@
 using UnityEngine;
 
-public class CaptureOrb : MonoBehaviour
+public class CaptureOrb : MonoBehaviour, BasicProjectile
 {
-    [SerializeField] private ParticleSystem orb;
     [SerializeField] private new Rigidbody rigidbody;
-    [SerializeField] private new SphereCollider collider;
     private float _hitStun;
-    private Vector3 _force;
     
-    public void Initialize(float hitStun, Vector3 force)
+    public void Initialize(float damage, float knockback, float hitStun, Vector3 force, Elements.Type type)
     {
         _hitStun = hitStun;
-        _force = force;
         rigidbody.AddForce(force, ForceMode.Impulse);
     }
 

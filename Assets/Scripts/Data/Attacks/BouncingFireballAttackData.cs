@@ -10,7 +10,6 @@ public class BouncingFireballAttackData : AttackData
     public Vector2 LaunchAngle => launchAngle;
     public override Attack CreateInstance(Character character)
     {
-        Attack attack = new BouncingFireballAttack(character, this);
-        return attack;
+        return new BouncingFireballAttack(character, this);
     }
 }

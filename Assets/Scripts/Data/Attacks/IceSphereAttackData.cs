@@ -6,7 +6,6 @@ public class IceSphereAttackData : AttackData
 {
     public override Attack CreateInstance(Character character)
     {
-        Attack attack = new IceSphereAttack(character, this);
-        return attack;
+        return new BasicAttack<IceSphere>(character, this);
     }
 }

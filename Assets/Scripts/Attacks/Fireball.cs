@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Fireball : MonoBehaviour
+public class Fireball : MonoBehaviour, BasicProjectile
 {
     [SerializeField] private ParticleSystem fireball;
     [SerializeField] private GameObject explosion;
