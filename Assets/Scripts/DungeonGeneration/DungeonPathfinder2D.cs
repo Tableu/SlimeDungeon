@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using BlueRaja;
 
@@ -7,6 +8,7 @@ public class DungeonPathfinder2D {
     public class Node {
         public Vector2Int Position { get; private set; }
         public Node Previous { get; set; }
+        public Vector2Int direction { get; set; }
         public float Cost { get; set; }
 
         public Node(Vector2Int position) {
@@ -76,9 +78,12 @@ public class DungeonPathfinder2D {
                 return ReconstructPath(node);
             }
 
-            foreach (var offset in neighbors) {
+            var rnd = new System.Random();
+            foreach (var offset in neighbors.OrderBy(i => rnd.Next())) {
                 if (!grid.InBounds(node.Position + offset)) continue;
                 var neighbor = grid[node.Position + offset];
+                neighbor.direction = offset;
+                
                 if (closed.Contains(neighbor)) continue;
 
                 var pathCost = costFunction(node, neighbor);
@@ -89,7 +94,6 @@ public class DungeonPathfinder2D {
                 if (newCost < neighbor.Cost) {
                     neighbor.Previous = node;
                     neighbor.Cost = newCost;
-
                     if (queue.TryGetPriority(node, out float existingPriority)) {
                         queue.UpdatePriority(node, newCost);
                     } else {

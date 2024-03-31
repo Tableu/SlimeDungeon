@@ -246,10 +246,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f953ab52d1c4c1049857c52449807d57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  size: {x: 30, y: 30}
+  size: {x: 40, y: 40}
   roomCount: 100
-  roomMaxSize: {x: 6, y: 6}
-  roomMinSize: {x: 4, y: 4}
+  roomMaxSize: {x: 8, y: 8}
+  roomMinSize: {x: 5, y: 5}
   floorTilePrefab: {fileID: 2021926822154840307, guid: 0d780173c250d334f80c9061373c8e4f, type: 3}
   wallPrefab: {fileID: 936655011711489263, guid: 5e10be2f5a748844dbd0b2b7e6fafd4a, type: 3}
 --- !u!4 &908279961

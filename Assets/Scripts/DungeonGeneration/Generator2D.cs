@@ -8,7 +8,8 @@ public class Generator2D : MonoBehaviour {
     private enum CellType {
         None,
         Room,
-        Hallway
+        Hallway,
+        Entrance
     }
 
     private class Room {
@@ -42,17 +43,18 @@ public class Generator2D : MonoBehaviour {
     }
 
     private void Generate() {
-        _random = new Random(0);
+        _random = new Random((int)System.DateTime.Now.Ticks);
         _grid = new Grid2D<CellType>(size, Vector2Int.zero);
         _rooms = new List<Room>();
 
-        PlaceRooms();
+        CreateRooms();
         Triangulate();
         CreateHallways();
         PathfindHallways();
+        PlaceRooms();
     }
 
-    private void PlaceRooms() {
+    private void CreateRooms() {
         for (int i = 0; i < roomCount; i++) {
             Vector2Int location = new Vector2Int(
                 _random.Next(0, size.x),
@@ -82,12 +84,19 @@ public class Generator2D : MonoBehaviour {
 
             if (add) {
                 _rooms.Add(newRoom);
-                PlaceRoom(newRoom.bounds.position, newRoom.bounds.size);
 
                 foreach (var pos in newRoom.bounds.allPositionsWithin) {
                     _grid[pos] = CellType.Room;
                 }
             }
+        }
+    }
+
+    private void PlaceRooms()
+    {
+        foreach (var room in _rooms)
+        {
+            PlaceRoom(room.bounds.position, room.bounds.size);
         }
     }
 
@@ -137,6 +146,8 @@ public class Generator2D : MonoBehaviour {
                 var pathCost = new DungeonPathfinder2D.PathCost();
                 
                 pathCost.cost = Vector2Int.Distance(b.Position, endPos);    //heuristic
+                if (a.direction != b.direction)
+                    pathCost.cost += 5;
 
                 if (_grid[b.Position] == CellType.Room) {
                     pathCost.cost += 10;
@@ -171,6 +182,9 @@ public class Generator2D : MonoBehaviour {
 
         foreach (var path in paths)
         {
+            bool firstHallway = true;
+            var prevPos = path[0];
+            Vector2Int last = new Vector2Int(-1,-1);
             foreach (var pos in path) {
                 if (_grid[pos] == CellType.Hallway) {
                     PlaceHallway(pos);
@@ -190,8 +204,25 @@ public class Generator2D : MonoBehaviour {
                     {
                         PlaceWall(pos, 180);
                     }
+
+                    if (firstHallway)
+                    {
+                        firstHallway = false;
+                        _grid[prevPos] = CellType.Entrance;
+                    }
                 }
+                else
+                {
+                    if (_grid[prevPos] == CellType.Hallway)
+                    {
+                        last = pos;
+                    }
+                }
+                
+                prevPos = pos;
             }
+            if(last != new Vector2Int(-1,-1))
+                _grid[last] = CellType.Entrance;
         }
     }
 
@@ -206,22 +237,42 @@ public class Generator2D : MonoBehaviour {
 
         for (int x = 0; x < size.x; x++)
         {
-            PlaceWall(new Vector2Int(location.x + x, location.y), 0);
+            var l = new Vector2Int(location.x + x, location.y);
+            var hallwayTile = l + Vector2Int.down;
+            if (_grid[l] != CellType.Entrance || !_grid.InBounds(hallwayTile) || _grid[hallwayTile] != CellType.Hallway)
+            {
+                PlaceWall(l, 0);
+            }
         }
 
         for (int x = 0; x < size.x; x++)
         {
-            PlaceWall(new Vector2Int(location.x + x, location.y + size.y - 1), 180);
+            var l = new Vector2Int(location.x + x, location.y + size.y - 1);
+            var hallwayTile = l + Vector2Int.up;
+            if (_grid[l] != CellType.Entrance || !_grid.InBounds(hallwayTile) || _grid[hallwayTile] != CellType.Hallway)
+            {
+                PlaceWall(l, 180);
+            }
         }
         
         for (int y = 0; y < size.y; y++)
         {
-            PlaceWall(new Vector2Int(location.x, location.y + y), 90);
+            var l = new Vector2Int(location.x, location.y + y);
+            var hallwayTile = l + Vector2Int.left;
+            if (_grid[l] != CellType.Entrance || !_grid.InBounds(hallwayTile) || _grid[hallwayTile] != CellType.Hallway)
+            {
+                PlaceWall(l, 90);
+            }
         }
         
         for (int y = 0; y < size.y; y++)
         {
-            PlaceWall(new Vector2Int(location.x + size.x - 1, location.y + y), 270);
+            var l = new Vector2Int(location.x + size.x - 1, location.y + y);
+            var hallwayTile = l + Vector2Int.right;
+            if (_grid[l] != CellType.Entrance || !_grid.InBounds(hallwayTile) || _grid[hallwayTile] != CellType.Hallway)
+            {
+                PlaceWall(l, 270);
+            }
         }
     }
 
