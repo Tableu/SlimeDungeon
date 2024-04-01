@@ -1,5 +1,6 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using Random = System.Random;
 using Graphs;
@@ -26,6 +27,7 @@ public class Generator2D : MonoBehaviour {
     }
 
     [SerializeField] private Vector2Int size;
+    [SerializeField] private int tileSize;
     [SerializeField] private int roomCount;
     [SerializeField] private Vector2Int roomMaxSize;
     [SerializeField] private Vector2Int roomMinSize;
@@ -52,6 +54,21 @@ public class Generator2D : MonoBehaviour {
         CreateHallways();
         PathfindHallways();
         PlaceRooms();
+
+        using var sw = new StreamWriter("dungeon_debug.txt");
+        for (int y = 0; y < _grid.Size.y; y++)
+        {
+            for (int x = _grid.Size.x-1; x > -1; x--)
+            {
+                char s = _grid[new Vector2Int(x, y)].ToString()[0];
+                if (s == 'N')
+                    s = ' ';
+                sw.Write(s);
+            }
+            sw.Write("\n");
+        }
+        sw.Flush();
+        sw.Close();
     }
 
     private void CreateRooms() {
@@ -147,7 +164,7 @@ public class Generator2D : MonoBehaviour {
                 
                 pathCost.cost = Vector2Int.Distance(b.Position, endPos);    //heuristic
                 if (a.direction != b.direction)
-                    pathCost.cost += 5;
+                    pathCost.cost += 1;
 
                 if (_grid[b.Position] == CellType.Room) {
                     pathCost.cost += 10;
@@ -162,47 +179,49 @@ public class Generator2D : MonoBehaviour {
                 return pathCost;
             });
 
-            if (path != null) {
+            if (path != null)
+            {
                 paths.Add(path);
-                for (int i = 0; i < path.Count; i++) {
-                    var current = path[i];
-
-                    if (_grid[current] == CellType.None) {
+                foreach (var current in path)
+                {
+                    if (_grid[current] == CellType.None) 
                         _grid[current] = CellType.Hallway;
-                    }
-
-                    if (i > 0) {
-                        var prev = path[i - 1];
-
-                        var delta = current - prev;
-                    }
                 }
             }
         }
 
         foreach (var path in paths)
         {
+            GameObject hallway = new GameObject("Hallway " + path[0]);
+            Vector2Int center = path[(path.Count-1) / 2] * tileSize;
+            hallway.transform.position = new Vector3(center.x, 0, center.y) ;
             bool firstHallway = true;
             var prevPos = path[0];
             Vector2Int last = new Vector2Int(-1,-1);
-            foreach (var pos in path) {
+            for (int i = 0; i < path.Count; i++)
+            {
+                var pos = path[i];
                 if (_grid[pos] == CellType.Hallway) {
-                    PlaceHallway(pos);
-                    if (_grid.InBounds(new Vector2Int(pos.x - 1, pos.y)) && _grid[pos.x - 1, pos.y] == CellType.None)
+                    PlaceFloorTile(pos, hallway.transform);
+                    var left = pos + Vector2Int.left;
+                    var right = pos + Vector2Int.right;
+                    var up = pos + Vector2Int.up;
+                    var down = pos + Vector2Int.down;
+                    if (_grid.InBounds(left) && _grid[left] == CellType.None)
                     {
-                        PlaceWall(pos, 90);
+                        PlaceWall(pos, 90, hallway.transform);
                     }
-                    if (_grid.InBounds(new Vector2Int(pos.x + 1, pos.y)) && _grid[pos.x + 1, pos.y] == CellType.None)
+                    if (_grid.InBounds(right) && _grid[right] == CellType.None)
                     {
-                        PlaceWall(pos, 270);
+                        PlaceWall(pos, 270, hallway.transform);
                     }
-                    if (_grid.InBounds(new Vector2Int(pos.x, pos.y-1)) && _grid[pos.x, pos.y-1] == CellType.None)
+                    if (_grid.InBounds(down) && _grid[down] == CellType.None)
                     {
-                        PlaceWall(pos, 0);
+                        PlaceWall(pos, 0, hallway.transform);
                     }
-                    if (_grid.InBounds(new Vector2Int(pos.x, pos.y+1)) && _grid[pos.x, pos.y+1] == CellType.None)
+                    if (_grid.InBounds(up) && _grid[up] == CellType.None)
                     {
-                        PlaceWall(pos, 180);
+                        PlaceWall(pos, 180, hallway.transform);
                     }
 
                     if (firstHallway)
@@ -221,17 +240,22 @@ public class Generator2D : MonoBehaviour {
                 
                 prevPos = pos;
             }
-            if(last != new Vector2Int(-1,-1))
+            
+            if (last != new Vector2Int(-1, -1))
                 _grid[last] = CellType.Entrance;
         }
     }
 
-    private void PlaceRoom(Vector2Int location, Vector2Int size) {
+    private void PlaceRoom(Vector2Int location, Vector2Int size)
+    {
+        GameObject room = new GameObject("Room " + location);
+        Vector2Int center = location * tileSize;
+        room.transform.position = new Vector3(center.x, 0, center.y);
         for (int x = 0; x < size.x; x++)
         {
             for (int y = 0; y < size.y; y++)
             {
-                PlaceFloorTile(new Vector2Int(location.x + x, location.y + y));
+                PlaceFloorTile(new Vector2Int(location.x + x, location.y + y), room.transform);
             }
         }
 
@@ -241,7 +265,7 @@ public class Generator2D : MonoBehaviour {
             var hallwayTile = l + Vector2Int.down;
             if (_grid[l] != CellType.Entrance || !_grid.InBounds(hallwayTile) || _grid[hallwayTile] != CellType.Hallway)
             {
-                PlaceWall(l, 0);
+                PlaceWall(l, 0, room.transform);
             }
         }
 
@@ -251,7 +275,7 @@ public class Generator2D : MonoBehaviour {
             var hallwayTile = l + Vector2Int.up;
             if (_grid[l] != CellType.Entrance || !_grid.InBounds(hallwayTile) || _grid[hallwayTile] != CellType.Hallway)
             {
-                PlaceWall(l, 180);
+                PlaceWall(l, 180, room.transform);
             }
         }
         
@@ -261,7 +285,7 @@ public class Generator2D : MonoBehaviour {
             var hallwayTile = l + Vector2Int.left;
             if (_grid[l] != CellType.Entrance || !_grid.InBounds(hallwayTile) || _grid[hallwayTile] != CellType.Hallway)
             {
-                PlaceWall(l, 90);
+                PlaceWall(l, 90, room.transform);
             }
         }
         
@@ -271,22 +295,22 @@ public class Generator2D : MonoBehaviour {
             var hallwayTile = l + Vector2Int.right;
             if (_grid[l] != CellType.Entrance || !_grid.InBounds(hallwayTile) || _grid[hallwayTile] != CellType.Hallway)
             {
-                PlaceWall(l, 270);
+                PlaceWall(l, 270, room.transform);
             }
         }
     }
 
-    private void PlaceHallway(Vector2Int location) {
-        PlaceFloorTile(location);
+    private void PlaceFloorTile(Vector2Int location, Transform parent = null)
+    {
+        GameObject tile = Instantiate(floorTilePrefab, new Vector3(location.x * tileSize, 0, location.y * tileSize), Quaternion.identity);
+        if (parent != null) 
+            tile.transform.parent = parent;
     }
 
-    private void PlaceFloorTile(Vector2Int location)
+    private void PlaceWall(Vector2Int location, int rotation, Transform parent = null)
     {
-        Instantiate(floorTilePrefab, new Vector3(location.x * 4, 0, location.y * 4), Quaternion.identity);
-    }
-
-    private void PlaceWall(Vector2Int location, int rotation)
-    {
-        Instantiate(wallPrefab, new Vector3(location.x * 4, 0, location.y * 4), Quaternion.Euler(0, rotation, 0));
+        GameObject wall = Instantiate(wallPrefab, new Vector3(location.x * tileSize, 0, location.y * tileSize), Quaternion.Euler(0, rotation, 0));
+        if (parent != null) 
+            wall.transform.parent = parent;
     }
 }

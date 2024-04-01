@@ -247,6 +247,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   size: {x: 40, y: 40}
+  tileSize: 4
   roomCount: 100
   roomMaxSize: {x: 8, y: 8}
   roomMinSize: {x: 5, y: 5}
