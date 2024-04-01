@@ -252,7 +252,7 @@ MonoBehaviour:
   roomMaxSize: {x: 8, y: 8}
   roomMinSize: {x: 5, y: 5}
   floorTilePrefab: {fileID: 2021926822154840307, guid: 0d780173c250d334f80c9061373c8e4f, type: 3}
-  wallPrefab: {fileID: 936655011711489263, guid: 5e10be2f5a748844dbd0b2b7e6fafd4a, type: 3}
+  wallPrefab: {fileID: 4447234519500044207, guid: 6115e6ab756526f4692f60677c71fb3a, type: 3}
   doorPrefab: {fileID: 5547930298432026259, guid: adb652c710c917e49af3461d3bdb2a7a, type: 3}
 --- !u!4 &908279961
 Transform:
