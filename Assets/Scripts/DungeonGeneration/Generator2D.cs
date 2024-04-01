@@ -33,6 +33,7 @@ public class Generator2D : MonoBehaviour {
     [SerializeField] private Vector2Int roomMinSize;
     [SerializeField] private GameObject floorTilePrefab;
     [SerializeField] private GameObject wallPrefab;
+    [SerializeField] private GameObject doorPrefab;
 
     private Random _random;
     private Grid2D<CellType> _grid;
@@ -267,6 +268,11 @@ public class Generator2D : MonoBehaviour {
             {
                 PlaceWall(l, 0, room.transform);
             }
+
+            if (_grid[l] == CellType.Entrance && _grid.InBounds(hallwayTile) && _grid[hallwayTile] == CellType.Hallway)
+            {
+                PlaceDoor(l, 0, room.transform);
+            }
         }
 
         for (int x = 0; x < size.x; x++)
@@ -276,6 +282,10 @@ public class Generator2D : MonoBehaviour {
             if (_grid[l] != CellType.Entrance || !_grid.InBounds(hallwayTile) || _grid[hallwayTile] != CellType.Hallway)
             {
                 PlaceWall(l, 180, room.transform);
+            }
+            if (_grid[l] == CellType.Entrance && _grid.InBounds(hallwayTile) && _grid[hallwayTile] == CellType.Hallway)
+            {
+                PlaceDoor(l, 180, room.transform);
             }
         }
         
@@ -287,6 +297,10 @@ public class Generator2D : MonoBehaviour {
             {
                 PlaceWall(l, 90, room.transform);
             }
+            if (_grid[l] == CellType.Entrance && _grid.InBounds(hallwayTile) && _grid[hallwayTile] == CellType.Hallway)
+            {
+                PlaceDoor(l, 90, room.transform);
+            }
         }
         
         for (int y = 0; y < size.y; y++)
@@ -296,6 +310,10 @@ public class Generator2D : MonoBehaviour {
             if (_grid[l] != CellType.Entrance || !_grid.InBounds(hallwayTile) || _grid[hallwayTile] != CellType.Hallway)
             {
                 PlaceWall(l, 270, room.transform);
+            }
+            if (_grid[l] == CellType.Entrance && _grid.InBounds(hallwayTile) && _grid[hallwayTile] == CellType.Hallway)
+            {
+                PlaceDoor(l, 270, room.transform);
             }
         }
     }
@@ -312,5 +330,12 @@ public class Generator2D : MonoBehaviour {
         GameObject wall = Instantiate(wallPrefab, new Vector3(location.x * tileSize, 0, location.y * tileSize), Quaternion.Euler(0, rotation, 0));
         if (parent != null) 
             wall.transform.parent = parent;
+    }
+
+    private void PlaceDoor(Vector2Int location, int rotation, Transform parent = null)
+    {
+        GameObject door = Instantiate(doorPrefab, new Vector3(location.x * tileSize, 0, location.y * tileSize), Quaternion.Euler(0, rotation, 0));
+        if (parent != null) 
+            door.transform.parent = parent;
     }
 }

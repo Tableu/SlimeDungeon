@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 922924961706957170}
   - component: {fileID: 922924961708055474}
   - component: {fileID: 922924961703766994}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Dungeon_Big_to_Custom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
