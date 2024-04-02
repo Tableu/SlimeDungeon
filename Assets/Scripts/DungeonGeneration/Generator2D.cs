@@ -41,11 +41,10 @@ public class Generator2D : MonoBehaviour {
     private Delaunay2D _delaunay;
     private HashSet<Prim.Edge> _selectedEdges;
 
-    private void Start() {
-        Generate();
-    }
+    public Vector2Int Size => size;
+    public int TileSize => tileSize;
 
-    private void Generate() {
+    public List<EnemySpawner> Generate() {
         _random = new Random((int)System.DateTime.Now.Ticks);
         _grid = new Grid2D<CellType>(size, Vector2Int.zero);
         _rooms = new List<Room>();
@@ -54,8 +53,8 @@ public class Generator2D : MonoBehaviour {
         Triangulate();
         CreateHallways();
         PathfindHallways();
-        PlaceRooms();
-
+        List<EnemySpawner> roomScripts = PlaceRooms();
+        #if UNITY_EDITOR
         using var sw = new StreamWriter("dungeon_debug.txt");
         for (int y = 0; y < _grid.Size.y; y++)
         {
@@ -70,6 +69,8 @@ public class Generator2D : MonoBehaviour {
         }
         sw.Flush();
         sw.Close();
+        #endif
+        return roomScripts;
     }
 
     private void CreateRooms() {
@@ -110,12 +111,15 @@ public class Generator2D : MonoBehaviour {
         }
     }
 
-    private void PlaceRooms()
+    private List<EnemySpawner> PlaceRooms()
     {
+        List<EnemySpawner> roomScripts = new List<EnemySpawner>();
         foreach (var room in _rooms)
         {
-            PlaceRoom(room.bounds.position, room.bounds.size);
+            roomScripts.Add(PlaceRoom(room.bounds));
         }
+
+        return roomScripts;
     }
 
     private void Triangulate() {
@@ -164,8 +168,8 @@ public class Generator2D : MonoBehaviour {
                 var pathCost = new DungeonPathfinder2D.PathCost();
                 
                 pathCost.cost = Vector2Int.Distance(b.Position, endPos);    //heuristic
-                if (a.direction != b.direction)
-                    pathCost.cost += 1;
+                //if (a.direction != b.direction)
+                //    pathCost.cost += 1;
 
                 if (_grid[b.Position] == CellType.Room) {
                     pathCost.cost += 10;
@@ -247,20 +251,24 @@ public class Generator2D : MonoBehaviour {
         }
     }
 
-    private void PlaceRoom(Vector2Int location, Vector2Int size)
+    private EnemySpawner PlaceRoom(RectInt bounds)
     {
+        var location = bounds.position;
+        var roomSize = bounds.size;
+        
         GameObject room = new GameObject("Room " + location);
-        Vector2Int center = location * tileSize;
+        EnemySpawner script = room.AddComponent<EnemySpawner>();
+        Vector2 center = bounds.center*tileSize - new Vector2((float)tileSize/2, (float)tileSize/2);
         room.transform.position = new Vector3(center.x, 0, center.y);
-        for (int x = 0; x < size.x; x++)
+        for (int x = 0; x < roomSize.x; x++)
         {
-            for (int y = 0; y < size.y; y++)
+            for (int y = 0; y < roomSize.y; y++)
             {
                 PlaceFloorTile(new Vector2Int(location.x + x, location.y + y), room.transform);
             }
         }
 
-        for (int x = 0; x < size.x; x++)
+        for (int x = 0; x < roomSize.x; x++)
         {
             var l = new Vector2Int(location.x + x, location.y);
             var hallwayTile = l + Vector2Int.down;
@@ -275,9 +283,9 @@ public class Generator2D : MonoBehaviour {
             }
         }
 
-        for (int x = 0; x < size.x; x++)
+        for (int x = 0; x < roomSize.x; x++)
         {
-            var l = new Vector2Int(location.x + x, location.y + size.y - 1);
+            var l = new Vector2Int(location.x + x, location.y + roomSize.y - 1);
             var hallwayTile = l + Vector2Int.up;
             if (_grid[l] != CellType.Entrance || !_grid.InBounds(hallwayTile) || _grid[hallwayTile] != CellType.Hallway)
             {
@@ -289,7 +297,7 @@ public class Generator2D : MonoBehaviour {
             }
         }
         
-        for (int y = 0; y < size.y; y++)
+        for (int y = 0; y < roomSize.y; y++)
         {
             var l = new Vector2Int(location.x, location.y + y);
             var hallwayTile = l + Vector2Int.left;
@@ -303,9 +311,9 @@ public class Generator2D : MonoBehaviour {
             }
         }
         
-        for (int y = 0; y < size.y; y++)
+        for (int y = 0; y < roomSize.y; y++)
         {
-            var l = new Vector2Int(location.x + size.x - 1, location.y + y);
+            var l = new Vector2Int(location.x + roomSize.x - 1, location.y + y);
             var hallwayTile = l + Vector2Int.right;
             if (_grid[l] != CellType.Entrance || !_grid.InBounds(hallwayTile) || _grid[hallwayTile] != CellType.Hallway)
             {
@@ -316,6 +324,9 @@ public class Generator2D : MonoBehaviour {
                 PlaceDoor(l, 270, room.transform);
             }
         }
+        
+        script.Initialize(center, roomSize*tileSize);
+        return script;
     }
 
     private void PlaceFloorTile(Vector2Int location, Transform parent = null)

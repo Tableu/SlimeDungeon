@@ -43419,6 +43419,7 @@ MonoBehaviour:
   player: {fileID: 1109328520}
   canvas: {fileID: 362349726}
   typeManager: {fileID: 11400000, guid: 61c677e765f2ba043b7d4c61ef9fe5b4, type: 2}
+  levelManager: {fileID: 0}
   enemyHealthbars: {fileID: 671085476}
 --- !u!4 &1165571723
 Transform:
@@ -81726,10 +81727,6 @@ PrefabInstance:
     - target: {fileID: 1736435026822939428, guid: 4da3c2fdefb9dd34ab704d2858eab7e9, type: 3}
       propertyPath: m_Name
       value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 6118174223459350817, guid: 4da3c2fdefb9dd34ab704d2858eab7e9, type: 3}
-      propertyPath: enemyMask.m_Bits
-      value: 512
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4da3c2fdefb9dd34ab704d2858eab7e9, type: 3}

@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using Controller;
 using Controller.Form;
 using UnityEngine;
@@ -15,7 +16,7 @@ public abstract class EnemyController : Character, ICapturable
 {
     public override Vector3 SpellOffset => spellOffset;
     [SerializeField] protected NavMeshAgent agent;
-    [SerializeField] private Transform[] waypoints;
+    [SerializeField] private List<Transform> waypoints;
     [SerializeField] private Vector3 spellOffset;
     [SerializeField] protected Animator animator;
     [SerializeField] private Vector2 idleTimeRange = new Vector2(2,3);
@@ -281,6 +282,11 @@ public abstract class EnemyController : Character, ICapturable
             rigidbody.isKinematic = true;
             ChangeState(EnemyControllerState.Walk);
         }
+    }
+
+    public void SetWaypoints(List<Transform> waypoints)
+    {
+        this.waypoints = waypoints;
     }
 
     public void AttemptCapture(float hitStun)
