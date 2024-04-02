@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b19dffe8e6e479142bdd717dccb67301, type: 3}
+  m_Name: RandomEnemyGroup
+  m_EditorClassIdentifier: 
+  enemyGroups:
+  - Weight: 5
+    Enemies:
+    - {fileID: 1068915873035841302, guid: 4fd2af36cb21a8d4781e0e073e124da2, type: 3}
+    - {fileID: 1068915873035841302, guid: 4fd2af36cb21a8d4781e0e073e124da2, type: 3}
+    - {fileID: 1068915873035841302, guid: 4fd2af36cb21a8d4781e0e073e124da2, type: 3}
+  - Weight: 5
+    Enemies:
+    - {fileID: 1068915873035841302, guid: 68b415f9bad327e41a6b1447cff3df71, type: 3}
+    - {fileID: 1068915873035841302, guid: 68b415f9bad327e41a6b1447cff3df71, type: 3}
+    - {fileID: 1068915873035841302, guid: 68b415f9bad327e41a6b1447cff3df71, type: 3}
