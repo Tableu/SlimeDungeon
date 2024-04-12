@@ -228,6 +228,16 @@ public abstract class EnemyController : Character, ICapturable
             Random.Range(waypoints[0].position.z, waypoints[1].position.z)));
     }
 
+    private bool IsPlayerVisible()
+    {
+        bool hit = Physics.Raycast(transform.position,
+            GlobalReferences.Instance.Player.transform.position - transform.position, 
+            out RaycastHit hitInfo,
+            enemyData.AggroRange+1, 
+            ~(1 << LayerMask.GetMask("Player", "Walls", "Floor")));
+        return hit && hitInfo.transform.CompareTag("Player");
+    }
+
     private void DetectPlayer()
     {
         if (GlobalReferences.Instance.Player != null && CurrentState != EnemyControllerState.Stunned)
@@ -239,7 +249,7 @@ public abstract class EnemyController : Character, ICapturable
                 _attackingPlayer = false;
                 agent.stoppingDistance = enemyData.StoppingDistance;
             }
-            else if(diff.magnitude < enemyData.AggroRange)
+            else if(diff.magnitude < enemyData.AggroRange && IsPlayerVisible())
             {
                 _target = GlobalReferences.Instance.Player.transform;
                 _targetPosition = _target.position + new Vector3(Random.Range(-1,1), 0, Random.Range(-1,1));
