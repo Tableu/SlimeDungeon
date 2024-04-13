@@ -198,6 +198,15 @@ public class Generator2D : MonoBehaviour {
         foreach (var path in paths)
         {
             GameObject hallway = new GameObject("Hallway " + path[0]);
+            
+            GameObject walls = new GameObject("Walls");
+            walls.transform.parent = hallway.transform;
+            walls.layer = LayerMask.NameToLayer("Walls");
+            
+            GameObject floor = new GameObject("Floor Tiles");
+            floor.transform.parent = hallway.transform;
+            floor.layer = LayerMask.NameToLayer("Floor");
+            
             Vector2Int center = path[(path.Count-1) / 2] * tileSize;
             hallway.transform.position = new Vector3(center.x, 0, center.y) ;
             bool firstHallway = true;
@@ -207,26 +216,26 @@ public class Generator2D : MonoBehaviour {
             {
                 var pos = path[i];
                 if (_grid[pos] == CellType.Hallway) {
-                    PlaceFloorTile(pos, hallway.transform);
+                    PlaceFloorTile(pos, floor.transform);
                     var left = pos + Vector2Int.left;
                     var right = pos + Vector2Int.right;
                     var up = pos + Vector2Int.up;
                     var down = pos + Vector2Int.down;
                     if (_grid.InBounds(left) && _grid[left] == CellType.None)
                     {
-                        PlaceWall(pos, 90, hallway.transform);
+                        PlaceWall(pos, 90, walls.transform);
                     }
                     if (_grid.InBounds(right) && _grid[right] == CellType.None)
                     {
-                        PlaceWall(pos, 270, hallway.transform);
+                        PlaceWall(pos, 270, walls.transform);
                     }
                     if (_grid.InBounds(down) && _grid[down] == CellType.None)
                     {
-                        PlaceWall(pos, 0, hallway.transform);
+                        PlaceWall(pos, 0, walls.transform);
                     }
                     if (_grid.InBounds(up) && _grid[up] == CellType.None)
                     {
-                        PlaceWall(pos, 180, hallway.transform);
+                        PlaceWall(pos, 180, walls.transform);
                     }
 
                     if (firstHallway)
@@ -257,6 +266,19 @@ public class Generator2D : MonoBehaviour {
         var roomSize = bounds.size;
         
         GameObject room = new GameObject("Room " + location);
+        
+        GameObject walls = new GameObject("Walls");
+        walls.transform.parent = room.transform;
+        walls.layer = LayerMask.NameToLayer("Walls");
+        
+        GameObject floor = new GameObject("Floor Tiles");
+        floor.transform.parent = room.transform;
+        floor.layer = LayerMask.NameToLayer("Floor");
+        
+        GameObject doors = new GameObject("Doors");
+        doors.transform.parent = room.transform;
+        doors.layer = LayerMask.NameToLayer("Walls");
+        
         EnemySpawner script = room.AddComponent<EnemySpawner>();
         Vector2 center = bounds.center*tileSize - new Vector2((float)tileSize/2, (float)tileSize/2);
         room.transform.position = new Vector3(center.x, 0, center.y);
@@ -264,7 +286,7 @@ public class Generator2D : MonoBehaviour {
         {
             for (int y = 0; y < roomSize.y; y++)
             {
-                PlaceFloorTile(new Vector2Int(location.x + x, location.y + y), room.transform);
+                PlaceFloorTile(new Vector2Int(location.x + x, location.y + y), floor.transform);
             }
         }
 
@@ -274,12 +296,12 @@ public class Generator2D : MonoBehaviour {
             var hallwayTile = l + Vector2Int.down;
             if (_grid[l] != CellType.Entrance || !_grid.InBounds(hallwayTile) || _grid[hallwayTile] != CellType.Hallway)
             {
-                PlaceWall(l, 0, room.transform);
+                PlaceWall(l, 0, walls.transform);
             }
 
             if (_grid[l] == CellType.Entrance && _grid.InBounds(hallwayTile) && _grid[hallwayTile] == CellType.Hallway)
             {
-                PlaceDoor(l, 0, room.transform);
+                PlaceDoor(l, 0, doors.transform);
             }
         }
 
@@ -289,11 +311,11 @@ public class Generator2D : MonoBehaviour {
             var hallwayTile = l + Vector2Int.up;
             if (_grid[l] != CellType.Entrance || !_grid.InBounds(hallwayTile) || _grid[hallwayTile] != CellType.Hallway)
             {
-                PlaceWall(l, 180, room.transform);
+                PlaceWall(l, 180, walls.transform);
             }
             if (_grid[l] == CellType.Entrance && _grid.InBounds(hallwayTile) && _grid[hallwayTile] == CellType.Hallway)
             {
-                PlaceDoor(l, 180, room.transform);
+                PlaceDoor(l, 180, doors.transform);
             }
         }
         
@@ -303,11 +325,11 @@ public class Generator2D : MonoBehaviour {
             var hallwayTile = l + Vector2Int.left;
             if (_grid[l] != CellType.Entrance || !_grid.InBounds(hallwayTile) || _grid[hallwayTile] != CellType.Hallway)
             {
-                PlaceWall(l, 90, room.transform);
+                PlaceWall(l, 90, walls.transform);
             }
             if (_grid[l] == CellType.Entrance && _grid.InBounds(hallwayTile) && _grid[hallwayTile] == CellType.Hallway)
             {
-                PlaceDoor(l, 90, room.transform);
+                PlaceDoor(l, 90, doors.transform);
             }
         }
         
@@ -317,11 +339,11 @@ public class Generator2D : MonoBehaviour {
             var hallwayTile = l + Vector2Int.right;
             if (_grid[l] != CellType.Entrance || !_grid.InBounds(hallwayTile) || _grid[hallwayTile] != CellType.Hallway)
             {
-                PlaceWall(l, 270, room.transform);
+                PlaceWall(l, 270, walls.transform);
             }
             if (_grid[l] == CellType.Entrance && _grid.InBounds(hallwayTile) && _grid[hallwayTile] == CellType.Hallway)
             {
-                PlaceDoor(l, 270, room.transform);
+                PlaceDoor(l, 270, doors.transform);
             }
         }
         
