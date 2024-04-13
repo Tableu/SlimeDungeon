@@ -132,7 +132,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 265232242}
-  m_Layer: 0
+  - component: {fileID: 265232243}
+  m_Layer: 5
   m_Name: EnemyHealthbars
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -147,13 +148,26 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 265232241}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 537.4091, y: 36.07086, z: -54.467407}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &265232243
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 265232241}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57e6aaa7f4eb41c4fb6d457434a93144, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyStatBars: {fileID: 1234548095013705985, guid: b8a5014cf7e4c664eb3614eaeceea3f7, type: 3}
 --- !u!1001 &372119862
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -997,7 +1011,6 @@ MonoBehaviour:
   canvas: {fileID: 1870461746}
   typeManager: {fileID: 11400000, guid: 61c677e765f2ba043b7d4c61ef9fe5b4, type: 2}
   levelManager: {fileID: 908279962}
-  enemyHealthbars: {fileID: 265232241}
 --- !u!1 &1462381355
 GameObject:
   m_ObjectHideFlags: 3

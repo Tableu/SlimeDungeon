@@ -25,7 +25,6 @@ public abstract class EnemyController : Character, ICapturable
     [SerializeField] private ParticleSystem stunEffect;
     [SerializeField] private ParticleSystem stunAura;
     [SerializeField] private GameObject captureEffect;
-    [FormerlySerializedAs("enemyHealthbar")] [SerializeField] private GameObject enemyStatBars;
 
     private bool _attackingPlayer = false;
     private Transform _target = null;
@@ -54,9 +53,7 @@ public abstract class EnemyController : Character, ICapturable
     private new void Start()
     {
         base.Start();
-        GameObject statbars = Instantiate(enemyStatBars, transform.position, enemyStatBars.transform.rotation, GlobalReferences.Instance.EnemyHealthbars.transform);
-        var script = statbars.GetComponent<EnemyStatBar>();
-        script.Initialize(this);
+        EnemyHealthBars.Instance.SpawnHealthBar(transform, this);
         SuperEffectiveStunMeter = 0;
         agent.speed = Speed;
         agent.updateRotation = false;
