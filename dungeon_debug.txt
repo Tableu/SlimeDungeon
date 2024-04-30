@@ -1,40 +1,40 @@
+     RRRRRRRR RRRRR                     
+     RRRRRRRR RRRRR                     
+     RRRRRRRRHERRREH                    
+     RRRRRRREHRRRRRH                    
+     RRRRRRRR RRRRRH                    
+     RRRERRRR      HHHH                 
+        H           RRERRR              
+        H           RRRRRR              
+        HRRRRRRR    RRRRRR              
+        HRRRRRRR    RRRRRR              
+        HRRRRRRR    RRERRR       RRRRRRR
+        HRRRRRRR      HHHHH      RRRRRRR
+        HERRRRRR          H      RRRRRRR
+         RRRRRRR          HH     RRRRRRR
+         RRRRRRR           H     RRRRRRR
+         RRRERRR           H     RRRERRR
+            H              H        H   
+         HHHH    RRRRR  RRRERRR     H   
+      RRRERRRR   RRRRR  RRRRRRR     H   
+      RRRRRRRR  HERRREH RRRRRRRHHHHHH   
+      RRRRRRRR  HRRRRRHHERRRRREHRRERR   
+      RRRRRRREHHHRRRRR  RRRRRRRHRRRRR   
+      RRRRRRRR          RRRRRRRHERRRR   
+      RRRRRRRR          RRRERRR RRRRR   
+                           H    RRERR   
+                           H      H     
+                           H   HHHH     
+           RRRRRR     RRRRRH RRERRR     
+           RRRRRR     RRRRRH RRRRRR     
+  RRRRRRRR RRRRRR     RRRRRH RRRRRR     
+  RRRRRRRR RRRRRRHHHHHERRREHHERRRRR     
+  RRRRRRRRHERRRREH    RRRRR  RRRRRR     
+  RRRRRRREHRRRRRR     RRRRR  RRRRRR     
+  RRRRRRRR RRRRRR     RRRRR  RRRRRR     
+  RRRRRRRR RRRRRR                       
+  RRRRRRRR                              
                                         
-  RRRRRRR                               
-  RRRRRRR                               
-  RRRRRRR                               
-  RRRRRRR                          RRRRR
-  RRRRRRR     RRRRRRR RRRRR        RRRRR
-  RRRRRRR     RRRRRRR RRRRR RRRRRR RRRRR
-  RRRRRRR     RRRRRRR RRRRR RRRRRR RRRRR
-  RRRERRR     RRRRRRR RRRRRHERRRREHERRRR
-     H        RRRRRREHERRREHRRRRRR RRRRR
-     HHHHH    RRRRRRR RRRRR RRRRRR RRRRR
-      RRRERRR RRRRRRR RRRRR        RRRRR
-      RRRRRRR RRRERRR RRERR             
-      RRRRRRRHHHHH      H               
-      RRRRRREH          H               
-      RRRRRRR           H               
-      RRRERRR           HHHHH           
-       HHH      RRRRR   HRRRERRR        
-       H        RRRRR   HRRRRRRR        
-       H        RRRRR   HERRRRRR        
-       H        RRRRR   HRRRRRRR        
-       H        RRRREHHHHRRRERRR        
-    RRRERRR     RRRRR       HH          
-    RRRRRRR     RRRRR        HHHH       
-    RRRRRRR     RRERR        RRRERRRR   
-    RRRRRRR       H          RRRRRRRR   
-    RRRRRRR       H          RRRRRRRR   
-    RRRRRRR       H          RRRRRRRR   
-                  H          RRRERRRR   
-                RRERRR          H       
-                RRRRRR          H       
-                RRRRRR          HHH     
-                RRRRRR         RRRERRRR 
-                RRRRRR         RRRRRRRR 
-                RRRRRR         RRRRRRRR 
-                RRRRRR         RRRRRRRR 
-                RRRRRR         RRRRRRRR 
-                               RRRRRRRR 
+                                        
                                         
                                         

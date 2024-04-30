@@ -265,13 +265,30 @@ namespace FischlWorks_FogWar
 
         private const string levelScanDataPath = "/LevelData";
 
+        // --- --- ---
+        /*private void Start()
+        {
+            Initialize();
+        }*/
+
+        private void Update()
+        {
+            UpdateFog();
+        }
+
 
 
         // --- --- ---
 
-
-
-        private void Start()
+        public void Initialize(Vector2Int size, int scale)
+        {
+            levelDimensionX = size.x;
+            levelDimensionY = size.y;
+            unitScale = scale;
+            Initialize();
+        }
+        
+        private void Initialize()
         {
             CheckProperties();
 
@@ -302,18 +319,6 @@ namespace FischlWorks_FogWar
             // This is needed because we do not update the fog when there's no unit-scale movement of each fogRevealer
             ForceUpdateFog();
         }
-
-
-
-        private void Update()
-        {
-            UpdateFog();
-        }
-
-
-
-        // --- --- ---
-
 
 
         private void CheckProperties()
@@ -387,7 +392,7 @@ namespace FischlWorks_FogWar
 
             fogPlaneTextureLerpBuffer.wrapMode = TextureWrapMode.Clamp;
 
-            fogPlaneTextureLerpBuffer.filterMode = FilterMode.Bilinear;
+            fogPlaneTextureLerpBuffer.filterMode = FilterMode.Trilinear;
 
             fogPlane.GetComponent<MeshRenderer>().material = new Material(fogPlaneMaterial);
 

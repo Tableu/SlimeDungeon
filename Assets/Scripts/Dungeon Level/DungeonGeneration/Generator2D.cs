@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using FischlWorks_FogWar;
 using UnityEngine;
 using Random = System.Random;
 using Graphs;
@@ -34,6 +35,9 @@ public class Generator2D : MonoBehaviour {
     [SerializeField] private GameObject floorTilePrefab;
     [SerializeField] private GameObject wallPrefab;
     [SerializeField] private GameObject doorPrefab;
+    [SerializeField] private GameObject levelCenter;
+    [SerializeField] private GameObject levelParent;
+    [SerializeField] private csFogWar fogOfWar;
 
     private Random _random;
     private Grid2D<CellType> _grid;
@@ -54,6 +58,10 @@ public class Generator2D : MonoBehaviour {
         CreateHallways();
         PathfindHallways();
         List<EnemySpawner> roomScripts = PlaceRooms();
+        Vector2Int paddedSize = size + new Vector2Int(tileSize, tileSize);
+        levelCenter.transform.position = new Vector3(
+            ((float)size.x * tileSize)/2, levelCenter.transform.position.y, ((float)size.y * tileSize)/2);
+        fogOfWar.Initialize(paddedSize*2, tileSize/2);
         #if UNITY_EDITOR
         using var sw = new StreamWriter("dungeon_debug.txt");
         for (int y = 0; y < _grid.Size.y; y++)
@@ -198,7 +206,7 @@ public class Generator2D : MonoBehaviour {
         foreach (var path in paths)
         {
             GameObject hallway = new GameObject("Hallway " + path[0]);
-            
+            hallway.transform.parent = levelParent.transform;
             GameObject walls = new GameObject("Walls");
             walls.transform.parent = hallway.transform;
             walls.layer = LayerMask.NameToLayer("Walls");
@@ -223,19 +231,41 @@ public class Generator2D : MonoBehaviour {
                     var down = pos + Vector2Int.down;
                     if (_grid.InBounds(left) && _grid[left] == CellType.None)
                     {
-                        PlaceWall(pos, 90, walls.transform);
+                        PlaceWall(left, 90, walls.transform);
                     }
                     if (_grid.InBounds(right) && _grid[right] == CellType.None)
                     {
-                        PlaceWall(pos, 270, walls.transform);
+                        PlaceWall(right, 270, walls.transform);
                     }
                     if (_grid.InBounds(down) && _grid[down] == CellType.None)
                     {
-                        PlaceWall(pos, 0, walls.transform);
+                        PlaceWall(down, 0, walls.transform);
                     }
                     if (_grid.InBounds(up) && _grid[up] == CellType.None)
                     {
-                        PlaceWall(pos, 180, walls.transform);
+                        PlaceWall(up, 180, walls.transform);
+                    }
+                    
+                    var leftUp = pos + new Vector2Int(-1,1);
+                    var rightUp = pos + new Vector2Int(1,1);
+                    var leftDown = pos + new Vector2Int(-1,-1);
+                    var rightDown = pos + new Vector2Int(1, -1);
+                    
+                    if (_grid.InBounds(leftUp) && _grid[leftUp] == CellType.None)
+                    {
+                        PlaceWall(leftUp, 90, walls.transform);
+                    }
+                    if (_grid.InBounds(rightUp) && _grid[rightUp] == CellType.None)
+                    {
+                        PlaceWall(rightUp, 270, walls.transform);
+                    }
+                    if (_grid.InBounds(leftDown) && _grid[leftDown] == CellType.None)
+                    {
+                        PlaceWall(leftDown, 0, walls.transform);
+                    }
+                    if (_grid.InBounds(rightDown) && _grid[rightDown] == CellType.None)
+                    {
+                        PlaceWall(rightDown, 180, walls.transform);
                     }
 
                     if (firstHallway)
@@ -266,7 +296,7 @@ public class Generator2D : MonoBehaviour {
         var roomSize = bounds.size;
         
         GameObject room = new GameObject("Room " + location);
-        
+        room.transform.parent = levelParent.transform;
         GameObject walls = new GameObject("Walls");
         walls.transform.parent = room.transform;
         walls.layer = LayerMask.NameToLayer("Walls");
@@ -282,9 +312,9 @@ public class Generator2D : MonoBehaviour {
         EnemySpawner script = room.AddComponent<EnemySpawner>();
         Vector2 center = bounds.center*tileSize - new Vector2((float)tileSize/2, (float)tileSize/2);
         room.transform.position = new Vector3(center.x, 0, center.y);
-        for (int x = 0; x < roomSize.x; x++)
+        for (int x = 1; x < roomSize.x-1; x++)
         {
-            for (int y = 0; y < roomSize.y; y++)
+            for (int y = 1; y < roomSize.y-1; y++)
             {
                 PlaceFloorTile(new Vector2Int(location.x + x, location.y + y), floor.transform);
             }
