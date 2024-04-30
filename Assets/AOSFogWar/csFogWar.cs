@@ -211,6 +211,8 @@ namespace FischlWorks_FogWar
         [SerializeField]
         [Range(1, 5)]
         private float fogLerpSpeed = 2.5f;
+        [SerializeField] 
+        private Vector2 fogOffset;
         [Header("Debug")]
         [SerializeField]
         private Texture2D fogPlaneTextureLerpTarget = null;
@@ -378,9 +380,9 @@ namespace FischlWorks_FogWar
             fogPlane.name = "[RUNTIME] Fog_Plane";
 
             fogPlane.transform.position = new Vector3(
-                levelMidPoint.position.x,
+                levelMidPoint.position.x + fogOffset.x,
                 levelMidPoint.position.y + fogPlaneHeight,
-                levelMidPoint.position.z);
+                levelMidPoint.position.z + fogOffset.y);
 
             fogPlane.transform.localScale = new Vector3(
                 (levelDimensionX * unitScale) / 10.0f,
@@ -415,9 +417,9 @@ namespace FischlWorks_FogWar
         private void UpdateFog()
         {
             fogPlane.transform.position = new Vector3(
-                levelMidPoint.position.x,
+                levelMidPoint.position.x + fogOffset.x,
                 levelMidPoint.position.y + fogPlaneHeight,
-                levelMidPoint.position.z);
+                levelMidPoint.position.z + fogOffset.y);
 
             FogRefreshRateTimer += Time.deltaTime;
 

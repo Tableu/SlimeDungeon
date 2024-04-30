@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 6042655304471014063}
   - component: {fileID: 6042655304471014048}
   - component: {fileID: 4739055384753935876}
+  - component: {fileID: 9156532417752548872}
   m_Layer: 9
   m_Name: Chicken
   m_TagString: Untagged
@@ -140,7 +141,21 @@ MonoBehaviour:
   stunEffect: {fileID: 1294409137733998528}
   stunAura: {fileID: 6350538473073523532}
   captureEffect: {fileID: 4905837357681499464}
-  enemyStatBars: {fileID: 1234548095013705985, guid: b8a5014cf7e4c664eb3614eaeceea3f7, type: 3}
+--- !u!114 &9156532417752548872
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1068915873035841302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 985add12ee4836e40b7241671b1d892c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fogWar: {fileID: 0}
+  visibility: 0
+  additionalRadius: 0
 --- !u!1001 &554587120460989934
 PrefabInstance:
   m_ObjectHideFlags: 0

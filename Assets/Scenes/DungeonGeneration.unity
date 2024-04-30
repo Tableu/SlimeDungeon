@@ -1397,7 +1397,7 @@ GameObject:
   - component: {fileID: 1962354832}
   - component: {fileID: 1962354831}
   m_Layer: 0
-  m_Name: FogOfWar
+  m_Name: FogWar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1422,11 +1422,12 @@ MonoBehaviour:
     lastSeenAt: {x: 0, y: 0}
   levelMidPoint: {fileID: 280513640}
   FogRefreshRate: 10
-  fogPlaneHeight: 4
+  fogPlaneHeight: 5
   fogPlaneMaterial: {fileID: 2100000, guid: 36b93ac6fcf129c449491654e397fe4a, type: 2}
   fogColor: {r: 0.019607844, g: 0.05882353, b: 0.09803922, a: 1}
   fogPlaneAlpha: 1
   fogLerpSpeed: 5
+  fogOffset: {x: -1, y: -1}
   fogPlaneTextureLerpTarget: {fileID: 0}
   fogPlaneTextureLerpBuffer: {fileID: 0}
   LevelDataToLoad: {fileID: 0}
