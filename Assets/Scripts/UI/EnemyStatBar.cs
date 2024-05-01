@@ -20,8 +20,11 @@ public class EnemyStatBar : MonoBehaviour
 
     private void Update()
     {
-        if(_controller != null)
+        if (_controller != null)
+        { 
+            canvas.enabled = _controller.Visible;
             transform.position = offset + _controller.transform.position;
+        }
     }
 
     private void FixedUpdate()

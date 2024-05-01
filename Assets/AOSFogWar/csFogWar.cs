@@ -148,9 +148,12 @@ namespace FischlWorks_FogWar
 
             public Vector2Int GetCurrentLevelCoordinates(csFogWar fogWar)
             {
-                currentLevelCoordinates = new Vector2Int(
-                    fogWar.GetUnitX(revealerTransform.position.x),
-                    fogWar.GetUnitY(revealerTransform.position.z));
+                if (revealerTransform != null)
+                {
+                    currentLevelCoordinates = new Vector2Int(
+                        fogWar.GetUnitX(revealerTransform.position.x),
+                        fogWar.GetUnitY(revealerTransform.position.z));
+                }
 
                 return currentLevelCoordinates;
             }

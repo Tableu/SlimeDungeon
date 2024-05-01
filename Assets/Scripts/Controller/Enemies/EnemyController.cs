@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Controller;
 using Controller.Form;
+using FischlWorks_FogWar;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Serialization;
@@ -25,6 +26,7 @@ public abstract class EnemyController : Character, ICapturable
     [SerializeField] private ParticleSystem stunEffect;
     [SerializeField] private ParticleSystem stunAura;
     [SerializeField] private GameObject captureEffect;
+    [SerializeField] private csFogVisibilityAgent visibilityAgent;
 
     private bool _attackingPlayer = false;
     private Transform _target = null;
@@ -48,6 +50,7 @@ public abstract class EnemyController : Character, ICapturable
     }
 
     public float StunPercent => (SuperEffectiveStunMeter / CharacterData.StunResist)*100;
+    public bool Visible => visibilityAgent == null || visibilityAgent.Visible;
     
     #region Unity Event Functions
     private new void Start()

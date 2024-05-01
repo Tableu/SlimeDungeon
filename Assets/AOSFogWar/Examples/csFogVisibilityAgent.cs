@@ -17,7 +17,8 @@
 
 using UnityEngine;                  // Monobehaviour
 using System.Collections.Generic;   // List
-using System.Linq;                  // ToList
+using System.Linq;
+using UnityEngine.Events; // ToList
 
 
 
@@ -38,6 +39,8 @@ namespace FischlWorks_FogWar
         [SerializeField]
         private bool visibility = false;
 
+        public bool Visible => visibility;
+        
         [SerializeField]
         [Range(0, 2)]
         private int additionalRadius = 0;

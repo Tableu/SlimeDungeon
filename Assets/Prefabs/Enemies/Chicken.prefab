@@ -141,6 +141,7 @@ MonoBehaviour:
   stunEffect: {fileID: 1294409137733998528}
   stunAura: {fileID: 6350538473073523532}
   captureEffect: {fileID: 4905837357681499464}
+  visibilityAgent: {fileID: 9156532417752548872}
 --- !u!114 &9156532417752548872
 MonoBehaviour:
   m_ObjectHideFlags: 0

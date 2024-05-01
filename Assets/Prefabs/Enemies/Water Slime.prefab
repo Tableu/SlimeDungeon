@@ -141,6 +141,7 @@ MonoBehaviour:
   stunEffect: {fileID: 5090933363557284185}
   stunAura: {fileID: 6141687042111725462}
   captureEffect: {fileID: 5696875139786194285}
+  visibilityAgent: {fileID: 2545554815365834989}
   faces: {fileID: 11400000, guid: 8b8a7554fceb39841840f45a2d8da540, type: 2}
   faceMaterial: {fileID: 2100000, guid: f2203f80845a66e4ab859ec6b767fcde, type: 2}
 --- !u!114 &2545554815365834989
