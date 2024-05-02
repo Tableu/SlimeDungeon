@@ -1418,7 +1418,7 @@ MonoBehaviour:
   fogRevealers:
   - revealerTransform: {fileID: 843911629}
     sightRange: 20
-    updateOnlyOnMove: 1
+    updateOnlyOnMove: 0
     lastSeenAt: {x: 0, y: 0}
   levelMidPoint: {fileID: 280513640}
   FogRefreshRate: 10
