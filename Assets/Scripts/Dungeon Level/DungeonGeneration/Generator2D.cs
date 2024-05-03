@@ -377,7 +377,7 @@ public class Generator2D : MonoBehaviour {
             }
         }
         
-        script.Initialize(center, roomSize*tileSize);
+        script.Initialize(center, roomSize*tileSize, tileSize);
         return script;
     }
 

@@ -15,7 +15,7 @@ MonoBehaviour:
   health: 100
   stunResist: 10
   speed: 2
-  manaRegen: 0.1
+  manaRegen: 0.5
   mana: 100
   elementType: 1
   attacks:

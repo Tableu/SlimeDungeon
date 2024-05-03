@@ -9,17 +9,19 @@ public class RoomController : MonoBehaviour
     public Action OnAllEnemiesDead;
     private Vector2 _center;
     private Vector2 _size;
+    private float _tileSize;
     private List<Transform> _waypoints;
     private int _enemyCount = 0;
     private List<EnemyController> _enemies;
-    public void Initialize(Vector2 center, Vector2 size)
+    public void Initialize(Vector2 center, Vector2 size, float tileSize)
     {
         _center = center;
         _size = size;
+        _tileSize = tileSize;
         _waypoints = new List<Transform>();
         GameObject waypoints = new GameObject("Waypoints");
         waypoints.transform.parent = transform;
-        Vector2 waypoint = _center + (size/2 - new Vector2(5,5));
+        Vector2 waypoint = _center + (size/2 - new Vector2(1+tileSize,1+tileSize));
         _waypoints.Add(new GameObject("Waypoint 1").transform);
         _waypoints[0].SetParent(waypoints.transform);
         _waypoints[0].transform.position = new Vector3(waypoint.x, 0, waypoint.y);
@@ -52,9 +54,12 @@ public class RoomController : MonoBehaviour
         foreach (GameObject enemy in enemies)
         {
             GameObject enemyInstance = Instantiate(enemy, enemyParent.transform, false);
-
-            float x = _center.x + Random.Range(0f, (_size.x / 2) - 1);
-            float y = _center.y + Random.Range(0f, (_size.y / 2) - 1);
+            
+            float boundX = (_size.x / 2) - 1;
+            float boundY = (_size.y / 2) - 1;
+            
+            float x = _center.x + Random.Range(-1*boundX, boundX);
+            float y = _center.y + Random.Range(-1*boundY, boundY);
             enemyInstance.transform.position = new Vector3(x, 0, y);
             EnemyController controller = enemyInstance.GetComponent<EnemyController>();
             if (controller != null)
@@ -80,8 +85,10 @@ public class RoomController : MonoBehaviour
         };
         
         GameObject characterInstance = Instantiate(data.CapturedForm, capturedParent.transform, false);
-        float x = _center.x + Random.Range(0f, (_size.x / 2) - 1 - 4);
-        float y = _center.y + Random.Range(0f, (_size.y / 2) - 1 - 4);
+        float boundX = (_size.x / 2) - 1 - _tileSize*2;
+        float boundY = (_size.y / 2) - 1 - _tileSize*2;
+        float x = _center.x + Random.Range(-1*boundX, boundX);
+        float y = _center.y + Random.Range(-1*boundY, boundY);
         characterInstance.transform.position = new Vector3(x, 0, y);
         CapturedCharacter script = characterInstance.GetComponent<CapturedCharacter>();
         if (script != null)

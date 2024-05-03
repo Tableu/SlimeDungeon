@@ -23,3 +23,8 @@ MonoBehaviour:
     - {fileID: 1068915873035841302, guid: 68b415f9bad327e41a6b1447cff3df71, type: 3}
     - {fileID: 1068915873035841302, guid: 68b415f9bad327e41a6b1447cff3df71, type: 3}
     - {fileID: 1068915873035841302, guid: 68b415f9bad327e41a6b1447cff3df71, type: 3}
+  - Weight: 5
+    Enemies:
+    - {fileID: 5923733835745486290, guid: 30063cbd858626a4db730947f21d210a, type: 3}
+    - {fileID: 5923733835745486290, guid: 30063cbd858626a4db730947f21d210a, type: 3}
+    - {fileID: 5923733835745486290, guid: 30063cbd858626a4db730947f21d210a, type: 3}
