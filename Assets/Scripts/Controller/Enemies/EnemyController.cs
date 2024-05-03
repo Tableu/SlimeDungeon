@@ -150,12 +150,6 @@ public abstract class EnemyController : Character
         }
     }
 
-    protected override void HandleDeath()
-    {
-        OnDeath?.Invoke();
-        Destroy(gameObject);
-    }
-
     protected override IEnumerator HandleKnockback(Vector3 knockback, float hitStun, float typeMultiplier)
     {
         bool isStunMeterFull = SuperEffectiveStunMeter >= CharacterData.StunResist;

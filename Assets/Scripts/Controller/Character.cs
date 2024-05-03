@@ -82,6 +82,7 @@ namespace Controller
 
         protected virtual void HandleDeath()
         {
+            OnDeath?.Invoke();
             Destroy(gameObject);
         }
 
