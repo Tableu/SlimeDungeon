@@ -76,22 +76,6 @@ public class PlayerController : Character
         {
             walkingSmokeParticleSystem.Stop();
         };
-
-        _playerInputActions.Other.PickUp.started += delegate(InputAction.CallbackContext context)
-        {
-            Collider[] itemColliders = Physics.OverlapSphere(transform.position, 5, LayerMask.GetMask("Items"));
-            var itemsOrderedByProximity = itemColliders.OrderBy(c => (transform.position - c.transform.position).sqrMagnitude)
-                .ToArray();
-            foreach (var col in itemsOrderedByProximity)
-            {
-                var item = col.GetComponent<Item>();
-                if (item != null)
-                {
-                    item.PickUp(this);
-                    break;
-                }
-            }
-        };
     }
 
     //Code for rotating the player to follow the mouse

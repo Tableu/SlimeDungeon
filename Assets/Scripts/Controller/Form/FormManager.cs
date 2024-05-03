@@ -55,9 +55,7 @@ public class FormManager
         {
             if (_forms.Count > 0)
             {
-                GameObject item = Object.Instantiate(_currentForm.Data.Item, _playerController.transform.position, Quaternion.identity);
-                FormItem script = item.GetComponent<FormItem>();
-                script.Initialize(_currentForm);
+                //todo send form to inventory
                 OnFormRemoved?.Invoke(_currentForm);
             }
             ChangeForm(form, _currentFormIndex);

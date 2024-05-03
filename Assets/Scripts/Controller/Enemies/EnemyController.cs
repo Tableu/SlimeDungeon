@@ -1,11 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using Controller;
-using Controller.Form;
 using FischlWorks_FogWar;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public enum EnemyControllerState
@@ -13,7 +11,7 @@ public enum EnemyControllerState
     Idle,Walk,Attack,Stunned
 }
 
-public abstract class EnemyController : Character, ICapturable
+public abstract class EnemyController : Character
 {
     public override Vector3 SpellOffset => spellOffset;
     [SerializeField] protected NavMeshAgent agent;
@@ -25,7 +23,6 @@ public abstract class EnemyController : Character, ICapturable
     [SerializeField] private bool moveWhileAttacking;
     [SerializeField] private ParticleSystem stunEffect;
     [SerializeField] private ParticleSystem stunAura;
-    [SerializeField] private GameObject captureEffect;
     [SerializeField] private csFogVisibilityAgent visibilityAgent;
 
     private bool _attackingPlayer = false;
@@ -299,40 +296,6 @@ public abstract class EnemyController : Character, ICapturable
         this.waypoints = waypoints;
     }
 
-    public void AttemptCapture(float hitStun)
-    {
-        StartCoroutine(AttemptCaptureCoroutine(hitStun));
-    }
-
-    private IEnumerator AttemptCaptureCoroutine(float hitStun)
-    {
-        bool captured = enemyData.FormData.CaptureDifficulty*Health < Random.Range(21,25);
-        if (SuperEffectiveStunMeter >= 100)
-        {
-            hitStun++;
-        }
-        ApplyStun(Vector3.zero);
-        captureEffect.SetActive(true);
-        yield return new WaitForSeconds(hitStun);
-        captureEffect.SetActive(false);
-        if (captured)
-        {
-            SpawnFormItem(enemyData.FormData);
-            HandleDeath();
-        }
-        else
-        {
-            RemoveStun();
-        }
-    }
-    
-    private void SpawnFormItem(FormData data)
-    {
-        GameObject item = Instantiate(data.Item, transform.position, Quaternion.identity);
-        FormItem script = item.GetComponent<FormItem>();
-        script.Initialize(data);
-    }
-    
     private void CollisionAttack(Collision other)
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("Player"))

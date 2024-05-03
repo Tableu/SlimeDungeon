@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Controller.Form
 {
@@ -16,7 +17,7 @@ namespace Controller.Form
         
         [HeaderAttribute("References")]
         [SerializeField] private GameObject model;
-        [SerializeField] private GameObject item;
+        [FormerlySerializedAs("item")] [SerializeField] private GameObject capturedForm;
         [SerializeField] private Sprite icon;
         [SerializeField] private Vector3 spellOffset;
         [SerializeField] private AttackData basicAttack;
@@ -29,7 +30,7 @@ namespace Controller.Form
         public float CaptureDifficulty => captureDifficulty;
         public GameObject Model => model;
         public Vector3 SpellOffset => spellOffset;
-        public GameObject Item => item;
+        public GameObject CapturedForm => capturedForm;
         public Sprite Icon => icon;
         public AttackData BasicAttack => basicAttack;
         public List<AttackData> Spells => spells;
