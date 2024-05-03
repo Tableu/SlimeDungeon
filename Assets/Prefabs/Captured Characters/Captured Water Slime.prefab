@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6098925621551717471}
-  - component: {fileID: 6304398593555343688}
   - component: {fileID: 418050150599313518}
   m_Layer: 11
   m_Name: Captured Water Slime
@@ -30,24 +29,11 @@ Transform:
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_ConstrainProportionsScale: 1
   m_Children:
-  - {fileID: 6568952656657901171}
   - {fileID: 3738558636387754793}
+  - {fileID: 2256376680979891761}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &6304398593555343688
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 834991341219302362}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1.2, y: 1.2, z: 1.2}
-  m_Center: {x: 0, y: 0.6, z: 0}
 --- !u!114 &418050150599313518
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -61,6 +47,116 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cage: {fileID: 4083031933979474323}
+  character: {fileID: 1448912295835491467}
+  characterCollider: {fileID: 8206199037518757016}
+--- !u!1001 &4069229811257996018
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 6098925621551717471}
+    m_Modifications:
+    - target: {fileID: 408419653578216334, guid: 5c0511541050a2445b48b29229bc4130, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 1865071465094951808, guid: 5c0511541050a2445b48b29229bc4130, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 2581125524793499986, guid: 5c0511541050a2445b48b29229bc4130, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 2821659471103554755, guid: 5c0511541050a2445b48b29229bc4130, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2821659471103554755, guid: 5c0511541050a2445b48b29229bc4130, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2821659471103554755, guid: 5c0511541050a2445b48b29229bc4130, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2821659471103554755, guid: 5c0511541050a2445b48b29229bc4130, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2821659471103554755, guid: 5c0511541050a2445b48b29229bc4130, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2821659471103554755, guid: 5c0511541050a2445b48b29229bc4130, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2821659471103554755, guid: 5c0511541050a2445b48b29229bc4130, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2821659471103554755, guid: 5c0511541050a2445b48b29229bc4130, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2821659471103554755, guid: 5c0511541050a2445b48b29229bc4130, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2821659471103554755, guid: 5c0511541050a2445b48b29229bc4130, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2821659471103554755, guid: 5c0511541050a2445b48b29229bc4130, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3198502390492704377, guid: 5c0511541050a2445b48b29229bc4130, type: 3}
+      propertyPath: m_Name
+      value: Water Slime Form
+      objectReference: {fileID: 0}
+    - target: {fileID: 3198502390492704377, guid: 5c0511541050a2445b48b29229bc4130, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 4223262636022095585, guid: 5c0511541050a2445b48b29229bc4130, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 4654086225104126110, guid: 5c0511541050a2445b48b29229bc4130, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 4711101144071700643, guid: 5c0511541050a2445b48b29229bc4130, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 6080307935716506405, guid: 5c0511541050a2445b48b29229bc4130, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 7554166481299272073, guid: 5c0511541050a2445b48b29229bc4130, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 5c0511541050a2445b48b29229bc4130, type: 3}
+--- !u!1 &1448912295835491467 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3198502390492704377, guid: 5c0511541050a2445b48b29229bc4130, type: 3}
+  m_PrefabInstance: {fileID: 4069229811257996018}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &2256376680979891761 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2821659471103554755, guid: 5c0511541050a2445b48b29229bc4130, type: 3}
+  m_PrefabInstance: {fileID: 4069229811257996018}
+  m_PrefabAsset: {fileID: 0}
+--- !u!135 &8206199037518757016 stripped
+SphereCollider:
+  m_CorrespondingSourceObject: {fileID: 5303701594418925162, guid: 5c0511541050a2445b48b29229bc4130, type: 3}
+  m_PrefabInstance: {fileID: 4069229811257996018}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6339760876097591132
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -68,9 +164,13 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6098925621551717471}
     m_Modifications:
+    - target: {fileID: 1359883557861332502, guid: 7438af1015185e643890314c9396d4ad, type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
     - target: {fileID: 7212899257591477365, guid: 7438af1015185e643890314c9396d4ad, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7212899257591477365, guid: 7438af1015185e643890314c9396d4ad, type: 3}
       propertyPath: m_LocalScale.x
@@ -132,6 +232,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Cage
       objectReference: {fileID: 0}
+    - target: {fileID: 8021628936160767695, guid: 7438af1015185e643890314c9396d4ad, type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7438af1015185e643890314c9396d4ad, type: 3}
 --- !u!4 &3738558636387754793 stripped
@@ -144,67 +248,16 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 8021628936160767695, guid: 7438af1015185e643890314c9396d4ad, type: 3}
   m_PrefabInstance: {fileID: 6339760876097591132}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &8935449480913588912
-PrefabInstance:
+--- !u!65 &6205924527243640808
+BoxCollider:
   m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 6098925621551717471}
-    m_Modifications:
-    - target: {fileID: 2821659471103554755, guid: 5c0511541050a2445b48b29229bc4130, type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2821659471103554755, guid: 5c0511541050a2445b48b29229bc4130, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2821659471103554755, guid: 5c0511541050a2445b48b29229bc4130, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.16
-      objectReference: {fileID: 0}
-    - target: {fileID: 2821659471103554755, guid: 5c0511541050a2445b48b29229bc4130, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2821659471103554755, guid: 5c0511541050a2445b48b29229bc4130, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2821659471103554755, guid: 5c0511541050a2445b48b29229bc4130, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2821659471103554755, guid: 5c0511541050a2445b48b29229bc4130, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2821659471103554755, guid: 5c0511541050a2445b48b29229bc4130, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2821659471103554755, guid: 5c0511541050a2445b48b29229bc4130, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2821659471103554755, guid: 5c0511541050a2445b48b29229bc4130, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2821659471103554755, guid: 5c0511541050a2445b48b29229bc4130, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3198502390492704377, guid: 5c0511541050a2445b48b29229bc4130, type: 3}
-      propertyPath: m_Name
-      value: Water Slime Form
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 5303701594418925162, guid: 5c0511541050a2445b48b29229bc4130, type: 3}
-    - {fileID: 656937284833218070, guid: 5c0511541050a2445b48b29229bc4130, type: 3}
-  m_SourcePrefab: {fileID: 100100000, guid: 5c0511541050a2445b48b29229bc4130, type: 3}
---- !u!4 &6568952656657901171 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2821659471103554755, guid: 5c0511541050a2445b48b29229bc4130, type: 3}
-  m_PrefabInstance: {fileID: 8935449480913588912}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4083031933979474323}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 4, y: 4, z: 4}
+  m_Center: {x: 0, y: 0, z: 0}

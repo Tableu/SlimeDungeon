@@ -1060,6 +1060,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   generator2D: {fileID: 908279960}
   randomizedEnemyGroups: {fileID: 11400000, guid: fc13275d079e791418dad8ab8f3b5ca0, type: 2}
+  randomizedCapturedCharacters: {fileID: 11400000, guid: 8def4d2ceea968e4989550de9681dedf, type: 2}
 --- !u!114 &908279963
 MonoBehaviour:
   m_ObjectHideFlags: 0

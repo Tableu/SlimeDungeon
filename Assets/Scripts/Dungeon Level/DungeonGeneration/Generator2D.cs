@@ -48,7 +48,7 @@ public class Generator2D : MonoBehaviour {
     public Vector2Int Size => size;
     public int TileSize => tileSize;
 
-    public List<EnemySpawner> Generate() {
+    public List<RoomController> Generate() {
         _random = new Random((int)System.DateTime.Now.Ticks);
         _grid = new Grid2D<CellType>(size, Vector2Int.zero);
         _rooms = new List<Room>();
@@ -57,7 +57,7 @@ public class Generator2D : MonoBehaviour {
         Triangulate();
         CreateHallways();
         PathfindHallways();
-        List<EnemySpawner> roomScripts = PlaceRooms();
+        List<RoomController> roomScripts = PlaceRooms();
         Vector2Int paddedSize = size + new Vector2Int(tileSize, tileSize);
         levelCenter.transform.position = new Vector3(
             ((float)size.x * tileSize)/2, levelCenter.transform.position.y, ((float)size.y * tileSize)/2);
@@ -119,9 +119,9 @@ public class Generator2D : MonoBehaviour {
         }
     }
 
-    private List<EnemySpawner> PlaceRooms()
+    private List<RoomController> PlaceRooms()
     {
-        List<EnemySpawner> roomScripts = new List<EnemySpawner>();
+        List<RoomController> roomScripts = new List<RoomController>();
         foreach (var room in _rooms)
         {
             roomScripts.Add(PlaceRoom(room.bounds));
@@ -290,7 +290,7 @@ public class Generator2D : MonoBehaviour {
         }
     }
 
-    private EnemySpawner PlaceRoom(RectInt bounds)
+    private RoomController PlaceRoom(RectInt bounds)
     {
         var location = bounds.position;
         var roomSize = bounds.size;
@@ -309,7 +309,7 @@ public class Generator2D : MonoBehaviour {
         doors.transform.parent = room.transform;
         doors.layer = LayerMask.NameToLayer("Walls");
         
-        EnemySpawner script = room.AddComponent<EnemySpawner>();
+        RoomController script = room.AddComponent<RoomController>();
         Vector2 center = bounds.center*tileSize - new Vector2((float)tileSize/2, (float)tileSize/2);
         room.transform.position = new Vector3(center.x, 0, center.y);
         for (int x = 1; x < roomSize.x-1; x++)

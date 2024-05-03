@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Linq;
+using Controller.Form;
 using UnityEngine;
 using UnityEngine.AI;
 using Random = UnityEngine.Random;
@@ -7,14 +9,16 @@ public class LevelManager : MonoBehaviour
 {
     [SerializeField] private Generator2D generator2D;
     [SerializeField] private RandomizedEnemyGroups randomizedEnemyGroups;
+    [SerializeField] private RandomizedCapturedCharacters randomizedCapturedCharacters;
     
-    private List<EnemySpawner> _roomScripts;
+    private List<RoomController> _roomScripts;
     void Start()
     {
         _roomScripts = generator2D.Generate();
-        EnemySpawner spawnRoom = _roomScripts[Random.Range(0, _roomScripts.Count)];
+        RoomController spawnRoom = _roomScripts[Random.Range(0, _roomScripts.Count)];
         GlobalReferences.Instance.Player.transform.position = spawnRoom.transform.position;
         
+        //Build and initialize navmesh surfaces
         List<NavMeshBuildSource> sources = new List<NavMeshBuildSource>();
         Vector3 size = new Vector3(generator2D.Size.x * generator2D.TileSize, 10,
             generator2D.Size.y * generator2D.TileSize);
@@ -27,12 +31,29 @@ public class LevelManager : MonoBehaviour
             Quaternion.identity);
         NavMesh.AddNavMeshData(data);
         
-        foreach (EnemySpawner spawner in _roomScripts)
+        List<FormData> capturedCharacters = randomizedCapturedCharacters.GetRandomCapturedCharacters();
+        
+        //Generate random indexes for placing the random characters
+        System.Random rnd = new System.Random();
+        int[] myRndNos = Enumerable.Range(0, _roomScripts.Count).OrderBy(i => rnd.Next()).Take(capturedCharacters.Count).ToArray();
+        int i = 0;
+        using List<FormData>.Enumerator characterEnumerator = capturedCharacters.GetEnumerator();
+        foreach (RoomController spawner in _roomScripts)
         {
             if (spawner != spawnRoom)
             {
                 spawner.SpawnEnemies(randomizedEnemyGroups.GetRandomEnemyGroup());
+                foreach (int r in myRndNos)
+                {
+                    if (i == r)
+                    {
+                        characterEnumerator.MoveNext();
+                        spawner.SpawnCapturedCharacter(characterEnumerator.Current);
+                        break;
+                    }
+                }
             }
+            i++;
         }
 
         
