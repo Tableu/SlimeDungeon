@@ -44,18 +44,19 @@ public class FormManager
 
     public void InitializeForm()
     {
-        Form form = new Form(((PlayerData)_playerController.CharacterData).StartForm, _playerController);
+        Form form = new Form(((PlayerData)_playerController.CharacterData).StartForm);
         _forms.Add(form);
         ChangeForm(form, _forms.Count-1);
         OnFormAdd?.Invoke(form, _forms.Count-1);
     }
-    public void AddForm(Form form)
+    public Form AddForm(Form form)
     {
+        Form oldForm = null;
         if (_forms.Count >= _maxFormCount)
         {
             if (_forms.Count > 0)
             {
-                //todo send form to inventory
+                oldForm = _currentForm;
                 OnFormRemoved?.Invoke(_currentForm);
             }
             ChangeForm(form, _currentFormIndex);
@@ -67,6 +68,8 @@ public class FormManager
             _forms.Add(form);
             OnFormAdd?.Invoke(form, _forms.Count-1);
         }
+
+        return oldForm;
     }
     
     public void SwitchForms(InputAction.CallbackContext context)
@@ -156,7 +159,7 @@ public class FormManager
         _currentForm = newForm;
         _currentFormIndex = newIndex;
         ChangeModel(newForm.Data);
-        _currentForm.Equip(_model, _playerController.PlayerInputActions.Other.BasicAttack);
+        _currentForm.Equip(_model, _playerController);
         OnFormChange?.Invoke();
     }
     private void ChangeModel(FormData data)

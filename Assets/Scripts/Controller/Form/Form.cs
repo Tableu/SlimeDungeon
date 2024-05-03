@@ -10,7 +10,6 @@ namespace Controller.Form
         
         private float _speed;
         private Vector2 _maxVelocity;
-        private PlayerController _playerController;
         private Type _elementType;
         private FormAnimator _formAnimator;
         private Attack _basicAttack;
@@ -19,32 +18,37 @@ namespace Controller.Form
         public float Speed => _speed;
         public Vector2 MaxVelocity => _maxVelocity;
         public Type ElementType => _elementType;
-        public PlayerController PlayerController => _playerController;
 
-        public Form(FormData data, PlayerController playerController)
+        public Form(FormData data)
         {
             _data = data;
-            _playerController = playerController;
             Health = data.Health;
             _speed = data.Speed;
             _maxVelocity = data.MaxVelocity;
             _elementType = data.ElementType;
         }
 
-        public void Equip(GameObject model, InputAction basicAttackAction)
+        public void Equip(GameObject model, PlayerController controller)
         {
             _formAnimator = _data.AttachScript(model);
-            _formAnimator.Initialize(this);
-            _basicAttack = _data.BasicAttack.CreateInstance(_playerController);
-            _basicAttack.LinkInput(basicAttackAction);
+            _formAnimator.Initialize(this, controller.PlayerInputActions);
+            _basicAttack = _data.BasicAttack.CreateInstance(controller);
+            _basicAttack.LinkInput(controller.PlayerInputActions.Other.BasicAttack);
         }
 
         public void Drop()
         {
-            Object.Destroy(_formAnimator);
-            _basicAttack.CleanUp();
-            _basicAttack.UnlinkInput();
-            _basicAttack = null;
+            if (_formAnimator != null)
+            {
+                Object.Destroy(_formAnimator);
+            }
+
+            if (_basicAttack != null)
+            {
+                _basicAttack.CleanUp();
+                _basicAttack.UnlinkInput();
+                _basicAttack = null;
+            }
         }
 
         public void CastBasicAttack()

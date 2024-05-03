@@ -4,25 +4,29 @@ using UnityEngine.InputSystem;
 
 public class ChickenFormAnimator : FormAnimator
 {
-    public override void Initialize(Form form)
+    public override void Initialize(Form form, PlayerInputActions inputActions)
     {
         animator = GetComponent<Animator>();
         this.form = form;
-        if (form.PlayerController.PlayerInputActions.Movement.Pressed.inProgress)
+        this.inputActions = inputActions;
+        if (inputActions.Movement.Pressed.inProgress)
         {
             if (animator != null)
             {
                 animator.SetBool("Run", true);
             }
         }
-        form.PlayerController.PlayerInputActions.Movement.Pressed.started += MovementPressed;
-        form.PlayerController.PlayerInputActions.Movement.Pressed.canceled += MovementCanceled;
+        inputActions.Movement.Pressed.started += MovementPressed;
+        inputActions.Movement.Pressed.canceled += MovementCanceled;
     }
 
     private void OnDestroy()
     {
-        form.PlayerController.PlayerInputActions.Movement.Pressed.started -= MovementPressed;
-        form.PlayerController.PlayerInputActions.Movement.Pressed.canceled -= MovementCanceled;
+        if (inputActions != null)
+        {
+            inputActions.Movement.Pressed.started -= MovementPressed;
+            inputActions.Movement.Pressed.canceled -= MovementCanceled;
+        }
     }
 
     private void MovementPressed(InputAction.CallbackContext context)

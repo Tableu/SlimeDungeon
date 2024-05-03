@@ -5,12 +5,13 @@ namespace Controller.Form
 {
     public class SlimeFormAnimator : FormAnimator
     {
-        public override void Initialize(Form form)
+        public override void Initialize(Form form, PlayerInputActions inputActions)
         {
             this.form = form;
+            this.inputActions = inputActions;
             animator = GetComponent<Animator>();
             
-            if (form.PlayerController.PlayerInputActions.Movement.Pressed.inProgress)
+            if (inputActions.Movement.Pressed.inProgress)
             {
                 if (animator != null)
                 {
@@ -18,14 +19,14 @@ namespace Controller.Form
                 }
             }
             
-            form.PlayerController.PlayerInputActions.Movement.Pressed.canceled += MovementCanceled;
-            form.PlayerController.PlayerInputActions.Movement.Pressed.started += MovementStarted;
+            inputActions.Movement.Pressed.canceled += MovementCanceled;
+            inputActions.Movement.Pressed.started += MovementStarted;
         }
 
         private void OnDestroy()
         {
-            form.PlayerController.PlayerInputActions.Movement.Pressed.canceled -= MovementCanceled;
-            form.PlayerController.PlayerInputActions.Movement.Pressed.started -= MovementStarted;
+            inputActions.Movement.Pressed.canceled -= MovementCanceled;
+            inputActions.Movement.Pressed.started -= MovementStarted;
         }
         
         public void OnAnimatorMove()

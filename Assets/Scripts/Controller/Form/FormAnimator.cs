@@ -7,7 +7,8 @@ namespace Controller.Form
     {
         protected Form form;
         protected Animator animator;
-        public abstract void Initialize(Form form);
+        protected PlayerInputActions inputActions;
+        public abstract void Initialize(Form form, PlayerInputActions inputActions);
     }
 
     public enum Forms
