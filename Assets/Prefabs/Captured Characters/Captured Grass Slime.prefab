@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6098925621551717471}
   - component: {fileID: 4095103355833201931}
+  - component: {fileID: 5504100474882576393}
   m_Layer: 11
   m_Name: Captured Grass Slime
   m_TagString: Untagged
@@ -47,6 +48,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.2, y: 1.2, z: 1.2}
   m_Center: {x: 0, y: 0.6, z: 0}
+--- !u!114 &5504100474882576393
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 834991341219302362}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b7f62cb0d2700840b28dedfdab7a684, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cage: {fileID: 5472997351725973545}
 --- !u!1001 &70958535487320777
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -223,5 +237,10 @@ PrefabInstance:
 --- !u!4 &4663528767001959059 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7212899257591477365, guid: 7438af1015185e643890314c9396d4ad, type: 3}
+  m_PrefabInstance: {fileID: 2639517421879996134}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5472997351725973545 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8021628936160767695, guid: 7438af1015185e643890314c9396d4ad, type: 3}
   m_PrefabInstance: {fileID: 2639517421879996134}
   m_PrefabAsset: {fileID: 0}
