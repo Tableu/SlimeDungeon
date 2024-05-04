@@ -8,8 +8,8 @@ using Random = UnityEngine.Random;
 public class LevelManager : MonoBehaviour
 {
     [SerializeField] private Generator2D generator2D;
-    [SerializeField] private RandomizedEnemyGroups randomizedEnemyGroups;
-    [SerializeField] private RandomizedCapturedCharacters randomizedCapturedCharacters;
+    [SerializeField] private RandomGameObjects randomEnemyGroups;
+    [SerializeField] private RandomFormData randomCapturedCharacters;
     
     private List<RoomController> _roomScripts;
     void Start()
@@ -31,7 +31,7 @@ public class LevelManager : MonoBehaviour
             Quaternion.identity);
         NavMesh.AddNavMeshData(data);
         
-        List<FormData> capturedCharacters = randomizedCapturedCharacters.GetRandomCapturedCharacters();
+        List<FormData> capturedCharacters = randomCapturedCharacters.GetRandomGroup();
         
         //Generate random indexes for placing the random characters
         System.Random rnd = new System.Random();
@@ -42,7 +42,7 @@ public class LevelManager : MonoBehaviour
         {
             if (spawner != spawnRoom)
             {
-                spawner.SpawnEnemies(randomizedEnemyGroups.GetRandomEnemyGroup());
+                spawner.SpawnEnemies(randomEnemyGroups.GetRandomGroup());
                 foreach (int r in myRndNos)
                 {
                     if (i == r)

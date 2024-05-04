@@ -10,21 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b19dffe8e6e479142bdd717dccb67301, type: 3}
-  m_Name: RandomEnemyGroup
+  m_Name: RandomEnemies
   m_EditorClassIdentifier: 
-  enemyGroups:
-  - Weight: 5
-    Enemies:
-    - {fileID: 1068915873035841302, guid: 4fd2af36cb21a8d4781e0e073e124da2, type: 3}
-    - {fileID: 1068915873035841302, guid: 4fd2af36cb21a8d4781e0e073e124da2, type: 3}
-    - {fileID: 1068915873035841302, guid: 4fd2af36cb21a8d4781e0e073e124da2, type: 3}
-  - Weight: 5
-    Enemies:
+  groups:
+  - Weight: 10
+    GroupList:
     - {fileID: 1068915873035841302, guid: 68b415f9bad327e41a6b1447cff3df71, type: 3}
     - {fileID: 1068915873035841302, guid: 68b415f9bad327e41a6b1447cff3df71, type: 3}
     - {fileID: 1068915873035841302, guid: 68b415f9bad327e41a6b1447cff3df71, type: 3}
-  - Weight: 5
-    Enemies:
+  - Weight: 10
+    GroupList:
+    - {fileID: 1068915873035841302, guid: 4fd2af36cb21a8d4781e0e073e124da2, type: 3}
+    - {fileID: 1068915873035841302, guid: 4fd2af36cb21a8d4781e0e073e124da2, type: 3}
+    - {fileID: 1068915873035841302, guid: 4fd2af36cb21a8d4781e0e073e124da2, type: 3}
+  - Weight: 10
+    GroupList:
     - {fileID: 5923733835745486290, guid: 30063cbd858626a4db730947f21d210a, type: 3}
     - {fileID: 5923733835745486290, guid: 30063cbd858626a4db730947f21d210a, type: 3}
     - {fileID: 5923733835745486290, guid: 30063cbd858626a4db730947f21d210a, type: 3}

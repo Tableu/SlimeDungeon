@@ -12,14 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2acc09e6ff7fabb41a48d0b2f2bd0246, type: 3}
   m_Name: RandomCapturedCharacters
   m_EditorClassIdentifier: 
-  characterGroups:
+  groups:
   - Weight: 10
-    Characters:
-    - {fileID: 11400000, guid: a970de915398ce943a6aed23fd89c099, type: 2}
-    - {fileID: 11400000, guid: a970de915398ce943a6aed23fd89c099, type: 2}
-    - {fileID: 11400000, guid: a970de915398ce943a6aed23fd89c099, type: 2}
+    GroupList:
+    - {fileID: 11400000, guid: 1bcd57858ce771b4086d405e05eea620, type: 2}
+    - {fileID: 11400000, guid: 1bcd57858ce771b4086d405e05eea620, type: 2}
+    - {fileID: 11400000, guid: 1bcd57858ce771b4086d405e05eea620, type: 2}
   - Weight: 10
-    Characters:
+    GroupList:
     - {fileID: 11400000, guid: 6cb87275a0359ba4a8b741fb885df66c, type: 2}
     - {fileID: 11400000, guid: 6cb87275a0359ba4a8b741fb885df66c, type: 2}
     - {fileID: 11400000, guid: 6cb87275a0359ba4a8b741fb885df66c, type: 2}
+  - Weight: 10
+    GroupList:
+    - {fileID: 11400000, guid: 95a6adf61836ab04cb2e889076b0745e, type: 2}
+    - {fileID: 11400000, guid: 95a6adf61836ab04cb2e889076b0745e, type: 2}
+    - {fileID: 11400000, guid: 95a6adf61836ab04cb2e889076b0745e, type: 2}
