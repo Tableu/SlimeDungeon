@@ -30,7 +30,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1068915873035841302}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.9157605, y: 0.08, z: 4.9829855}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -134,9 +134,7 @@ MonoBehaviour:
   - {fileID: 0}
   spellOffset: {x: 0, y: 0.4, z: 0}
   animator: {fileID: 6042655304471014063}
-  idleTimeRange: {x: 2, y: 3}
   enemyData: {fileID: 11400000, guid: c6e70fb41566c1e40a63007e357243bc, type: 2}
-  moveWhileAttacking: 0
   stunEffect: {fileID: 1154602366540944784}
   stunAura: {fileID: 5928770615281315280}
   visibilityAgent: {fileID: 8876898676776588533}

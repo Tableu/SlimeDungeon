@@ -13,14 +13,12 @@ public enum EnemyControllerState
 
 public abstract class EnemyController : Character
 {
-    public override Vector3 SpellOffset => spellOffset;
     [SerializeField] protected NavMeshAgent agent;
     [SerializeField] private List<Transform> waypoints;
     [SerializeField] private Vector3 spellOffset;
     [SerializeField] protected Animator animator;
-    [SerializeField] private Vector2 idleTimeRange = new Vector2(2,3);
     [SerializeField] private EnemyData enemyData;
-    [SerializeField] private bool moveWhileAttacking;
+    
     [SerializeField] private ParticleSystem stunEffect;
     [SerializeField] private ParticleSystem stunAura;
     [SerializeField] private csFogVisibilityAgent visibilityAgent;
@@ -33,6 +31,7 @@ public abstract class EnemyController : Character
     private bool _isSuperEffectiveStunned;
 
     public override CharacterData CharacterData => enemyData;
+    public override Vector3 SpellOffset => spellOffset;
     
     public float SuperEffectiveStunMeter
     {
@@ -78,7 +77,7 @@ public abstract class EnemyController : Character
                 
                 if (_attackingPlayer)
                 { 
-                    if(!moveWhileAttacking)
+                    if(!enemyData.MoveWhileAttacking)
                         StopAgent(); 
                     Attack();
                 }
@@ -86,7 +85,7 @@ public abstract class EnemyController : Character
                 {
                     StopAgent();
                     ChangeState(EnemyControllerState.Idle);
-                    Invoke(nameof(WalkToNextDestination), Random.Range(idleTimeRange.x, idleTimeRange.y));
+                    Invoke(nameof(WalkToNextDestination), Random.Range(enemyData.IdleTimeRange.x, enemyData.IdleTimeRange.y));
                 }
             }
         }
@@ -186,6 +185,14 @@ public abstract class EnemyController : Character
         if(_stunCounter == 0)
             Walk();
     }
+
+    protected override void HandleDeath()
+    {
+        if(ResourceManager.Instance != null)
+            ResourceManager.Instance.Coins.Add(enemyData.CoinsOnDeath);
+        base.HandleDeath();
+    }
+
     #endregion
     protected void StopAgent()
     {

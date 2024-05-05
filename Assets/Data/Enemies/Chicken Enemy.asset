@@ -25,7 +25,9 @@ MonoBehaviour:
   deAggroRange: 20
   detectTick: 10
   stoppingDistance: 3
-  formData: {fileID: 11400000, guid: a970de915398ce943a6aed23fd89c099, type: 2}
+  coinsOnDeath: 10
+  idleTimeRange: {x: 2, y: 3}
+  moveWhileAttacking: 0
   enableCollisionDamage: 0
   collisonData:
     Damage: 0

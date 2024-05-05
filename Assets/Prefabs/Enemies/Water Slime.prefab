@@ -134,9 +134,7 @@ MonoBehaviour:
   - {fileID: 0}
   spellOffset: {x: 0, y: 0.4, z: 0}
   animator: {fileID: 1097483168939663467}
-  idleTimeRange: {x: 2, y: 3}
   enemyData: {fileID: 11400000, guid: 43131a2d664ad9145863978c4ae01cdb, type: 2}
-  moveWhileAttacking: 0
   stunEffect: {fileID: 5090933363557284185}
   stunAura: {fileID: 6141687042111725462}
   visibilityAgent: {fileID: 2545554815365834989}

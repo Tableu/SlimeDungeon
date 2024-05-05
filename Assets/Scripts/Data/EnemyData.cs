@@ -11,7 +11,9 @@ public class EnemyData : CharacterData
     [SerializeField] private float deAggroRange;
     [SerializeField] private int detectTick;
     [SerializeField] private float stoppingDistance;
-    [SerializeField] private FormData formData;
+    [SerializeField] private int coinsOnDeath;
+    [SerializeField] private Vector2 idleTimeRange = new Vector2(2,3);
+    [SerializeField] private bool moveWhileAttacking;
 
     [HeaderAttribute("Collision Damage")] 
     [SerializeField] private bool enableCollisionDamage;
@@ -22,9 +24,11 @@ public class EnemyData : CharacterData
     public float AggroRange => aggroRange;
     public float DeAggroRange => deAggroRange;
     public int DetectTick => detectTick;
-    public FormData FormData => formData;
     public bool EnableCollisionDamage => enableCollisionDamage;
     public CollisionData CollisionData => collisonData;
+    public int CoinsOnDeath => coinsOnDeath;
+    public Vector2 IdleTimeRange => idleTimeRange;
+    public bool MoveWhileAttacking => moveWhileAttacking;
 }
 
 [Serializable]

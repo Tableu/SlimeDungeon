@@ -134,12 +134,9 @@ MonoBehaviour:
   - {fileID: 0}
   spellOffset: {x: 0, y: 0.4, z: 0}
   animator: {fileID: 6042655304471014063}
-  idleTimeRange: {x: 2, y: 3}
   enemyData: {fileID: 11400000, guid: ba20874a0ffd3ae4c893baaef65ba44e, type: 2}
-  moveWhileAttacking: 0
   stunEffect: {fileID: 9092857177499490824}
   stunAura: {fileID: 6761136828445309366}
-  captureEffect: {fileID: 0}
   visibilityAgent: {fileID: 6472144971781621928}
   faces: {fileID: 11400000, guid: 8b8a7554fceb39841840f45a2d8da540, type: 2}
   faceMaterial: {fileID: 2100000, guid: f2203f80845a66e4ab859ec6b767fcde, type: 2}
