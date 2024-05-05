@@ -8,7 +8,6 @@ public class GlobalReferences : MonoBehaviour
     [SerializeField] private GameObject player;
     [SerializeField] private Canvas canvas;
     [SerializeField] private ElementTypeManager typeManager;
-    [SerializeField] private LevelManager levelManager;
 
     public GameObject Player => player;
     public Canvas Canvas => canvas;
