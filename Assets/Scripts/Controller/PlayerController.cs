@@ -84,7 +84,7 @@ public class PlayerController : Character
                 .ToArray();
             foreach (var col in itemsOrderedByProximity)
             {
-                Item item = col.GetComponent<Item>();
+                IItem item = col.GetComponent<IItem>();
                 if (item != null)
                 {
                     item.PickUp(this);

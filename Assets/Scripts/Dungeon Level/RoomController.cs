@@ -97,6 +97,26 @@ public class RoomController : MonoBehaviour
         }
     }
 
+    public void SpawnTreasureChest(GameObject chest)
+    {
+        GameObject chestParent = new GameObject("Treasure Chests")
+        {
+            transform =
+            {
+                parent = transform,
+                localPosition = Vector3.zero
+            },
+            layer = LayerMask.NameToLayer("Items")
+        };
+        
+        GameObject chestInstance = Instantiate(chest, chestParent.transform, false);
+        float boundX = (_size.x / 2) - 1 - _tileSize*2;
+        float boundY = (_size.y / 2) - 1 - _tileSize*2;
+        float x = _center.x + Random.Range(-1*boundX, boundX);
+        float y = _center.y + Random.Range(-1*boundY, boundY);
+        chestInstance.transform.position = new Vector3(x, 0, y);
+    }
+
     private void OnEnemyDeath()
     {
         _enemyCount--;

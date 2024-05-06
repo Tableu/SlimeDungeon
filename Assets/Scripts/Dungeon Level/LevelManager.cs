@@ -9,6 +9,7 @@ public class LevelManager : MonoBehaviour
 {
     [SerializeField] private Generator2D generator2D;
     [SerializeField] private RandomGameObjects randomEnemyGroups;
+    [SerializeField] private RandomGameObjects randomTreasureChests;
     [SerializeField] private RandomFormData randomCapturedCharacters;
     
     private List<RoomController> _roomScripts;
@@ -32,30 +33,41 @@ public class LevelManager : MonoBehaviour
         NavMesh.AddNavMeshData(data);
         
         List<FormData> capturedCharacters = randomCapturedCharacters.GetRandomGroup();
+        List<GameObject> treasureChests = randomTreasureChests.GetRandomGroup();
         
         //Generate random indexes for placing the random characters
-        System.Random rnd = new System.Random();
-        int[] myRndNos = Enumerable.Range(0, _roomScripts.Count).OrderBy(i => rnd.Next()).Take(capturedCharacters.Count).ToArray();
+        List<int> capturedCharacterIndexes = GetUniqueRandomIndexes(_roomScripts.Count, capturedCharacters.Count);
+        List<int> treasureChestIndexes = GetUniqueRandomIndexes(_roomScripts.Count, treasureChests.Count);
         int i = 0;
         using List<FormData>.Enumerator characterEnumerator = capturedCharacters.GetEnumerator();
+        using List<GameObject>.Enumerator treasureEnumerator = treasureChests.GetEnumerator();
         foreach (RoomController spawner in _roomScripts)
         {
             if (spawner != spawnRoom)
             {
                 spawner.SpawnEnemies(randomEnemyGroups.GetRandomGroup());
-                foreach (int r in myRndNos)
+                if (capturedCharacterIndexes.Contains(i))
                 {
-                    if (i == r)
-                    {
-                        characterEnumerator.MoveNext();
-                        spawner.SpawnCapturedCharacter(characterEnumerator.Current);
-                        break;
-                    }
+                    characterEnumerator.MoveNext();
+                    spawner.SpawnCapturedCharacter(characterEnumerator.Current);
+                }
+
+                if (treasureChestIndexes.Contains(i))
+                {
+                    treasureEnumerator.MoveNext();
+                    spawner.SpawnTreasureChest(treasureEnumerator.Current);
                 }
             }
             i++;
         }
 
         
+    }
+    
+    private List<int> GetUniqueRandomIndexes(int indexRange, int randomIndexCount)
+    {
+        System.Random rnd = new System.Random();
+        return Enumerable.Range(0, indexRange)
+            .OrderBy(i => rnd.Next()).Take(randomIndexCount).ToList();
     }
 }

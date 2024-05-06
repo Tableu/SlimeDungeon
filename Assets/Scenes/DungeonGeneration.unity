@@ -848,6 +848,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   generator2D: {fileID: 1812136622}
   randomEnemyGroups: {fileID: 11400000, guid: 135112b0d90e20b4da213e8210b9c9af, type: 2}
+  randomTreasureChests: {fileID: 11400000, guid: 810c2fa74cbc0bc4aa5781d1ed7f763b, type: 2}
   randomCapturedCharacters: {fileID: 11400000, guid: 8def4d2ceea968e4989550de9681dedf, type: 2}
 --- !u!1001 &843911627
 PrefabInstance:
