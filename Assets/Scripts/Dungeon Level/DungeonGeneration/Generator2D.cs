@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using FischlWorks_FogWar;
 using UnityEngine;
@@ -7,11 +6,15 @@ using Random = System.Random;
 using Graphs;
 
 public class Generator2D : MonoBehaviour {
-    private enum CellType {
+    public enum CellType {
         None,
         Room,
         Hallway,
-        Entrance
+        Entrance,
+        Enemy,
+        Chest,
+        Character,
+        Exit
     }
 
     private class Room {
@@ -376,8 +379,17 @@ public class Generator2D : MonoBehaviour {
                 PlaceDoor(l, 270, doors.transform);
             }
         }
-        
-        script.Initialize(center, roomSize*tileSize, tileSize);
+
+        Grid2D<CellType> roomGrid = new Grid2D<CellType>(roomSize, Vector2Int.zero);
+        for (int y = 0; y < roomSize.y; y++)
+        {
+            for (int x = 0; x < roomSize.x; x++)
+            {
+                roomGrid[x, y] = _grid[location.x+x, location.y+y];
+            }
+        }
+
+        script.Initialize(bounds, tileSize, roomGrid);
         return script;
     }
 

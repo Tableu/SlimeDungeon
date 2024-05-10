@@ -7,31 +7,32 @@ using Random = UnityEngine.Random;
 public class RoomController : MonoBehaviour
 {
     public Action OnAllEnemiesDead;
-    private Vector2 _center;
-    private Vector2 _size;
+    private RectInt _bounds;
     private float _tileSize;
     private List<Transform> _waypoints;
     private int _enemyCount = 0;
     private List<EnemyController> _enemies;
-    public void Initialize(Vector2 center, Vector2 size, float tileSize)
+    private Grid2D<Generator2D.CellType> _roomGrid;
+
+    public void Initialize(RectInt bounds,  float tileSize, Grid2D<Generator2D.CellType> roomGrid)
     {
-        _center = center;
-        _size = size;
+        _bounds = bounds;
         _tileSize = tileSize;
         _waypoints = new List<Transform>();
         GameObject waypoints = new GameObject("Waypoints");
         waypoints.transform.parent = transform;
-        Vector2 waypoint = _center + (size/2 - new Vector2(1+tileSize,1+tileSize));
+        Vector2 waypoint = (bounds.max - new Vector2(2,2))*tileSize;
         _waypoints.Add(new GameObject("Waypoint 1").transform);
         _waypoints[0].SetParent(waypoints.transform);
         _waypoints[0].transform.position = new Vector3(waypoint.x, 0, waypoint.y);
         
-        waypoint = _center - (size/2 - new Vector2(5,5));
+        waypoint = (bounds.min + new Vector2(1,1))*tileSize;
         _waypoints.Add(new GameObject("Waypoint 2").transform);
         _waypoints[1].SetParent(waypoints.transform);
         _waypoints[1].transform.position = new Vector3(waypoint.x, 0, waypoint.y);
 
         _enemies = new List<EnemyController>();
+        _roomGrid = roomGrid;
     }
     public void SpawnEnemies(List<GameObject> enemies)
     {
@@ -55,12 +56,12 @@ public class RoomController : MonoBehaviour
         {
             GameObject enemyInstance = Instantiate(enemy, enemyParent.transform, false);
             
-            float boundX = (_size.x / 2) - 1;
-            float boundY = (_size.y / 2) - 1;
-            
-            float x = _center.x + Random.Range(-1*boundX, boundX);
-            float y = _center.y + Random.Range(-1*boundY, boundY);
-            enemyInstance.transform.position = new Vector3(x, 0, y);
+            Vector2Int randPos = GetRandomPosition();
+            _roomGrid[randPos] = Generator2D.CellType.Enemy;
+
+            enemyInstance.transform.position = new Vector3(
+                (_bounds.x+randPos.x)*_tileSize + _tileSize/2, 0, 
+                (_bounds.y+randPos.y)*_tileSize + _tileSize/2);
             EnemyController controller = enemyInstance.GetComponent<EnemyController>();
             if (controller != null)
             {
@@ -85,11 +86,12 @@ public class RoomController : MonoBehaviour
         };
         
         GameObject characterInstance = Instantiate(data.CapturedForm, capturedParent.transform, false);
-        float boundX = (_size.x / 2) - 1 - _tileSize*2;
-        float boundY = (_size.y / 2) - 1 - _tileSize*2;
-        float x = _center.x + Random.Range(-1*boundX, boundX);
-        float y = _center.y + Random.Range(-1*boundY, boundY);
-        characterInstance.transform.position = new Vector3(x, 0, y);
+        Vector2Int randPos = GetRandomPosition();
+        _roomGrid[randPos] = Generator2D.CellType.Character;
+        
+        characterInstance.transform.position = new Vector3(
+            (_bounds.x+randPos.x)*_tileSize + _tileSize/2, 0, 
+            (_bounds.y+randPos.y)*_tileSize + _tileSize/2);
         CapturedCharacter script = characterInstance.GetComponent<CapturedCharacter>();
         if (script != null)
         {
@@ -108,13 +110,42 @@ public class RoomController : MonoBehaviour
             },
             layer = LayerMask.NameToLayer("Items")
         };
-        
+
         GameObject chestInstance = Instantiate(chest, chestParent.transform, false);
-        float boundX = (_size.x / 2) - 1 - _tileSize*2;
-        float boundY = (_size.y / 2) - 1 - _tileSize*2;
-        float x = _center.x + Random.Range(-1*boundX, boundX);
-        float y = _center.y + Random.Range(-1*boundY, boundY);
-        chestInstance.transform.position = new Vector3(x, 0, y);
+        Vector2Int randPos = GetRandomPosition();
+        _roomGrid[randPos] = Generator2D.CellType.Chest;
+
+        chestInstance.transform.position = new Vector3(
+            (_bounds.x+randPos.x)*_tileSize + _tileSize/2, 0, 
+            (_bounds.y+randPos.y)*_tileSize + _tileSize/2);
+    }
+
+    public void SpawnExit(GameObject exit)
+    {
+        GameObject exitInstance = Instantiate(exit, transform, false);
+        Vector2Int randPos = GetRandomPosition();
+        _roomGrid[randPos] = Generator2D.CellType.Exit;
+
+        exitInstance.transform.position = new Vector3(
+            (_bounds.x+randPos.x)*_tileSize + _tileSize/2, 0, 
+            (_bounds.y+randPos.y)*_tileSize + _tileSize/2);
+        
+    }
+
+    private Vector2Int GetRandomPosition()
+    {
+        Vector2Int randPos = new Vector2Int(
+            Random.Range(2, _bounds.size.x - 2), 
+            Random.Range(2, _bounds.size.y - 2));
+
+        while (_roomGrid[randPos] != Generator2D.CellType.Room)
+        {
+            randPos = new Vector2Int(
+                Random.Range(2, _bounds.size.x - 2), 
+                Random.Range(2, _bounds.size.y - 2));
+        }
+
+        return randPos;
     }
 
     private void OnEnemyDeath()

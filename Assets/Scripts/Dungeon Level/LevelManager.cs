@@ -11,6 +11,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private RandomGameObjects randomEnemyGroups;
     [SerializeField] private RandomGameObjects randomTreasureChests;
     [SerializeField] private RandomFormData randomCapturedCharacters;
+    [SerializeField] private GameObject exitPrefab;
     
     private List<RoomController> _roomScripts;
     void Start()
@@ -18,7 +19,7 @@ public class LevelManager : MonoBehaviour
         _roomScripts = generator2D.Generate();
         RoomController spawnRoom = _roomScripts[Random.Range(0, _roomScripts.Count)];
         GlobalReferences.Instance.Player.transform.position = spawnRoom.transform.position;
-        
+
         //Build and initialize navmesh surfaces
         List<NavMeshBuildSource> sources = new List<NavMeshBuildSource>();
         Vector3 size = new Vector3(generator2D.Size.x * generator2D.TileSize, 10,
@@ -62,6 +63,9 @@ public class LevelManager : MonoBehaviour
         }
 
         
+        RoomController exitRoom = _roomScripts[Random.Range(0, _roomScripts.Count)];
+        while(exitRoom == spawnRoom) {exitRoom = _roomScripts[Random.Range(0, _roomScripts.Count)];}
+        exitRoom.SpawnExit(exitPrefab);
     }
     
     private List<int> GetUniqueRandomIndexes(int indexRange, int randomIndexCount)
