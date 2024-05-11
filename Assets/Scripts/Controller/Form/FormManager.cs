@@ -9,7 +9,7 @@ public class FormManager
 {
     private GameObject _model;
     private PlayerController _playerController;
-    private List<Form> _forms;
+    private List<Form> _forms = new List<Form>();
     private int _maxFormCount;
     private Form _currentForm;
     private int _currentFormIndex = 0;
@@ -42,13 +42,27 @@ public class FormManager
     }
     #region Public Methods
 
-    public void InitializeForm()
+    public void Initialize(List<Form> forms)
     {
-        Form form = new Form(((PlayerData)_playerController.CharacterData).StartForm);
-        _forms.Add(form);
-        ChangeForm(form, _forms.Count-1);
-        OnFormAdd?.Invoke(form, _forms.Count-1);
+        _forms.Clear();
+        foreach (Form form in forms)
+        {
+            _forms.Add(form);
+        }
+
+        int i = 0;
+        for (i = 0; i < _forms.Count; i++)
+        {
+            if (_forms[i].Health > 0)
+            {
+                ChangeForm(_forms[i], _forms.Count - 1);
+                break;
+            }
+        }
+
+        OnFormAdd?.Invoke(_forms[i], _forms.Count-1);
     }
+
     public Form AddForm(Form form)
     {
         Form oldForm = null;

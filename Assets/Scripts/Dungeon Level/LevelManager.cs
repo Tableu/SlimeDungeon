@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Controller.Form;
+using Systems.Save;
 using UnityEngine;
 using UnityEngine.AI;
 using Random = UnityEngine.Random;
@@ -12,9 +14,16 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private RandomGameObjects randomTreasureChests;
     [SerializeField] private RandomFormData randomCapturedCharacters;
     [SerializeField] private GameObject exitPrefab;
+    [SerializeField] private SaveManager saveManager;
     
     private List<RoomController> _roomScripts;
-    void Start()
+
+    private void Awake()
+    {
+        saveManager.Load();
+    }
+
+    private void Start()
     {
         _roomScripts = generator2D.Generate();
         RoomController spawnRoom = _roomScripts[Random.Range(0, _roomScripts.Count)];

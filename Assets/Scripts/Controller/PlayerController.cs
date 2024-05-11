@@ -4,14 +4,18 @@ using System.Collections.Generic;
 using System.Linq;
 using Controller;
 using Controller.Form;
+using Newtonsoft.Json.Linq;
 using Systems.Modifiers;
+using Systems.Save;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Type = Elements.Type;
 
-public class PlayerController : Character
+public class PlayerController : Character, ISavable
 {
     [SerializeField] private PlayerData playerData;
+    [SerializeField] private AttackDataDictionary attackDictionary;
+    [SerializeField] private FormDataDictionary formDictionary;
     [SerializeField] private GameObject model;
     [SerializeField] private ParticleSystem walkingSmokeParticleSystem;
     [SerializeField] private ParticleSystem switchFormParticleSystem;
@@ -19,10 +23,11 @@ public class PlayerController : Character
     private Vector2 _direction;
     private Vector2 _lastDirection;
     private bool _inKnockback = false;
-    
+
     private PlayerInputActions _playerInputActions;
-    private List<AttackData> _unlockedAttacks;
+    private List<AttackData> _unlockedAttacks = new List<AttackData>();
     private FormManager _formManager;
+    private List<Form> _initialForms = new List<Form>();
 
     public Vector2 MaxVelocity => _formManager.CurrentForm.MaxVelocity;
     public override float Health
@@ -36,7 +41,8 @@ public class PlayerController : Character
     public override CharacterData CharacterData => playerData;
     public List<AttackData> UnlockedAttacks => _unlockedAttacks;
     public FormManager FormManager => _formManager;
-    
+    public string id { get; } = "PlayerController";
+
     public Action OnDamage;
     public Action<Attack, int> OnAttackEquipped;
     public Action<Attack, int> OnAttackUnEquipped;
@@ -50,19 +56,24 @@ public class PlayerController : Character
         _unlockedAttacks = new List<AttackData>();
         _playerInputActions = new PlayerInputActions();
         _playerInputActions.Enable();
+
         _formManager = new FormManager(this, model);
         _formManager.OnFormChange += OnFormChange;
         _formManager.OnFormAdd += OnFormAdd;
         _formManager.OnFormRemoved += OnFormRemoved;
-        
+
         Speed = new ModifiableStat(playerData.Speed);
         foreach (AttackData attackData in playerData.Attacks)
         {
             _unlockedAttacks.Add(attackData);
         }
         _lastDirection = Vector2.zero;
-        _formManager.InitializeForm();
         switchFormParticleSystem.Stop();
+        if (_initialForms.Count == 0)
+        {
+            _initialForms.Add(new Form(playerData.StartForm));
+        }
+        _formManager.Initialize(_initialForms);
     }
     
     private new void Start()
@@ -296,6 +307,50 @@ public class PlayerController : Character
             }
             RemoveAttack(attackData);
         }
+    }
+    #endregion
+    
+    #region Save Methods
+    
+    public object SaveState()
+    {
+        List<Form.SaveData> formSaveData = new List<Form.SaveData>();
+        foreach (Form form in _formManager.Forms)
+        {
+            formSaveData.Add(new Form.SaveData(formDictionary.Dictionary.First(i => i.Value == form.Data).Key, form.Health));
+        }
+        
+        return new SaveData()
+        {
+            UnlockedAttacks = _unlockedAttacks.Select(x => attackDictionary.Dictionary.First(i => i.Value == x).Key).ToList(),
+            Forms = formSaveData
+        };
+    }
+
+    public void LoadState(JObject state)
+    {
+        var saveData = state.ToObject<SaveData>();
+        _unlockedAttacks.Clear();
+        foreach (string attack in saveData.UnlockedAttacks)
+        {
+            _unlockedAttacks.Add(attackDictionary.Dictionary[attack]);
+        }
+        
+        _initialForms.Clear();
+        foreach (Form.SaveData formData in saveData.Forms)
+        {
+            _initialForms.Add(new Form(formDictionary.Dictionary[formData.Form], formData.Health));
+        }
+
+        if(_formManager != null)
+            _formManager.Initialize(_initialForms);
+    }
+    
+    [Serializable]
+    public struct SaveData
+    {
+        public List<string> UnlockedAttacks;
+        public List<Form.SaveData> Forms;
     }
     #endregion
 }

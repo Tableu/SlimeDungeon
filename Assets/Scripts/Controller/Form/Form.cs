@@ -1,6 +1,7 @@
-using Elements;
+using System;
 using UnityEngine;
-using UnityEngine.InputSystem;
+using Object = UnityEngine.Object;
+using Type = Elements.Type;
 
 namespace Controller.Form
 {
@@ -23,6 +24,15 @@ namespace Controller.Form
         {
             _data = data;
             Health = data.Health;
+            _speed = data.Speed;
+            _maxVelocity = data.MaxVelocity;
+            _elementType = data.ElementType;
+        }
+
+        public Form(FormData data, float health)
+        {
+            _data = data;
+            Health = health;
             _speed = data.Speed;
             _maxVelocity = data.MaxVelocity;
             _elementType = data.ElementType;
@@ -54,6 +64,18 @@ namespace Controller.Form
         public void CastBasicAttack()
         {
             _basicAttack?.Begin();
+        }
+        
+        [Serializable]
+        public struct SaveData
+        {
+            public SaveData(string form, float health)
+            {
+                Form = form;
+                Health = health;
+            }
+            public float Health;
+            public string Form;
         }
     }
 }

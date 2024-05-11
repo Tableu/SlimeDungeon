@@ -155,7 +155,6 @@ Transform:
   - {fileID: 908279961}
   - {fileID: 1812136623}
   - {fileID: 2128071497}
-  - {fileID: 2101298982}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -852,6 +851,7 @@ MonoBehaviour:
   randomTreasureChests: {fileID: 11400000, guid: 810c2fa74cbc0bc4aa5781d1ed7f763b, type: 2}
   randomCapturedCharacters: {fileID: 11400000, guid: 8def4d2ceea968e4989550de9681dedf, type: 2}
   exitPrefab: {fileID: 2340187052246451860, guid: 2b72ec7ea47ce474387206462d581498, type: 3}
+  saveManager: {fileID: 11400000, guid: b2904bfcd0490ac4ab6147d784290975, type: 2}
 --- !u!1001 &843911627
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -911,6 +911,14 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 6118174223459350817, guid: 4da3c2fdefb9dd34ab704d2858eab7e9, type: 3}
+      propertyPath: formDictionary
+      value: 
+      objectReference: {fileID: 11400000, guid: b43cbbdadab028343a4c346542c1b8bc, type: 2}
+    - target: {fileID: 6118174223459350817, guid: 4da3c2fdefb9dd34ab704d2858eab7e9, type: 3}
+      propertyPath: attackDictionary
+      value: 
+      objectReference: {fileID: 11400000, guid: ad056721a83fb6d4f8fb8f8c8913f870, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4da3c2fdefb9dd34ab704d2858eab7e9, type: 3}
 --- !u!1 &843911628 stripped
@@ -1636,37 +1644,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 7
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &2101298981
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2101298982}
-  m_Layer: 0
-  m_Name: SaveManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2101298982
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2101298981}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 95787098}
-  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2128071494
 GameObject:

@@ -10,9 +10,4 @@ namespace Controller.Form
         protected PlayerInputActions inputActions;
         public abstract void Initialize(Form form, PlayerInputActions inputActions);
     }
-
-    public enum Forms
-    {
-        FireForm
-    }
 }

@@ -13,23 +13,22 @@ MonoBehaviour:
   m_Name: Attack Dictionary
   m_EditorClassIdentifier: 
   dataObjects:
-    values:
-    - {fileID: 11400000, guid: d99d32efdf526504d86ca74c35d880c4, type: 2}
-    - {fileID: 11400000, guid: c5d2a1463d32f91459e236f8fea813c9, type: 2}
-    - {fileID: 11400000, guid: 730208c8c64576b49840119cffa8b51a, type: 2}
-    - {fileID: 11400000, guid: 514bc8b9164d15848b41557d278e1398, type: 2}
-    - {fileID: 11400000, guid: 26b21ae9161b48948a727fec0ee6ba51, type: 2}
-    - {fileID: 11400000, guid: ceb89c81dfc12a642a266a0cb68a90ce, type: 2}
-    - {fileID: 11400000, guid: 05e8b705c599cef4881ca8cb1cf35551, type: 2}
-    - {fileID: 11400000, guid: da9e96c6b994ade4099aaaf8a4ebc915, type: 2}
-    - {fileID: 11400000, guid: b018f63bcc11b804a8fbe50c7227a381, type: 2}
-    keys:
-    - Bouncing Fireball
-    - Fireball
-    - Flamethrower
-    - Ice Sphere
-    - Leaf Attack
-    - Leaf Storm
-    - Slime Ball
-    - Water wave
-    - Water bolt
+    entries:
+    - Key: Bouncing Fireball
+      Value: {fileID: 11400000, guid: d99d32efdf526504d86ca74c35d880c4, type: 2}
+    - Key: Fireball
+      Value: {fileID: 11400000, guid: c5d2a1463d32f91459e236f8fea813c9, type: 2}
+    - Key: Flamethrower
+      Value: {fileID: 11400000, guid: 730208c8c64576b49840119cffa8b51a, type: 2}
+    - Key: Ice Sphere
+      Value: {fileID: 11400000, guid: 514bc8b9164d15848b41557d278e1398, type: 2}
+    - Key: Leaf
+      Value: {fileID: 11400000, guid: 26b21ae9161b48948a727fec0ee6ba51, type: 2}
+    - Key: Leaf Storm
+      Value: {fileID: 11400000, guid: ceb89c81dfc12a642a266a0cb68a90ce, type: 2}
+    - Key: Slime Ball
+      Value: {fileID: 11400000, guid: 05e8b705c599cef4881ca8cb1cf35551, type: 2}
+    - Key: Water Wave
+      Value: {fileID: 11400000, guid: da9e96c6b994ade4099aaaf8a4ebc915, type: 2}
+    - Key: Water Bolt
+      Value: {fileID: 11400000, guid: b018f63bcc11b804a8fbe50c7227a381, type: 2}

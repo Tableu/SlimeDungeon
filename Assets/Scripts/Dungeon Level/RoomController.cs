@@ -137,9 +137,10 @@ public class RoomController : MonoBehaviour
         Vector2Int randPos = new Vector2Int(
             Random.Range(2, _bounds.size.x - 2), 
             Random.Range(2, _bounds.size.y - 2));
-
-        while (_roomGrid[randPos] != Generator2D.CellType.Room)
+        int i = 0;
+        while (_roomGrid[randPos] != Generator2D.CellType.Room && i < 5)
         {
+            i++;
             randPos = new Vector2Int(
                 Random.Range(2, _bounds.size.x - 2), 
                 Random.Range(2, _bounds.size.y - 2));
