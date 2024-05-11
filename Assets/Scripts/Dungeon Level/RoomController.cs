@@ -120,7 +120,7 @@ public class RoomController : MonoBehaviour
             (_bounds.y+randPos.y)*_tileSize + _tileSize/2);
     }
 
-    public void SpawnExit(GameObject exit)
+    public void SpawnExit(GameObject exit, LevelManager levelManager)
     {
         GameObject exitInstance = Instantiate(exit, transform, false);
         Vector2Int randPos = GetRandomPosition();
@@ -129,7 +129,12 @@ public class RoomController : MonoBehaviour
         exitInstance.transform.position = new Vector3(
             (_bounds.x+randPos.x)*_tileSize + _tileSize/2, 0, 
             (_bounds.y+randPos.y)*_tileSize + _tileSize/2);
-        
+
+        Exit script = exitInstance.GetComponent<Exit>();
+        if (script != null)
+        {
+            script.Initialize(this, levelManager);
+        }
     }
 
     private Vector2Int GetRandomPosition()

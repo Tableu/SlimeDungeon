@@ -1,10 +1,10 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Controller.Form;
 using Systems.Save;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
 public class LevelManager : MonoBehaviour
@@ -74,7 +74,13 @@ public class LevelManager : MonoBehaviour
         
         RoomController exitRoom = _roomScripts[Random.Range(0, _roomScripts.Count)];
         while(exitRoom == spawnRoom) {exitRoom = _roomScripts[Random.Range(0, _roomScripts.Count)];}
-        exitRoom.SpawnExit(exitPrefab);
+        exitRoom.SpawnExit(exitPrefab, this);
+    }
+
+    public void ExitLevel()
+    {
+        saveManager.Save();
+        SceneManager.LoadScene("Scenes/DungeonGeneration");
     }
     
     private List<int> GetUniqueRandomIndexes(int indexRange, int randomIndexCount)
