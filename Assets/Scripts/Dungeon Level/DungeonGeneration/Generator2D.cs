@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using FischlWorks_FogWar;
+using System.Linq;
 using UnityEngine;
-using Random = System.Random;
 using Graphs;
 
 public class Generator2D : MonoBehaviour {
@@ -31,19 +30,29 @@ public class Generator2D : MonoBehaviour {
         }
     }
 
+    public struct LevelData
+    {
+        public Grid2D<CellType> Grid;
+        public List<List<Vector2Int>> Hallways;
+        public List<RectInt> Rooms;
+        public int RandomSeed;
+
+        public LevelData(Grid2D<CellType> grid, List<List<Vector2Int>> hallways, List<RectInt> rooms, int randomSeed)
+        {
+            Grid = grid;
+            Hallways = hallways;
+            Rooms = rooms;
+            RandomSeed = randomSeed;
+        }
+    }
+
     [SerializeField] private Vector2Int size;
     [SerializeField] private int tileSize;
     [SerializeField] private int roomCount;
     [SerializeField] private Vector2Int roomMaxSize;
     [SerializeField] private Vector2Int roomMinSize;
-    [SerializeField] private GameObject floorTilePrefab;
-    [SerializeField] private GameObject wallPrefab;
-    [SerializeField] private GameObject doorPrefab;
-    [SerializeField] private GameObject levelCenter;
-    [SerializeField] private GameObject levelParent;
-    [SerializeField] private csFogWar fogOfWar;
 
-    private Random _random;
+    private System.Random _sysRandom;
     private Grid2D<CellType> _grid;
     private List<Room> _rooms;
     private Delaunay2D _delaunay;
@@ -52,21 +61,18 @@ public class Generator2D : MonoBehaviour {
     public Vector2Int Size => size;
     public int TileSize => tileSize;
 
-    public List<RoomController> Generate() {
-        _random = new Random((int)System.DateTime.Now.Ticks);
+    public LevelData Generate()
+    {
+        int seed = (int) System.DateTime.Now.Ticks;
+        _sysRandom = new System.Random(seed);
         _grid = new Grid2D<CellType>(size, Vector2Int.zero);
         _rooms = new List<Room>();
 
         CreateRooms();
         Triangulate();
         CreateHallways();
-        PathfindHallways();
-        List<RoomController> roomScripts = PlaceRooms();
-        Vector2Int paddedSize = size + new Vector2Int(tileSize, tileSize);
-        levelCenter.transform.position = new Vector3(
-            ((float)size.x * tileSize)/2, levelCenter.transform.position.y, ((float)size.y * tileSize)/2);
-        fogOfWar.Initialize(paddedSize*2, tileSize/2);
-        #if UNITY_EDITOR
+        List<List<Vector2Int>> paths = PathfindHallways();
+#if UNITY_EDITOR
         using var sw = new StreamWriter("dungeon_debug.txt");
         for (int y = _grid.Size.y-1; y > -1; y--)
         {
@@ -82,20 +88,20 @@ public class Generator2D : MonoBehaviour {
         sw.Flush();
         sw.Close();
         #endif
-        
-        return roomScripts;
+
+        return new LevelData(_grid, paths, _rooms.Select(r => r.bounds).ToList(), seed);
     }
 
     private void CreateRooms() {
         for (int i = 0; i < roomCount; i++) {
             Vector2Int location = new Vector2Int(
-                _random.Next(0, size.x),
-                _random.Next(0, size.y)
+                _sysRandom.Next(0, size.x),
+                _sysRandom.Next(0, size.y)
             );
 
             Vector2Int roomSize = new Vector2Int(
-                _random.Next(roomMinSize.x, roomMaxSize.x + 1),
-                _random.Next(roomMinSize.y, roomMaxSize.y + 1)
+                _sysRandom.Next(roomMinSize.x, roomMaxSize.x + 1),
+                _sysRandom.Next(roomMinSize.y, roomMaxSize.y + 1)
             );
 
             bool add = true;
@@ -132,17 +138,6 @@ public class Generator2D : MonoBehaviour {
         }
     }
 
-    private List<RoomController> PlaceRooms()
-    {
-        List<RoomController> roomScripts = new List<RoomController>();
-        foreach (var room in _rooms)
-        {
-            roomScripts.Add(PlaceRoom(room.bounds));
-        }
-
-        return roomScripts;
-    }
-
     private void Triangulate() {
         List<Vertex> vertices = new List<Vertex>();
 
@@ -167,13 +162,13 @@ public class Generator2D : MonoBehaviour {
         remainingEdges.ExceptWith(_selectedEdges);
 
         foreach (var edge in remainingEdges) {
-            if (_random.NextDouble() < 0.125) {
+            if (_sysRandom.NextDouble() < 0.125) {
                 _selectedEdges.Add(edge);
             }
         }
     }
 
-    private void PathfindHallways() {
+    private List<List<Vector2Int>> PathfindHallways() {
         DungeonPathfinder2D aStar = new DungeonPathfinder2D(size);
         List<List<Vector2Int>> paths = new List<List<Vector2Int>>();
         foreach (var edge in _selectedEdges) {
@@ -218,20 +213,9 @@ public class Generator2D : MonoBehaviour {
             }
         }
 
+        //Add entrances
         foreach (var path in paths)
         {
-            GameObject hallway = new GameObject("Hallway " + path[0]);
-            hallway.transform.parent = levelParent.transform;
-            GameObject walls = new GameObject("Walls");
-            walls.transform.parent = hallway.transform;
-            walls.layer = LayerMask.NameToLayer("Walls");
-            
-            GameObject floor = new GameObject("Floor Tiles");
-            floor.transform.parent = hallway.transform;
-            floor.layer = LayerMask.NameToLayer("Floor");
-            
-            Vector2Int center = path[(path.Count-1) / 2] * tileSize;
-            hallway.transform.position = new Vector3(center.x, 0, center.y) ;
             bool firstHallway = true;
             var prevPos = path[0];
             Vector2Int last = new Vector2Int(-1,-1);
@@ -239,50 +223,6 @@ public class Generator2D : MonoBehaviour {
             {
                 var pos = path[i];
                 if (_grid[pos] == CellType.Hallway) {
-                    PlaceFloorTile(pos, floor.transform);
-                    var left = pos + Vector2Int.left;
-                    var right = pos + Vector2Int.right;
-                    var up = pos + Vector2Int.up;
-                    var down = pos + Vector2Int.down;
-                    if (_grid.InBounds(left) && _grid[left] == CellType.None)
-                    {
-                        PlaceWall(left, 90, walls.transform);
-                    }
-                    if (_grid.InBounds(right) && _grid[right] == CellType.None)
-                    {
-                        PlaceWall(right, 270, walls.transform);
-                    }
-                    if (_grid.InBounds(down) && _grid[down] == CellType.None)
-                    {
-                        PlaceWall(down, 0, walls.transform);
-                    }
-                    if (_grid.InBounds(up) && _grid[up] == CellType.None)
-                    {
-                        PlaceWall(up, 180, walls.transform);
-                    }
-                    
-                    var leftUp = pos + new Vector2Int(-1,1);
-                    var rightUp = pos + new Vector2Int(1,1);
-                    var leftDown = pos + new Vector2Int(-1,-1);
-                    var rightDown = pos + new Vector2Int(1, -1);
-                    
-                    if (_grid.InBounds(leftUp) && _grid[leftUp] == CellType.None)
-                    {
-                        PlaceWall(leftUp, 90, walls.transform);
-                    }
-                    if (_grid.InBounds(rightUp) && _grid[rightUp] == CellType.None)
-                    {
-                        PlaceWall(rightUp, 270, walls.transform);
-                    }
-                    if (_grid.InBounds(leftDown) && _grid[leftDown] == CellType.None)
-                    {
-                        PlaceWall(leftDown, 0, walls.transform);
-                    }
-                    if (_grid.InBounds(rightDown) && _grid[rightDown] == CellType.None)
-                    {
-                        PlaceWall(rightDown, 180, walls.transform);
-                    }
-
                     if (firstHallway)
                     {
                         firstHallway = false;
@@ -303,102 +243,7 @@ public class Generator2D : MonoBehaviour {
             if (last != new Vector2Int(-1, -1))
                 _grid[last] = CellType.Entrance;
         }
-    }
 
-    private RoomController PlaceRoom(RectInt bounds)
-    {
-        var location = bounds.position;
-        var roomSize = bounds.size;
-        
-        GameObject room = new GameObject("Room " + location);
-        room.transform.parent = levelParent.transform;
-        GameObject walls = new GameObject("Walls");
-        walls.transform.parent = room.transform;
-        walls.layer = LayerMask.NameToLayer("Walls");
-        
-        GameObject floor = new GameObject("Floor Tiles");
-        floor.transform.parent = room.transform;
-        floor.layer = LayerMask.NameToLayer("Floor");
-        
-        GameObject doors = new GameObject("Doors");
-        doors.transform.parent = room.transform;
-        doors.layer = LayerMask.NameToLayer("Walls");
-        
-        RoomController script = room.AddComponent<RoomController>();
-        Vector2 center = bounds.center*tileSize - new Vector2((float)tileSize/2, (float)tileSize/2);
-        room.transform.position = new Vector3(center.x, 0, center.y);
-        Vector2Int pos;
-        for(int x = 0; x < roomSize.x; x++){
-                
-            for (int y = 0; y < roomSize.y; y++)
-            {
-                pos = location + new Vector2Int(x, y);
-                if (pos.x == location.x)
-                {
-                    PlaceTile(pos, 90, walls.transform, doors.transform);
-                }
-                else if (pos.x == location.x + roomSize.x - 1)
-                {
-                    PlaceTile(pos, 270, walls.transform, doors.transform);
-                }
-                else if (pos.y == location.y)
-                {
-                    PlaceTile(pos, 0, walls.transform, doors.transform);
-                } 
-                else if (pos.y == location.y + roomSize.y - 1)
-                {
-                    PlaceTile(pos, 180, walls.transform, doors.transform);
-                }
-                else
-                {
-                    PlaceFloorTile(pos, floor.transform);    
-                }
-            }
-        }
-
-        Grid2D<CellType> roomGrid = new Grid2D<CellType>(roomSize, Vector2Int.zero);
-        for (int y = 0; y < roomSize.y; y++)
-        {
-            for (int x = 0; x < roomSize.x; x++)
-            {
-                roomGrid[x, y] = _grid[location.x+x, location.y+y];
-            }
-        }
-
-        script.Initialize(bounds, tileSize, roomGrid);
-        return script;
-    }
-
-    private void PlaceFloorTile(Vector2Int location, Transform parent = null)
-    {
-        GameObject tile = Instantiate(floorTilePrefab, new Vector3(location.x * tileSize, 0, location.y * tileSize), Quaternion.identity);
-        if (parent != null) 
-            tile.transform.parent = parent;
-    }
-
-    private void PlaceTile(Vector2Int pos, int rotation, Transform wallParent = null, Transform doorParent = null)
-    {
-        if (_grid[pos] != CellType.Entrance)
-        {
-            PlaceWall(pos, rotation, wallParent);
-        }
-        else if (_grid[pos] == CellType.Entrance)
-        {
-            PlaceDoor(pos, rotation, doorParent);
-        }
-    }
-
-    private void PlaceWall(Vector2Int location, int rotation, Transform parent = null)
-    {
-        GameObject wall = Instantiate(wallPrefab, new Vector3(location.x * tileSize, 0, location.y * tileSize), Quaternion.Euler(0, rotation, 0));
-        if (parent != null) 
-            wall.transform.parent = parent;
-    }
-
-    private void PlaceDoor(Vector2Int location, int rotation, Transform parent = null)
-    {
-        GameObject door = Instantiate(doorPrefab, new Vector3(location.x * tileSize, 0, location.y * tileSize), Quaternion.Euler(0, rotation, 0));
-        if (parent != null) 
-            door.transform.parent = parent;
+        return paths;
     }
 }
