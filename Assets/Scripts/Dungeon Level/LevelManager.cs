@@ -1,14 +1,16 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Controller.Form;
 using FischlWorks_FogWar;
+using Newtonsoft.Json.Linq;
 using Systems.Save;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
-public class LevelManager : MonoBehaviour
+public class LevelManager : MonoBehaviour, ISavable
 {
     [SerializeField] private Generator2D generator2D;
     [SerializeField] private RandomGameObjects randomEnemyGroups;
@@ -24,7 +26,12 @@ public class LevelManager : MonoBehaviour
     
     private List<RoomController> _roomScripts = new List<RoomController>();
     private int _tileSize;
-    private Generator2D.LevelData _levelData;
+    private List<Generator2D.LevelData> _dungeonData;
+    private bool _saveDataLoaded;
+    private int _currentLevel;
+    private Generator2D.LevelData LevelData => _dungeonData[_currentLevel];
+
+    public string id { get; } = "LevelManager";
 
     private void Awake()
     {
@@ -33,16 +40,27 @@ public class LevelManager : MonoBehaviour
 
     private void Start()
     {
-        _levelData = generator2D.Generate();
-        Random.InitState(_levelData.RandomSeed);
+        if (!_saveDataLoaded) //If there is no save data, the player is on a new save and the level manager should generate a new set of levels
+        {
+            _dungeonData = new List<Generator2D.LevelData>();
+            int seed = (int) System.DateTime.Now.Ticks;
+            for (int x = 0; x < 10; x++)
+            {
+                _dungeonData.Add(generator2D.Generate(seed+x));
+            }
+
+            _currentLevel = 0;
+        }
+
+        Random.InitState(LevelData.RandomSeed);
         _tileSize = generator2D.TileSize;
 
-        foreach (RectInt room in _levelData.Rooms)
+        foreach (RectInt room in LevelData.Rooms)
         {
             _roomScripts.Add(PlaceRoom(room));
         }
 
-        foreach (List<Vector2Int> path in _levelData.Hallways)
+        foreach (List<Vector2Int> path in LevelData.Hallways)
         {
             PlaceHallway(path);
         }
@@ -105,6 +123,7 @@ public class LevelManager : MonoBehaviour
 
     public void ExitLevel()
     {
+        _currentLevel++;
         saveManager.Save();
         SceneManager.LoadScene("Scenes/DungeonGeneration");
     }
@@ -165,7 +184,7 @@ public class LevelManager : MonoBehaviour
         {
             for (int x = 0; x < roomSize.x; x++)
             {
-                roomGrid[x, y] = _levelData.Grid[location.x+x, location.y+y];
+                roomGrid[x, y] = LevelData.Grid[location.x+x, location.y+y];
             }
         }
 
@@ -190,25 +209,25 @@ public class LevelManager : MonoBehaviour
         for (int i = 0; i < path.Count; i++)
         {
             var pos = path[i];
-            if (_levelData.Grid[pos] == Generator2D.CellType.Hallway) {
+            if (LevelData.Grid[pos] == Generator2D.CellType.Hallway) {
                 PlaceFloorTile(pos, floor.transform);
                 var left = pos + Vector2Int.left;
                 var right = pos + Vector2Int.right;
                 var up = pos + Vector2Int.up;
                 var down = pos + Vector2Int.down;
-                if (_levelData.Grid.InBounds(left) && _levelData.Grid[left] == Generator2D.CellType.None)
+                if (LevelData.Grid.InBounds(left) && LevelData.Grid[left] == Generator2D.CellType.None)
                 {
                     PlaceWall(left, 90, walls.transform);
                 }
-                if (_levelData.Grid.InBounds(right) && _levelData.Grid[right] == Generator2D.CellType.None)
+                if (LevelData.Grid.InBounds(right) && LevelData.Grid[right] == Generator2D.CellType.None)
                 {
                     PlaceWall(right, 270, walls.transform);
                 }
-                if (_levelData.Grid.InBounds(down) && _levelData.Grid[down] == Generator2D.CellType.None)
+                if (LevelData.Grid.InBounds(down) && LevelData.Grid[down] == Generator2D.CellType.None)
                 {
                     PlaceWall(down, 0, walls.transform);
                 }
-                if (_levelData.Grid.InBounds(up) && _levelData.Grid[up] == Generator2D.CellType.None)
+                if (LevelData.Grid.InBounds(up) && LevelData.Grid[up] == Generator2D.CellType.None)
                 {
                     PlaceWall(up, 180, walls.transform);
                 }
@@ -218,19 +237,19 @@ public class LevelManager : MonoBehaviour
                 var leftDown = pos + new Vector2Int(-1,-1);
                 var rightDown = pos + new Vector2Int(1, -1);
                 
-                if (_levelData.Grid.InBounds(leftUp) && _levelData.Grid[leftUp] == Generator2D.CellType.None)
+                if (LevelData.Grid.InBounds(leftUp) && LevelData.Grid[leftUp] == Generator2D.CellType.None)
                 {
                     PlaceWall(leftUp, 90, walls.transform);
                 }
-                if (_levelData.Grid.InBounds(rightUp) && _levelData.Grid[rightUp] == Generator2D.CellType.None)
+                if (LevelData.Grid.InBounds(rightUp) && LevelData.Grid[rightUp] == Generator2D.CellType.None)
                 {
                     PlaceWall(rightUp, 270, walls.transform);
                 }
-                if (_levelData.Grid.InBounds(leftDown) && _levelData.Grid[leftDown] == Generator2D.CellType.None)
+                if (LevelData.Grid.InBounds(leftDown) && LevelData.Grid[leftDown] == Generator2D.CellType.None)
                 {
                     PlaceWall(leftDown, 0, walls.transform);
                 }
-                if (_levelData.Grid.InBounds(rightDown) && _levelData.Grid[rightDown] == Generator2D.CellType.None)
+                if (LevelData.Grid.InBounds(rightDown) && LevelData.Grid[rightDown] == Generator2D.CellType.None)
                 {
                     PlaceWall(rightDown, 180, walls.transform);
                 }
@@ -240,7 +259,7 @@ public class LevelManager : MonoBehaviour
     
     private List<int> GetUniqueRandomIndexes(int indexRange, int randomIndexCount)
     {
-        System.Random rnd = new System.Random();
+        System.Random rnd = new System.Random(LevelData.RandomSeed);
         return Enumerable.Range(0, indexRange)
             .OrderBy(i => rnd.Next()).Take(randomIndexCount).ToList();
     }
@@ -254,11 +273,11 @@ public class LevelManager : MonoBehaviour
 
     private void PlaceTile(Vector2Int pos, int rotation, Transform wallParent = null, Transform doorParent = null)
     {
-        if (_levelData.Grid[pos] != Generator2D.CellType.Entrance)
+        if (LevelData.Grid[pos] != Generator2D.CellType.Entrance)
         {
             PlaceWall(pos, rotation, wallParent);
         }
-        else if (_levelData.Grid[pos] == Generator2D.CellType.Entrance)
+        else if (LevelData.Grid[pos] == Generator2D.CellType.Entrance)
         {
             PlaceDoor(pos, rotation, doorParent);
         }
@@ -277,4 +296,35 @@ public class LevelManager : MonoBehaviour
         if (parent != null) 
             door.transform.parent = parent;
     }
+
+    #region Save Logic
+
+    public object SaveState()
+    {
+        return new SaveData()
+        {
+            LevelDatas = _dungeonData,
+            CurrentLevel = _currentLevel
+        };
+    }
+
+    public void LoadState(JObject state)
+    {
+        var saveData = state.ToObject<SaveData>();
+        if (saveData.LevelDatas.Count > 0)
+        {
+            _saveDataLoaded = true;
+            _dungeonData = saveData.LevelDatas;
+            _currentLevel = saveData.CurrentLevel;
+        }
+    }
+
+    [Serializable]
+    public struct SaveData
+    {
+        public List<Generator2D.LevelData> LevelDatas;
+        public int CurrentLevel;
+    }
+
+    #endregion
 }

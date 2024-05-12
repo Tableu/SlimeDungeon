@@ -812,6 +812,7 @@ GameObject:
   m_Component:
   - component: {fileID: 805531062}
   - component: {fileID: 805531063}
+  - component: {fileID: 805531064}
   m_Layer: 0
   m_Name: Level
   m_TagString: Untagged
@@ -857,6 +858,19 @@ MonoBehaviour:
   doorPrefab: {fileID: 5547930298432026259, guid: adb652c710c917e49af3461d3bdb2a7a, type: 3}
   levelCenter: {fileID: 280513639}
   fogOfWar: {fileID: 1962354831}
+--- !u!114 &805531064
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 805531061}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7092a8d2e08758a4ba2f53d8b54a806b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: Level Manager
 --- !u!1001 &843911627
 PrefabInstance:
   m_ObjectHideFlags: 0

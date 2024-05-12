@@ -1,19 +1,33 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
 using UnityEngine;
 using Graphs;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 public class Generator2D : MonoBehaviour {
+    [JsonConverter(typeof(StringEnumConverter))]
     public enum CellType {
+        [EnumMember(Value="None")]
         None,
+        [EnumMember(Value="Room")]
         Room,
+        [EnumMember(Value="Hallway")]
         Hallway,
+        [EnumMember(Value="Entrance")]
         Entrance,
+        [EnumMember(Value="Enemy")]
         Enemy,
+        [EnumMember(Value="Chest")]
         Chest,
+        [EnumMember(Value="Character")]
         Character,
+        [EnumMember(Value="Corner")]
         Corner,
+        [EnumMember(Value="Exit")]
         Exit
     }
 
@@ -30,6 +44,7 @@ public class Generator2D : MonoBehaviour {
         }
     }
 
+    [Serializable]
     public struct LevelData
     {
         public Grid2D<CellType> Grid;
@@ -61,9 +76,8 @@ public class Generator2D : MonoBehaviour {
     public Vector2Int Size => size;
     public int TileSize => tileSize;
 
-    public LevelData Generate()
+    public LevelData Generate(int seed)
     {
-        int seed = (int) System.DateTime.Now.Ticks;
         _sysRandom = new System.Random(seed);
         _grid = new Grid2D<CellType>(size, Vector2Int.zero);
         _rooms = new List<Room>();
