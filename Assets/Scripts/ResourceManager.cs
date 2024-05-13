@@ -1,7 +1,14 @@
+using System;
+using Newtonsoft.Json.Linq;
+using Systems.Save;
 using UnityEngine;
 
 public class Resource
 {
+    public Resource(int value = 0)
+    {
+        Value = value;
+    }
     public int Value { get; private set; } = 0;
 
     public void Add(int amount)
@@ -20,13 +27,15 @@ public class Resource
     }
 }
 
-public class ResourceManager : MonoBehaviour
+public class ResourceManager : MonoBehaviour, ISavable
 {
     private static ResourceManager _instance;
 
     public static ResourceManager Instance => _instance;
 
     public Resource Coins { get; private set; }
+
+    public string id { get; } = "ResourceManager";
 
     private void Awake()
     {
@@ -37,7 +46,30 @@ public class ResourceManager : MonoBehaviour
         else
         {
             _instance = this;
-            Coins = new Resource();
+            Coins ??= new Resource();
         }
     }
+    
+    #region Save Logic
+
+    public object SaveState()
+    {
+        return new SaveData()
+        {
+            Coins = Coins.Value
+        };
+    }
+
+    public void LoadState(JObject state)
+    {
+        var saveData = state.ToObject<SaveData>();
+        Coins = new Resource(saveData.Coins);
+    }
+
+    [Serializable]
+    public struct SaveData
+    {
+        public int Coins;
+    }
+    #endregion
 }
