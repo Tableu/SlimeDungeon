@@ -4,13 +4,15 @@ using UnityEngine.UI;
 
 public class FormBarIcon : MonoBehaviour
 {
-    [SerializeField] private Image icon;
+    [SerializeField] private RawImage icon;
     [SerializeField] private Slider slider;
     private Form _formInstance;
+    private UIRenderTexture _renderTexture;
     private void Awake()
     {
         icon.enabled = false;
         slider.gameObject.SetActive(false);
+        _renderTexture = UIRenderTextureManager.Instance.SpawnRenderTexture();
     }
 
     private void FixedUpdate()
@@ -24,9 +26,10 @@ public class FormBarIcon : MonoBehaviour
     public void SetIcon(Form formInstance)
     {
         icon.enabled = true;
-        icon.sprite = formInstance.Data.Icon;
+        icon.texture = _renderTexture.RenderTexture; 
         _formInstance = formInstance;
-        slider.maxValue = formInstance.Data.Health;
+        _renderTexture.ChangeModel(_formInstance.Data.Model);
+        slider.maxValue = _formInstance.Data.Health;
         slider.gameObject.SetActive(true);
     }
 }

@@ -5,17 +5,20 @@ using UnityEngine.UI;
 public class FormIcon : MonoBehaviour
 {
     [SerializeField] private PlayerController playerController;
-    [SerializeField] private Image image;
-
+    [SerializeField] private RawImage image;
+    private UIRenderTexture _renderTexture;
+    
     private void Start()
     {
         playerController.FormManager.OnFormChange += OnFormChange;
-        image.sprite = playerController.FormManager.CurrentForm.Data.Icon;
+        _renderTexture = UIRenderTextureManager.Instance.SpawnRenderTexture();
+        _renderTexture.ChangeModel(playerController.FormManager.CurrentForm.Data.Model);
+        image.texture = _renderTexture.RenderTexture;
     }
 
     private void OnFormChange()
     {
-        image.sprite = playerController.FormManager.CurrentForm.Data.Icon;
+        _renderTexture.ChangeModel(playerController.FormManager.CurrentForm.Data.Model);
     }
 
     private void OnDestroy()
