@@ -364,6 +364,14 @@ PrefabInstance:
       propertyPath: controller
       value: 
       objectReference: {fileID: 843911631}
+    - target: {fileID: 644254956508171219, guid: 32f6fbb8d8634a1448497228bf0a0afe, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: -16.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 644254956508171219, guid: 32f6fbb8d8634a1448497228bf0a0afe, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 3.7999997
+      objectReference: {fileID: 0}
     - target: {fileID: 644254956617644776, guid: 32f6fbb8d8634a1448497228bf0a0afe, type: 3}
       propertyPath: m_Name
       value: PlayerStatPanel
@@ -474,6 +482,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3240274145702707769, guid: 32f6fbb8d8634a1448497228bf0a0afe, type: 3}
       propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3297176094864791672, guid: 32f6fbb8d8634a1448497228bf0a0afe, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3297176094864791672, guid: 32f6fbb8d8634a1448497228bf0a0afe, type: 3}
+      propertyPath: m_AnchoredPosition.x
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

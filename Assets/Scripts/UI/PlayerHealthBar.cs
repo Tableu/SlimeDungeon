@@ -8,7 +8,8 @@ public class PlayerHealthBar : MonoBehaviour
 
     private void Start()
     {
-        slider.maxValue = controller.Health;
+        slider.maxValue = controller.FormManager.CurrentForm.Data.Health;
+        slider.value = controller.Health;
         controller.OnDeath += OnDeath;
         controller.FormManager.OnFormChange += OnFormChange;
     }
@@ -27,10 +28,8 @@ public class PlayerHealthBar : MonoBehaviour
 
     private void OnFormChange()
     {
-        slider.maxValue = controller.Health;
+        slider.maxValue = controller.FormManager.CurrentForm.Data.Health;
         slider.value = controller.Health;
-        if (slider.transform is RectTransform rt) 
-            rt.sizeDelta = new Vector2(controller.Health * 2, rt.sizeDelta.y);
     }
 
     private void OnDestroy()
