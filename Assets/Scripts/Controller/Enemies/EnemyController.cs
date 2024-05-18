@@ -52,6 +52,13 @@ public abstract class EnemyController : Character
     private new void Start()
     {
         base.Start();
+        
+        foreach (AttackData attackData in enemyData.Attacks)
+        {
+            var attack = attackData.CreateInstance(this);
+            attacks.Add(attack);
+        }
+        
         EnemyHealthBars.Instance.SpawnHealthBar(transform, this);
         SuperEffectiveStunMeter = 0;
         agent.speed = Speed;

@@ -1,10 +1,13 @@
 using System;
+using System.Collections.Generic;
 using Controller.Form;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Enemy Data", menuName = "Data/Enemy Data")]
 public class EnemyData : CharacterData
 {
+    [HeaderAttribute("References")] 
+    [SerializeField] private List<AttackData> attacks;
     [HeaderAttribute("Enemy")] 
     [SerializeField] private float attackRange;
     [SerializeField] private float aggroRange;
@@ -19,6 +22,7 @@ public class EnemyData : CharacterData
     [SerializeField] private bool enableCollisionDamage;
     [SerializeField] private CollisionData collisonData;
     
+    public List<AttackData> Attacks => attacks;
     public float AttackRange => attackRange;
     public float StoppingDistance => stoppingDistance;
     public float AggroRange => aggroRange;

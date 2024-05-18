@@ -61,12 +61,6 @@ namespace Controller
             ElementType = CharacterData.ElementType;
 
             attacks = new List<Attack>();
-            
-            foreach (AttackData attackData in CharacterData.Attacks)
-            {
-                var attack = attackData.CreateInstance(this);
-                attacks.Add(attack);
-            }
         }
 
         protected void FixedUpdate()

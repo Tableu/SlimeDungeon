@@ -11,13 +11,9 @@ public class CharacterData : ScriptableObject
     [SerializeField] private float mana;
     [SerializeField] private Elements.Type elementType;
 
-    [HeaderAttribute("References")] 
-    [SerializeField] private List<AttackData> attacks;
-
     public float Health => health;
     public float StunResist => stunResist;
     public float Speed => speed;
-    public List<AttackData> Attacks => attacks;
     public float ManaRegen => manaRegen;
     public float Mana => mana;
     public Elements.Type ElementType => elementType;
