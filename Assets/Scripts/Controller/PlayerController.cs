@@ -63,15 +63,14 @@ public class PlayerController : Character, ISavable
         _formManager.OnFormRemoved += OnFormRemoved;
 
         Speed = new ModifiableStat(playerData.Speed);
-        foreach (AttackData attackData in playerData.Attacks)
-        {
-            _unlockedAttacks.Add(attackData);
-        }
+
+        string initialForm = PlayerPrefs.GetString("Initial Form");
+        
         _lastDirection = Vector2.zero;
         switchFormParticleSystem.Stop();
         if (_initialForms.Count == 0)
         {
-            _initialForms.Add(new Form(playerData.StartForm));
+            _initialForms.Add(new Form(formDictionary.Dictionary[initialForm]));
         }
         _formManager.Initialize(_initialForms);
     }
