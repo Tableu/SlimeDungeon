@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class UIRenderTexture : MonoBehaviour
 {
-    [SerializeField] private Camera camera;
+    [SerializeField] private new Camera camera;
     [SerializeField] private Transform modelParent;
     private GameObject _model;
     private RenderTexture _renderTexture;
