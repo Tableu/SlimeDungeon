@@ -13,7 +13,7 @@ namespace Controller.Form
         [SerializeField] private float health;
         [SerializeField] private float speed;
         [SerializeField] private Vector2 maxVelocity;
-        [SerializeField] private string name;
+        [SerializeField] private new string name;
         
         [HeaderAttribute("References")]
         [SerializeField] private GameObject model;
