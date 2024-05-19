@@ -21,3 +21,4 @@ MonoBehaviour:
   elementType: 2
   prefab: {fileID: 9175583315540566512, guid: eb9d2daa27a97c44985a32abdcadb9da, type: 3}
   icon: {fileID: 21300000, guid: eced15bb959edc54c8457ab75f9a45b5, type: 3}
+  name: Water Wave

@@ -13,6 +13,7 @@ namespace Controller.Form
         [SerializeField] private float health;
         [SerializeField] private float speed;
         [SerializeField] private Vector2 maxVelocity;
+        [SerializeField] private string name;
         
         [HeaderAttribute("References")]
         [SerializeField] private GameObject model;
@@ -30,6 +31,7 @@ namespace Controller.Form
         public GameObject CapturedForm => capturedForm;
         public AttackData BasicAttack => basicAttack;
         public List<AttackData> Spells => spells;
+        public string Name => name;
 
         public abstract FormAnimator AttachScript(GameObject gameObject);
     }

@@ -18,7 +18,7 @@ MonoBehaviour:
   manaCost: 5
   hitStun: 0.1
   cooldown: 1
-  targetingRange: 0
   elementType: 2
   prefab: {fileID: 4424843077080825869, guid: e8fcee42ca0e72b439520217d134e1f5, type: 3}
   icon: {fileID: 21300000, guid: 0d1dc8ade7e63d14da6ea8a209621906, type: 3}
+  name: Water Bolt

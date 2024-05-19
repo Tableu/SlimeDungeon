@@ -16,15 +16,10 @@ MonoBehaviour:
   health: 100
   speed: 5
   maxVelocity: {x: 5, y: 5}
-  captureDifficulty: 1
+  name: Fire Slime
   model: {fileID: 873531700701352353, guid: 234fcf706b1becd49b520646d594b6c0, type: 3}
-  item: {fileID: 834991341219302362, guid: a4b4fc3681ea16d4caa2d2d7e25bb26a, type: 3}
-  icon: {fileID: 21300000, guid: 9429c38729b289348a9814b01b7a7631, type: 3}
+  capturedForm: {fileID: 834991341219302362, guid: a4b4fc3681ea16d4caa2d2d7e25bb26a, type: 3}
   spellOffset: {x: 1, y: 1, z: 1}
   basicAttack: {fileID: 11400000, guid: 730208c8c64576b49840119cffa8b51a, type: 2}
   spells:
   - {fileID: 11400000, guid: c5d2a1463d32f91459e236f8fea813c9, type: 2}
-  slider: {fileID: 2596077050798817512, guid: dffaf3477e40f844fb8298565db570cc, type: 3}
-  maxTemperature: 100
-  increaseRate: 10
-  decreaseRate: 0.1

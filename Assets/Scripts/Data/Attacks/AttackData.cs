@@ -15,6 +15,7 @@ public abstract class AttackData : ScriptableObject
     [SerializeField] private Type elementType;
     [SerializeField] private GameObject prefab;
     [SerializeField] private Sprite icon;
+    [SerializeField] private string name;
     
     public float Speed => speed;
     public float Damage => damage;
@@ -25,6 +26,7 @@ public abstract class AttackData : ScriptableObject
     public GameObject Prefab => prefab;
     public Type ElementType => elementType;
     public Sprite Icon => icon;
+    public string Name => name;
         
     public abstract Attack CreateInstance(Character character);
 }

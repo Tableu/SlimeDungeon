@@ -21,4 +21,5 @@ MonoBehaviour:
   elementType: 4
   prefab: {fileID: 6777449716198409065, guid: 70135f6169cacd94bbfed39d4d5629b9, type: 3}
   icon: {fileID: 21300000, guid: 411f88b287eb8504aa08edb04c1443c6, type: 3}
+  name: Leaf Storm
   duration: 3

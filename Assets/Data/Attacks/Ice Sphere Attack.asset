@@ -21,3 +21,4 @@ MonoBehaviour:
   elementType: 2
   prefab: {fileID: 626496402560706608, guid: 3e6abbc8824cb504ca0356e0996b20dc, type: 3}
   icon: {fileID: 21300000, guid: 6becf50c5d862904cacebdac87f15502, type: 3}
+  name: Ice Sphere
