@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class UIRenderTexture : MonoBehaviour
@@ -23,5 +24,13 @@ public class UIRenderTexture : MonoBehaviour
         if(_model != null)
             Destroy(_model);
         _model = Instantiate(model, modelParent);
+        StartCoroutine(ResetCamera());
+    }
+
+    private IEnumerator ResetCamera()
+    {
+        camera.enabled = true;
+        yield return new WaitForEndOfFrame();
+        camera.enabled = false;
     }
 }
