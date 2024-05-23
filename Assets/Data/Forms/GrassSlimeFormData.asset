@@ -17,7 +17,7 @@ MonoBehaviour:
   speed: 5
   maxVelocity: {x: 5, y: 5}
   name: Grass Slime
-  model: {fileID: 6891580169314388076, guid: 52732899676774346a0d78a023c67f93, type: 3}
+  model: {fileID: 3238378463816399697, guid: ab153cae36122d34f8f962d78a22be32, type: 3}
   capturedForm: {fileID: 834991341219302362, guid: 32c86c1cde944a049a1e3999b11b2b40, type: 3}
   spellOffset: {x: 1, y: 1, z: 1}
   basicAttack: {fileID: 11400000, guid: 26b21ae9161b48948a727fec0ee6ba51, type: 2}
