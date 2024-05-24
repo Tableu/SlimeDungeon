@@ -31,7 +31,7 @@ public class WaterWave : MonoBehaviour
             damage.TakeDamage(_damage,_knockback*_force.normalized, _hitStun, _type);
         }
 
-        if ((LayerMask.GetMask("Walls", "PlayerAttacks", "EnemyAttacks") & (1 << other.gameObject.layer)) != 0)
+        if ((LayerMask.GetMask("PlayerAttacks", "EnemyAttacks") & (1 << other.gameObject.layer)) != 0)
         {
             Destroy(other.gameObject);
         }
