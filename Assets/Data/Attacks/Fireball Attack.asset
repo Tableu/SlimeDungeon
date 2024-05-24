@@ -15,7 +15,7 @@ MonoBehaviour:
   speed: 30
   damage: 20
   knockback: 2
-  manaCost: 10
+  manaCost: 0
   hitStun: 0.3
   cooldown: 0.5
   elementType: 1

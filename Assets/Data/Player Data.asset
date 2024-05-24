@@ -15,12 +15,8 @@ MonoBehaviour:
   health: 100
   stunResist: 10
   speed: 2
-  manaRegen: 0.5
+  manaRegen: 0.1
   mana: 100
   elementType: 1
-  attacks:
-  - {fileID: 11400000, guid: 514bc8b9164d15848b41557d278e1398, type: 2}
-  - {fileID: 11400000, guid: 05e8b705c599cef4881ca8cb1cf35551, type: 2}
-  startForm: {fileID: 11400000, guid: 1bcd57858ce771b4086d405e05eea620, type: 2}
   maxFormCount: 2
   maxSpellCount: 3
