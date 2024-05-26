@@ -79,10 +79,10 @@ public class LevelManager : MonoBehaviour, ISavable
             generator2D.Size.y * generator2D.TileSize);
         Vector3 center = new Vector3(size.x / 2, 0, size.z / 2);
         Bounds bounds = new Bounds(center, size);
-        NavMeshBuilder.CollectSources(bounds, 
+        NavMeshBuilder.CollectSources(transform, 
             LayerMask.GetMask("Floor", "Walls"),
             NavMeshCollectGeometry.PhysicsColliders, 0, new List<NavMeshBuildMarkup>(), sources);
-        NavMeshData data = NavMeshBuilder.BuildNavMeshData(new NavMeshBuildSettings(), sources, bounds, Vector3.zero,
+        NavMeshData data = NavMeshBuilder.BuildNavMeshData(new NavMeshBuildSettings(){overrideTileSize = true, tileSize = 512}, sources, bounds, Vector3.zero,
             Quaternion.identity);
         NavMesh.AddNavMeshData(data);
         
@@ -293,7 +293,7 @@ public class LevelManager : MonoBehaviour, ISavable
     private void PlaceDoor(Vector2Int location, int rotation, Transform parent = null)
     {
         GameObject door = Instantiate(doorPrefab, new Vector3(location.x * _tileSize, 0, location.y * _tileSize), Quaternion.Euler(0, rotation, 0));
-        if (parent != null) 
+        if (parent != null)
             door.transform.parent = parent;
     }
 

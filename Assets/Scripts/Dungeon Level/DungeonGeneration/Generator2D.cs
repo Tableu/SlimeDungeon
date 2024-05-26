@@ -203,13 +203,10 @@ public class Generator2D : MonoBehaviour {
                 if (_grid[b.Position] == CellType.Corner)
                 {
                     pathCost.cost += 100;
-                }else if (_grid[b.Position] == CellType.Room) {
-                    pathCost.cost += 10;
-                } else if (_grid[b.Position] == CellType.None) {
-                    pathCost.cost += 5;
-                } else if (_grid[b.Position] == CellType.Hallway) {
-                    pathCost.cost += 1;
                 }
+
+                pathCost.cost += Math.Abs(startPos.x - endPos.x);
+                pathCost.cost += Math.Abs(startPos.y - endPos.y);
 
                 pathCost.traversable = true;
 
