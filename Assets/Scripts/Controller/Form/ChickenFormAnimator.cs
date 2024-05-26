@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 
 public class ChickenFormAnimator : FormAnimator
 {
+    private bool _movementEnabledLastFrame;
     public override void Initialize(Form form, PlayerInputActions inputActions)
     {
         animator = GetComponent<Animator>();
@@ -19,6 +20,19 @@ public class ChickenFormAnimator : FormAnimator
         inputActions.Movement.Pressed.started += MovementPressed;
         inputActions.Movement.Pressed.canceled += MovementCanceled;
     }
+    
+    private void Update()
+    {
+        if (_movementEnabledLastFrame != inputActions.Movement.Pressed.enabled && 
+            inputActions.Movement.Pressed.IsPressed())
+        {
+            if (animator != null)
+            {
+                animator.SetBool("Run", true);
+            }
+        }
+        _movementEnabledLastFrame = inputActions.Movement.Pressed.enabled;
+    }
 
     private void OnDestroy()
     {
@@ -31,11 +45,13 @@ public class ChickenFormAnimator : FormAnimator
 
     private void MovementPressed(InputAction.CallbackContext context)
     {
-        animator.SetBool("Run", true);
+        if(animator != null)
+            animator.SetBool("Run", true);
     }
     
     private void MovementCanceled(InputAction.CallbackContext context)
     {
-        animator.SetBool("Run", false);
+        if(animator != null)
+            animator.SetBool("Run", false);
     }
 }

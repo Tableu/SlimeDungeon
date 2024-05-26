@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -5,6 +6,7 @@ namespace Controller.Form
 {
     public class SlimeFormAnimator : FormAnimator
     {
+        private bool _movementEnabledLastFrame;
         public override void Initialize(Form form, PlayerInputActions inputActions)
         {
             this.form = form;
@@ -21,6 +23,19 @@ namespace Controller.Form
             
             inputActions.Movement.Pressed.canceled += MovementCanceled;
             inputActions.Movement.Pressed.started += MovementStarted;
+        }
+
+        private void Update()
+        {
+            if (_movementEnabledLastFrame != inputActions.Movement.Pressed.enabled && 
+                inputActions.Movement.Pressed.IsPressed())
+            {
+                if (animator != null)
+                {
+                    animator.SetFloat("Speed", form.Speed);
+                }
+            }
+            _movementEnabledLastFrame = inputActions.Movement.Pressed.enabled;
         }
 
         private void OnDestroy()
