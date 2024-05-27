@@ -108,7 +108,7 @@ ParticleSystem:
       m_RotationOrder: 4
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
-  scalingMode: 2
+  scalingMode: 1
   randomSeed: 0
   InitialModule:
     serializedVersion: 3
@@ -4824,9 +4824,10 @@ GameObject:
   - component: {fileID: 1392420255982393758}
   - component: {fileID: 6118174223459350817}
   - component: {fileID: 6118174223459350816}
+  - component: {fileID: 843911632}
   m_Layer: 8
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4840,7 +4841,7 @@ Transform:
   m_GameObject: {fileID: 1736435026822939428}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -18.769976, y: 2.1, z: 14.920444}
-  m_LocalScale: {x: 3, y: 3, z: 3}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 5012095242868417657}
@@ -4866,6 +4867,8 @@ MonoBehaviour:
     m_Bits: 512
   rigidbody: {fileID: 6118174223459350816}
   playerData: {fileID: 11400000, guid: 981442e40bdc9ec4c930620b3fba501d, type: 2}
+  attackDictionary: {fileID: 11400000, guid: ad056721a83fb6d4f8fb8f8c8913f870, type: 2}
+  formDictionary: {fileID: 11400000, guid: b43cbbdadab028343a4c346542c1b8bc, type: 2}
   model: {fileID: 5676042677077458627}
   walkingSmokeParticleSystem: {fileID: 8112632922913053220}
   switchFormParticleSystem: {fileID: 1181766018201568994}
@@ -4885,6 +4888,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 1
+--- !u!114 &843911632
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1736435026822939428}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7092a8d2e08758a4ba2f53d8b54a806b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: Player
 --- !u!1 &6151538974966643030
 GameObject:
   m_ObjectHideFlags: 0
@@ -4993,7 +5009,7 @@ ParticleSystem:
       m_RotationOrder: 4
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
-  scalingMode: 2
+  scalingMode: 1
   randomSeed: 0
   InitialModule:
     serializedVersion: 3

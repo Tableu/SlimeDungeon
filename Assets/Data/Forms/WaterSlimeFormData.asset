@@ -19,7 +19,7 @@ MonoBehaviour:
   name: Water Slime
   model: {fileID: 4029691665378735587, guid: 1298f6228d74d034cbc09bb15b9da832, type: 3}
   capturedForm: {fileID: 834991341219302362, guid: e34dfc7877ea6fa4287af3cd0347d0fb, type: 3}
-  spellOffset: {x: 0.01, y: 0.3, z: 0.01}
+  spellOffset: {x: 0.3, y: 0.3, z: 0.3}
   basicAttack: {fileID: 11400000, guid: b018f63bcc11b804a8fbe50c7227a381, type: 2}
   spells:
   - {fileID: 11400000, guid: da9e96c6b994ade4099aaaf8a4ebc915, type: 2}
