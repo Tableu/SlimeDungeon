@@ -192,6 +192,13 @@ public class LevelManager : MonoBehaviour, ISavable
         return script;
     }
 
+    private bool CheckHallway(Vector2Int direction)
+    {
+        return LevelData.Grid.InBounds(direction) && (LevelData.Grid[direction] == Generator2D.CellType.None ||
+                                                      LevelData.Grid[direction] == Generator2D.CellType.Room ||
+                                                      LevelData.Grid[direction] == Generator2D.CellType.Corner);
+    }
+
     private void PlaceHallway(List<Vector2Int> path)
     {
         GameObject hallway = new GameObject("Hallway " + path[0]);
@@ -215,43 +222,21 @@ public class LevelManager : MonoBehaviour, ISavable
                 var right = pos + Vector2Int.right;
                 var up = pos + Vector2Int.up;
                 var down = pos + Vector2Int.down;
-                if (LevelData.Grid.InBounds(left) && LevelData.Grid[left] == Generator2D.CellType.None)
+                if (CheckHallway(left))
                 {
                     PlaceWall(left, 90, walls.transform);
                 }
-                if (LevelData.Grid.InBounds(right) && LevelData.Grid[right] == Generator2D.CellType.None)
+                if (CheckHallway(right))
                 {
                     PlaceWall(right, 270, walls.transform);
                 }
-                if (LevelData.Grid.InBounds(down) && LevelData.Grid[down] == Generator2D.CellType.None)
+                if (CheckHallway(down))
                 {
                     PlaceWall(down, 0, walls.transform);
                 }
-                if (LevelData.Grid.InBounds(up) && LevelData.Grid[up] == Generator2D.CellType.None)
+                if (CheckHallway(up))
                 {
                     PlaceWall(up, 180, walls.transform);
-                }
-                
-                var leftUp = pos + new Vector2Int(-1,1);
-                var rightUp = pos + new Vector2Int(1,1);
-                var leftDown = pos + new Vector2Int(-1,-1);
-                var rightDown = pos + new Vector2Int(1, -1);
-                
-                if (LevelData.Grid.InBounds(leftUp) && LevelData.Grid[leftUp] == Generator2D.CellType.None)
-                {
-                    PlaceWall(leftUp, 90, walls.transform);
-                }
-                if (LevelData.Grid.InBounds(rightUp) && LevelData.Grid[rightUp] == Generator2D.CellType.None)
-                {
-                    PlaceWall(rightUp, 270, walls.transform);
-                }
-                if (LevelData.Grid.InBounds(leftDown) && LevelData.Grid[leftDown] == Generator2D.CellType.None)
-                {
-                    PlaceWall(leftDown, 0, walls.transform);
-                }
-                if (LevelData.Grid.InBounds(rightDown) && LevelData.Grid[rightDown] == Generator2D.CellType.None)
-                {
-                    PlaceWall(rightDown, 180, walls.transform);
                 }
             }
         }
@@ -273,6 +258,8 @@ public class LevelManager : MonoBehaviour, ISavable
 
     private void PlaceTile(Vector2Int pos, int rotation, Transform wallParent = null, Transform doorParent = null)
     {
+        if (LevelData.Grid[pos] == Generator2D.CellType.Corner)
+            return;
         if (LevelData.Grid[pos] != Generator2D.CellType.Entrance)
         {
             PlaceWall(pos, rotation, wallParent);
