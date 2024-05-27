@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Leaf Attack Data
   m_EditorClassIdentifier: 
   speed: 20
-  damage: 2
+  damage: 5
   knockback: 0
   manaCost: 0
   hitStun: 0
