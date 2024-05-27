@@ -12,6 +12,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6216532115693788942, guid: 3f056d7a17b963141a444e375abb1a51, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6216532115693788942, guid: 3f056d7a17b963141a444e375abb1a51, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -53,7 +57,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6705402075998324148, guid: 3f056d7a17b963141a444e375abb1a51, type: 3}
       propertyPath: m_Name
-      value: Slime_01 Blue
+      value: Water Slime Form
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3f056d7a17b963141a444e375abb1a51, type: 3}
