@@ -903,9 +903,11 @@ MonoBehaviour:
   saveManager: {fileID: 11400000, guid: b2904bfcd0490ac4ab6147d784290975, type: 2}
   floorTilePrefab: {fileID: 2021926822154840307, guid: 8d58b8a8d97ee894c992dd006ed40afe, type: 3}
   wallPrefab: {fileID: 4447234519500044207, guid: 6115e6ab756526f4692f60677c71fb3a, type: 3}
+  cornerWallPrefab: {fileID: 4447234519500044207, guid: 3b8badfd285d7cf4daea90aa389e5075, type: 3}
   doorPrefab: {fileID: 5547930298432026259, guid: adb652c710c917e49af3461d3bdb2a7a, type: 3}
   levelCenter: {fileID: 280513639}
   fogOfWar: {fileID: 1962354831}
+  levelCount: 1
 --- !u!114 &805531064
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1536,7 +1538,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   size: {x: 50, y: 50}
   tileSize: 4
-  roomCount: 100
+  roomCount: 200
   roomMaxSize: {x: 12, y: 9}
   roomMinSize: {x: 7, y: 8}
 --- !u!4 &1812136623

@@ -20,9 +20,11 @@ public class LevelManager : MonoBehaviour, ISavable
     [SerializeField] private SaveManager saveManager;
     [SerializeField] private GameObject floorTilePrefab;
     [SerializeField] private GameObject wallPrefab;
+    [SerializeField] private GameObject cornerWallPrefab;
     [SerializeField] private GameObject doorPrefab;
     [SerializeField] private GameObject levelCenter;
     [SerializeField] private csFogWar fogOfWar;
+    [SerializeField] private int levelCount;
     
     private List<RoomController> _roomScripts = new List<RoomController>();
     private int _tileSize;
@@ -44,7 +46,7 @@ public class LevelManager : MonoBehaviour, ISavable
         {
             _dungeonData = new List<Generator2D.LevelData>();
             int seed = (int) System.DateTime.Now.Ticks;
-            for (int x = 0; x < 10; x++)
+            for (int x = 0; x < levelCount; x++)
             {
                 _dungeonData.Add(generator2D.Generate(seed+x));
             }
@@ -199,6 +201,12 @@ public class LevelManager : MonoBehaviour, ISavable
                                                       LevelData.Grid[direction] == Generator2D.CellType.Corner);
     }
 
+    private bool IsHallway(Vector2Int direction)
+    {
+        return LevelData.Grid.InBounds(direction) && (LevelData.Grid[direction] == Generator2D.CellType.Hallway ||
+                                                      LevelData.Grid[direction] == Generator2D.CellType.Entrance);
+    }
+
     private void PlaceHallway(List<Vector2Int> path)
     {
         GameObject hallway = new GameObject("Hallway " + path[0]);
@@ -238,6 +246,25 @@ public class LevelManager : MonoBehaviour, ISavable
                 {
                     PlaceWall(up, 180, walls.transform);
                 }
+
+
+                if (IsHallway(up) && (IsHallway(left) || IsHallway(right)))
+                {
+                    PlaceCorner(up, 180, walls.transform);
+                }
+                if (IsHallway(down) && (IsHallway(left) || IsHallway(right)))
+                {
+                    PlaceCorner(down, 0, walls.transform);
+                }
+                if (IsHallway(left) && (IsHallway(up) || IsHallway(down)))
+                {
+                    PlaceCorner(left, 90, walls.transform);
+                }
+                if (IsHallway(right) && (IsHallway(up) || IsHallway(down)))
+                {
+                    PlaceCorner(right, 270, walls.transform);
+                }
+                
             }
         }
     }
@@ -273,6 +300,13 @@ public class LevelManager : MonoBehaviour, ISavable
     private void PlaceWall(Vector2Int location, int rotation, Transform parent = null)
     {
         GameObject wall = Instantiate(wallPrefab, new Vector3(location.x * _tileSize, 0, location.y * _tileSize), Quaternion.Euler(0, rotation, 0));
+        if (parent != null) 
+            wall.transform.parent = parent;
+    }
+
+    private void PlaceCorner(Vector2Int location, int rotation, Transform parent = null)
+    {
+        GameObject wall = Instantiate(cornerWallPrefab, new Vector3(location.x * _tileSize, 0, location.y * _tileSize), Quaternion.Euler(0, rotation, 0));
         if (parent != null) 
             wall.transform.parent = parent;
     }
