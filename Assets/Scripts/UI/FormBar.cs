@@ -11,19 +11,19 @@ public class FormBar : MonoBehaviour
     private void Start()
     {
         formIcons = new List<FormBarIcon>();
-        for(int i = 0; i < playerController.FormManager.MaxFormCount; i++)
+        for(int i = 0; i < playerController.MaxFormCount; i++)
         {
             GameObject icon = Instantiate(formIconPrefab, transform);
             var script = icon.GetComponent<FormBarIcon>();
             if (script != null)
             {
                 formIcons.Add(script);
-                if(playerController.FormManager.Forms.Count > i)
-                    script.SetIcon(playerController.FormManager.Forms[i]);
+                if(playerController.Forms.Count > i)
+                    script.SetIcon(playerController.Forms[i]);
             }
         }
 
-        playerController.FormManager.OnFormAdd += OnFormChange;
+        playerController.OnFormAdd += OnFormChange;
     }
 
     private void OnFormChange(Form formInstance, int index)
@@ -33,6 +33,6 @@ public class FormBar : MonoBehaviour
 
     private void OnDestroy()
     {
-        playerController.FormManager.OnFormAdd -= OnFormChange;
+        playerController.OnFormAdd -= OnFormChange;
     }
 }

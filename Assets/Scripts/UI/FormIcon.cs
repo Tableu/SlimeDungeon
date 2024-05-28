@@ -10,19 +10,19 @@ public class FormIcon : MonoBehaviour
     
     private void Start()
     {
-        playerController.FormManager.OnFormChange += OnFormChange;
+        playerController.OnFormChange += OnFormChange;
         _renderTexture = UIRenderTextureManager.Instance.SpawnRenderTexture();
-        _renderTexture.ChangeModel(playerController.FormManager.CurrentForm.Data.Model);
+        _renderTexture.ChangeModel(playerController.CurrentForm.Data.Model);
         image.texture = _renderTexture.RenderTexture;
     }
 
     private void OnFormChange()
     {
-        _renderTexture.ChangeModel(playerController.FormManager.CurrentForm.Data.Model);
+        _renderTexture.ChangeModel(playerController.CurrentForm.Data.Model);
     }
 
     private void OnDestroy()
     {
-        playerController.FormManager.OnFormChange -= OnFormChange;
+        playerController.OnFormChange -= OnFormChange;
     }
 }

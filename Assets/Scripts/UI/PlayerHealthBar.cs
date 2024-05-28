@@ -8,10 +8,10 @@ public class PlayerHealthBar : MonoBehaviour
 
     private void Start()
     {
-        slider.maxValue = controller.FormManager.CurrentForm.Data.Health;
+        slider.maxValue = controller.CurrentForm.Data.Health;
         slider.value = controller.Health;
         controller.OnDeath += OnDeath;
-        controller.FormManager.OnFormChange += OnFormChange;
+        controller.OnFormChange += OnFormChange;
     }
 
     private void FixedUpdate()
@@ -23,12 +23,12 @@ public class PlayerHealthBar : MonoBehaviour
     {
         slider.value = controller.Health;
         controller.OnDeath -= OnDeath;
-        controller.FormManager.OnFormChange -= OnFormChange;
+        controller.OnFormChange -= OnFormChange;
     }
 
     private void OnFormChange()
     {
-        slider.maxValue = controller.FormManager.CurrentForm.Data.Health;
+        slider.maxValue = controller.CurrentForm.Data.Health;
         slider.value = controller.Health;
     }
 
@@ -37,7 +37,7 @@ public class PlayerHealthBar : MonoBehaviour
         if (controller != null)
         {
             controller.OnDeath -= OnDeath;
-            controller.FormManager.OnFormChange -= OnFormChange;
+            controller.OnFormChange -= OnFormChange;
         }
     }
 }
