@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Cinemachine;
 using Controller.Form;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -7,6 +8,7 @@ using Random = UnityEngine.Random;
 public class RoomController : MonoBehaviour
 {
     public Action OnAllEnemiesDead;
+    [SerializeField] private RoomCamera roomCamera;
     private RectInt _bounds;
     private float _tileSize;
     private List<Transform> _waypoints;
@@ -33,6 +35,7 @@ public class RoomController : MonoBehaviour
 
         _enemies = new List<EnemyController>();
         _roomGrid = roomGrid;
+        roomCamera.Initialize(bounds, tileSize);
     }
     public void SpawnEnemies(List<GameObject> enemies)
     {

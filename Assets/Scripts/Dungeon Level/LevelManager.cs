@@ -22,6 +22,7 @@ public class LevelManager : MonoBehaviour, ISavable
     [SerializeField] private GameObject wallPrefab;
     [SerializeField] private GameObject cornerWallPrefab;
     [SerializeField] private GameObject doorPrefab;
+    [SerializeField] private GameObject roomPrefab;
     [SerializeField] private GameObject levelCenter;
     [SerializeField] private csFogWar fogOfWar;
     [SerializeField] private int levelCount;
@@ -134,9 +135,9 @@ public class LevelManager : MonoBehaviour, ISavable
     {
         var location = bounds.position;
         var roomSize = bounds.size;
-        
-        GameObject room = new GameObject("Room " + location);
-        room.transform.parent = transform;
+
+        GameObject room = Instantiate(roomPrefab, transform);
+        room.name = "Room " + location;
         GameObject walls = new GameObject("Walls");
         walls.transform.parent = room.transform;
         walls.layer = LayerMask.NameToLayer("Walls");
@@ -149,7 +150,7 @@ public class LevelManager : MonoBehaviour, ISavable
         doors.transform.parent = room.transform;
         doors.layer = LayerMask.NameToLayer("Walls");
         
-        RoomController script = room.AddComponent<RoomController>();
+        RoomController script = room.GetComponent<RoomController>();
         Vector2 center = bounds.center*_tileSize - new Vector2((float)_tileSize/2, (float)_tileSize/2);
         room.transform.position = new Vector3(center.x, 0, center.y);
         Vector2Int pos;
