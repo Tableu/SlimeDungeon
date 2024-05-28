@@ -62,7 +62,14 @@ namespace Controller
             OnCooldown = true;
             await Task.Run(() =>
             {
-                Task.Delay(TimeSpan.FromSeconds(duration)).Wait(cooldownCancellationTokenSource.Token);
+                try
+                {
+                    Task.Delay(TimeSpan.FromSeconds(duration)).Wait(cooldownCancellationTokenSource.Token);
+                }
+                catch (OperationCanceledException)
+                {
+                    //suppressing operationcanceled exceptions
+                }
                 OnCooldown = false;
             });
         }

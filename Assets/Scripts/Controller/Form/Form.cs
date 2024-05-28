@@ -19,6 +19,7 @@ namespace Controller.Form
         public float Speed => _speed;
         public Vector2 MaxVelocity => _maxVelocity;
         public Type ElementType => _elementType;
+        public Attack BasicAttack => _basicAttack;
 
         public Form(FormData data)
         {
