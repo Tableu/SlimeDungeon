@@ -28,16 +28,9 @@ public abstract class EnemyController : Character
     private Vector3 _targetPosition;
     private int _tick = 0;
     private int _stunCounter = 0;
-    private bool _isSuperEffectiveStunned;
 
     public override CharacterData CharacterData => enemyData;
     public override Vector3 SpellOffset => spellOffset;
-    
-    public float SuperEffectiveStunMeter
-    {
-        private set;
-        get;
-    }
 
     public EnemyControllerState CurrentState
     {
@@ -45,7 +38,6 @@ public abstract class EnemyController : Character
         get;
     }
 
-    public float StunPercent => (SuperEffectiveStunMeter / CharacterData.StunResist)*100;
     public bool Visible => visibilityAgent == null || visibilityAgent.Visible;
     
     #region Unity Event Functions
@@ -60,7 +52,6 @@ public abstract class EnemyController : Character
         }
         
         EnemyHealthBars.Instance.SpawnHealthBar(transform, this);
-        SuperEffectiveStunMeter = 0;
         agent.speed = Speed;
         agent.updateRotation = false;
         agent.SetDestination(new Vector3(Random.Range(waypoints[0].position.x, waypoints[1].position.x), waypoints[0].position.y,
@@ -145,49 +136,20 @@ public abstract class EnemyController : Character
         }
 
         StartCoroutine(HandleKnockback(knockback, hitStun, typeMultiplier));
-        
-        if (SuperEffectiveStunMeter < CharacterData.StunResist)
-        {
-            SuperEffectiveStunMeter += damage * typeMultiplier;
-            if (SuperEffectiveStunMeter >= CharacterData.StunResist)
-            {
-                SuperEffectiveStunMeter = CharacterData.StunResist;
-            }
-        }
     }
 
     protected override IEnumerator HandleKnockback(Vector3 knockback, float hitStun, float typeMultiplier)
     {
-        bool isStunMeterFull = SuperEffectiveStunMeter >= CharacterData.StunResist;
-        bool isSuperEffective = typeMultiplier > 1;
-        bool applySuperEffectiveStun = isStunMeterFull && isSuperEffective && !_isSuperEffectiveStunned;
-        if (applySuperEffectiveStun)
-        {
-            hitStun += 2;
-        }
-        
         if (hitStun > 0)
         {
-            if (applySuperEffectiveStun)
-            {
-                stunEffect.Play();
-                stunAura.Play();
-                ApplyStun(knockback);
-                _isSuperEffectiveStunned = true;
-                yield return new WaitForSeconds(hitStun);
-                _isSuperEffectiveStunned = false;
-                SuperEffectiveStunMeter = 0;
-                stunAura.Clear();
-                stunAura.Stop();
-                stunEffect.Stop();
-                RemoveStun();
-            }
-            else
-            {
-                ApplyStun(knockback);
-                yield return new WaitForSeconds(hitStun);
-                RemoveStun();
-            }
+            stunEffect.Play();
+            stunAura.Play();
+            ApplyStun(knockback);
+            yield return new WaitForSeconds(hitStun);
+            stunAura.Clear();
+            stunAura.Stop();
+            stunEffect.Stop();
+            RemoveStun();
         }
         if(_stunCounter == 0)
             Walk();

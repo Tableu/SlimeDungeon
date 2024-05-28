@@ -4,7 +4,6 @@ using UnityEngine.UI;
 public class EnemyStatBar : MonoBehaviour
 {
     [SerializeField] private Slider healthSlider;
-    [SerializeField] private Slider stunSlider;
     [SerializeField] private Vector3 offset;
     [SerializeField] private Canvas canvas;
     private EnemyController _controller;
@@ -13,7 +12,6 @@ public class EnemyStatBar : MonoBehaviour
     {
         _controller = controller;
         healthSlider.maxValue = _controller.CharacterData.Health;
-        stunSlider.maxValue = _controller.CharacterData.StunResist;
         _controller.OnDeath += OnDeath;
         canvas.worldCamera = Camera.main;
     }
@@ -32,7 +30,6 @@ public class EnemyStatBar : MonoBehaviour
         if (_controller != null)
         {
             healthSlider.value = _controller.Health;
-            stunSlider.value = _controller.SuperEffectiveStunMeter;
         }
     }
 
