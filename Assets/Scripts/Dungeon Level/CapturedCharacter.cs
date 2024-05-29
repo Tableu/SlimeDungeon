@@ -1,5 +1,5 @@
 using Controller;
-using Controller.Character;
+using Controller.Player;
 using UnityEngine;
 
 public class CapturedCharacter : MonoBehaviour

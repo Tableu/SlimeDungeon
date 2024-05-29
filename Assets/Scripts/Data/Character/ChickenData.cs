@@ -1,5 +1,4 @@
-using Controller.Character;
-using Controller.Form;
+using Controller.Player;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "ChickenData", menuName = "Data/Characters/Chicken")]

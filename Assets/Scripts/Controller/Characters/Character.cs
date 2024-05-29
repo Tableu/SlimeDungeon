@@ -1,10 +1,10 @@
 using System;
-using Controller.Form;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Object = UnityEngine.Object;
 using Type = Elements.Type;
 
-namespace Controller.Character
+namespace Controller.Player
 {
     public class Character
     {
@@ -71,13 +71,13 @@ namespace Controller.Character
         [Serializable]
         public struct SaveData
         {
-            public SaveData(string form, float health)
+            public SaveData(string character, float health)
             {
-                Form = form;
+                Character = character;
                 Health = health;
             }
             public float Health;
-            public string Form;
+            [FormerlySerializedAs("Form")] public string Character;
         }
     }
 }

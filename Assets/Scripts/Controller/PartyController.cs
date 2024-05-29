@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Controller.Character;
+using Controller.Player;
 using Newtonsoft.Json.Linq;
 using Systems.Save;
 using UnityEngine;
@@ -221,7 +221,7 @@ public class PartyController : MonoBehaviour, ISavable
         _initialPartyMembers.Clear();
         foreach (Character.SaveData data in saveData.Characters)
         {
-            _initialPartyMembers.Add(new Character(characterDictionary.Dictionary[data.Form], data.Health));
+            _initialPartyMembers.Add(new Character(characterDictionary.Dictionary[data.Character], data.Health));
         }
 
         InitializeParty();

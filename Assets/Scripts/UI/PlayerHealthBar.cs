@@ -1,4 +1,4 @@
-using Controller.Character;
+using Controller.Player;
 using UnityEngine;
 using UnityEngine.UI;
 

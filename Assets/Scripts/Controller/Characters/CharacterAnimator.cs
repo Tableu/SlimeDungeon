@@ -1,12 +1,12 @@
 using UnityEngine;
 
-namespace Controller.Form
+namespace Controller.Player
 {
     public abstract class CharacterAnimator : MonoBehaviour
     {
-        protected Character.Character Character;
+        protected Player.Character Character;
         protected Animator animator;
         protected PlayerInputActions inputActions;
-        public abstract void Initialize(Character.Character character, PlayerInputActions inputActions);
+        public abstract void Initialize(Player.Character character, PlayerInputActions inputActions);
     }
 }

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Controller;
-using Controller.Character;
+using Controller.Player;
 using Newtonsoft.Json.Linq;
 using Systems.Modifiers;
 using Systems.Save;

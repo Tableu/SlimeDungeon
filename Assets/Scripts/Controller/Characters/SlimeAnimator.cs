@@ -1,12 +1,12 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace Controller.Form
+namespace Controller.Player
 {
     public class SlimeAnimator : CharacterAnimator
     {
         private bool _movementEnabledLastFrame;
-        public override void Initialize(Character.Character character, PlayerInputActions inputActions)
+        public override void Initialize(Player.Character character, PlayerInputActions inputActions)
         {
             this.Character = character;
             this.inputActions = inputActions;

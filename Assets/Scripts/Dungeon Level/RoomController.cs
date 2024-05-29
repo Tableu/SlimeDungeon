@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Controller.Character;
+using Controller.Player;
 using UnityEngine;
 using Random = UnityEngine.Random;
 

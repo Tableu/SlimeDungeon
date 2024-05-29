@@ -1,5 +1,5 @@
 using System;
-using Controller.Character;
+using Controller.Player;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Character Dictionary", menuName = "Character Dictionary")]

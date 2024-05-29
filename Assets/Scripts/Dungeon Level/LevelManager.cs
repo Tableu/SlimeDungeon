@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Controller.Character;
+using Controller.Player;
 using FischlWorks_FogWar;
 using Newtonsoft.Json.Linq;
 using Systems.Save;

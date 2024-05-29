@@ -1,15 +1,14 @@
 using System;
 using System.Collections.Generic;
-using Controller.Form;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-namespace Controller.Character
+namespace Controller.Player
 {
     [Serializable]
     public abstract class CharacterData : ScriptableObject
     {
-        [HeaderAttribute("Stats")]
+        [Header("Stats")]
         [SerializeField] private float health;
         [SerializeField] private float speed;
         [SerializeField] private Elements.Type elementType;
@@ -17,7 +16,7 @@ namespace Controller.Character
         [SerializeField] private Vector2 maxVelocity;
         [SerializeField] private new string name;
         
-        [HeaderAttribute("References")]
+        [Header("References")]
         [SerializeField] private GameObject model;
         [FormerlySerializedAs("capturedForm")] 
         [FormerlySerializedAs("item")] 

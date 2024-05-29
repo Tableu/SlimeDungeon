@@ -1,4 +1,4 @@
-using Controller.Character;
+using Controller.Player;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "RandomFormData", menuName = "Random Form Datas")]
