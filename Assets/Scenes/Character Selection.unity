@@ -7422,7 +7422,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7bcf831201ca6441a18171f418dc698, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  formDictionary: {fileID: 11400000, guid: b43cbbdadab028343a4c346542c1b8bc, type: 2}
+  characterDictionary: {fileID: 11400000, guid: b43cbbdadab028343a4c346542c1b8bc, type: 2}
   icons:
   - {fileID: 577347239}
   - {fileID: 80422366}
@@ -7438,9 +7438,9 @@ MonoBehaviour:
   - {fileID: 1248782420}
   spellInfoGroup: {fileID: 1617253765}
   characterDatas:
-  - {fileID: 11400000, guid: 1bcd57858ce771b4086d405e05eea620, type: 2}
-  - {fileID: 11400000, guid: 6cb87275a0359ba4a8b741fb885df66c, type: 2}
-  - {fileID: 11400000, guid: 95a6adf61836ab04cb2e889076b0745e, type: 2}
+  - {fileID: 11400000, guid: 548c22d9f748c684da58d8a1669e961f, type: 2}
+  - {fileID: 11400000, guid: 66579492c0cf8184a885fd07f79f7291, type: 2}
+  - {fileID: 11400000, guid: 601c18a25d14f7c4482a9b8004b59df1, type: 2}
   startButton: {fileID: 1850906379}
   characterModel: {fileID: 589667786}
 --- !u!1001 &1855756459
