@@ -8,8 +8,8 @@ public class BouncingFireballAttackData : AttackData
     [SerializeField] private Vector2 launchAngle;
     public int MaxBounceCount => maxBounceCount;
     public Vector2 LaunchAngle => launchAngle;
-    public override Attack CreateInstance(Character character)
+    public override Attack CreateInstance(ICharacterInfo characterInfo)
     {
-        return new BouncingFireballAttack(character, this);
+        return new BouncingFireballAttack(characterInfo, this);
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 
 public class WaterBoltAttack : Attack
 {
-    public WaterBoltAttack(Character character, AttackData data) : base(character, data)
+    public WaterBoltAttack(ICharacterInfo characterInfo, AttackData data) : base(characterInfo, data)
     {
     }
 
@@ -12,9 +12,9 @@ public class WaterBoltAttack : Attack
     {
         if (CheckManaCostAndCooldown())
         {
-            Transform transform = character.transform;
+            Transform transform = CharacterInfo.Transform;
             GameObject waterbolt = GameObject.Instantiate(Data.Prefab,
-                transform.position + new Vector3(character.SpellOffset.x*transform.forward.x, character.SpellOffset.y, character.SpellOffset.z*transform.forward.z), Quaternion.identity);
+                transform.position + new Vector3(CharacterInfo.SpellOffset.x*transform.forward.x, CharacterInfo.SpellOffset.y, CharacterInfo.SpellOffset.z*transform.forward.z), Quaternion.identity);
             SetLayer(waterbolt);
             var script = waterbolt.GetComponent<WaterBolt>();
             if (script == null)
@@ -23,7 +23,6 @@ public class WaterBoltAttack : Attack
                 transform.forward * Data.Speed, Data.ElementType,3);
             
             Cooldown(Data.Cooldown);
-            character.ApplyManaCost(Data.ManaCost);
             return true;
         }
         return false;

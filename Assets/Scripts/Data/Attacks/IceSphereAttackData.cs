@@ -4,8 +4,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Ice Sphere Attack", menuName = "Attacks/Ice Sphere Attack")]
 public class IceSphereAttackData : AttackData
 {
-    public override Attack CreateInstance(Character character)
+    public override Attack CreateInstance(ICharacterInfo characterInfo)
     {
-        return new BasicAttack<IceSphere>(character, this);
+        return new BasicAttack<IceSphere>(characterInfo, this);
     }
 }

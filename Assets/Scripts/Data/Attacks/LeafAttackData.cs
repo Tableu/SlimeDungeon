@@ -4,8 +4,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Leaf Attack", menuName = "Attacks/Leaf Attack")]
 public class LeafAttackData : AttackData
 {
-    public override Attack CreateInstance(Character character)
+    public override Attack CreateInstance(ICharacterInfo characterInfo)
     {
-        return new LeafAttack(character, this);
+        return new LeafAttack(characterInfo, this);
     }
 }

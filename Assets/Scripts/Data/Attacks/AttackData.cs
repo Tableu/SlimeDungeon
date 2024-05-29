@@ -28,5 +28,5 @@ public abstract class AttackData : ScriptableObject
     public Sprite Icon => icon;
     public string Name => name;
         
-    public abstract Attack CreateInstance(Character character);
+    public abstract Attack CreateInstance(ICharacterInfo characterInfo);
 }

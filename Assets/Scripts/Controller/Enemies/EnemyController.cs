@@ -1,54 +1,75 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Controller;
 using FischlWorks_FogWar;
+using Systems.Modifiers;
 using UnityEngine;
 using UnityEngine.AI;
 using Random = UnityEngine.Random;
+using Type = Elements.Type;
 
 public enum EnemyControllerState
 {
     Idle,Walk,Attack,Stunned
 }
 
-public abstract class EnemyController : Character
+public abstract class EnemyController : MonoBehaviour, ICharacterInfo, IDamageable
 {
     [SerializeField] protected NavMeshAgent agent;
     [SerializeField] private List<Transform> waypoints;
-    [SerializeField] private Vector3 spellOffset;
     [SerializeField] protected Animator animator;
     [SerializeField] private EnemyData enemyData;
     
     [SerializeField] private ParticleSystem stunEffect;
     [SerializeField] private ParticleSystem stunAura;
     [SerializeField] private csFogVisibilityAgent visibilityAgent;
+    [SerializeField] private new Rigidbody rigidbody;
 
+    private List<Attack> _attacks;
     private bool _attackingPlayer = false;
     private Transform _target = null;
     private Vector3 _targetPosition;
     private int _tick = 0;
     private int _stunCounter = 0;
 
-    public override CharacterData CharacterData => enemyData;
-    public override Vector3 SpellOffset => spellOffset;
-
+    public ModifiableStat Speed
+    {
+        get;
+        private set;
+    }
+    public float Health
+    {
+        get;
+        private set;
+    }
+    public LayerMask EnemyMask
+    {
+        get;
+        private set;
+    }
+    public Type ElementType => enemyData.ElementType;
+    public Vector3 SpellOffset => enemyData.SpellOffset;
+    public Transform Transform => transform;
     public EnemyControllerState CurrentState
     {
         protected set;
         get;
     }
-
+    public EnemyData EnemyData => enemyData;
     public bool Visible => visibilityAgent == null || visibilityAgent.Visible;
+    public Action OnDeath;
     
     #region Unity Event Functions
-    private new void Start()
+    private void Start()
     {
-        base.Start();
-        
+        _attacks = new List<Attack>();
+        Speed = new ModifiableStat(enemyData.Speed);
+        Health = enemyData.Health;
         foreach (AttackData attackData in enemyData.Attacks)
         {
             var attack = attackData.CreateInstance(this);
-            attacks.Add(attack);
+            _attacks.Add(attack);
         }
         
         EnemyHealthBars.Instance.SpawnHealthBar(transform, this);
@@ -104,9 +125,8 @@ public abstract class EnemyController : Character
         }
     }
 
-    private new void FixedUpdate()
+    private void FixedUpdate()
     {
-        base.FixedUpdate();
         _tick++;
         if (_tick >= enemyData.DetectTick)
         {
@@ -125,7 +145,7 @@ public abstract class EnemyController : Character
     #endregion
     #region Base Class Overrides
 
-    public override void TakeDamage(float damage, Vector3 knockback, float hitStun, Elements.Type attackType)
+    public void TakeDamage(float damage, Vector3 knockback, float hitStun, Type attackType)
     {
         float typeMultiplier = GlobalReferences.Instance.TypeManager.GetTypeMultiplier(ElementType, attackType);
         Health -= damage*typeMultiplier;
@@ -138,7 +158,7 @@ public abstract class EnemyController : Character
         StartCoroutine(HandleKnockback(knockback, hitStun, typeMultiplier));
     }
 
-    protected override IEnumerator HandleKnockback(Vector3 knockback, float hitStun, float typeMultiplier)
+    private IEnumerator HandleKnockback(Vector3 knockback, float hitStun, float typeMultiplier)
     {
         if (hitStun > 0)
         {
@@ -155,11 +175,12 @@ public abstract class EnemyController : Character
             Walk();
     }
 
-    protected override void HandleDeath()
+    private void HandleDeath()
     {
         if(ResourceManager.Instance != null)
             ResourceManager.Instance.Coins.Add(enemyData.CoinsOnDeath);
-        base.HandleDeath();
+        OnDeath?.Invoke();
+        Destroy(gameObject);
     }
 
     #endregion
@@ -178,7 +199,7 @@ public abstract class EnemyController : Character
 
     private void Attack()
     {
-        if (attacks[0] != null && attacks[0].Begin())
+        if (_attacks[0] != null && _attacks[0].Begin())
         {
             ChangeState(EnemyControllerState.Attack);
         }
@@ -273,7 +294,7 @@ public abstract class EnemyController : Character
             CollisionData collisionData = enemyData.CollisionData;
             IDamageable health = other.gameObject.GetComponent<IDamageable>();
             health.TakeDamage(collisionData.Damage,(other.transform.position - transform.position).normalized*collisionData.Knockback, 
-                collisionData.HitStun, CharacterData.ElementType);
+                collisionData.HitStun, enemyData.ElementType);
         }
     }
     

@@ -21,7 +21,6 @@ public class LeafStormAttack : Attack
 
                 script.Initialize(Data.Damage, _data.Duration, Data.ElementType);
                 Cooldown(Data.Cooldown);
-                character.ApplyManaCost(Data.ManaCost);
                 return true;
             }
         }
@@ -49,7 +48,7 @@ public class LeafStormAttack : Attack
         }
     }
     
-    public LeafStormAttack(Character character, LeafStormAttackData data) : base(character, data)
+    public LeafStormAttack(ICharacterInfo characterInfo, LeafStormAttackData data) : base(characterInfo, data)
     {
         _data = data;
     }

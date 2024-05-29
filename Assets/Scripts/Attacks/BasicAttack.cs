@@ -13,10 +13,10 @@ public class BasicAttack<T> : Attack where T : BasicProjectile
     {
         if (CheckManaCostAndCooldown())
         {
-            Transform transform = character.transform;
+            Transform transform = CharacterInfo.Transform;
             GameObject projectile = GameObject.Instantiate(Data.Prefab,
-                transform.position + new Vector3(character.SpellOffset.x*transform.forward.x, character.SpellOffset.y, 
-                    character.SpellOffset.z*transform.forward.z), Quaternion.identity);
+                transform.position + new Vector3(CharacterInfo.SpellOffset.x*transform.forward.x, CharacterInfo.SpellOffset.y, 
+                    CharacterInfo.SpellOffset.z*transform.forward.z), Quaternion.identity);
             SetLayer(projectile);
             var script = projectile.GetComponent<T>();
             if (script == null)
@@ -24,7 +24,6 @@ public class BasicAttack<T> : Attack where T : BasicProjectile
             script.Initialize(Data.Damage, Data.Knockback, Data.HitStun,
                 transform.forward * Data.Speed, Data.ElementType);
             Cooldown(Data.Cooldown);
-            character.ApplyManaCost(Data.ManaCost);
             return true;
         }
         return false;
@@ -50,7 +49,7 @@ public class BasicAttack<T> : Attack where T : BasicProjectile
         }
     }
     
-    public BasicAttack(Character character, AttackData data) : base(character, data)
+    public BasicAttack(ICharacterInfo characterInfo, AttackData data) : base(characterInfo, data)
     {
     }
 }

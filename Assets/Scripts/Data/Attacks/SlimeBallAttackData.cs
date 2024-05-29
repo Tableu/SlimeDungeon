@@ -15,8 +15,8 @@ public class SlimeBallAttackData : AttackData
     public float Duration => duration;
     public float DamagePerTick => damagePerTick;
 
-    public override Attack CreateInstance(Character character)
+    public override Attack CreateInstance(ICharacterInfo characterInfo)
     {
-        return new SlimeBallAttack(character, this);
+        return new SlimeBallAttack(characterInfo, this);
     }
 }

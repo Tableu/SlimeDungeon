@@ -10,9 +10,9 @@ public class SlimeBallAttack : Attack
     {
         if (CheckManaCostAndCooldown())
         {
-            Transform transform = character.transform;
+            Transform transform = CharacterInfo.Transform;
             GameObject slimeball = GameObject.Instantiate(_data.Prefab,
-                    transform.position + new Vector3(character.SpellOffset.x*transform.forward.x, character.SpellOffset.y, character.SpellOffset.z*transform.forward.z), 
+                    transform.position + new Vector3(CharacterInfo.SpellOffset.x*transform.forward.x, CharacterInfo.SpellOffset.y, CharacterInfo.SpellOffset.z*transform.forward.z), 
                     Quaternion.identity);
             SetLayer(slimeball);
             var script = slimeball.GetComponent<SlimeBall>();
@@ -21,7 +21,6 @@ public class SlimeBallAttack : Attack
             script.Initialize(_data.DamagePerTick, _data.Knockback, _data.HitStun, 
                 transform.forward * _data.Speed, _data.ElementType, _data.SlimeArea, _data.Slow, _data.Duration);
             Cooldown(_data.Cooldown);
-            character.ApplyManaCost(_data.ManaCost);
             return true;
         }
 
@@ -48,7 +47,7 @@ public class SlimeBallAttack : Attack
         }
     }
     
-    public SlimeBallAttack(Character character, SlimeBallAttackData data) : base(character, data)
+    public SlimeBallAttack(ICharacterInfo characterInfo, SlimeBallAttackData data) : base(characterInfo, data)
     {
         _data = data;
     }

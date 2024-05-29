@@ -9,9 +9,9 @@ public class BouncingFireballAttack : Attack
     {
         if (CheckManaCostAndCooldown())
         {
-            Transform transform = character.transform;
+            Transform transform = CharacterInfo.Transform;
             GameObject fireball = GameObject.Instantiate(Data.Prefab,
-                transform.position + new Vector3(character.SpellOffset.x*transform.forward.x, character.SpellOffset.y, character.SpellOffset.z*transform.forward.z), Quaternion.identity);
+                transform.position + new Vector3(CharacterInfo.SpellOffset.x*transform.forward.x, CharacterInfo.SpellOffset.y, CharacterInfo.SpellOffset.z*transform.forward.z), Quaternion.identity);
             SetLayer(fireball);
             BouncingFireball script = fireball.GetComponent<BouncingFireball>();
             if (script == null)
@@ -25,7 +25,6 @@ public class BouncingFireballAttack : Attack
             
             script.Initialize(Data.Damage, Data.Knockback, Data.HitStun, launchAngle*Data.Speed, maxBounces, Data.ElementType);
             Cooldown(Data.Cooldown);
-            character.ApplyManaCost(Data.ManaCost);
             return true;
         }
 
@@ -52,7 +51,7 @@ public class BouncingFireballAttack : Attack
         }
     }
 
-    public BouncingFireballAttack(Character character, BouncingFireballAttackData data) : base(character, data)
+    public BouncingFireballAttack(ICharacterInfo characterInfo, BouncingFireballAttackData data) : base(characterInfo, data)
     {
         _data = data;
     }

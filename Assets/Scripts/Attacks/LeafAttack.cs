@@ -8,7 +8,7 @@ public class LeafAttack : Attack
     {
         if (CheckManaCostAndCooldown())
         {
-            Transform transform = character.transform;
+            Transform transform = CharacterInfo.Transform;
             GameObject leaf = GameObject.Instantiate(Data.Prefab,RandomPosition(transform),Quaternion.identity);
             leaf.transform.rotation = Quaternion.Euler(0, Random.Range(-180,180),0);
             SetLayer(leaf);
@@ -18,7 +18,6 @@ public class LeafAttack : Attack
             script.Initialize(Data.Damage, Data.Knockback, Data.HitStun,
                 transform.forward * Data.Speed, Data.ElementType);
             Cooldown(Data.Cooldown);
-            character.ApplyManaCost(Data.ManaCost);
             return true;
         }
         return false;
@@ -47,12 +46,12 @@ public class LeafAttack : Attack
     private Vector3 RandomPosition(Transform transform)
     {
         Vector3 randomVector = new Vector3(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
-        return transform.position + new Vector3((character.SpellOffset.x+randomVector.x) * transform.forward.x, 
-            character.SpellOffset.y+randomVector.y,
-            (character.SpellOffset.z+randomVector.z) * transform.forward.z);
+        return transform.position + new Vector3((CharacterInfo.SpellOffset.x+randomVector.x) * transform.forward.x, 
+            CharacterInfo.SpellOffset.y+randomVector.y,
+            (CharacterInfo.SpellOffset.z+randomVector.z) * transform.forward.z);
     }
 
-    public LeafAttack(Character character, AttackData data) : base(character, data)
+    public LeafAttack(ICharacterInfo characterInfo, AttackData data) : base(characterInfo, data)
     {
         
     }

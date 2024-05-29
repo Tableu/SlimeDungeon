@@ -11,7 +11,7 @@ public class EnemyStatBar : MonoBehaviour
     public void Initialize(EnemyController controller)
     {
         _controller = controller;
-        healthSlider.maxValue = _controller.CharacterData.Health;
+        healthSlider.maxValue = _controller.EnemyData.Health;
         _controller.OnDeath += OnDeath;
         canvas.worldCamera = Camera.main;
     }

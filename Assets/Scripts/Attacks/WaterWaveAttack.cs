@@ -10,10 +10,10 @@ public class WaterWaveAttack : Attack
     {
         if (CheckManaCostAndCooldown())
         {
-            Transform transform = character.transform;
+            Transform transform = CharacterInfo.Transform;
             GameObject wave = GameObject.Instantiate(Data.Prefab,
                 transform.position + 
-                new Vector3(character.SpellOffset.x*transform.forward.x, character.SpellOffset.y, character.SpellOffset.z*transform.forward.z), 
+                new Vector3(CharacterInfo.SpellOffset.x*transform.forward.x, CharacterInfo.SpellOffset.y, CharacterInfo.SpellOffset.z*transform.forward.z), 
                 Quaternion.identity);
             wave.transform.rotation = Quaternion.Euler(
                 Data.Prefab.transform.rotation.eulerAngles.x, 
@@ -24,9 +24,8 @@ public class WaterWaveAttack : Attack
             if (script == null)
                 return false;
             script.Initialize(Data.Damage, Data.Knockback, Data.HitStun,
-                transform.forward*Data.Speed, Data.ElementType, character.EnemyMask);
+                transform.forward*Data.Speed, Data.ElementType, CharacterInfo.EnemyMask);
             Cooldown(Data.Cooldown);
-            character.ApplyManaCost(Data.ManaCost);
             return true;
         }
 
@@ -53,7 +52,7 @@ public class WaterWaveAttack : Attack
         }
     }
     
-    public WaterWaveAttack(Character character, AttackData data) : base(character, data)
+    public WaterWaveAttack(ICharacterInfo characterInfo, AttackData data) : base(characterInfo, data)
     {
     }
 }

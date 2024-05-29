@@ -9,7 +9,7 @@ namespace Controller
     [Serializable]
     public abstract class Attack
     {
-        protected Character character;
+        protected ICharacterInfo CharacterInfo;
 
         public AttackData Data
         {
@@ -25,9 +25,9 @@ namespace Controller
             private set;
         }
 
-        protected Attack(Character character, AttackData data)
+        protected Attack(ICharacterInfo characterInfo, AttackData data)
         {
-            this.character = character;
+            this.CharacterInfo = characterInfo;
             Data = data;
         }
 
@@ -75,12 +75,19 @@ namespace Controller
         }
         protected bool CheckManaCostAndCooldown()
         {
-            return character.Mana >= Data.ManaCost && !OnCooldown;
+            if (CharacterInfo is PlayerController playerController)
+            {
+                bool canCast = playerController.Mana >= Data.ManaCost && !OnCooldown;
+                if(canCast)
+                    playerController.ApplyManaCost(Data.ManaCost);
+                return canCast;
+            }
+            return true;
         }
 
         protected void SetLayer(GameObject gameObject)
         {
-            gameObject.layer = character is PlayerController
+            gameObject.layer = CharacterInfo is PlayerController
                 ? LayerMask.NameToLayer("PlayerAttacks")
                 : LayerMask.NameToLayer("EnemyAttacks");
         }

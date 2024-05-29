@@ -4,8 +4,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "WaterBolt Attack", menuName = "Attacks/WaterBolt Attack")]
 public class WaterBoltAttackData : AttackData
 {
-    public override Attack CreateInstance(Character character)
+    public override Attack CreateInstance(ICharacterInfo characterInfo)
     {
-        return new WaterBoltAttack(character, this);
+        return new WaterBoltAttack(characterInfo, this);
     }
 }

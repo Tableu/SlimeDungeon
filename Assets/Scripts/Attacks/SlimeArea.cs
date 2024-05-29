@@ -10,7 +10,7 @@ public class SlimeArea : MonoBehaviour
     private float _duration;
     private float _slow;
     private Type _type;
-    private List<Character> slowedEnemies;
+    private List<ICharacterInfo> slowedEnemies;
     
     public void Initialize(float damage, float duration, float slow, Type type)
     {
@@ -22,7 +22,7 @@ public class SlimeArea : MonoBehaviour
         ParticleSystem.MainModule main = particleSystem.main;
         main.startLifetime = new ParticleSystem.MinMaxCurve(duration-1, duration);
         particleSystem.Play();
-        slowedEnemies = new List<Character>();
+        slowedEnemies = new List<ICharacterInfo>();
     }
 
     private void FixedUpdate()
@@ -51,7 +51,7 @@ public class SlimeArea : MonoBehaviour
 
     private void OnDestroy()
     {
-        foreach (Character enemy in slowedEnemies)
+        foreach (ICharacterInfo enemy in slowedEnemies)
         {
             if (enemy != null)
             {
@@ -68,21 +68,21 @@ public class SlimeArea : MonoBehaviour
 
     private void ApplySlow(GameObject enemy)
     {
-        Character character = enemy.GetComponent<Character>();
-        if (character != null)
+        ICharacterInfo characterInfo = enemy.GetComponent<ICharacterInfo>();
+        if (characterInfo != null)
         {
-            character.Speed.BaseModifier -= _slow;
-            slowedEnemies.Add(character);
+            characterInfo.Speed.BaseModifier -= _slow;
+            slowedEnemies.Add(characterInfo);
         }
     }
 
     private void RemoveSlow(GameObject enemy)
     {
-        Character character = enemy.GetComponent<Character>();
-        if (character != null)
+        ICharacterInfo characterInfo = enemy.GetComponent<ICharacterInfo>();
+        if (characterInfo != null)
         {
-            character.Speed.BaseModifier += _slow;
-            slowedEnemies.Remove(character);
+            characterInfo.Speed.BaseModifier += _slow;
+            slowedEnemies.Remove(characterInfo);
         }
     }
 }
