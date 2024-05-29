@@ -6,16 +6,16 @@ using UnityEngine.UI;
 
 public class Crosshair : MonoBehaviour
 {
-    [SerializeField] private PlayerController controller;
+    [SerializeField] private PartyController controller;
     [SerializeField] private Image reloadIcon;
     private void Start()
     {
-        controller.CurrentForm.BasicAttack.OnCooldownEvent += OnCooldown;
-        controller.OnFormChange += delegate
+        controller.CurrentCharacter.BasicAttack.OnCooldownEvent += OnCooldown;
+        controller.OnCharacterChanged += delegate
         {
             //We don't need to unsubscribe since the basic attack will be destroyed before we are able to do so
             StopCoroutine(Cooldown(0));
-            controller.CurrentForm.BasicAttack.OnCooldownEvent += OnCooldown;
+            controller.CurrentCharacter.BasicAttack.OnCooldownEvent += OnCooldown;
         };
     }
     private void Update()

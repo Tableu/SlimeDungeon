@@ -1,4 +1,4 @@
-using Controller.Form;
+using Controller.Character;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,20 +8,20 @@ public class CharacterSelectionIcon : MonoBehaviour
     [SerializeField] private Button button;
     private UIRenderTexture _renderTexture;
     private CharacterSelectionScreen _selectionScreen;
-    private FormData _formData;
+    private CharacterData _characterData;
     
-    public void Initialize(CharacterSelectionScreen selectionScreen, FormData formData)
+    public void Initialize(CharacterSelectionScreen selectionScreen, CharacterData characterData)
     {
         _renderTexture = UIRenderTextureManager.Instance.SpawnRenderTexture();
-        _renderTexture.ChangeModel(formData.Model);
+        _renderTexture.ChangeModel(characterData.Model);
         image.texture = _renderTexture.RenderTexture;
-        _formData = formData;
+        _characterData = characterData;
         _selectionScreen = selectionScreen;
         button.enabled = true;
     }
 
     public void OnClick()
     {
-        _selectionScreen.OnIconClick(_formData);    
+        _selectionScreen.OnIconClick(_characterData);    
     }
 }

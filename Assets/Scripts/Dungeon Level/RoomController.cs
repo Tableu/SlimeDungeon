@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Cinemachine;
-using Controller.Form;
+using Controller.Character;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -76,7 +75,7 @@ public class RoomController : MonoBehaviour
         }
     }
 
-    public void SpawnCapturedCharacter(FormData data)
+    public void SpawnCapturedCharacter(CharacterData data)
     {
         GameObject capturedParent = new GameObject("Captured Characters")
         {
@@ -88,7 +87,7 @@ public class RoomController : MonoBehaviour
             layer = LayerMask.NameToLayer("Items")
         };
         
-        GameObject characterInstance = Instantiate(data.CapturedForm, capturedParent.transform, false);
+        GameObject characterInstance = Instantiate(data.CapturedCharacter, capturedParent.transform, false);
         Vector2Int randPos = GetRandomPosition();
         _roomGrid[randPos] = Generator2D.CellType.Character;
         

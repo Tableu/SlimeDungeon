@@ -1,27 +1,28 @@
 using System;
+using Controller.Form;
 using UnityEngine;
 using Object = UnityEngine.Object;
 using Type = Elements.Type;
 
-namespace Controller.Form
+namespace Controller.Character
 {
-    public class Form
+    public class Character
     {
-        private FormData _data;
+        private CharacterData _data;
         
         private float _speed;
         private Vector2 _maxVelocity;
         private Type _elementType;
-        private FormAnimator _formAnimator;
+        private CharacterAnimator _characterAnimator;
         private Attack _basicAttack;
-        public FormData Data => _data;
+        public CharacterData Data => _data;
         public float Health { get; set; }
         public float Speed => _speed;
         public Vector2 MaxVelocity => _maxVelocity;
         public Type ElementType => _elementType;
         public Attack BasicAttack => _basicAttack;
 
-        public Form(FormData data)
+        public Character(CharacterData data)
         {
             _data = data;
             Health = data.Health;
@@ -30,7 +31,7 @@ namespace Controller.Form
             _elementType = data.ElementType;
         }
 
-        public Form(FormData data, float health)
+        public Character(CharacterData data, float health)
         {
             _data = data;
             Health = health;
@@ -41,17 +42,17 @@ namespace Controller.Form
 
         public void Equip(GameObject model, PlayerController controller)
         {
-            _formAnimator = _data.AttachScript(model);
-            _formAnimator.Initialize(this, controller.PlayerInputActions);
+            _characterAnimator = _data.AttachScript(model);
+            _characterAnimator.Initialize(this, controller.PlayerInputActions);
             _basicAttack = _data.BasicAttack.CreateInstance(controller);
             _basicAttack.LinkInput(controller.PlayerInputActions.Other.BasicAttack);
         }
 
         public void Drop()
         {
-            if (_formAnimator != null)
+            if (_characterAnimator != null)
             {
-                Object.Destroy(_formAnimator);
+                Object.Destroy(_characterAnimator);
             }
 
             if (_basicAttack != null)

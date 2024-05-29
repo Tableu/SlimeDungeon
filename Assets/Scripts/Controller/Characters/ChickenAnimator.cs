@@ -1,14 +1,15 @@
+using Controller.Character;
 using Controller.Form;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class ChickenFormAnimator : FormAnimator
+public class ChickenAnimator : CharacterAnimator
 {
     private bool _movementEnabledLastFrame;
-    public override void Initialize(Form form, PlayerInputActions inputActions)
+    public override void Initialize(Character character, PlayerInputActions inputActions)
     {
         animator = GetComponent<Animator>();
-        this.form = form;
+        this.Character = character;
         this.inputActions = inputActions;
         if (inputActions.Movement.Pressed.inProgress)
         {

@@ -12,7 +12,7 @@ public class SpellBar : MonoBehaviour
     {
         spellIcons = new List<SpellBarIcon>();
         var inputMap = playerController.PlayerInputActions.Spells.Get();
-        for (int i = 0; i < ((PlayerData) playerController.CharacterData).MaxSpellCount; i++)
+        for (int i = 0; i < playerController.PlayerData.MaxSpellCount; i++)
         {
             GameObject icon = Instantiate(spellIconPrefab, transform);
             var script = icon.GetComponent<SpellBarIcon>();

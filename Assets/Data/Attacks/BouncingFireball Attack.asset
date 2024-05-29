@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef32d62da573e5a40b151e2c6318ca8b, type: 3}
   m_Name: BouncingFireball Attack
   m_EditorClassIdentifier: 
-  speed: 40
+  speed: 15
   damage: 20
-  knockback: 10
+  knockback: 0
   manaCost: 10
   hitStun: 1
   cooldown: 2
@@ -23,4 +23,4 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: 96281732b7dd97f43848d6dec60fd16b, type: 3}
   name: Bouncing Fireball
   maxBounceCount: 3
-  launchAngle: {x: 1, y: -0.2}
+  launchAngle: {x: 1, y: -0.6}

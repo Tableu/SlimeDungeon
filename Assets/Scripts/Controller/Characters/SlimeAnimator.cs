@@ -1,15 +1,14 @@
-using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace Controller.Form
 {
-    public class SlimeFormAnimator : FormAnimator
+    public class SlimeAnimator : CharacterAnimator
     {
         private bool _movementEnabledLastFrame;
-        public override void Initialize(Form form, PlayerInputActions inputActions)
+        public override void Initialize(Character.Character character, PlayerInputActions inputActions)
         {
-            this.form = form;
+            this.Character = character;
             this.inputActions = inputActions;
             animator = GetComponent<Animator>();
             
@@ -17,7 +16,7 @@ namespace Controller.Form
             {
                 if (animator != null)
                 {
-                    animator.SetFloat("Speed", form.Speed);
+                    animator.SetFloat("Speed", character.Speed);
                 }
             }
             
@@ -32,7 +31,7 @@ namespace Controller.Form
             {
                 if (animator != null)
                 {
-                    animator.SetFloat("Speed", form.Speed);
+                    animator.SetFloat("Speed", Character.Speed);
                 }
             }
             _movementEnabledLastFrame = inputActions.Movement.Pressed.enabled;
@@ -61,7 +60,7 @@ namespace Controller.Form
         {
             if (animator != null)
             {
-                animator.SetFloat("Speed", form.Speed);
+                animator.SetFloat("Speed", Character.Speed);
             }
         }
     }

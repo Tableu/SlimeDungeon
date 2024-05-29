@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   damage: 5
-  knockback: 0
+  knockback: 5
   manaCost: 10
   hitStun: 0
   cooldown: 5

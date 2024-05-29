@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Controller.Form;
+using Controller.Character;
 using UnityEngine;
 
 public class SpellInfoGroup : MonoBehaviour
@@ -7,7 +7,7 @@ public class SpellInfoGroup : MonoBehaviour
     [SerializeField] private GameObject verticalGroup;
     [SerializeField] private GameObject spellInfo;
     private List<GameObject> _spellInfos = new List<GameObject>();
-    public void SetCharacter(FormData data)
+    public void SetCharacter(CharacterData data)
     {
         if (_spellInfos.Count > 0)
         {

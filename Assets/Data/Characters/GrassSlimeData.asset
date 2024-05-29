@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 22bf79be5d037184c99ebb648ef79079, type: 3}
-  m_Name: GrassSlimeFormData
+  m_Name: GrassSlimeData
   m_EditorClassIdentifier: 
-  elementType: 4
   health: 100
   speed: 2.5
+  elementType: 4
+  spellOffset: {x: 0.3, y: 0.3, z: 0.3}
   maxVelocity: {x: 5, y: 5}
   name: Grass Slime
   model: {fileID: 3238378463816399697, guid: ab153cae36122d34f8f962d78a22be32, type: 3}
-  capturedForm: {fileID: 834991341219302362, guid: 32c86c1cde944a049a1e3999b11b2b40, type: 3}
-  spellOffset: {x: 0.3, y: 0.3, z: 0.3}
+  capturedCharacter: {fileID: 834991341219302362, guid: 32c86c1cde944a049a1e3999b11b2b40, type: 3}
   basicAttack: {fileID: 11400000, guid: 26b21ae9161b48948a727fec0ee6ba51, type: 2}
   spells:
   - {fileID: 11400000, guid: ceb89c81dfc12a642a266a0cb68a90ce, type: 2}

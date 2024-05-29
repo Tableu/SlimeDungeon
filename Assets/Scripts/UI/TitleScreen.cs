@@ -3,11 +3,12 @@ using System.Linq;
 using Systems.Save;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
 public class TitleScreen : MonoBehaviour
 {
     [SerializeField] private GameObject continueButton;
-    [SerializeField] private FormDataDictionary formDictionary;
+    [FormerlySerializedAs("formDictionary")] [SerializeField] private CharacterDataDictionary characterDictionary;
     [SerializeField] private GameObject model;
     private bool _saveExists;
     private void Start()
@@ -15,7 +16,7 @@ public class TitleScreen : MonoBehaviour
         _saveExists = File.Exists(SaveManager.DefaultSavePath);
         continueButton.SetActive(_saveExists);
         System.Random rand = new System.Random();
-        Instantiate(formDictionary.Dictionary.ElementAt(rand.Next(0, formDictionary.Dictionary.Count)).Value.Model, model.transform);
+        Instantiate(characterDictionary.Dictionary.ElementAt(rand.Next(0, characterDictionary.Dictionary.Count)).Value.Model, model.transform);
     }
 
     public void OnContineuClick()

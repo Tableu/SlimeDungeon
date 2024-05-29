@@ -1,4 +1,5 @@
-using Controller.Form;
+using Controller;
+using Controller.Character;
 using UnityEngine;
 
 public class CapturedCharacter : MonoBehaviour
@@ -7,25 +8,25 @@ public class CapturedCharacter : MonoBehaviour
     [SerializeField] private GameObject character;
     [SerializeField] private Collider characterCollider;
     private RoomController _roomController;
-    private Form _form;
+    private Character _character;
 
-    public Form Form => _form;
+    public Character Character => _character;
     
-    public void Initialize(RoomController roomController, FormData formData)
+    public void Initialize(RoomController roomController, CharacterData characterData)
     {
         _roomController = roomController;
         _roomController.OnAllEnemiesDead += FreeCharacter;
-        _form = new Form(formData);
+        _character = new Character(characterData);
         characterCollider.enabled = false;
     }
 
-    public void SwitchCharacter(Form newCharacter)
+    public void SwitchCharacter(Character newCharacter)
     {
         if (newCharacter != null)
         {
-            _form = newCharacter;
+            _character = newCharacter;
             Destroy(character.gameObject);
-            character = Instantiate(_form.Data.Model, transform);
+            character = Instantiate(_character.Data.Model, transform);
             character.layer = LayerMask.NameToLayer("Items");
         }
     }

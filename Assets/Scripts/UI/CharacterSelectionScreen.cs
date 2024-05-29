@@ -1,20 +1,21 @@
 using System.Collections.Generic;
-using Controller.Form;
+using Controller.Character;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
 public class CharacterSelectionScreen : MonoBehaviour
 {
-    [SerializeField] private FormDataDictionary formDictionary;
+    [FormerlySerializedAs("formDictionary")] [SerializeField] private CharacterDataDictionary characterDictionary;
     [SerializeField] private List<CharacterSelectionIcon> icons;
     [SerializeField] private SpellInfoGroup spellInfoGroup;
-    [SerializeField] private List<FormData> characterDatas;
+    [SerializeField] private List<CharacterData> characterDatas;
     [SerializeField] private GameObject startButton;
     [SerializeField] private GameObject characterModel;
-    private FormData _selectedData;
+    private CharacterData _selectedData;
     private void Start()
     {
-        List<FormData>.Enumerator characterEnumerator = characterDatas.GetEnumerator();
+        List<CharacterData>.Enumerator characterEnumerator = characterDatas.GetEnumerator();
         foreach (CharacterSelectionIcon icon in icons)
         {
             characterEnumerator.MoveNext();
@@ -32,7 +33,7 @@ public class CharacterSelectionScreen : MonoBehaviour
     {
         if (_selectedData == null)
             return;
-        if (!formDictionary.Dictionary.ContainsKey(_selectedData.Name))
+        if (!characterDictionary.Dictionary.ContainsKey(_selectedData.Name))
         {
             Debug.Log("Error - Form not in dictionary");
             return;
@@ -44,12 +45,12 @@ public class CharacterSelectionScreen : MonoBehaviour
         SceneManager.LoadScene("Scenes/DungeonGeneration");
     }
 
-    public void OnIconClick(FormData formData)
+    public void OnIconClick(CharacterData characterData)
     {
-        if (formData == _selectedData)
+        if (characterData == _selectedData)
             return;
-        _selectedData = formData;
-        spellInfoGroup.SetCharacter(formData);
+        _selectedData = characterData;
+        spellInfoGroup.SetCharacter(characterData);
         startButton.SetActive(true);
 
         if (characterModel.transform.childCount > 0)
@@ -57,6 +58,6 @@ public class CharacterSelectionScreen : MonoBehaviour
             Destroy(characterModel.transform.GetChild(0).gameObject);
         }
 
-        Instantiate(formData.Model, characterModel.transform);
+        Instantiate(characterData.Model, characterModel.transform);
     }
 }

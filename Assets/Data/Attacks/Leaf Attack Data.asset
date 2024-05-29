@@ -17,7 +17,7 @@ MonoBehaviour:
   knockback: 0
   manaCost: 0
   hitStun: 0
-  cooldown: 0.1
+  cooldown: 0
   elementType: 4
   prefab: {fileID: 4292637640093511300, guid: 5d5bf45a3e1bb9f4ebb34ed83cf2cf0a, type: 3}
   icon: {fileID: 21300000, guid: 411f88b287eb8504aa08edb04c1443c6, type: 3}

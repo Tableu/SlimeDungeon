@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 508acad03d3f55c4f8d55ed50bf86a11, type: 3}
-  m_Name: Form Dictionary
+  m_Name: Character Dictionary
   m_EditorClassIdentifier: 
   dataObjects:
     entries:
     - Key: Fire Slime
-      Value: {fileID: 11400000, guid: 1bcd57858ce771b4086d405e05eea620, type: 2}
+      Value: {fileID: 11400000, guid: 548c22d9f748c684da58d8a1669e961f, type: 2}
     - Key: Chicken
       Value: {fileID: 11400000, guid: a970de915398ce943a6aed23fd89c099, type: 2}
     - Key: Grass Slime
-      Value: {fileID: 11400000, guid: 6cb87275a0359ba4a8b741fb885df66c, type: 2}
+      Value: {fileID: 11400000, guid: 66579492c0cf8184a885fd07f79f7291, type: 2}
     - Key: Water Slime
-      Value: {fileID: 11400000, guid: 95a6adf61836ab04cb2e889076b0745e, type: 2}
+      Value: {fileID: 11400000, guid: 601c18a25d14f7c4482a9b8004b59df1, type: 2}

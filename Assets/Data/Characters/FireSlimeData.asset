@@ -9,17 +9,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 97d69b75ddf1a034dad0669413757e4f, type: 3}
-  m_Name: FireSlimeFormData
+  m_Script: {fileID: 11500000, guid: 22bf79be5d037184c99ebb648ef79079, type: 3}
+  m_Name: FireSlimeData
   m_EditorClassIdentifier: 
-  elementType: 1
   health: 100
   speed: 2.5
+  elementType: 1
+  spellOffset: {x: 0.3, y: 0.3, z: 0.3}
   maxVelocity: {x: 5, y: 5}
   name: Fire Slime
   model: {fileID: 1493230507176055047, guid: b95414d9119b7cb4bb1a797d09f7068e, type: 3}
-  capturedForm: {fileID: 834991341219302362, guid: a4b4fc3681ea16d4caa2d2d7e25bb26a, type: 3}
-  spellOffset: {x: 0.3, y: 0.3, z: 0.3}
+  capturedCharacter: {fileID: 834991341219302362, guid: a4b4fc3681ea16d4caa2d2d7e25bb26a, type: 3}
   basicAttack: {fileID: 11400000, guid: c5d2a1463d32f91459e236f8fea813c9, type: 2}
   spells:
-  - {fileID: 11400000, guid: 730208c8c64576b49840119cffa8b51a, type: 2}
+  - {fileID: 11400000, guid: d99d32efdf526504d86ca74c35d880c4, type: 2}

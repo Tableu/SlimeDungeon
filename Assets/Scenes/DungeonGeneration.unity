@@ -365,6 +365,10 @@ PrefabInstance:
       propertyPath: controller
       value: 
       objectReference: {fileID: 843911631}
+    - target: {fileID: 644254956136328074, guid: 32f6fbb8d8634a1448497228bf0a0afe, type: 3}
+      propertyPath: partyController
+      value: 
+      objectReference: {fileID: 843911634}
     - target: {fileID: 644254956508171219, guid: 32f6fbb8d8634a1448497228bf0a0afe, type: 3}
       propertyPath: m_SizeDelta.y
       value: -16.4
@@ -466,6 +470,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 843911631}
     - target: {fileID: 644254957145149432, guid: 32f6fbb8d8634a1448497228bf0a0afe, type: 3}
+      propertyPath: partyController
+      value: 
+      objectReference: {fileID: 843911634}
+    - target: {fileID: 644254957145149432, guid: 32f6fbb8d8634a1448497228bf0a0afe, type: 3}
       propertyPath: playerController
       value: 
       objectReference: {fileID: 843911631}
@@ -560,7 +568,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3802132de85f06a49a4ddd5810ea07a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controller: {fileID: 843911631}
+  controller: {fileID: 843911634}
   reloadIcon: {fileID: 726047426}
 --- !u!1 &649928014
 GameObject:
@@ -1120,6 +1128,14 @@ PrefabInstance:
       propertyPath: m_AngularDrag
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6118174223459350817, guid: 4da3c2fdefb9dd34ab704d2858eab7e9, type: 3}
+      propertyPath: playerData
+      value: 
+      objectReference: {fileID: 11400000, guid: 981442e40bdc9ec4c930620b3fba501d, type: 2}
+    - target: {fileID: 6118174223459350817, guid: 4da3c2fdefb9dd34ab704d2858eab7e9, type: 3}
+      propertyPath: partyController
+      value: 
+      objectReference: {fileID: 843911634}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4da3c2fdefb9dd34ab704d2858eab7e9, type: 3}
 --- !u!1 &843911628 stripped
@@ -1143,6 +1159,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a37b826fb73b0ea439851d52898398cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &843911634
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 843911628}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e90e85e8cc9e6c469427103633a5fe1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerData: {fileID: 11400000, guid: 981442e40bdc9ec4c930620b3fba501d, type: 2}
+  characterDictionary: {fileID: 11400000, guid: b43cbbdadab028343a4c346542c1b8bc, type: 2}
 --- !u!1001 &869552784
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1150,6 +1180,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1870461747}
     m_Modifications:
+    - target: {fileID: 2212619668628573281, guid: 59baad00e65f3c9468430ed064df643c, type: 3}
+      propertyPath: m_Name
+      value: Characters
+      objectReference: {fileID: 0}
     - target: {fileID: 2212619668628573282, guid: 59baad00e65f3c9468430ed064df643c, type: 3}
       propertyPath: m_SizeDelta.x
       value: 0
@@ -1159,12 +1193,16 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2212619668628573285, guid: 59baad00e65f3c9468430ed064df643c, type: 3}
+      propertyPath: partyController
+      value: 
+      objectReference: {fileID: 843911634}
+    - target: {fileID: 2212619668628573285, guid: 59baad00e65f3c9468430ed064df643c, type: 3}
       propertyPath: playerController
       value: 
       objectReference: {fileID: 843911631}
     - target: {fileID: 2212619669554392081, guid: 59baad00e65f3c9468430ed064df643c, type: 3}
       propertyPath: m_Name
-      value: FormBar
+      value: PartyBar
       objectReference: {fileID: 0}
     - target: {fileID: 2212619669554392082, guid: 59baad00e65f3c9468430ed064df643c, type: 3}
       propertyPath: m_Pivot.x

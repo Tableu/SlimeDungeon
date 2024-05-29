@@ -1,43 +1,35 @@
+using Controller.Character;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class PlayerHealthBar : MonoBehaviour
 {
     [SerializeField] private Slider slider;
-    [SerializeField] private PlayerController controller;
+    [SerializeField] private PartyController partyController;
 
     private void Start()
     {
-        slider.maxValue = controller.CurrentForm.Data.Health;
-        slider.value = controller.Health;
-        controller.OnDeath += OnDeath;
-        controller.OnFormChange += OnFormChange;
+        slider.maxValue = partyController.CurrentCharacter.Data.Health;
+        slider.value = partyController.CurrentCharacter.Health;
+        partyController.OnCharacterChanged += OnFormChange;
     }
 
     private void FixedUpdate()
     {
-        slider.value = controller.Health;
+        slider.value = partyController.CurrentCharacter.Health;;
     }
 
-    private void OnDeath()
+    private void OnFormChange(Character character)
     {
-        slider.value = controller.Health;
-        controller.OnDeath -= OnDeath;
-        controller.OnFormChange -= OnFormChange;
-    }
-
-    private void OnFormChange()
-    {
-        slider.maxValue = controller.CurrentForm.Data.Health;
-        slider.value = controller.Health;
+        slider.maxValue = character.Data.Health;
+        slider.value = character.Health;
     }
 
     private void OnDestroy()
     {
-        if (controller != null)
+        if (partyController != null)
         {
-            controller.OnDeath -= OnDeath;
-            controller.OnFormChange -= OnFormChange;
+            partyController.OnCharacterChanged -= OnFormChange;
         }
     }
 }

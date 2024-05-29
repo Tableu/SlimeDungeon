@@ -89,7 +89,7 @@ GameObject:
   - component: {fileID: 2212619668628573283}
   - component: {fileID: 2212619668628573285}
   m_Layer: 5
-  m_Name: Forms
+  m_Name: Characters
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -167,8 +167,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ee099768c6de024c88e814210f07103, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  formIconPrefab: {fileID: 966446958702395160, guid: 93501f4831bd7db44b3ab01eb54e5342, type: 3}
-  playerController: {fileID: 0}
+  characterIconPrefab: {fileID: 966446958702395160, guid: 93501f4831bd7db44b3ab01eb54e5342, type: 3}
+  partyController: {fileID: 0}
 --- !u!1 &2212619669554392081
 GameObject:
   m_ObjectHideFlags: 0
@@ -179,7 +179,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2212619669554392082}
   m_Layer: 5
-  m_Name: FormBar
+  m_Name: PartyBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

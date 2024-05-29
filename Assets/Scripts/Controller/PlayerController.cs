@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Controller;
-using Controller.Form;
+using Controller.Character;
 using Newtonsoft.Json.Linq;
 using Systems.Modifiers;
 using Systems.Save;
@@ -11,46 +11,56 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using Type = Elements.Type;
 
-public class PlayerController : Character, ISavable
+public class PlayerController : MonoBehaviour, ICharacterInfo, ISavable, IDamageable
 {
     [SerializeField] private PlayerData playerData;
     [SerializeField] private AttackDataDictionary attackDictionary;
-    [SerializeField] private FormDataDictionary formDictionary;
     [SerializeField] private GameObject model;
     [SerializeField] private ParticleSystem walkingSmokeParticleSystem;
     [SerializeField] private ParticleSystem switchFormParticleSystem;
+    [SerializeField] private new Rigidbody rigidbody; 
     
+    [SerializeField] private PartyController partyController; 
+
+    private List<Attack> _attacks;
     private Vector2 _direction;
     private Vector2 _lastDirection;
     private bool _inKnockback = false;
-    private PlayerInputActions _playerInputActions;
     private List<AttackData> _unlockedAttacks = new List<AttackData>();
-    private List<Form> _initialForms = new List<Form>();
-    private List<Form> _forms = new List<Form>();
-    private int _maxFormCount;
-    private Form _currentForm;
-    private int _currentFormIndex = 0;
 
-    public Vector2 MaxVelocity => _currentForm.MaxVelocity;
-    public override float Health
+    private Character _currentCharacter;
+    private bool disableRotation = false;
+    private PlayerInputActions _playerInputActions;
+
+    public Vector2 MaxVelocity => _currentCharacter.MaxVelocity;
+    public float Health
     {
-        get => _currentForm.Health;
-        protected set => _currentForm.Health = value;
+        get => _currentCharacter.Health;
+        private set => _currentCharacter.Health = value;
     }
-    public override Type ElementType => _currentForm.ElementType;
-    public override Vector3 SpellOffset => _currentForm.Data.SpellOffset;
-    public PlayerInputActions PlayerInputActions => _playerInputActions;
-    public override CharacterData CharacterData => playerData;
+    public float Mana
+    {
+        get;
+        private set;
+    }
+    public ModifiableStat Speed
+    {
+        get;
+        private set;
+    }
+    public LayerMask EnemyMask
+    {
+        get;
+        private set;
+    }
+    public Transform Transform => transform;
+    public Type ElementType => _currentCharacter.ElementType;
+    public Vector3 SpellOffset => _currentCharacter.Data.SpellOffset;
     public List<AttackData> UnlockedAttacks => _unlockedAttacks;
+    public PlayerData PlayerData => playerData;
+    public PlayerInputActions PlayerInputActions => _playerInputActions;
     public string id { get; } = "PlayerController";
-    public Form CurrentForm => _currentForm; 
-    public List<Form> Forms => _forms;
-    public int MaxFormCount => _maxFormCount;
-    
-    public Action OnFormChange;
-    public Action<Form, int> OnFormAdd;
-    public Action<Form> OnFormRemove;
-    public Action OnDamage;
+
     public Action<Attack, int> OnAttackEquipped;
     public Action<Attack, int> OnAttackUnEquipped;
     public Action<AttackData> OnAttackUnlocked;
@@ -59,71 +69,46 @@ public class PlayerController : Character, ISavable
     private void Awake()
     {
         Mana = playerData.Mana;
-        attacks = new List<Attack>(new Attack[playerData.MaxSpellCount]);
+        Speed = new ModifiableStat(1);
+        _attacks = new List<Attack>(new Attack[playerData.MaxSpellCount]);
         _unlockedAttacks = new List<AttackData>();
-        _playerInputActions = new PlayerInputActions();
-        _playerInputActions.Enable();
-
-        _forms = new List<Form>();
-        _maxFormCount = playerData.MaxFormCount;
-        
-        PlayerInputActions.Other.SwitchForms.started += SwitchForms;
-        OnDamage += OnDamage;
-
-        Speed = new ModifiableStat(playerData.Speed);
-
-        string initialForm = PlayerPrefs.GetString("Initial Form");
         
         _lastDirection = Vector2.zero;
         switchFormParticleSystem.Stop();
-        if (_initialForms.Count == 0)
-        {
-            _initialForms.Add(new Form(formDictionary.Dictionary[initialForm]));
-        }
+
+        _playerInputActions = new PlayerInputActions();
+        _playerInputActions.Enable();
         
-        InitializeForms();
+        partyController.OnCharacterChanged += OnCharacterChanged;
+        partyController.OnPartyMemberAdded += OnPartyMemberAdded;
+        partyController.OnPartyMemberRemoved += OnPartyMemberRemoved;
+        partyController.Initialize(_playerInputActions);
     }
 
-    private new void Start()
+    private void Start()
     {
-        _playerInputActions.Movement.Pressed.started += delegate(InputAction.CallbackContext context)
+        PlayerInputActions.Movement.Pressed.started += delegate(InputAction.CallbackContext context)
         {
             walkingSmokeParticleSystem.Play();
         };
         
-        _playerInputActions.Movement.Pressed.canceled += delegate(InputAction.CallbackContext context)
+        PlayerInputActions.Movement.Pressed.canceled += delegate(InputAction.CallbackContext context)
         {
             walkingSmokeParticleSystem.Stop();
         };
         
-        _playerInputActions.Other.PickUp.started += delegate(InputAction.CallbackContext context)
+        PlayerInputActions.Other.PickUp.started += delegate(InputAction.CallbackContext context)
         {
             Collider[] itemColliders = Physics.OverlapSphere(transform.position, 5, LayerMask.GetMask("Items"));
             var itemsOrderedByProximity = itemColliders.OrderBy(c => (transform.position - c.transform.position).sqrMagnitude)
                 .ToArray();
-            foreach (var col in itemsOrderedByProximity)
+            if (itemsOrderedByProximity.Length == 0)
+                return;
+            var col = itemsOrderedByProximity[0];
+            IItem item = col.GetComponent<IItem>();
+            if (item != null)
             {
-                IItem item = col.GetComponent<IItem>();
-                if (item != null)
-                {
-                    item.PickUp(this);
-                    break;
-                }
-
-                CapturedCharacter character = col.gameObject.GetComponentInParent<CapturedCharacter>();
-                if (character != null)
-                {
-                    Form oldForm = AddForm(character.Form);
-                    if (oldForm != null)
-                    {
-                        character.SwitchCharacter(oldForm);
-                    }
-                    else
-                    {
-                        Destroy(character.gameObject);
-                    }
-                    break;
-                }
+                item.PickUp(this);
             }
         };
     }
@@ -146,12 +131,16 @@ public class PlayerController : Character, ISavable
         }
     }
 
-    private new void FixedUpdate()
+    private void FixedUpdate()
     {
-        base.FixedUpdate();
+        Mana += playerData.ManaRegen;
+        if (Mana > playerData.Mana)
+        {
+            Mana = playerData.Mana;
+        }
         if (_inKnockback)
             return;
-        _direction = _playerInputActions.Movement.Direction.ReadValue<Vector2>();
+        _direction = PlayerInputActions.Movement.Direction.ReadValue<Vector2>();
 
         if (_direction != Vector2.zero)
         {
@@ -180,29 +169,26 @@ public class PlayerController : Character, ISavable
             rigidbody.velocity = Vector3.zero;
         }
         
-        if (_playerInputActions.Other.BasicAttack.IsPressed() && _currentForm != null)
+        if (PlayerInputActions.Other.BasicAttack.IsPressed() && _currentCharacter != null)
         {
-            _currentForm.CastBasicAttack();
+            _currentCharacter.CastBasicAttack();
         }
     }
 
     private void OnDestroy()
     {
-        OnDeath?.Invoke();
-
-        foreach (Attack attack in attacks)
+        foreach (Attack attack in _attacks)
         {
             if (attack != null)
             {
                 attack.UnlinkInput();
             }
         }
-        _playerInputActions.Disable();
-        _playerInputActions.Dispose();
+        PlayerInputActions.Disable();
+        PlayerInputActions.Dispose();
     }
     #endregion
-    #region Base Class Overrides
-    public override void TakeDamage(float damage, Vector3 knockback, float hitStun, Elements.Type attackType)
+    public void TakeDamage(float damage, Vector3 knockback, float hitStun, Elements.Type attackType)
     {
         if (!_inKnockback)
         {
@@ -214,26 +200,24 @@ public class PlayerController : Character, ISavable
                 return;
             }
             StartCoroutine(HandleKnockback(knockback, hitStun, typeMultiplier));
-            OnDamage?.Invoke();
         }
     }
 
-    protected override void HandleDeath()
+    private void HandleDeath()
     {
-        FormFainted();
+        partyController.CharacterFainted();
     }
 
-    protected override IEnumerator HandleKnockback(Vector3 knockback, float hitStun, float typeMultiplier)
+    private IEnumerator HandleKnockback(Vector3 knockback, float hitStun, float typeMultiplier)
     {
         _inKnockback = true;
-        _playerInputActions.Disable();
+        PlayerInputActions.Disable();
         rigidbody.velocity = Vector3.zero;
         rigidbody.AddForce(knockback, ForceMode.Impulse);
         yield return new WaitForSeconds(hitStun);
-        _playerInputActions.Enable();
+        PlayerInputActions.Enable();
         _inKnockback = false;
     }
-    #endregion
 
     public void InitializeAttacks()
     {
@@ -249,28 +233,28 @@ public class PlayerController : Character, ISavable
     
     public void EquipAttack(AttackData attackData, int index)
     {
-        if (index < 0 || index >= attacks.Count)
+        if (index < 0 || index >= _attacks.Count)
             return;
-        bool attackInSlot = attacks[index] != null;
-        if (attackInSlot && attacks[index].OnCooldown)
+        bool attackInSlot = _attacks[index] != null;
+        if (attackInSlot && _attacks[index].OnCooldown)
             return;
         if (attackInSlot)
         {
             UnEquipAttack(index);
         }
-        var inputs = _playerInputActions.Spells.Get();
-        attacks[index] = attackData.CreateInstance(this);
-        OnAttackEquipped?.Invoke(attacks[index], index);
-        attacks[index].LinkInput(inputs.actions[index]);
+        var inputs = PlayerInputActions.Spells.Get();
+        _attacks[index] = attackData.CreateInstance(this);
+        OnAttackEquipped?.Invoke(_attacks[index], index);
+        _attacks[index].LinkInput(inputs.actions[index]);
     }
 
     public void UnEquipAttack(int index)
     {
-        if (index < 0 || index >= attacks.Count)
+        if (index < 0 || index >= _attacks.Count)
             return;
-        OnAttackUnEquipped?.Invoke(attacks[index], index);
-        attacks[index].UnlinkInput();
-        attacks[index].CleanUp();
+        OnAttackUnEquipped?.Invoke(_attacks[index], index);
+        _attacks[index].UnlinkInput();
+        _attacks[index].CleanUp();
     }
 
     public void UnlockAttack(AttackData attackData)
@@ -285,26 +269,37 @@ public class PlayerController : Character, ISavable
         OnAttackRemoved?.Invoke(attackData);
     }
 
-    #region Event Functions
-    private void FormChanged()
+    public void ApplyManaCost(float manaCost)
     {
-        Speed.UpdateBaseValue(_currentForm.Speed);
-        switchFormParticleSystem.Play();
+        Mana -= manaCost;
     }
 
-    private void FormAdded(Form form, int index)
+    #region Event Functions
+    private void OnCharacterChanged(Character character)
     {
-        foreach (AttackData attackData in form.Data.Spells)
+        _currentCharacter = character;
+        Speed.UpdateBaseValue(character.Speed);
+        switchFormParticleSystem.Play();
+        model.SetActive(false);
+        Destroy(model);
+        model = Instantiate(character.Data.Model, transform);
+        model.layer = gameObject.layer;
+        _currentCharacter.Equip(model, this);
+    }
+
+    private void OnPartyMemberAdded(Character character, int index)
+    {
+        foreach (AttackData attackData in character.Data.Spells)
         {
             UnlockAttack(attackData);
         }
     }
 
-    private void FormRemoved(Form form)
+    private void OnPartyMemberRemoved(Character character)
     {
-        foreach (AttackData attackData in form.Data.Spells)
+        foreach (AttackData attackData in character.Data.Spells)
         {
-            int index = attacks.FindIndex(attack => attack?.Data == attackData);
+            int index = _attacks.FindIndex(attack => attack?.Data == attackData);
             if (index != -1)
             {
                 UnEquipAttack(index);
@@ -313,166 +308,14 @@ public class PlayerController : Character, ISavable
         }
     }
     #endregion
-    #region Form Methods
-    private void InitializeForms()
-    {
-        _forms.Clear();
-        foreach (Form form in _initialForms)
-        {
-            _forms.Add(form);
-        }
-
-        int i = 0;
-        for (i = 0; i < _forms.Count; i++)
-        {
-            if (_forms[i].Health > 0)
-            {
-                ChangeForm(_forms[i], _forms.Count - 1);
-                break;
-            }
-        }
-
-        OnFormAdd?.Invoke(_forms[i], _forms.Count-1);
-        FormAdded(_forms[i], _forms.Count-1);
-    }
-    private Form AddForm(Form form)
-    {
-        Form oldForm = null;
-        if (_forms.Count >= _maxFormCount)
-        {
-            if (_forms.Count > 0)
-            {
-                oldForm = _currentForm;
-                OnFormRemove?.Invoke(_currentForm);
-                FormRemoved(_currentForm);
-            }
-            ChangeForm(form, _currentFormIndex);
-            _forms[_currentFormIndex] = form;
-            OnFormAdd?.Invoke(form, _currentFormIndex);
-            FormAdded(form, _currentFormIndex);
-        }
-        else
-        {
-            _forms.Add(form);
-            OnFormAdd?.Invoke(form, _forms.Count-1);
-            FormAdded(form, _forms.Count-1);
-        }
-
-        return oldForm;
-    }
     
-    private void SwitchForms(InputAction.CallbackContext context)
-    {
-        int oldIndex = _currentFormIndex;
-        int diff = (int)context.ReadValue<float>();
-        int formIndex = _currentFormIndex+diff;
-        if (formIndex >= _forms.Count)
-        {
-            formIndex = 0;
-        }
-
-        if (formIndex < 0)
-        {
-            formIndex = _forms.Count - 1;
-        }
-        
-        while (formIndex != oldIndex)
-        {
-            if (_forms[formIndex].Health > 0)
-            {
-                ChangeForm(_forms[formIndex],formIndex);
-                FormChanged();
-                return;
-            }
-
-            formIndex += diff;
-            if (formIndex >= _forms.Count)
-            {
-                formIndex = 0;
-            }
-
-            if (formIndex < 0)
-            {
-                formIndex = _forms.Count - 1;
-            }
-        }
-    }
-
-    private void HealForm(float amount)
-    {
-        if (Math.Abs(_currentForm.Health - _currentForm.Data.Health) > Mathf.Epsilon)
-        {
-            _currentForm.Health += amount;
-        }
-        else
-        {
-            foreach (var formInstance in _forms)
-            {
-                if (Math.Abs(_currentForm.Health - _currentForm.Data.Health) > Mathf.Epsilon)
-                {
-                    formInstance.Health += amount;
-                }
-            }
-        }
-    }
-
-    private void HealForms(float amount)
-    {
-        foreach (var form in _forms)
-        {
-            form.Health += amount;
-        }
-    }
-    
-    private void FormFainted()
-    {
-        int index = 0;
-        foreach (Form form in _forms)
-        {
-            if (form.Health > 0)
-            {
-                ChangeForm(form, index);
-                return;
-            }
-
-            index++;
-        }
-        Destroy(gameObject);
-    }
-    
-    private void ChangeForm(Form newForm, int newIndex)
-    {
-        if(_currentForm is not null)
-            _currentForm.Drop();
-        _currentForm = newForm;
-        _currentFormIndex = newIndex;
-        ChangeModel(newForm.Data);
-        _currentForm.Equip(model, this);
-        OnFormChange?.Invoke();
-        FormChanged();
-    }
-    private void ChangeModel(FormData data)
-    {
-        model.SetActive(false);
-        Destroy(model);
-        model = Instantiate(data.Model, transform);
-        model.layer = gameObject.layer;
-    }
-    #endregion
     #region Save Methods
     
     public object SaveState()
     {
-        List<Form.SaveData> formSaveData = new List<Form.SaveData>();
-        foreach (Form form in _forms)
-        {
-            formSaveData.Add(new Form.SaveData(formDictionary.Dictionary.First(i => i.Value == form.Data).Key, form.Health));
-        }
-        
         return new SaveData()
         {
-            UnlockedAttacks = _unlockedAttacks.Select(x => attackDictionary.Dictionary.First(i => i.Value == x).Key).ToList(),
-            Forms = formSaveData
+            UnlockedAttacks = _unlockedAttacks.Select(x => attackDictionary.Dictionary.First(i => i.Value == x).Key).ToList()
         };
     }
 
@@ -484,21 +327,12 @@ public class PlayerController : Character, ISavable
         {
             _unlockedAttacks.Add(attackDictionary.Dictionary[attack]);
         }
-        
-        _initialForms.Clear();
-        foreach (Form.SaveData formData in saveData.Forms)
-        {
-            _initialForms.Add(new Form(formDictionary.Dictionary[formData.Form], formData.Health));
-        }
-
-        InitializeForms();
     }
     
     [Serializable]
     public struct SaveData
     {
         public List<string> UnlockedAttacks;
-        public List<Form.SaveData> Forms;
     }
     #endregion
 }

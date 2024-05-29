@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7cc3a4248edd5ec479ea541fa0c3f2a2, type: 3}
-  m_Name: ChickenFormData
+  m_Name: ChickenData
   m_EditorClassIdentifier: 
   elementType: 1
   health: 50
@@ -20,5 +20,5 @@ MonoBehaviour:
   model: {fileID: 3527308240469450562, guid: 7e402e6032504644092d8f6a4e97b80c, type: 3}
   capturedForm: {fileID: 834991341219302362, guid: e3734db998ba25e40855a1a4c1ecc07b, type: 3}
   spellOffset: {x: 0.3, y: 0.5, z: 0.3}
-  basicAttack: {fileID: 11400000, guid: c5d2a1463d32f91459e236f8fea813c9, type: 2}
+  basicAttack: {fileID: 11400000, guid: 730208c8c64576b49840119cffa8b51a, type: 2}
   spells: []

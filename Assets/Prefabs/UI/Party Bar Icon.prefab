@@ -87,7 +87,7 @@ GameObject:
   - component: {fileID: 966446958702395139}
   - component: {fileID: 7460148020650263384}
   m_Layer: 5
-  m_Name: Form Bar Icon
+  m_Name: Party Bar Icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

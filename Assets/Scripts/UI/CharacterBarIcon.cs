@@ -1,12 +1,12 @@
-using Controller.Form;
+using Controller.Character;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class FormBarIcon : MonoBehaviour
+public class CharacterBarIcon : MonoBehaviour
 {
     [SerializeField] private RawImage icon;
     [SerializeField] private Slider slider;
-    private Form _formInstance;
+    private Character _characterInstance;
     private UIRenderTexture _renderTexture;
     private void Awake()
     {
@@ -17,19 +17,19 @@ public class FormBarIcon : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (_formInstance != null)
+        if (_characterInstance != null)
         {
-            slider.value = _formInstance.Health;
+            slider.value = _characterInstance.Health;
         }
     }
 
-    public void SetIcon(Form formInstance)
+    public void SetIcon(Character characterInstance)
     {
         icon.enabled = true;
         icon.texture = _renderTexture.RenderTexture; 
-        _formInstance = formInstance;
-        _renderTexture.ChangeModel(_formInstance.Data.Model);
-        slider.maxValue = _formInstance.Data.Health;
+        _characterInstance = characterInstance;
+        _renderTexture.ChangeModel(_characterInstance.Data.Model);
+        slider.maxValue = _characterInstance.Data.Health;
         slider.gameObject.SetActive(true);
     }
 }

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Controller.Form;
+using Controller.Character;
 using FischlWorks_FogWar;
 using Newtonsoft.Json.Linq;
 using Systems.Save;
@@ -89,14 +89,14 @@ public class LevelManager : MonoBehaviour, ISavable
             Quaternion.identity);
         NavMesh.AddNavMeshData(data);
         
-        List<FormData> capturedCharacters = randomCapturedCharacters.GetRandomGroup();
+        List<CharacterData> capturedCharacters = randomCapturedCharacters.GetRandomGroup();
         List<GameObject> treasureChests = randomTreasureChests.GetRandomGroup();
         
         //Generate random indexes for placing the random characters
         List<int> capturedCharacterIndexes = GetUniqueRandomIndexes(_roomScripts.Count, capturedCharacters.Count);
         List<int> treasureChestIndexes = GetUniqueRandomIndexes(_roomScripts.Count, treasureChests.Count);
         int i = 0;
-        using List<FormData>.Enumerator characterEnumerator = capturedCharacters.GetEnumerator();
+        using List<CharacterData>.Enumerator characterEnumerator = capturedCharacters.GetEnumerator();
         using List<GameObject>.Enumerator treasureEnumerator = treasureChests.GetEnumerator();
         foreach (RoomController spawner in _roomScripts)
         {
