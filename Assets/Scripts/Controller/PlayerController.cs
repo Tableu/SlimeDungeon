@@ -18,8 +18,7 @@ public class PlayerController : MonoBehaviour, ICharacterInfo, ISavable, IDamage
     [SerializeField] private GameObject model;
     [SerializeField] private ParticleSystem walkingSmokeParticleSystem;
     [SerializeField] private ParticleSystem switchFormParticleSystem;
-    [SerializeField] private new Rigidbody rigidbody; 
-    
+    [SerializeField] private new Rigidbody rigidbody;
     [SerializeField] private PartyController partyController; 
 
     private List<Attack> _attacks;

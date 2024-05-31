@@ -2377,7 +2377,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   continueButton: {fileID: 1111481418}
-  formDictionary: {fileID: 11400000, guid: b43cbbdadab028343a4c346542c1b8bc, type: 2}
+  characterDictionary: {fileID: 11400000, guid: b43cbbdadab028343a4c346542c1b8bc, type: 2}
   model: {fileID: 1013705705}
 --- !u!1001 &851238355
 PrefabInstance:

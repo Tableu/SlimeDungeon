@@ -7441,6 +7441,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 548c22d9f748c684da58d8a1669e961f, type: 2}
   - {fileID: 11400000, guid: 66579492c0cf8184a885fd07f79f7291, type: 2}
   - {fileID: 11400000, guid: 601c18a25d14f7c4482a9b8004b59df1, type: 2}
+  - {fileID: 11400000, guid: a970de915398ce943a6aed23fd89c099, type: 2}
   startButton: {fileID: 1850906379}
   characterModel: {fileID: 589667786}
 --- !u!1001 &1855756459
