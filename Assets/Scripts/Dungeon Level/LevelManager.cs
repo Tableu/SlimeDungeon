@@ -166,19 +166,19 @@ public class LevelManager : MonoBehaviour, ISavable
                 pos = location + new Vector2Int(x, y);
                 if (pos.x == location.x)
                 {
-                    PlaceTile(pos, 90, walls.transform, doors.transform);
+                    DoorOrWall(pos, 90, walls.transform, doors.transform);
                 }
                 else if (pos.x == location.x + roomSize.x - 1)
                 {
-                    PlaceTile(pos, 270, walls.transform, doors.transform);
+                    DoorOrWall(pos, 270, walls.transform, doors.transform);
                 }
                 else if (pos.y == location.y)
                 {
-                    PlaceTile(pos, 0, walls.transform, doors.transform);
+                    DoorOrWall(pos, 0, walls.transform, doors.transform);
                 } 
                 else if (pos.y == location.y + roomSize.y - 1)
                 {
-                    PlaceTile(pos, 180, walls.transform, doors.transform);
+                    DoorOrWall(pos, 180, walls.transform, doors.transform);
                 }
                 else
                 {
@@ -278,6 +278,14 @@ public class LevelManager : MonoBehaviour, ISavable
                                                       LevelData.Grid[direction] == Generator2D.CellType.Corner);
     }
 
+    private bool CheckEntrance(Vector2Int direction)
+    {
+        return LevelData.Grid.InBounds(direction) && (LevelData.Grid[direction] == Generator2D.CellType.None ||
+                                                      LevelData.Grid[direction] == Generator2D.CellType.Room ||
+                                                      LevelData.Grid[direction] == Generator2D.CellType.Corner ||
+                                                      LevelData.Grid[direction] == Generator2D.CellType.Entrance);
+    }
+
     private bool IsHallway(Vector2Int direction)
     {
         return LevelData.Grid.InBounds(direction) && (LevelData.Grid[direction] == Generator2D.CellType.Hallway ||
@@ -296,56 +304,171 @@ public class LevelManager : MonoBehaviour, ISavable
         floor.transform.parent = hallway.transform;
         floor.layer = LayerMask.NameToLayer("Floor");
         
+        GameObject colliders = new GameObject("Colliders");
+        colliders.transform.parent = hallway.transform;
+        colliders.layer = LayerMask.NameToLayer("Walls");
+        
         Vector2Int center = path[(path.Count-1) / 2] * _tileSize;
-        hallway.transform.position = new Vector3(center.x, 0, center.y) ;
+        hallway.transform.position = new Vector3(center.x, 0, center.y);
+        Vector2Int min = path[0];
+        Vector2Int max = new Vector2Int(0, 0);
+        Vector2Int firstPos = path[0];
+        Vector2Int lastPos = path[0];
+        bool first = true;
+        
+        GameObject leftCol = null;
+        GameObject rightCol = null;
+        GameObject upCol = null;
+        GameObject downCol = null;
+
+        int horizontalDirection = (int)Mathf.Sign((path[^1] - path[0]).x);
+        int verticalDirection = (int) Mathf.Sign((path[^1] - path[0]).y);
+
         for (int i = 0; i < path.Count; i++)
         {
             var pos = path[i];
+            var left = pos + Vector2Int.left;
+            var right = pos + Vector2Int.right;
+            var up = pos + Vector2Int.up;
+            var down = pos + Vector2Int.down;
+
+            if (IsHallway(pos))
+            {
+                if (pos.x < min.x)
+                    min.x = pos.x;
+                if (pos.x > max.x)
+                    max.x = pos.x;
+                if (pos.y < min.y)
+                    min.y = pos.y;
+                if (pos.y > max.y)
+                    max.y = pos.y;
+
+                if (first)
+                {
+                    first = false;
+                    firstPos = pos;
+                }
+                lastPos = pos;
+            }
+
+            if (LevelData.Grid[pos] == Generator2D.CellType.Entrance)
+            {
+                PlaceFloorTile(pos, floor.transform);
+                if (CheckEntrance(left) && CheckEntrance(right))
+                {
+                    PlaceTile(wallPrefab, left, 90, walls.transform);
+                    PlaceTile(wallPrefab, right, 270, walls.transform);
+                    leftCol = PlaceHallwayCollider(leftCol, left, 90, -1*verticalDirection,_tileSize, colliders.transform);
+                    rightCol = PlaceHallwayCollider(rightCol, right, -90, 1*verticalDirection,_tileSize, colliders.transform); 
+                }
+
+                if (CheckEntrance(up) && CheckEntrance(down))
+                {
+                    PlaceTile(wallPrefab, down, 0, walls.transform);
+                    PlaceTile(wallPrefab, up, 180, walls.transform);
+                    downCol = PlaceHallwayCollider(downCol, down, 0, 1*horizontalDirection,_tileSize, colliders.transform);
+                    upCol = PlaceHallwayCollider(upCol, up, 180, -1*horizontalDirection,_tileSize, colliders.transform);
+                }
+            }
+
             if (LevelData.Grid[pos] == Generator2D.CellType.Hallway) {
                 PlaceFloorTile(pos, floor.transform);
-                var left = pos + Vector2Int.left;
-                var right = pos + Vector2Int.right;
-                var up = pos + Vector2Int.up;
-                var down = pos + Vector2Int.down;
+                
                 if (CheckHallway(left))
                 {
-                    PlaceWall(left, 90, walls.transform);
+                    PlaceTile(wallPrefab, left, 90, walls.transform);
+                    leftCol = PlaceHallwayCollider(leftCol, left, 90, -1*verticalDirection,_tileSize, colliders.transform);
                 }
                 if (CheckHallway(right))
                 {
-                    PlaceWall(right, 270, walls.transform);
+                    PlaceTile(wallPrefab, right, 270, walls.transform);
+                    rightCol = PlaceHallwayCollider(rightCol, right, -90, 1*verticalDirection,_tileSize, colliders.transform); 
                 }
                 if (CheckHallway(down))
                 {
-                    PlaceWall(down, 0, walls.transform);
+                    PlaceTile(wallPrefab, down, 0, walls.transform);
+                    downCol = PlaceHallwayCollider(downCol, down, 0, 1*horizontalDirection,_tileSize, colliders.transform);
                 }
                 if (CheckHallway(up))
                 {
-                    PlaceWall(up, 180, walls.transform);
+                    PlaceTile(wallPrefab, up, 180, walls.transform);
+                    upCol = PlaceHallwayCollider(upCol, up, 180, -1*horizontalDirection,_tileSize, colliders.transform);
                 }
 
 
-                if (IsHallway(up) && (IsHallway(left) || IsHallway(right)))
+                if ((IsHallway(up) || IsHallway(down)) && (IsHallway(left) || IsHallway(right)))
                 {
-                    PlaceCorner(up, 180, walls.transform);
+                    if (IsHallway(up))
+                    {
+                        PlaceTile(cornerWallPrefab, up, 180, walls.transform);
+                        CornerHallwayCollider(upCol,-1*horizontalDirection,1.34f);
+                        upCol = null;
+                    }
+
+                    if (IsHallway(down))
+                    {
+                        PlaceTile(cornerWallPrefab,down, 0, walls.transform);
+                        CornerHallwayCollider(downCol,1*horizontalDirection,1.34f);
+                        downCol = null;
+                    }
+
+                    if (IsHallway(left))
+                    {
+                        PlaceTile(cornerWallPrefab,left, 90, walls.transform);
+                        CornerHallwayCollider(leftCol, -1*verticalDirection,1.34f);
+                        leftCol = null;
+                    }
+
+                    if (IsHallway(right))
+                    {
+                        PlaceTile(cornerWallPrefab, right, 270, walls.transform);
+                        CornerHallwayCollider(rightCol,1*verticalDirection,1.34f); 
+                        rightCol = null;
+                    }
                 }
-                if (IsHallway(down) && (IsHallway(left) || IsHallway(right)))
-                {
-                    PlaceCorner(down, 0, walls.transform);
-                }
-                if (IsHallway(left) && (IsHallway(up) || IsHallway(down)))
-                {
-                    PlaceCorner(left, 90, walls.transform);
-                }
-                if (IsHallway(right) && (IsHallway(up) || IsHallway(down)))
-                {
-                    PlaceCorner(right, 270, walls.transform);
-                }
-                
             }
         }
+        
+        GameObject floorCollider = new GameObject("Floor Collider");
+        floorCollider.transform.parent = colliders.transform;
+        floorCollider.layer = LayerMask.NameToLayer("Walls");
+        BoxCollider fc = floorCollider.AddComponent<BoxCollider>();
+        fc.size = new Vector3((max.x-min.x+2)*_tileSize, 0.001f, (max.y-min.y+2)*_tileSize);
+        Vector2Int colCenter = (((lastPos - firstPos)/2 + firstPos)*_tileSize);
+        floorCollider.transform.position = new Vector3(colCenter.x, 0, colCenter.y);
+    }
+
+    private GameObject PlaceHallwayCollider(GameObject wall, Vector2 pos, int rotation, int direction, int length, Transform parent)
+    {
+        if (wall == null)
+        {
+            wall = Instantiate(wallColliderPrefab, parent);
+            wall.transform.position = new Vector3(pos.x*_tileSize, 0, pos.y*_tileSize);
+            wall.transform.localRotation = Quaternion.Euler(0, rotation, 0);
+            BoxCollider col = wall.GetComponent<BoxCollider>();
+            col.size = new Vector3(col.size.x, col.size.y, col.size.z);
+            col.center = new Vector3(direction*(col.center.x), col.center.y, col.center.z);
+        }
+        else
+        {
+            BoxCollider col = wall.GetComponent<BoxCollider>();
+            col.size = new Vector3(col.size.x+length, col.size.y, col.size.z);
+            col.center = new Vector3(col.center.x+direction*(length/2), col.center.y, col.center.z);
+        }
+
+        return wall;
+    }
+
+    private void CornerHallwayCollider(GameObject wall, int direction, float length)
+    {
+        if (wall == null)
+            return;
+        BoxCollider col = wall.GetComponent<BoxCollider>();
+        col.size = new Vector3(col.size.x+length, col.size.y, col.size.z);
+        col.center = new Vector3(col.center.x+(direction*length/2), col.center.y, col.center.z);
     }
     
+
     private List<int> GetUniqueRandomIndexes(int indexRange, int randomIndexCount)
     {
         System.Random rnd = new System.Random(LevelData.RandomSeed);
@@ -360,39 +483,25 @@ public class LevelManager : MonoBehaviour, ISavable
             tile.transform.parent = parent;
     }
 
-    private void PlaceTile(Vector2Int pos, int rotation, Transform wallParent = null, Transform doorParent = null)
+    private void DoorOrWall(Vector2Int pos, int rotation, Transform wallParent = null, Transform doorParent = null)
     {
         if (LevelData.Grid[pos] == Generator2D.CellType.Corner)
             return;
         if (LevelData.Grid[pos] != Generator2D.CellType.Entrance)
         {
-            PlaceWall(pos, rotation, wallParent);
+            PlaceTile(wallPrefab, pos, rotation, wallParent);
         }
         else if (LevelData.Grid[pos] == Generator2D.CellType.Entrance)
         {
-            PlaceDoor(pos, rotation, doorParent);
+            PlaceTile(doorPrefab, pos, rotation, doorParent);
         }
     }
 
-    private void PlaceWall(Vector2Int location, int rotation, Transform parent = null)
+    private void PlaceTile(GameObject prefab, Vector2Int location, int rotation, Transform parent = null)
     {
-        GameObject wall = Instantiate(wallPrefab, new Vector3(location.x * _tileSize, 0, location.y * _tileSize), Quaternion.Euler(0, rotation, 0));
+        GameObject tile = Instantiate(prefab, new Vector3(location.x * _tileSize, 0, location.y * _tileSize), Quaternion.Euler(0, rotation, 0));
         if (parent != null) 
-            wall.transform.parent = parent;
-    }
-
-    private void PlaceCorner(Vector2Int location, int rotation, Transform parent = null)
-    {
-        GameObject wall = Instantiate(cornerWallPrefab, new Vector3(location.x * _tileSize, 0, location.y * _tileSize), Quaternion.Euler(0, rotation, 0));
-        if (parent != null) 
-            wall.transform.parent = parent;
-    }
-
-    private void PlaceDoor(Vector2Int location, int rotation, Transform parent = null)
-    {
-        GameObject door = Instantiate(doorPrefab, new Vector3(location.x * _tileSize, 0, location.y * _tileSize), Quaternion.Euler(0, rotation, 0));
-        if (parent != null)
-            door.transform.parent = parent;
+            tile.transform.parent = parent;
     }
 
     #region Save Logic
