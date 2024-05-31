@@ -23,6 +23,7 @@ public class LevelManager : MonoBehaviour, ISavable
     [SerializeField] private GameObject cornerWallPrefab;
     [SerializeField] private GameObject doorPrefab;
     [SerializeField] private GameObject roomPrefab;
+    [SerializeField] private GameObject wallColliderPrefab;
     [SerializeField] private GameObject levelCenter;
     [SerializeField] private csFogWar fogOfWar;
     [SerializeField] private int levelCount;
@@ -149,6 +150,10 @@ public class LevelManager : MonoBehaviour, ISavable
         GameObject doors = new GameObject("Doors");
         doors.transform.parent = room.transform;
         doors.layer = LayerMask.NameToLayer("Walls");
+
+        GameObject colliders = new GameObject("Colliders");
+        colliders.transform.parent = room.transform;
+        colliders.layer = LayerMask.NameToLayer("Walls");
         
         RoomController script = room.GetComponent<RoomController>();
         Vector2 center = bounds.center*_tileSize - new Vector2((float)_tileSize/2, (float)_tileSize/2);
@@ -182,6 +187,15 @@ public class LevelManager : MonoBehaviour, ISavable
             }
         }
 
+        GameObject floorCollider = new GameObject("Floor Collider");
+        floorCollider.transform.parent = colliders.transform;
+        floorCollider.layer = LayerMask.NameToLayer("Walls");
+        BoxCollider fc = floorCollider.AddComponent<BoxCollider>();
+        fc.size = new Vector3((bounds.size.x-2)*_tileSize, 0.001f, (bounds.size.y-2)*_tileSize);
+        floorCollider.transform.localPosition = Vector3.zero;
+
+        CreateWallColliders(bounds, roomSize, colliders.transform);
+
         Grid2D<Generator2D.CellType> roomGrid = new Grid2D<Generator2D.CellType>(roomSize, Vector2Int.zero);
         for (int y = 0; y < roomSize.y; y++)
         {
@@ -193,6 +207,68 @@ public class LevelManager : MonoBehaviour, ISavable
 
         script.Initialize(bounds, _tileSize, roomGrid);
         return script;
+    }
+
+    private void CreateWallColliders(RectInt bounds, Vector2Int roomSize, Transform parent)
+    {
+        Vector2Int location = bounds.position;
+        Vector2Int startPos = location;
+        Vector2Int pos;
+        for (int x = 1; x < roomSize.x; x++)
+        {
+            pos = location + new Vector2Int(x, 0);
+            if (LevelData.Grid[pos] == Generator2D.CellType.Entrance || LevelData.Grid[pos] == Generator2D.CellType.Corner)
+            {
+                PlaceWallCollider(startPos*_tileSize, pos.x - startPos.x - 1, 0,1, parent);
+                startPos = pos;
+            }
+        }
+
+        location = new Vector2Int(bounds.x, bounds.yMax-1);
+        startPos = location;
+        for (int x = 1; x < roomSize.x; x++)
+        {
+            pos = location + new Vector2Int(x, 0);
+            if (LevelData.Grid[pos] == Generator2D.CellType.Entrance || LevelData.Grid[pos] == Generator2D.CellType.Corner)
+            {
+                PlaceWallCollider(startPos*_tileSize, pos.x - startPos.x - 1, 180,-1, parent);
+                startPos = pos;
+            }
+        }
+        
+        location = new Vector2Int(bounds.xMax-1, bounds.y);
+        startPos = location;
+        for (int y = 1; y < roomSize.y; y++)
+        {
+            pos = location + new Vector2Int(0, y);
+            if (LevelData.Grid[pos] == Generator2D.CellType.Entrance || LevelData.Grid[pos] == Generator2D.CellType.Corner)
+            {
+                PlaceWallCollider(startPos*_tileSize, pos.y - startPos.y - 1, -90,1, parent);
+                startPos = pos;
+            }
+        }
+        
+        location = new Vector2Int(bounds.xMin, bounds.y);
+        startPos = location;
+        for (int y = 1; y < roomSize.y; y++)
+        {
+            pos = location + new Vector2Int(0, y);
+            if (LevelData.Grid[pos] == Generator2D.CellType.Entrance || LevelData.Grid[pos] == Generator2D.CellType.Corner)
+            {
+                PlaceWallCollider(startPos*_tileSize, pos.y - startPos.y - 1, 90, -1,parent);
+                startPos = pos;
+            }
+        }
+    }
+
+    private void PlaceWallCollider(Vector2 pos, float length, int rotation, int direction, Transform parent)
+    {
+        GameObject wall = Instantiate(wallColliderPrefab, parent);
+        wall.transform.position = new Vector3(pos.x, 0, pos.y);
+        wall.transform.localRotation = Quaternion.Euler(0, rotation, 0);
+        BoxCollider col = wall.GetComponent<BoxCollider>();
+        col.size = new Vector3(col.size.x*length + 2.7f, col.size.y, col.size.z);
+        col.center = new Vector3(direction*(col.center.x+((col.size.x - 2.7f)/2 + 2)), col.center.y, col.center.z);
     }
 
     private bool CheckHallway(Vector2Int direction)

@@ -6,7 +6,6 @@ using Random = UnityEngine.Random;
 
 public class RoomController : MonoBehaviour
 {
-    public Action OnAllEnemiesDead;
     [SerializeField] private RoomCamera roomCamera;
     private RectInt _bounds;
     private float _tileSize;
@@ -14,6 +13,8 @@ public class RoomController : MonoBehaviour
     private int _enemyCount = 0;
     private List<EnemyController> _enemies;
     private Grid2D<Generator2D.CellType> _roomGrid;
+    
+    public Action OnAllEnemiesDead;
 
     public void Initialize(RectInt bounds,  float tileSize, Grid2D<Generator2D.CellType> roomGrid)
     {
