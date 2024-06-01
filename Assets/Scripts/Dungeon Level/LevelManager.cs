@@ -227,7 +227,9 @@ public class LevelManager : MonoBehaviour, ISavable
             }
         }
 
-        script.Initialize(bounds, _tileSize, roomGrid);
+        List<Door> doorScripts = doors.GetComponentsInChildren<Door>().ToList();
+
+        script.Initialize(bounds, _tileSize, roomGrid, doorScripts);
         return script;
     }
 

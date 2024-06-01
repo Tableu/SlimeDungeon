@@ -7,18 +7,22 @@ using Random = UnityEngine.Random;
 public class RoomController : MonoBehaviour
 {
     [SerializeField] private RoomCamera roomCamera;
+    [SerializeField] private RoomDoors roomDoors;
     private RectInt _bounds;
     private float _tileSize;
     private List<Transform> _waypoints;
     private int _enemyCount = 0;
     private List<EnemyController> _enemies;
     private Grid2D<Generator2D.CellType> _roomGrid;
+    private List<Door> _doors;
     
     public Action OnAllEnemiesDead;
+    public bool AllEnemiesDead => _enemyCount < 1;
 
-    public void Initialize(RectInt bounds,  float tileSize, Grid2D<Generator2D.CellType> roomGrid)
+    public void Initialize(RectInt bounds,  float tileSize, Grid2D<Generator2D.CellType> roomGrid, List<Door> doors)
     {
         _bounds = bounds;
+        _doors = doors;
         _tileSize = tileSize;
         _waypoints = new List<Transform>();
         GameObject waypoints = new GameObject("Waypoints");
@@ -36,6 +40,7 @@ public class RoomController : MonoBehaviour
         _enemies = new List<EnemyController>();
         _roomGrid = roomGrid;
         roomCamera.Initialize(bounds, tileSize);
+        roomDoors.Initialize(this, doors);
     }
     public void SpawnEnemies(List<GameObject> enemies)
     {
@@ -160,7 +165,7 @@ public class RoomController : MonoBehaviour
     private void OnEnemyDeath()
     {
         _enemyCount--;
-        if (_enemyCount < 1)
+        if (AllEnemiesDead)
         {
             OnAllEnemiesDead?.Invoke();
         }

@@ -10,7 +10,7 @@ public class RoomCamera : MonoBehaviour
     public void Initialize(RectInt bounds, float tileSize)
     {
         boundingCollider.size = new Vector3(bounds.size.x, 2, tileSize/2*(bounds.size.y-2));
-        triggerCollider.size = new Vector3(tileSize * (bounds.size.x-2), 5, tileSize * (bounds.size.y-2));
+        triggerCollider.size = new Vector3(tileSize * (bounds.size.x-3) + 1, 5, tileSize * (bounds.size.y-3) + 1);
     }
     
     private void OnTriggerEnter(Collider other)
