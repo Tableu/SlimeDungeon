@@ -32,6 +32,7 @@ public abstract class EnemyController : MonoBehaviour, ICharacterInfo, IDamageab
     private Vector3 _targetPosition;
     private int _tick = 0;
     private int _stunCounter = 0;
+    private bool _dead;
 
     public ModifiableStat Speed
     {
@@ -80,8 +81,16 @@ public abstract class EnemyController : MonoBehaviour, ICharacterInfo, IDamageab
         ChangeState(EnemyControllerState.Walk);
     }
 
-    protected void Update()
+    protected void FixedUpdate()
     {
+        _tick++;
+        if (_tick >= enemyData.DetectTick)
+        {
+            _tick = 0;
+            DetectPlayer();
+        }
+        agent.speed = Speed;
+        
         if (!agent.enabled)
             return;
         if (CurrentState == EnemyControllerState.Walk)
@@ -125,17 +134,6 @@ public abstract class EnemyController : MonoBehaviour, ICharacterInfo, IDamageab
         }
     }
 
-    private void FixedUpdate()
-    {
-        _tick++;
-        if (_tick >= enemyData.DetectTick)
-        {
-            _tick = 0;
-            DetectPlayer();
-        }
-        agent.speed = Speed;
-    }
-
     private void OnCollisionEnter(Collision other)
     {
         if(enemyData.EnableCollisionDamage)
@@ -177,6 +175,9 @@ public abstract class EnemyController : MonoBehaviour, ICharacterInfo, IDamageab
 
     private void HandleDeath()
     {
+        if (_dead)
+            return;
+        _dead = true;
         if(ResourceManager.Instance != null)
             ResourceManager.Instance.Coins.Add(enemyData.CoinsOnDeath);
         OnDeath?.Invoke();

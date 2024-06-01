@@ -82,7 +82,7 @@ namespace Controller
                     playerController.ApplyManaCost(Data.ManaCost);
                 return canCast;
             }
-            return true;
+            return !OnCooldown;
         }
 
         protected void SetLayer(GameObject gameObject)

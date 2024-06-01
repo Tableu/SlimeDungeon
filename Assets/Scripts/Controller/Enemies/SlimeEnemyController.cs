@@ -10,9 +10,9 @@ public class SlimeEnemyController : EnemyController
         faceMaterial.SetTexture("_MainTex", tex);
     }
 
-    private new void Update()
+    private new void FixedUpdate()
     {
-        base.Update();
+        base.FixedUpdate();
         if (CurrentState == EnemyControllerState.Walk || CurrentState == EnemyControllerState.Idle)
         {
             animator.SetFloat("Speed", agent.velocity.magnitude);
