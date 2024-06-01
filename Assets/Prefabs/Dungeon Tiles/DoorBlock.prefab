@@ -192,7 +192,6 @@ GameObject:
   - component: {fileID: 5371668037994466209}
   - component: {fileID: 5371668037991566209}
   - component: {fileID: 5371668037992696129}
-  - component: {fileID: 5371668037988350241}
   m_Layer: 7
   m_Name: Dungeon_Wall_Var1
   m_TagString: Untagged
@@ -265,20 +264,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &5371668037988350241
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5371668037994633089}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -7322927112031727365, guid: ab61c646b6bbc5c498e1e835ea9ac264, type: 3}
 --- !u!1 &5491626385363281734
 GameObject:
   m_ObjectHideFlags: 0
@@ -522,7 +507,6 @@ GameObject:
   - component: {fileID: 3250722899462833255}
   - component: {fileID: 3383508206355073082}
   - component: {fileID: 3757456045700040258}
-  - component: {fileID: 1473061366664884014}
   m_Layer: 7
   m_Name: Dungeon_Wall_Var1 (1)
   m_TagString: Untagged
@@ -595,20 +579,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &1473061366664884014
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9082260803097844367}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -7322927112031727365, guid: ab61c646b6bbc5c498e1e835ea9ac264, type: 3}
 --- !u!1001 &49885377929889573
 PrefabInstance:
   m_ObjectHideFlags: 0
