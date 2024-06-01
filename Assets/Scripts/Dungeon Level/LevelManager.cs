@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Controller.Player;
@@ -26,6 +27,7 @@ public class LevelManager : MonoBehaviour, ISavable
     [SerializeField] private GameObject wallColliderPrefab;
     [SerializeField] private GameObject levelCenter;
     [SerializeField] private csFogWar fogOfWar;
+    [SerializeField] private LoadingScreen loadingScreen;
     [SerializeField] private int levelCount;
     
     private List<RoomController> _roomScripts = new List<RoomController>();
@@ -129,7 +131,19 @@ public class LevelManager : MonoBehaviour, ISavable
     {
         _currentLevel++;
         saveManager.Save();
-        SceneManager.LoadScene("Scenes/DungeonGeneration");
+        StartCoroutine(LoadSceneAsync());
+    }
+
+    private IEnumerator LoadSceneAsync()
+    {
+        AsyncOperation loadSceneAsync = SceneManager.LoadSceneAsync("Scenes/DungeonGeneration");
+        
+        loadingScreen.gameObject.SetActive(true);
+        while (!loadSceneAsync.isDone)
+        {
+            loadingScreen.RotateIcon();
+            yield return null;
+        }
     }
 
     private RoomController PlaceRoom(RectInt bounds)

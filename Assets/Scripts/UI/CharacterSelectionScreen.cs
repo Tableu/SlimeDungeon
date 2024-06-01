@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using Controller.Player;
 using UnityEngine;
@@ -12,6 +13,7 @@ public class CharacterSelectionScreen : MonoBehaviour
     [SerializeField] private List<CharacterData> characterDatas;
     [SerializeField] private GameObject startButton;
     [SerializeField] private GameObject characterModel;
+    [SerializeField] private LoadingScreen loadingScreen;
     private CharacterData _selectedData;
     private void Start()
     {
@@ -42,7 +44,18 @@ public class CharacterSelectionScreen : MonoBehaviour
         PlayerPrefs.SetString("Initial Form", _selectedData.Name);
         
         PlayerPrefs.Save();
-        SceneManager.LoadScene("Scenes/DungeonGeneration");
+        StartCoroutine(LoadSceneAsync());
+    }
+    
+    private IEnumerator LoadSceneAsync()
+    {
+        AsyncOperation loadSceneAsync = SceneManager.LoadSceneAsync("Scenes/DungeonGeneration");
+        loadingScreen.gameObject.SetActive(true);
+        while (!loadSceneAsync.isDone)
+        {
+            loadingScreen.RotateIcon();
+            yield return null;
+        }
     }
 
     public void OnIconClick(CharacterData characterData)
