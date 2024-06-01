@@ -31,6 +31,7 @@ public class LevelManager : MonoBehaviour, ISavable
     [SerializeField] private int levelCount;
     
     private List<RoomController> _roomScripts = new List<RoomController>();
+    private List<Transform> _roomColliders = new List<Transform>();
     private int _tileSize;
     private List<Generator2D.LevelData> _dungeonData;
     private bool _saveDataLoaded;
@@ -80,15 +81,21 @@ public class LevelManager : MonoBehaviour, ISavable
         GlobalReferences.Instance.Player.transform.position = spawnRoom.transform.position;
 
         //Build and initialize navmesh surfaces
-        List<NavMeshBuildSource> sources = new List<NavMeshBuildSource>();
+        List<NavMeshBuildSource> allSources = new List<NavMeshBuildSource>();
         Vector3 size = new Vector3(generator2D.Size.x * generator2D.TileSize, 10,
             generator2D.Size.y * generator2D.TileSize);
         Vector3 center = new Vector3(size.x / 2, 0, size.z / 2);
         Bounds bounds = new Bounds(center, size);
-        NavMeshBuilder.CollectSources(transform, 
-            LayerMask.GetMask("Floor", "Walls"),
-            NavMeshCollectGeometry.PhysicsColliders, 0, new List<NavMeshBuildMarkup>(), sources);
-        NavMeshData data = NavMeshBuilder.BuildNavMeshData(new NavMeshBuildSettings(){overrideTileSize = true, tileSize = 512}, sources, bounds, Vector3.zero,
+        foreach (Transform colliders in _roomColliders)
+        {
+            List<NavMeshBuildSource> sources = new List<NavMeshBuildSource>();
+            NavMeshBuilder.CollectSources(colliders, 
+                LayerMask.GetMask("Floor", "Walls"),
+                NavMeshCollectGeometry.PhysicsColliders, 0, new List<NavMeshBuildMarkup>(), sources);
+            allSources.AddRange(sources);
+        }
+        
+        NavMeshData data = NavMeshBuilder.BuildNavMeshData(new NavMeshBuildSettings(){overrideTileSize = true, tileSize = 512}, allSources, bounds, Vector3.zero,
             Quaternion.identity);
         NavMesh.AddNavMeshData(data);
         
@@ -168,6 +175,7 @@ public class LevelManager : MonoBehaviour, ISavable
         GameObject colliders = new GameObject("Colliders");
         colliders.transform.parent = room.transform;
         colliders.layer = LayerMask.NameToLayer("Walls");
+        _roomColliders.Add(colliders.transform);
         
         RoomController script = room.GetComponent<RoomController>();
         Vector2 center = bounds.center*_tileSize - new Vector2((float)_tileSize/2, (float)_tileSize/2);
@@ -203,7 +211,7 @@ public class LevelManager : MonoBehaviour, ISavable
 
         GameObject floorCollider = new GameObject("Floor Collider");
         floorCollider.transform.parent = colliders.transform;
-        floorCollider.layer = LayerMask.NameToLayer("Walls");
+        floorCollider.layer = LayerMask.NameToLayer("Floor");
         BoxCollider fc = floorCollider.AddComponent<BoxCollider>();
         fc.size = new Vector3((bounds.size.x-2)*_tileSize, 0.001f, (bounds.size.y-2)*_tileSize);
         floorCollider.transform.localPosition = Vector3.zero;
@@ -445,7 +453,7 @@ public class LevelManager : MonoBehaviour, ISavable
         
         GameObject floorCollider = new GameObject("Floor Collider");
         floorCollider.transform.parent = colliders.transform;
-        floorCollider.layer = LayerMask.NameToLayer("Walls");
+        floorCollider.layer = LayerMask.NameToLayer("Floor");
         BoxCollider fc = floorCollider.AddComponent<BoxCollider>();
         fc.size = new Vector3((max.x-min.x+2)*_tileSize, 0.001f, (max.y-min.y+2)*_tileSize);
         Vector2Int colCenter = (((lastPos - firstPos)/2 + firstPos)*_tileSize);
