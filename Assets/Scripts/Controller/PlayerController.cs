@@ -80,7 +80,6 @@ public class PlayerController : MonoBehaviour, ICharacterInfo, ISavable, IDamage
         
         partyController.OnCharacterChanged += OnCharacterChanged;
         partyController.OnPartyMemberAdded += OnPartyMemberAdded;
-        partyController.OnPartyMemberRemoved += OnPartyMemberRemoved;
         partyController.Initialize(_playerInputActions);
     }
 
@@ -258,8 +257,11 @@ public class PlayerController : MonoBehaviour, ICharacterInfo, ISavable, IDamage
 
     public void UnlockAttack(AttackData attackData)
     {
-        _unlockedAttacks.Add(attackData);
-        OnAttackUnlocked?.Invoke(attackData);
+        if (!_unlockedAttacks.Contains(attackData))
+        {
+            _unlockedAttacks.Add(attackData);
+            OnAttackUnlocked?.Invoke(attackData);
+        }
     }
 
     public void RemoveAttack(AttackData attackData)
@@ -291,19 +293,6 @@ public class PlayerController : MonoBehaviour, ICharacterInfo, ISavable, IDamage
         foreach (AttackData attackData in character.Data.Spells)
         {
             UnlockAttack(attackData);
-        }
-    }
-
-    private void OnPartyMemberRemoved(Character character)
-    {
-        foreach (AttackData attackData in character.Data.Spells)
-        {
-            int index = _attacks.FindIndex(attack => attack?.Data == attackData);
-            if (index != -1)
-            {
-                UnEquipAttack(index);
-            }
-            RemoveAttack(attackData);
         }
     }
     #endregion

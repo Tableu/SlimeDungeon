@@ -19,7 +19,7 @@ public class PartyController : MonoBehaviour, ISavable
     private List<Character> _initialPartyMembers = new List<Character>();
     private List<Character> _partyMembers = new List<Character>();
     
-    public List<Character> PartyMembers => _partyMembers;
+    public List<Character> InitialPartyMembers => _initialPartyMembers;
     public int MaxPartyCount => _maxPartyCount;
     public Character CurrentCharacter => _currentCharacter; 
     public string id { get; } = "PartyController";
@@ -93,14 +93,26 @@ public class PartyController : MonoBehaviour, ISavable
         Character oldCharacter = null;
         if (_partyMembers.Count >= _maxPartyCount)
         {
+            int partyMemberIndex = _currentPartyMemberIndex;
             if (_partyMembers.Count > 0)
             {
                 oldCharacter = _currentCharacter;
-                OnPartyMemberRemoved?.Invoke(_currentCharacter);
+
+                for (int i = 0; i < _partyMembers.Count; i++)
+                {
+                    Character partyMember = _partyMembers[i];
+                    if (partyMember.Health <= 0)
+                    {
+                        oldCharacter = null;
+                        partyMemberIndex = i;
+                    }
+                }
+
+                OnPartyMemberRemoved?.Invoke(oldCharacter);
             }
-            ChangeCharacter(character, _currentPartyMemberIndex);
-            _partyMembers[_currentPartyMemberIndex] = character;
-            OnPartyMemberAdded?.Invoke(character, _currentPartyMemberIndex);
+            ChangeCharacter(character, partyMemberIndex);
+            _partyMembers[partyMemberIndex] = character;
+            OnPartyMemberAdded?.Invoke(character, partyMemberIndex);
         }
         else
         {

@@ -19,8 +19,8 @@ public class PartyBar : MonoBehaviour
             if (script != null)
             {
                 characterIcons.Add(script);
-                if(partyController.PartyMembers.Count > i)
-                    script.SetIcon(partyController.PartyMembers[i]);
+                if(partyController.InitialPartyMembers.Count > i)
+                    script.SetIcon(partyController.InitialPartyMembers[i]);
             }
         }
 
