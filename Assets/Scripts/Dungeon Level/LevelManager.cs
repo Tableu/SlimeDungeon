@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Controller.Player;
 using FischlWorks_FogWar;
@@ -29,6 +30,8 @@ public class LevelManager : MonoBehaviour, ISavable
     [SerializeField] private csFogWar fogOfWar;
     [SerializeField] private LoadingScreen loadingScreen;
     [SerializeField] private int levelCount;
+    [SerializeField] private GameObject endPopup;
+    [SerializeField] private PlayerController playerController;
     
     private List<RoomController> _roomScripts = new List<RoomController>();
     private List<Transform> _roomColliders = new List<Transform>();
@@ -137,8 +140,24 @@ public class LevelManager : MonoBehaviour, ISavable
     public void ExitLevel()
     {
         _currentLevel++;
-        saveManager.Save();
-        StartCoroutine(LoadSceneAsync());
+        if (_currentLevel < levelCount)
+        {
+            saveManager.Save();
+            StartCoroutine(LoadSceneAsync());
+        }
+        else
+        {
+            File.Delete(SaveManager.DefaultSavePath);
+            endPopup.SetActive(true);
+            Time.timeScale = 0;
+            playerController.enabled = false;
+        }
+    }
+
+    public void LoadTitleScreen()
+    {
+        Time.timeScale = 1;
+        SceneManager.LoadScene("Scenes/Title Screen");
     }
 
     private IEnumerator LoadSceneAsync()

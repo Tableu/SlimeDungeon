@@ -173,6 +173,12 @@ public class PlayerController : MonoBehaviour, ICharacterInfo, ISavable, IDamage
         }
     }
 
+    private void OnDisable()
+    {
+        _playerInputActions.Disable();
+        disableRotation = true;
+    }
+
     private void OnDestroy()
     {
         foreach (Attack attack in _attacks)
