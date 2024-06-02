@@ -49,6 +49,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chestLid: {fileID: 421368671237497445}
   openedRotation: {x: -60, y: 0, z: 0}
+  _randomChestLoot: {fileID: 11400000, guid: 76babf8f2af06a34aad4b80fdf585416, type: 2}
+  spellItemPrefab: {fileID: 3639934294997974955, guid: b8421b34b707ea54aae5a18a016559eb, type: 3}
 --- !u!65 &852861734606637570
 BoxCollider:
   m_ObjectHideFlags: 0

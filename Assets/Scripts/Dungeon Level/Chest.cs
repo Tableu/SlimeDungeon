@@ -4,6 +4,8 @@ public class Chest : MonoBehaviour, IItem
 {
     [SerializeField] private GameObject chestLid;
     [SerializeField] private Vector3 openedRotation;
+    [SerializeField] private RandomizedChestLoot _randomChestLoot;
+    [SerializeField] private GameObject spellItemPrefab;
 
     private bool _opened;
 
@@ -11,7 +13,15 @@ public class Chest : MonoBehaviour, IItem
     {
         if (!_opened)
         {
-            ResourceManager.Instance.Coins.Add(100);
+            ResourceManager.Instance.Coins.Add(_randomChestLoot.GetCoins());
+            GameObject spellItem = Instantiate(spellItemPrefab);
+            spellItem.transform.position = transform.position + new Vector3(0,1,1);
+            SpellItem script = spellItem.GetComponent<SpellItem>();
+            if (script != null)
+            {
+                script.Initialize(_randomChestLoot.GetSpell());
+            }
+            
             chestLid.transform.rotation = Quaternion.Euler(openedRotation.x,openedRotation.y,openedRotation.z);
             _opened = true;
             gameObject.layer = LayerMask.NameToLayer("Obstacles");

@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6dbb032c27b97cf48b388d6eb39ff68c, type: 3}
+  m_Name: RandomChestLoot
+  m_EditorClassIdentifier: 
+  coinRange: {x: 5, y: 20}
+  spells:
+  - {fileID: 11400000, guid: 514bc8b9164d15848b41557d278e1398, type: 2}
+  - {fileID: 11400000, guid: 05e8b705c599cef4881ca8cb1cf35551, type: 2}
+  - {fileID: 11400000, guid: d99d32efdf526504d86ca74c35d880c4, type: 2}
