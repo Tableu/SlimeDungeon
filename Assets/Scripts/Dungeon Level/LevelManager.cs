@@ -16,7 +16,7 @@ public class LevelManager : MonoBehaviour, ISavable
     [SerializeField] private Generator2D generator2D;
     [SerializeField] private RandomGameObjects randomEnemyGroups;
     [SerializeField] private RandomGameObjects randomTreasureChests;
-    [SerializeField] private RandomFormData randomCapturedCharacters;
+    [SerializeField] private RandomCharacterData randomCapturedCharacters;
     [SerializeField] private GameObject exitPrefab;
     [SerializeField] private SaveManager saveManager;
     [SerializeField] private GameObject floorTilePrefab;
