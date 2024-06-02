@@ -40,7 +40,7 @@ public class RoomController : MonoBehaviour
         _enemies = new List<EnemyController>();
         _roomGrid = roomGrid;
         roomCamera.Initialize(bounds, tileSize);
-        roomDoors.Initialize(this, doors);
+        roomDoors.Initialize(this, doors, bounds, tileSize);
     }
     public void SpawnEnemies(List<GameObject> enemies)
     {
