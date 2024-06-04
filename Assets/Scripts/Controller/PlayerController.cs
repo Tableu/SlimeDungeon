@@ -203,7 +203,7 @@ public class PlayerController : MonoBehaviour, ICharacterInfo, ISavable, IDamage
                 HandleDeath();
                 return;
             }
-            StartCoroutine(HandleKnockback(knockback, hitStun, typeMultiplier));
+            StartCoroutine(HandleKnockback(knockback, hitStun));
         }
     }
 
@@ -212,14 +212,18 @@ public class PlayerController : MonoBehaviour, ICharacterInfo, ISavable, IDamage
         partyController.CharacterFainted();
     }
 
-    private IEnumerator HandleKnockback(Vector3 knockback, float hitStun, float typeMultiplier)
+    private IEnumerator HandleKnockback(Vector3 knockback, float hitStun)
     {
         _inKnockback = true;
-        PlayerInputActions.Disable();
         rigidbody.velocity = Vector3.zero;
         rigidbody.AddForce(knockback, ForceMode.Impulse);
-        yield return new WaitForSeconds(hitStun);
-        PlayerInputActions.Enable();
+        if (hitStun > 0)
+        {
+            PlayerInputActions.Disable();
+            yield return new WaitForSeconds(hitStun);
+            PlayerInputActions.Enable();
+        }
+
         _inKnockback = false;
     }
 
