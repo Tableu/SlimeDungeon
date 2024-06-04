@@ -1,9 +1,12 @@
-public class ChickenEnemyController : EnemyController
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class ChickenEnemyAnimator : EnemyAnimator
 {
-    protected override void ChangeState(EnemyControllerState state)
+    public override void ChangeState(EnemyControllerState state)
     {
-        CurrentState = state;
-        switch (CurrentState)
+        switch (state)
         {
             case EnemyControllerState.Idle:
             case EnemyControllerState.Stunned:
@@ -15,7 +18,7 @@ public class ChickenEnemyController : EnemyController
                 animator.SetBool("Run", true);
                 break;
             case EnemyControllerState.Attack:
-                Walk();
+                OnAlertObservers.Invoke("AttackEnded");
                 break;
         }
     }
