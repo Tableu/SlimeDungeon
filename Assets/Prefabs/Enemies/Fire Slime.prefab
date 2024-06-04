@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 6042655304471014048}
   - component: {fileID: 1062181426651133041}
   - component: {fileID: 6472144971781621928}
+  - component: {fileID: 3553313987700367861}
   m_Layer: 9
   m_Name: Fire Slime
   m_TagString: Untagged
@@ -124,22 +125,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2763b07b898cee1408808f8acdb95573, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyMask:
-    serializedVersion: 2
-    m_Bits: 256
-  rigidbody: {fileID: 6042655304471014061}
   agent: {fileID: 6042655304471014048}
+  animator: {fileID: 3553313987700367861}
   waypoints:
   - {fileID: 0}
   - {fileID: 0}
-  spellOffset: {x: 0, y: 0.4, z: 0}
-  animator: {fileID: 6042655304471014063}
   enemyData: {fileID: 11400000, guid: ba20874a0ffd3ae4c893baaef65ba44e, type: 2}
-  stunEffect: {fileID: 9092857177499490824}
-  stunAura: {fileID: 6761136828445309366}
   visibilityAgent: {fileID: 6472144971781621928}
-  faces: {fileID: 11400000, guid: 8b8a7554fceb39841840f45a2d8da540, type: 2}
-  faceMaterial: {fileID: 2100000, guid: f2203f80845a66e4ab859ec6b767fcde, type: 2}
+  rigidbody: {fileID: 6042655304471014061}
 --- !u!114 &6472144971781621928
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -155,6 +148,24 @@ MonoBehaviour:
   fogWar: {fileID: 0}
   visibility: 0
   additionalRadius: 0
+--- !u!114 &3553313987700367861
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1068915873035841302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b21f8397e863fa24c92327b230ed9556, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 6042655304471014063}
+  stunEffect: {fileID: 9092857177499490824}
+  stunAura: {fileID: 6761136828445309366}
+  faces: {fileID: 11400000, guid: 8b8a7554fceb39841840f45a2d8da540, type: 2}
+  faceMaterial: {fileID: 2100000, guid: f5c4e8744f97ef4468f92d8b6072bc15, type: 2}
+  controller: {fileID: 1062181426651133041}
 --- !u!1001 &1395471156194845875
 PrefabInstance:
   m_ObjectHideFlags: 0
