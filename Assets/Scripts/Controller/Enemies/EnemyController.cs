@@ -26,7 +26,6 @@ public abstract class EnemyController : MonoBehaviour, ICharacterInfo, IDamageab
     protected FSM StateMachine;
     private List<Attack> _attacks;
     private Transform _target = null;
-    private Vector3 _targetPosition;
     protected int StunCounter = 0;
     private bool _dead;
 
@@ -167,7 +166,6 @@ public abstract class EnemyController : MonoBehaviour, ICharacterInfo, IDamageab
             if (diff.magnitude < enemyData.AggroRange && IsPlayerVisible())
             {
                 _target = GlobalReferences.Instance.Player.transform;
-                _targetPosition = _target.position + new Vector3(Random.Range(-1,1), 0, Random.Range(-1,1));
                 return true;
             }
         }

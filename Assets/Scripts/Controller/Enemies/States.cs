@@ -146,11 +146,8 @@ public class AttackState : IState
     {
         _controller.Attack();
         _animator.ChangeState(EnemyControllerState.Attack);
-        if (!_controller.EnemyData.MoveWhileAttacking)
-        {
-            _agent.isStopped = true;
-            _agent.updateRotation = false;
-        }
+        _agent.isStopped = true;
+        _agent.updateRotation = false;
     }
 
     public void OnExit()
@@ -175,7 +172,7 @@ public class FollowState : IState
     {
         if (_controller.Target != null)
         {
-            _agent.SetDestination(_controller.Target.position);
+            _agent.SetDestination(_controller.Target.position+ new Vector3(Random.Range(-1,1), 0, Random.Range(-1,1)));
         }
 
         _animator.ChangeState(_agent.velocity.sqrMagnitude > Mathf.Epsilon
