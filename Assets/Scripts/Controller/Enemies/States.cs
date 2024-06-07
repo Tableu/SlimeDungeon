@@ -156,6 +156,42 @@ public class AttackState : IState
     }
 }
 
+public class MeleeAttackState : IState
+{
+    private readonly EnemyController _controller;
+    private readonly NavMeshAgent _agent;
+    private readonly EnemyAnimator _animator;
+    
+    public MeleeAttackState(EnemyController controller, NavMeshAgent agent, EnemyAnimator animator)
+    {
+        _controller = controller;
+        _agent = agent;
+        _animator = animator;
+    }
+    public void Tick()
+    {
+        
+    }
+
+    public void LateTick()
+    {
+        
+    }
+
+    public void OnEnter()
+    {
+        _controller.Attack();
+        _animator.ChangeState(EnemyControllerState.Attack);
+        _agent.isStopped = true;
+        _agent.updateRotation = false;
+    }
+
+    public void OnExit()
+    {
+        
+    }
+}
+
 public class FollowState : IState
 {
     private readonly EnemyController _controller;
@@ -191,6 +227,64 @@ public class FollowState : IState
     public void OnEnter()
     {
         _agent.stoppingDistance = _controller.EnemyData.AttackRange;
+        _agent.isStopped = false;
+        _agent.updateRotation = true;
+    }
+
+    public void OnExit()
+    {
+    }
+}
+
+public class FollowAtDistanceState : IState
+{
+    private readonly EnemyController _controller;
+    private readonly NavMeshAgent _agent;
+    private readonly EnemyAnimator _animator;
+    
+    public FollowAtDistanceState(EnemyController controller, NavMeshAgent agent, EnemyAnimator animator)
+    {
+        _controller = controller;
+        _agent = agent;
+        _animator = animator;
+    }
+    public void Tick()
+    {
+        if (_controller.Target != null)
+        {
+            SetTarget();
+        }
+
+        _animator.ChangeState(_agent.velocity.sqrMagnitude > Mathf.Epsilon
+            ? EnemyControllerState.Walk
+            : EnemyControllerState.Idle);
+    }
+
+    public void LateTick()
+    {
+        if (_controller.Target != null)
+        {
+            AttackTargeting.RotateTowards(_controller.transform, _controller.Target);
+        }
+    }
+
+    private void SetTarget()
+    {
+        var diff = _controller.Target.position - _controller.Transform.position;
+        if (diff.magnitude <= _controller.EnemyData.AttackRange)
+        {
+            _agent.stoppingDistance = 0.1f;
+            _agent.SetDestination(_controller.Target.position + (-1*diff.normalized * _controller.EnemyData.AttackRange));
+        }
+        else if(diff.magnitude > _controller.EnemyData.AttackRange)
+        {
+            _agent.SetDestination(_controller.Target.position+ new Vector3(Random.Range(-2,2), 0, Random.Range(-2,2)));
+            _agent.stoppingDistance = _controller.EnemyData.AttackRange;
+        }
+    }
+
+    public void OnEnter()
+    {
         _agent.isStopped = false;
         _agent.updateRotation = true;
     }

@@ -1,7 +1,8 @@
 using UnityEngine;
 
-public class RangedEnemyController : EnemyController
+public class MeleeEnemyController : EnemyController
 {
+    [SerializeField] private CollisionAttack collisionAttack;
     private bool _attackAnimationComplete;
 
     protected new void Start()
@@ -9,14 +10,11 @@ public class RangedEnemyController : EnemyController
         base.Start();
         var patrol = new PatrolState(this, agent, animator);
         var stunned = new StunState(this, agent, animator);
-        var attack = new AttackState(this, agent, animator);
+        var attack = new MeleeAttackState(this, agent, animator);
         var follow = new FollowState(this, agent, animator);
         StateMachine.AddTransition(patrol, follow, PlayerInRange);
         StateMachine.AddTransition(follow, patrol, PlayerOutOfRange);
-        StateMachine.AddTransition(follow, attack, 
-            () => Target != null && 
-                  Vector3.Distance(Target.position, transform.position) < EnemyData.AttackRange &&
-                  CanAttack());
+        StateMachine.AddTransition(follow, attack, CanAttack);
         StateMachine.AddTransition(attack, follow, IsAttackAnimationComplete);
         StateMachine.AddAnyTransition(stunned, () => StunCounter > 0);
         StateMachine.AddTransition(stunned, patrol, () => StunCounter <= 0);
@@ -26,12 +24,8 @@ public class RangedEnemyController : EnemyController
 
     public override bool Attack()
     {
-        return Attacks.Count > 0 && Attacks[0] != null && Attacks[0].Begin();
-    }
-    
-    private bool CanAttack()
-    {
-        return Attacks.Count == 0 || !Attacks[0].OnCooldown;
+        collisionAttack.enabled = true;
+        return true;
     }
 
     private void OnAlertObservers(string message)
@@ -42,9 +36,16 @@ public class RangedEnemyController : EnemyController
         }
     }
 
+    private bool CanAttack()
+    {
+        return Target != null &&
+               Vector3.Distance(Target.position, transform.position) < EnemyData.AttackRange;
+    }
+
     private bool IsAttackAnimationComplete()
     {
         var complete = _attackAnimationComplete;
+        collisionAttack.enabled = complete;
         if (complete)
         {
             _attackAnimationComplete = false;

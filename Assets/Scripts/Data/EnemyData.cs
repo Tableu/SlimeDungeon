@@ -19,11 +19,8 @@ public class EnemyData : ScriptableObject
     [SerializeField] private float stoppingDistance;
     [SerializeField] private int coinsOnDeath;
     [SerializeField] private Vector2 idleTimeRange = new Vector2(2,3);
+    [SerializeField] private MeleeAttackData meleeAttackData;
 
-    [HeaderAttribute("Collision Damage")] 
-    [SerializeField] private bool enableCollisionDamage;
-    [SerializeField] private CollisionData collisonData;
-    
     public float Health => health;
     public float Speed => speed;
     public Elements.Type ElementType => elementType;
@@ -33,14 +30,13 @@ public class EnemyData : ScriptableObject
     public float StoppingDistance => stoppingDistance;
     public float AggroRange => aggroRange;
     public float DeAggroRange => deAggroRange;
-    public bool EnableCollisionDamage => enableCollisionDamage;
-    public CollisionData CollisionData => collisonData;
+    public MeleeAttackData MeleeAttackData => meleeAttackData;
     public int CoinsOnDeath => coinsOnDeath;
     public Vector2 IdleTimeRange => idleTimeRange;
 }
 
 [Serializable]
-public struct CollisionData
+public struct MeleeAttackData
 {
     public float Damage;
     public float HitStun;

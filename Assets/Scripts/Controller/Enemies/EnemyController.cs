@@ -24,7 +24,7 @@ public abstract class EnemyController : MonoBehaviour, ICharacterInfo, IDamageab
     [SerializeField] private new Rigidbody rigidbody;
 
     protected FSM StateMachine;
-    private List<Attack> _attacks;
+    protected List<Attack> Attacks;
     private Transform _target = null;
     protected int StunCounter = 0;
     private bool _dead;
@@ -56,13 +56,13 @@ public abstract class EnemyController : MonoBehaviour, ICharacterInfo, IDamageab
     #region Unity Event Functions
     protected void Start()
     {
-        _attacks = new List<Attack>();
+        Attacks = new List<Attack>();
         Speed = new ModifiableStat(enemyData.Speed);
         Health = enemyData.Health;
         foreach (AttackData attackData in enemyData.Attacks)
         {
             var attack = attackData.CreateInstance(this);
-            _attacks.Add(attack);
+            Attacks.Add(attack);
         }
 
         StateMachine = new FSM(); 
@@ -80,13 +80,6 @@ public abstract class EnemyController : MonoBehaviour, ICharacterInfo, IDamageab
     {
         StateMachine.LateTick();
     }
-
-    private void OnCollisionEnter(Collision other)
-    {
-        if(enemyData.EnableCollisionDamage)
-            CollisionAttack(other);
-    }
-
     #endregion
 
     public void TakeDamage(float damage, Vector3 knockback, float hitStun, Type attackType)
@@ -123,15 +116,7 @@ public abstract class EnemyController : MonoBehaviour, ICharacterInfo, IDamageab
         Destroy(gameObject);
     }
 
-    public bool Attack()
-    {
-        return _attacks[0] != null && _attacks[0].Begin();
-    }
-
-    public bool CanAttack()
-    {
-        return !_attacks[0].OnCooldown;
-    }
+    public abstract bool Attack();
 
     private bool IsPlayerVisible()
     {
@@ -194,16 +179,5 @@ public abstract class EnemyController : MonoBehaviour, ICharacterInfo, IDamageab
     public void SetWaypoints(List<Transform> waypoints)
     {
         this.waypoints = waypoints;
-    }
-
-    private void CollisionAttack(Collision other)
-    {
-        if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
-        {
-            CollisionData collisionData = enemyData.CollisionData;
-            IDamageable health = other.gameObject.GetComponent<IDamageable>();
-            health.TakeDamage(collisionData.Damage,(other.transform.position - transform.position).normalized*collisionData.Knockback, 
-                collisionData.HitStun, enemyData.ElementType);
-        }
     }
 }
