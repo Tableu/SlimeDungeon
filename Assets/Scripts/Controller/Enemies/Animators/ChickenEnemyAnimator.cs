@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public class ChickenEnemyAnimator : EnemyAnimator
 {
     public override void ChangeState(EnemyControllerState state)
