@@ -14,6 +14,7 @@ using Random = UnityEngine.Random;
 
 public class LevelManager : MonoBehaviour, ISavable
 {
+    private const float CORNER_OFFSET = 1.34f;
     [SerializeField] private Generator2D generator2D;
     [SerializeField] private RandomGameObjects randomEnemyGroups;
     [SerializeField] private RandomGameObjects randomTreasureChests;
@@ -358,6 +359,7 @@ public class LevelManager : MonoBehaviour, ISavable
         Vector2Int firstPos = path[0];
         Vector2Int lastPos = path[0];
         bool first = true;
+        bool firstEntrance = true;
         
         GameObject leftCol = null;
         GameObject rightCol = null;
@@ -402,7 +404,12 @@ public class LevelManager : MonoBehaviour, ISavable
                     PlaceTile(wallPrefab, left, 90, walls.transform);
                     PlaceTile(wallPrefab, right, 270, walls.transform);
                     leftCol = PlaceHallwayCollider(leftCol, left, 90, -1*verticalDirection,_tileSize, colliders.transform);
-                    rightCol = PlaceHallwayCollider(rightCol, right, -90, 1*verticalDirection,_tileSize, colliders.transform); 
+                    rightCol = PlaceHallwayCollider(rightCol, right, -90, 1*verticalDirection,_tileSize, colliders.transform);
+                    if (!firstEntrance)
+                    {
+                        ExtendHallwayCollider(leftCol, -1*verticalDirection, CORNER_OFFSET);
+                        ExtendHallwayCollider(rightCol, 1*verticalDirection, CORNER_OFFSET);
+                    }
                 }
 
                 if (CheckEntrance(up) && CheckEntrance(down))
@@ -411,7 +418,14 @@ public class LevelManager : MonoBehaviour, ISavable
                     PlaceTile(wallPrefab, up, 180, walls.transform);
                     downCol = PlaceHallwayCollider(downCol, down, 0, 1*horizontalDirection,_tileSize, colliders.transform);
                     upCol = PlaceHallwayCollider(upCol, up, 180, -1*horizontalDirection,_tileSize, colliders.transform);
+                    if (!firstEntrance)
+                    {
+                        ExtendHallwayCollider(downCol, 1*horizontalDirection, CORNER_OFFSET);
+                        ExtendHallwayCollider(upCol, -1*horizontalDirection, CORNER_OFFSET);
+                    }
                 }
+
+                firstEntrance = false;
             }
 
             if (LevelData.Grid[pos] == Generator2D.CellType.Hallway) {
@@ -444,28 +458,28 @@ public class LevelManager : MonoBehaviour, ISavable
                     if (IsHallway(up))
                     {
                         PlaceTile(cornerWallPrefab, up, 180, walls.transform);
-                        CornerHallwayCollider(upCol,-1*horizontalDirection,1.34f);
+                        ExtendHallwayCollider(upCol,-1*horizontalDirection,CORNER_OFFSET);
                         upCol = null;
                     }
 
                     if (IsHallway(down))
                     {
                         PlaceTile(cornerWallPrefab,down, 0, walls.transform);
-                        CornerHallwayCollider(downCol,1*horizontalDirection,1.34f);
+                        ExtendHallwayCollider(downCol,1*horizontalDirection,CORNER_OFFSET);
                         downCol = null;
                     }
 
                     if (IsHallway(left))
                     {
                         PlaceTile(cornerWallPrefab,left, 90, walls.transform);
-                        CornerHallwayCollider(leftCol, -1*verticalDirection,1.34f);
+                        ExtendHallwayCollider(leftCol, -1*verticalDirection,CORNER_OFFSET);
                         leftCol = null;
                     }
 
                     if (IsHallway(right))
                     {
                         PlaceTile(cornerWallPrefab, right, 270, walls.transform);
-                        CornerHallwayCollider(rightCol,1*verticalDirection,1.34f); 
+                        ExtendHallwayCollider(rightCol,1*verticalDirection,CORNER_OFFSET); 
                         rightCol = null;
                     }
                 }
@@ -489,8 +503,8 @@ public class LevelManager : MonoBehaviour, ISavable
             wall.transform.position = new Vector3(pos.x*_tileSize, 0, pos.y*_tileSize);
             wall.transform.localRotation = Quaternion.Euler(0, rotation, 0);
             BoxCollider col = wall.GetComponent<BoxCollider>();
-            col.size = new Vector3(col.size.x, col.size.y, col.size.z);
-            col.center = new Vector3(direction*(col.center.x), col.center.y, col.center.z);
+            col.size = new Vector3(col.size.x+CORNER_OFFSET, col.size.y, col.size.z);
+            col.center = new Vector3(direction*(col.center.x-CORNER_OFFSET/2), col.center.y, col.center.z);
         }
         else
         {
@@ -502,7 +516,7 @@ public class LevelManager : MonoBehaviour, ISavable
         return wall;
     }
 
-    private void CornerHallwayCollider(GameObject wall, int direction, float length)
+    private void ExtendHallwayCollider(GameObject wall, int direction, float length)
     {
         if (wall == null)
             return;

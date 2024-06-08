@@ -200,7 +200,7 @@ public class Generator2D : MonoBehaviour {
                 pathCost.cost = Vector2Int.Distance(b.Position, endPos);    //heuristic
 
 
-                if (_grid[b.Position] == CellType.Corner)
+                if (_grid[b.Position] == CellType.Corner || _grid[b.Position] == CellType.Hallway)
                 {
                     pathCost.cost += 100;
                 }
@@ -227,32 +227,24 @@ public class Generator2D : MonoBehaviour {
         //Add entrances
         foreach (var path in paths)
         {
-            bool firstHallway = true;
+            bool inRoom = true;
             var prevPos = path[0];
-            Vector2Int last = new Vector2Int(-1,-1);
-            for (int i = 0; i < path.Count; i++)
+            foreach (var pos in path)
             {
-                var pos = path[i];
-                if (_grid[pos] == CellType.Hallway) {
-                    if (firstHallway)
-                    {
-                        firstHallway = false;
-                        _grid[prevPos] = CellType.Entrance;
-                    }
-                }
-                else
+                switch (_grid[pos])
                 {
-                    if (_grid[prevPos] == CellType.Hallway)
-                    {
-                        last = pos;
-                    }
+                    case CellType.Hallway when inRoom:
+                        inRoom = false;
+                        _grid[prevPos] = CellType.Entrance;
+                        break;
+                    case CellType.Room when !inRoom:
+                        inRoom = true;
+                        _grid[pos] = CellType.Entrance;
+                        break;
                 }
-                
+
                 prevPos = pos;
             }
-            
-            if (last != new Vector2Int(-1, -1))
-                _grid[last] = CellType.Entrance;
         }
 
         return paths;
