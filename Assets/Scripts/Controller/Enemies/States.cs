@@ -70,7 +70,7 @@ public class PatrolState : IState
         _idleDuration = Random.Range(_controller.EnemyData.IdleTimeRange.x, _controller.EnemyData.IdleTimeRange.y);
         _idleTimer = 0;
         _walking = false;
-        _agent.stoppingDistance = _controller.EnemyData.StoppingDistance;
+        _agent.stoppingDistance = 0.1f;
     }
 
     public void OnExit()
@@ -82,13 +82,11 @@ public class PatrolState : IState
 public class StunState : IState
 {
     private readonly NavMeshAgent _agent;
-    private readonly EnemyController _controller;
     private readonly EnemyAnimator _animator;
 
-    public StunState(EnemyController controller, NavMeshAgent agent, EnemyAnimator animator)
+    public StunState(NavMeshAgent agent, EnemyAnimator animator)
     {
         _agent = agent;
-        _controller = controller;
         _animator = animator;
     }
     public void Tick()
@@ -122,12 +120,14 @@ public class AttackState : IState
     private readonly EnemyController _controller;
     private readonly NavMeshAgent _agent;
     private readonly EnemyAnimator _animator;
+    private readonly bool _lookAtTarget;
     
-    public AttackState(EnemyController controller, NavMeshAgent agent, EnemyAnimator animator)
+    public AttackState(EnemyController controller, NavMeshAgent agent, EnemyAnimator animator, bool lookAtTarget)
     {
         _controller = controller;
         _agent = agent;
         _animator = animator;
+        _lookAtTarget = lookAtTarget;
     }
     public void Tick()
     {
@@ -136,7 +136,7 @@ public class AttackState : IState
 
     public void LateTick()
     {
-        if (_controller.Target != null)
+        if (_lookAtTarget && _controller.Target != null)
         {
             AttackTargeting.RotateTowards(_controller.transform, _controller.Target);
         }
@@ -146,44 +146,11 @@ public class AttackState : IState
     {
         _controller.Attack();
         _animator.ChangeState(EnemyControllerState.Attack);
-        _agent.isStopped = true;
-        _agent.updateRotation = false;
-    }
-
-    public void OnExit()
-    {
-        
-    }
-}
-
-public class MeleeAttackState : IState
-{
-    private readonly EnemyController _controller;
-    private readonly NavMeshAgent _agent;
-    private readonly EnemyAnimator _animator;
-    
-    public MeleeAttackState(EnemyController controller, NavMeshAgent agent, EnemyAnimator animator)
-    {
-        _controller = controller;
-        _agent = agent;
-        _animator = animator;
-    }
-    public void Tick()
-    {
-        
-    }
-
-    public void LateTick()
-    {
-        
-    }
-
-    public void OnEnter()
-    {
-        _controller.Attack();
-        _animator.ChangeState(EnemyControllerState.Attack);
-        _agent.isStopped = true;
-        _agent.updateRotation = false;
+        if (!_controller.EnemyData.MoveAndAttack)
+        {
+            _agent.isStopped = true;
+            _agent.updateRotation = false;
+        }
     }
 
     public void OnExit()
@@ -226,7 +193,7 @@ public class FollowState : IState
 
     public void OnEnter()
     {
-        _agent.stoppingDistance = _controller.EnemyData.AttackRange;
+        _agent.stoppingDistance = _controller.EnemyData.StoppingDistance;
         _agent.isStopped = false;
         _agent.updateRotation = true;
     }
@@ -273,7 +240,7 @@ public class FollowAtDistanceState : IState
         var diff = _controller.Target.position - _controller.Transform.position;
         if (diff.magnitude <= _controller.EnemyData.AttackRange)
         {
-            _agent.stoppingDistance = 0.1f;
+            _agent.stoppingDistance = _controller.EnemyData.StoppingDistance;
             _agent.SetDestination(_controller.Target.position + (-1*diff.normalized * _controller.EnemyData.AttackRange));
         }
         else if(diff.magnitude > _controller.EnemyData.AttackRange)

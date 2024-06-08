@@ -8,8 +8,8 @@ public class RangedEnemyController : EnemyController
     {
         base.Start();
         var patrol = new PatrolState(this, agent, animator);
-        var stunned = new StunState(this, agent, animator);
-        var attack = new AttackState(this, agent, animator);
+        var stunned = new StunState(agent, animator);
+        var attack = new AttackState(this, agent, animator, true);
         var follow = new FollowState(this, agent, animator);
         StateMachine.AddTransition(patrol, follow, PlayerInRange);
         StateMachine.AddTransition(follow, patrol, PlayerOutOfRange);

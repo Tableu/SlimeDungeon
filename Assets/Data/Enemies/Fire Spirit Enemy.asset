@@ -21,7 +21,8 @@ MonoBehaviour:
   attackRange: 10
   aggroRange: 20
   deAggroRange: 25
-  stoppingDistance: 3
+  stoppingDistance: 5
+  moveAndAttack: 1
   coinsOnDeath: 10
   idleTimeRange: {x: 2, y: 3}
   meleeAttackData:

@@ -17,6 +17,7 @@ public class EnemyData : ScriptableObject
     [SerializeField] private float aggroRange;
     [SerializeField] private float deAggroRange;
     [SerializeField] private float stoppingDistance;
+    [SerializeField] private bool moveAndAttack;
     [SerializeField] private int coinsOnDeath;
     [SerializeField] private Vector2 idleTimeRange = new Vector2(2,3);
     [SerializeField] private MeleeAttackData meleeAttackData;
@@ -33,6 +34,7 @@ public class EnemyData : ScriptableObject
     public MeleeAttackData MeleeAttackData => meleeAttackData;
     public int CoinsOnDeath => coinsOnDeath;
     public Vector2 IdleTimeRange => idleTimeRange;
+    public bool MoveAndAttack => moveAndAttack;
 }
 
 [Serializable]

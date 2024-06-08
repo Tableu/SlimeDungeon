@@ -21,11 +21,11 @@ MonoBehaviour:
   attackRange: 4
   aggroRange: 5
   deAggroRange: 20
-  stoppingDistance: 3
+  stoppingDistance: 4
+  moveAndAttack: 0
   coinsOnDeath: 10
   idleTimeRange: {x: 2, y: 3}
-  enableCollisionDamage: 0
-  collisonData:
+  meleeAttackData:
     Damage: 0
     HitStun: 0
     Knockback: 0
