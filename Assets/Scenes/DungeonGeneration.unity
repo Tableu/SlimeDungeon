@@ -2213,7 +2213,7 @@ MonoBehaviour:
   tileSize: 4
   roomCount: 200
   roomMaxSize: {x: 12, y: 9}
-  roomMinSize: {x: 7, y: 8}
+  roomMinSize: {x: 6, y: 7}
 --- !u!4 &1812136623
 Transform:
   m_ObjectHideFlags: 0

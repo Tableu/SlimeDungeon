@@ -396,9 +396,19 @@ public class LevelManager : MonoBehaviour, ISavable
                 lastPos = pos;
             }
 
+            if ((LevelData.Grid[pos] == Generator2D.CellType.Room || LevelData.Grid[pos] == Generator2D.CellType.Room) && 
+                i - 1 >= 0 && LevelData.Grid[path[i - 1]] == Generator2D.CellType.Entrance)
+            {
+                leftCol = null;
+                rightCol = null;
+                upCol = null;
+                downCol = null;
+            }
+
             if (LevelData.Grid[pos] == Generator2D.CellType.Entrance)
             {
                 PlaceFloorTile(pos, floor.transform);
+                
                 if (CheckEntrance(left) && CheckEntrance(right))
                 {
                     PlaceTile(wallPrefab, left, 90, walls.transform);

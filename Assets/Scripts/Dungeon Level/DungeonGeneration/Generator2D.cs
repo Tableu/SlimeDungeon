@@ -200,7 +200,7 @@ public class Generator2D : MonoBehaviour {
                 pathCost.cost = Vector2Int.Distance(b.Position, endPos);    //heuristic
 
 
-                if (_grid[b.Position] == CellType.Corner || _grid[b.Position] == CellType.Hallway)
+                if (_grid[b.Position] == CellType.Corner || _grid[b.Position] == CellType.Hallway || _grid[b.Position] == CellType.Entrance)
                 {
                     pathCost.cost += 100;
                 }
@@ -221,29 +221,24 @@ public class Generator2D : MonoBehaviour {
                     if (_grid[current] == CellType.None) 
                         _grid[current] = CellType.Hallway;
                 }
-            }
-        }
-
-        //Add entrances
-        foreach (var path in paths)
-        {
-            bool inRoom = true;
-            var prevPos = path[0];
-            foreach (var pos in path)
-            {
-                switch (_grid[pos])
+                bool inRoom = true;
+                var prevPos = path[0];
+                foreach (var pos in path)
                 {
-                    case CellType.Hallway when inRoom:
-                        inRoom = false;
-                        _grid[prevPos] = CellType.Entrance;
-                        break;
-                    case CellType.Room when !inRoom:
-                        inRoom = true;
-                        _grid[pos] = CellType.Entrance;
-                        break;
-                }
+                    switch (_grid[pos])
+                    {
+                        case CellType.Hallway when inRoom:
+                            inRoom = false;
+                            _grid[prevPos] = CellType.Entrance;
+                            break;
+                        case CellType.Room when !inRoom:
+                            inRoom = true;
+                            _grid[pos] = CellType.Entrance;
+                            break;
+                    }
 
-                prevPos = pos;
+                    prevPos = pos;
+                }
             }
         }
 
