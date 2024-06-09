@@ -70,7 +70,7 @@ public abstract class EnemyController : MonoBehaviour, ICharacterInfo, IDamageab
         agent.speed = Speed;
     }
 
-    private void FixedUpdate()
+    protected void FixedUpdate()
     {
         agent.speed = Speed;
         StateMachine.Tick();

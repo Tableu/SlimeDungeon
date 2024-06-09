@@ -1,5 +1,7 @@
+using System;
 using UnityEngine;
 using UnityEngine.AI;
+using Random = UnityEngine.Random;
 
 public class PatrolState : IState
 {
@@ -258,5 +260,66 @@ public class FollowAtDistanceState : IState
 
     public void OnExit()
     {
+    }
+}
+
+public class WanderingState : IState
+{
+    private readonly EnemyController _controller;
+    private readonly NavMeshAgent _agent;
+    private Vector3 _direction;
+    private Vector3 _destinationNormal;
+    private bool _initialized = false;
+    
+    public WanderingState(EnemyController controller, NavMeshAgent agent)
+    {
+        _controller = controller;
+        _agent = agent;
+        _direction = Vector3.left;
+    }
+    public void Tick()
+    {
+        if (Vector3.Distance(_controller.Transform.position, _agent.destination) < 1)
+        {
+            SetDestination();
+        }
+    }
+
+    public void LateTick()
+    {
+        if (_controller.Target != null)
+        {
+            AttackTargeting.RotateTowards(_controller.transform, _controller.Target);
+        }
+    }
+
+    public void OnEnter()
+    {
+        if (!_initialized)
+        {
+            _initialized = true;
+            _agent.isStopped = false;
+            _agent.updateRotation = true;
+            _agent.stoppingDistance = 1f;
+            _direction = Quaternion.AngleAxis(45 + (Random.Range(0, 3) * 90), Vector3.up)*Vector3.right;
+            Physics.Raycast(_controller.Transform.position, _direction, out RaycastHit hitInfo, Single.PositiveInfinity,
+                LayerMask.GetMask("Walls", "Obstacles"));
+            _destinationNormal = hitInfo.normal;
+            _agent.SetDestination(hitInfo.point);
+        }
+    }
+
+    public void OnExit()
+    {
+        
+    }
+
+    private void SetDestination()
+    {
+        _direction = Vector3.Reflect(_direction, _destinationNormal);
+        Physics.Raycast(_controller.Transform.position, _direction, out RaycastHit hitInfo, Single.PositiveInfinity,
+            LayerMask.GetMask("Walls", "Obstacles"));
+        _destinationNormal = hitInfo.normal;
+        _agent.SetDestination(hitInfo.point);
     }
 }
