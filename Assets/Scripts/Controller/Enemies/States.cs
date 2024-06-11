@@ -153,6 +153,10 @@ public class AttackState : IState
             _agent.isStopped = true;
             _agent.updateRotation = false;
         }
+        if(_controller.Target != null)
+        {
+            AttackTargeting.RotateTowards(_controller.transform, _controller.Target);
+        }
     }
 
     public void OnExit()

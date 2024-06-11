@@ -16,8 +16,8 @@ public class MeleeEnemyController : EnemyController
         StateMachine.AddTransition(follow, patrol, PlayerOutOfRange);
         StateMachine.AddTransition(follow, attack, CanAttack);
         StateMachine.AddTransition(attack, follow, IsAttackAnimationComplete);
-        StateMachine.AddAnyTransition(stunned, () => StunCounter > 0);
-        StateMachine.AddTransition(stunned, patrol, () => StunCounter <= 0);
+        StateMachine.AddAnyTransition(stunned, () => Stunned);
+        StateMachine.AddTransition(stunned, patrol, () => !Stunned);
         StateMachine.SetState(patrol);
         animator.OnAlertObservers += OnAlertObservers;
     }

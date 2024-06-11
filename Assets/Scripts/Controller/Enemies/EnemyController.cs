@@ -6,7 +6,6 @@ using FischlWorks_FogWar;
 using Systems.Modifiers;
 using UnityEngine;
 using UnityEngine.AI;
-using Random = UnityEngine.Random;
 using Type = Elements.Type;
 
 public enum EnemyControllerState
@@ -26,7 +25,8 @@ public abstract class EnemyController : MonoBehaviour, ICharacterInfo, IDamageab
     protected FSM StateMachine;
     protected List<Attack> Attacks;
     private Transform _target = null;
-    protected int StunCounter = 0;
+    private int _stunCounter = 0;
+    protected bool Stunned;
     private bool _dead;
 
     public ModifiableStat Speed
@@ -99,7 +99,7 @@ public abstract class EnemyController : MonoBehaviour, ICharacterInfo, IDamageab
     {
         if (hitStun > 0)
         {
-            ApplyStun(knockback);
+            ApplyStun(knockback, hitStun);
             yield return new WaitForSeconds(hitStun);
             RemoveStun();
         }
@@ -158,21 +158,26 @@ public abstract class EnemyController : MonoBehaviour, ICharacterInfo, IDamageab
         return false;
     }
 
-    private void ApplyStun(Vector3 knockback)
+    private void ApplyStun(Vector3 knockback, float hitStun)
     {
+        if (hitStun >= 1)
+        {
+            Stunned = true;
+        }
         rigidbody.isKinematic = false;
         rigidbody.velocity = Vector3.zero;
         rigidbody.AddForce(knockback, ForceMode.Impulse);
-        StunCounter++;
+        _stunCounter++;
     }
 
     private void RemoveStun()
     {
-        StunCounter--;
-        if (StunCounter == 0)
+        _stunCounter--;
+        if (_stunCounter == 0)
         {
             rigidbody.velocity = Vector3.zero;
             rigidbody.isKinematic = true;
+            Stunned = false;
         }
     }
 

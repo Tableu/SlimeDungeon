@@ -15,8 +15,8 @@ public class WanderingEnemyController : EnemyController
                   Vector3.Distance(Target.position, transform.position) < EnemyData.AttackRange &&
                   CanAttack());
         StateMachine.AddTransition(attack, bounce, IsAttackAnimationComplete);
-        StateMachine.AddAnyTransition(stunned, () => StunCounter > 0);
-        StateMachine.AddTransition(stunned, bounce, () => StunCounter <= 0);
+        StateMachine.AddAnyTransition(stunned, () => Stunned);
+        StateMachine.AddTransition(stunned, bounce, () => !Stunned);
         StateMachine.SetState(bounce);
         animator.OnAlertObservers += OnAlertObservers;
     }
