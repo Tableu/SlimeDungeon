@@ -83,6 +83,13 @@ public class LevelManager : MonoBehaviour, ISavable
         
         RoomController spawnRoom = _roomScripts[Random.Range(0, _roomScripts.Count)];
         GlobalReferences.Instance.Player.transform.position = spawnRoom.transform.position;
+        
+        GameObject floorCollider = new GameObject("Floor Collider");
+        floorCollider.layer = LayerMask.NameToLayer("Floor");
+        BoxCollider fc = floorCollider.AddComponent<BoxCollider>();
+        fc.size = new Vector3((paddedSize.x-2)*_tileSize, 0.001f, (paddedSize.y-2)*_tileSize);
+        floorCollider.transform.position = new Vector3(
+            ((float)generator2D.Size.x * _tileSize)/2, levelCenter.transform.position.y, ((float)generator2D.Size.y * _tileSize)/2);
 
         //Build and initialize navmesh surfaces
         List<NavMeshBuildSource> allSources = new List<NavMeshBuildSource>();
@@ -495,14 +502,6 @@ public class LevelManager : MonoBehaviour, ISavable
                 }
             }
         }
-        
-        GameObject floorCollider = new GameObject("Floor Collider");
-        floorCollider.transform.parent = colliders.transform;
-        floorCollider.layer = LayerMask.NameToLayer("Floor");
-        BoxCollider fc = floorCollider.AddComponent<BoxCollider>();
-        fc.size = new Vector3((max.x-min.x+2)*_tileSize, 0.001f, (max.y-min.y+2)*_tileSize);
-        Vector2Int colCenter = (((lastPos - firstPos)/2 + firstPos)*_tileSize);
-        floorCollider.transform.position = new Vector3(colCenter.x, 0, colCenter.y);
     }
 
     private GameObject PlaceHallwayCollider(GameObject wall, Vector2 pos, int rotation, int direction, int length, Transform parent)
