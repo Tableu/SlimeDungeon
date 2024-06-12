@@ -45,7 +45,6 @@ namespace Controller.Player
             _characterAnimator = _data.AttachScript(model);
             _characterAnimator.Initialize(this, controller.PlayerInputActions);
             _basicAttack = _data.BasicAttack.CreateInstance(controller);
-            _basicAttack.LinkInput(controller.PlayerInputActions.Other.BasicAttack);
         }
 
         public void Drop()
@@ -58,7 +57,6 @@ namespace Controller.Player
             if (_basicAttack != null)
             {
                 _basicAttack.CleanUp();
-                _basicAttack.UnlinkInput();
                 _basicAttack = null;
             }
         }

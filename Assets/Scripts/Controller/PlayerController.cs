@@ -8,6 +8,7 @@ using Newtonsoft.Json.Linq;
 using Systems.Modifiers;
 using Systems.Save;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using Type = Elements.Type;
 
@@ -25,6 +26,8 @@ public class PlayerController : MonoBehaviour, ICharacterInfo, ISavable, IDamage
     private Vector2 _direction;
     private Vector2 _lastDirection;
     private bool _inKnockback = false;
+    private bool _isMouseOverUI;
+    private bool _basicAttackHeld;
     private List<AttackData> _unlockedAttacks = new List<AttackData>();
 
     private Character _currentCharacter;
@@ -52,6 +55,7 @@ public class PlayerController : MonoBehaviour, ICharacterInfo, ISavable, IDamage
         get;
         private set;
     }
+    
     public Transform Transform => transform;
     public Type ElementType => _currentCharacter.ElementType;
     public Vector3 SpellOffset => _currentCharacter.Data.SpellOffset;
@@ -109,23 +113,35 @@ public class PlayerController : MonoBehaviour, ICharacterInfo, ISavable, IDamage
                 item.PickUp(this);
             }
         };
+        
+        PlayerInputActions.Other.BasicAttack.started += delegate(InputAction.CallbackContext context)
+        {
+            if (_currentCharacter != null && !_isMouseOverUI)
+            {
+                _currentCharacter.CastBasicAttack();
+                _basicAttackHeld = true;
+            }
+        };
+        PlayerInputActions.Other.BasicAttack.canceled += delegate(InputAction.CallbackContext context)
+        {
+            _basicAttackHeld = false;
+        };
     }
 
     //Code for rotating the player to follow the mouse
     private void Update()
     {
-        if (!disableRotation)
+        _isMouseOverUI = EventSystem.current.IsPointerOverGameObject();
+        if (disableRotation) return;
+        Vector2 mousePos = Mouse.current.position.ReadValue();
+        Ray ray = Camera.main.ScreenPointToRay(mousePos);
+        if (Physics.Raycast(ray, out RaycastHit hitData, 1000, LayerMask.GetMask("Walls", "Default", "Floor")))
         {
-            Vector2 mousePos = Mouse.current.position.ReadValue();
-            Ray ray = Camera.main.ScreenPointToRay(mousePos);
-            if (Physics.Raycast(ray, out RaycastHit hitData, 1000, LayerMask.GetMask("Walls", "Default", "Floor")))
-            {
-                var diff = hitData.point - transform.position;
-                var target = new Vector3(diff.x, transform.position.y, diff.z);
-                transform.rotation =
-                    Quaternion.LookRotation(Vector3.RotateTowards(transform.forward, target, Mathf.Infinity, 0.0f));
-                transform.forward = new Vector3(target.x, 0, target.z).normalized;
-            }
+            var diff = hitData.point - transform.position;
+            var target = new Vector3(diff.x, transform.position.y, diff.z);
+            transform.rotation =
+                Quaternion.LookRotation(Vector3.RotateTowards(transform.forward, target, Mathf.Infinity, 0.0f));
+            transform.forward = new Vector3(target.x, 0, target.z).normalized;
         }
     }
 
@@ -167,7 +183,7 @@ public class PlayerController : MonoBehaviour, ICharacterInfo, ISavable, IDamage
             rigidbody.velocity = Vector3.zero;
         }
         
-        if (PlayerInputActions.Other.BasicAttack.IsPressed() && _currentCharacter != null)
+        if (_currentCharacter != null && _basicAttackHeld)
         {
             _currentCharacter.CastBasicAttack();
         }
