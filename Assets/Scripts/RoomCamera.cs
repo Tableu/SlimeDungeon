@@ -9,7 +9,13 @@ public class RoomCamera : MonoBehaviour
 
     public void Initialize(RectInt bounds, float tileSize)
     {
-        boundingCollider.size = new Vector3(bounds.size.x, 2, tileSize/2*(bounds.size.y-2));
+        float fov = virtualCamera.m_Lens.FieldOfView;
+        float d = virtualCamera.transform.localPosition.y;
+        float h = d * 2f * Mathf.Tan(fov * Mathf.Deg2Rad / 2f);
+        float w = ((float) Screen.width / Screen.height)*h;
+        float x = bounds.size.x * tileSize - w > 0 ? (bounds.size.x + 1) * tileSize - w : 0;
+        float y = bounds.size.y * tileSize - h > 0 ? bounds.size.y * tileSize - h : 0;
+        boundingCollider.size = new Vector3(x, 2, y);
         triggerCollider.size = new Vector3(tileSize * (bounds.size.x-3) + 1, 5, tileSize * (bounds.size.y-3) + 1);
     }
     

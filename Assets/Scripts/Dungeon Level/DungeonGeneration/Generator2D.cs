@@ -202,7 +202,7 @@ public class Generator2D : MonoBehaviour {
 
                 if (_grid[b.Position] == CellType.Corner || _grid[b.Position] == CellType.Hallway || _grid[b.Position] == CellType.Entrance)
                 {
-                    pathCost.cost += 100;
+                    pathCost.cost *= 10;
                 }
 
                 pathCost.cost += Math.Abs(startPos.x - endPos.x);
