@@ -1,3 +1,4 @@
+using System;
 using Controller;
 using Controller.Player;
 using UnityEngine;
@@ -9,6 +10,7 @@ public class CapturedCharacter : MonoBehaviour
     [SerializeField] private Collider characterCollider;
     private RoomController _roomController;
     private Character _character;
+    private bool _isFree;
 
     public Character Character => _character;
     
@@ -35,6 +37,15 @@ public class CapturedCharacter : MonoBehaviour
     {
         cage.SetActive(false);
         characterCollider.enabled = true;
+        _isFree = true;
+    }
+
+    private void Update()
+    {
+        if (_isFree && GlobalReferences.Instance.Player != null)
+        {
+            AttackTargeting.RotateTowards(transform, GlobalReferences.Instance.Player.transform);
+        }
     }
 
     private void OnDestroy()
