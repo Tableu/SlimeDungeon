@@ -2209,11 +2209,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f953ab52d1c4c1049857c52449807d57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  size: {x: 50, y: 50}
+  size: {x: 40, y: 40}
   tileSize: 4
-  roomCount: 200
-  roomMaxSize: {x: 12, y: 9}
-  roomMinSize: {x: 6, y: 7}
+  roomCount: 1000
+  roomMaxSize: {x: 12, y: 12}
+  roomMinSize: {x: 5, y: 5}
 --- !u!4 &1812136623
 Transform:
   m_ObjectHideFlags: 0

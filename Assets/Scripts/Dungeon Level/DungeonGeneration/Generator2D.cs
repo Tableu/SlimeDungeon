@@ -198,11 +198,22 @@ public class Generator2D : MonoBehaviour {
                 var pathCost = new DungeonPathfinder2D.PathCost();
                 
                 pathCost.cost = Vector2Int.Distance(b.Position, endPos);    //heuristic
-
-
-                if (_grid[b.Position] == CellType.Corner || _grid[b.Position] == CellType.Hallway || _grid[b.Position] == CellType.Entrance)
+                
+                if (_grid[b.Position] == CellType.Room) 
                 {
-                    pathCost.cost *= 10;
+                    pathCost.cost += 10;
+                } 
+                else if (_grid[b.Position] == CellType.None) 
+                {
+                    pathCost.cost += 5;
+                } 
+                else if (_grid[b.Position] == CellType.Hallway) 
+                {
+                    pathCost.cost += 1;
+                } 
+                else if (_grid[b.Position] == CellType.Corner)
+                {
+                    pathCost.cost += 100;
                 }
 
                 pathCost.cost += Math.Abs(startPos.x - endPos.x);
@@ -230,6 +241,9 @@ public class Generator2D : MonoBehaviour {
                         case CellType.Hallway when inRoom:
                             inRoom = false;
                             _grid[prevPos] = CellType.Entrance;
+                            break;
+                        case CellType.Entrance :
+                            inRoom = true;
                             break;
                         case CellType.Room when !inRoom:
                             inRoom = true;

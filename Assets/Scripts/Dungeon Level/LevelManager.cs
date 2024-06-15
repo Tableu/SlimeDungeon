@@ -363,8 +363,6 @@ public class LevelManager : MonoBehaviour, ISavable
         hallway.transform.position = new Vector3(center.x, 0, center.y);
         Vector2Int min = path[0];
         Vector2Int max = new Vector2Int(0, 0);
-        Vector2Int firstPos = path[0];
-        Vector2Int lastPos = path[0];
         bool first = true;
         bool firstEntrance = true;
         
@@ -398,9 +396,7 @@ public class LevelManager : MonoBehaviour, ISavable
                 if (first)
                 {
                     first = false;
-                    firstPos = pos;
                 }
-                lastPos = pos;
             }
 
             if ((LevelData.Grid[pos] == Generator2D.CellType.Room || LevelData.Grid[pos] == Generator2D.CellType.Room) && 
