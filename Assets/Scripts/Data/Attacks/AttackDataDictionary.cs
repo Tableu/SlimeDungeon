@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Attack Dictionary", menuName = "Attack Dictionary")]
+[CreateAssetMenu(fileName = "Attack Dictionary", menuName = "Data/Dictionaries/Attack Dictionary")]
 [Serializable]
 public class AttackDataDictionary : ScriptableObject
 {

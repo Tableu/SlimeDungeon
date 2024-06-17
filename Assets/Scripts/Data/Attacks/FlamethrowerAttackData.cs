@@ -1,7 +1,7 @@
 using Controller;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Flamethrower Attack", menuName = "Attacks/Flamethrower Attack")]
+[CreateAssetMenu(fileName = "Flamethrower Attack", menuName = "Data/Attacks/Flamethrower Attack")]
 public class FlamethrowerAttackData : AttackData
 {
     [SerializeField] private float initialManaCost;

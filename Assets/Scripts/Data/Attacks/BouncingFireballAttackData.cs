@@ -1,7 +1,7 @@
 using Controller;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "BouncingFireball Attack", menuName = "Attacks/BouncingFireball Attack")]
+[CreateAssetMenu(fileName = "BouncingFireball Attack", menuName = "Data/Attacks/BouncingFireball Attack")]
 public class BouncingFireballAttackData : AttackData
 {
     [SerializeField] private int maxBounceCount;

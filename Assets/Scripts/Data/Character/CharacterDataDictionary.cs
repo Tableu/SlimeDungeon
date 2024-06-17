@@ -2,7 +2,7 @@ using System;
 using Controller.Player;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Character Dictionary", menuName = "Character Dictionary")]
+[CreateAssetMenu(fileName = "Character Dictionary", menuName = "Data/Dictionaries/Character Dictionary")]
 [Serializable]
 public class CharacterDataDictionary : ScriptableObject
 {

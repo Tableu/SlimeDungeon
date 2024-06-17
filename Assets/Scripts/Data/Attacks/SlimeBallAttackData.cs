@@ -1,7 +1,7 @@
 using Controller;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "SlimeBall Attack", menuName = "Attacks/SlimeBall Attack")]
+[CreateAssetMenu(fileName = "SlimeBall Attack", menuName = "Data/Attacks/SlimeBall Attack")]
 public class SlimeBallAttackData : AttackData
 {
     [HeaderAttribute("Slime AOE")]
