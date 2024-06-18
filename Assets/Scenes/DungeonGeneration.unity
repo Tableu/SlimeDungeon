@@ -1356,8 +1356,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   generator2D: {fileID: 1812136622}
-  randomEnemyGroups: {fileID: 11400000, guid: 135112b0d90e20b4da213e8210b9c9af, type: 2}
-  randomTreasureChests: {fileID: 11400000, guid: 810c2fa74cbc0bc4aa5781d1ed7f763b, type: 2}
   randomCapturedCharacters: {fileID: 11400000, guid: 8def4d2ceea968e4989550de9681dedf, type: 2}
   exitPrefab: {fileID: 2340187052246451860, guid: 2b72ec7ea47ce474387206462d581498, type: 3}
   saveManager: {fileID: 11400000, guid: b2904bfcd0490ac4ab6147d784290975, type: 2}

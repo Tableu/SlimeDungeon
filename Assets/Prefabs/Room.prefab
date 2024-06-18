@@ -56,7 +56,7 @@ GameObject:
   - component: {fileID: 2410091220348217746}
   - component: {fileID: 7992780125637467383}
   - component: {fileID: 1100019076871245254}
-  m_Layer: 14
+  m_Layer: 17
   m_Name: DoorManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -215,6 +215,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   roomCamera: {fileID: 9123644433592179862}
   roomDoors: {fileID: 7992780125637467383}
+  roomTypeDatas:
+  - {fileID: 11400000, guid: 2aefc840ca1079b4685207b72d515811, type: 2}
 --- !u!1 &6833332271193961645
 GameObject:
   m_ObjectHideFlags: 0

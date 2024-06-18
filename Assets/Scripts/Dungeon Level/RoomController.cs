@@ -8,18 +8,19 @@ public class RoomController : MonoBehaviour
 {
     [SerializeField] private RoomCamera roomCamera;
     [SerializeField] private RoomDoors roomDoors;
+    [SerializeField] private List<RoomTypeData> roomTypeDatas;
     private RectInt _bounds;
     private float _tileSize;
     private List<Transform> _waypoints;
     private int _enemyCount = 0;
     private List<EnemyController> _enemies;
-    private Grid2D<Generator2D.CellType> _roomGrid;
     private List<Door> _doors;
+    private RoomTypeData _roomTypeData;
     
     public Action OnAllEnemiesDead;
     public bool AllEnemiesDead => _enemyCount < 1;
 
-    public void Initialize(RectInt bounds,  float tileSize, Grid2D<Generator2D.CellType> roomGrid, List<Door> doors)
+    public void Initialize(RectInt bounds,  float tileSize, List<Door> doors)
     {
         _bounds = bounds;
         _doors = doors;
@@ -38,17 +39,33 @@ public class RoomController : MonoBehaviour
         _waypoints[1].transform.position = new Vector3(waypoint.x, 0, waypoint.y);
 
         _enemies = new List<EnemyController>();
-        _roomGrid = roomGrid;
         roomCamera.Initialize(bounds, tileSize);
         roomDoors.Initialize(this, doors, bounds, tileSize);
+        int i = 0;
+        RoomTypeData roomTypeData;
+        do
+        {
+            roomTypeData = roomTypeDatas[Random.Range(0, roomTypeDatas.Count)];
+            if (_bounds.width < roomTypeData.MaxSize && _bounds.width >= roomTypeData.MinSize &&
+                _bounds.height < roomTypeData.MaxSize && _bounds.width >= roomTypeData.MinSize)
+            {
+                
+                break;
+            }
+            i++;
+        } while (i < 5);
+        roomTypeData.DecorateRoom(transform, bounds, tileSize);
+        _roomTypeData = roomTypeData;
     }
-    public void SpawnEnemies(List<GameObject> enemies)
+    public void SpawnEnemies()
     {
         if (_waypoints == null)
         {
             Debug.Log("Enemy spawn failed - waypoints were not created");
             return;
         }
+
+        List<GameObject> enemies = _roomTypeData.RandomEnemyGroups.GetRandomGroup();
 
         GameObject enemyParent = new GameObject("Enemies")
         {
@@ -63,13 +80,8 @@ public class RoomController : MonoBehaviour
         foreach (GameObject enemy in enemies)
         {
             GameObject enemyInstance = Instantiate(enemy, enemyParent.transform, false);
-            
-            Vector2Int randPos = GetRandomPosition();
-            _roomGrid[randPos] = Generator2D.CellType.Enemy;
 
-            enemyInstance.transform.position = new Vector3(
-                (_bounds.x+randPos.x)*_tileSize + _tileSize/2, 0, 
-                (_bounds.y+randPos.y)*_tileSize + _tileSize/2);
+            enemyInstance.transform.localPosition = GetRandomPosition();
             EnemyController controller = enemyInstance.GetComponent<EnemyController>();
             if (controller != null)
             {
@@ -94,12 +106,8 @@ public class RoomController : MonoBehaviour
         };
         
         GameObject characterInstance = Instantiate(data.CapturedCharacter, capturedParent.transform, false);
-        Vector2Int randPos = GetRandomPosition();
-        _roomGrid[randPos] = Generator2D.CellType.Character;
-        
-        characterInstance.transform.position = new Vector3(
-            (_bounds.x+randPos.x)*_tileSize + _tileSize/2, 0, 
-            (_bounds.y+randPos.y)*_tileSize + _tileSize/2);
+
+        characterInstance.transform.localPosition = GetRandomPosition();
         CapturedCharacter script = characterInstance.GetComponent<CapturedCharacter>();
         if (script != null)
         {
@@ -107,37 +115,11 @@ public class RoomController : MonoBehaviour
         }
     }
 
-    public void SpawnTreasureChest(GameObject chest)
-    {
-        GameObject chestParent = new GameObject("Treasure Chests")
-        {
-            transform =
-            {
-                parent = transform,
-                localPosition = Vector3.zero
-            },
-            layer = LayerMask.NameToLayer("Items")
-        };
-
-        GameObject chestInstance = Instantiate(chest, chestParent.transform, false);
-        Vector2Int randPos = GetRandomPosition();
-        _roomGrid[randPos] = Generator2D.CellType.Chest;
-
-        chestInstance.transform.position = new Vector3(
-            (_bounds.x+randPos.x)*_tileSize + _tileSize/2, 0, 
-            (_bounds.y+randPos.y)*_tileSize + _tileSize/2);
-    }
-
     public void SpawnExit(GameObject exit, LevelManager levelManager)
     {
         GameObject exitInstance = Instantiate(exit, transform, false);
-        Vector2Int randPos = GetRandomPosition();
-        _roomGrid[randPos] = Generator2D.CellType.Exit;
 
-        exitInstance.transform.position = new Vector3(
-            (_bounds.x+randPos.x)*_tileSize + _tileSize/2, 0, 
-            (_bounds.y+randPos.y)*_tileSize + _tileSize/2);
-
+        exitInstance.transform.localPosition = GetRandomPosition();
         Exit script = exitInstance.GetComponent<Exit>();
         if (script != null)
         {
@@ -145,21 +127,23 @@ public class RoomController : MonoBehaviour
         }
     }
 
-    private Vector2Int GetRandomPosition()
+    private Vector3 GetRandomPosition()
     {
-        Vector2Int randPos = new Vector2Int(
-            Random.Range(2, _bounds.size.x - 2), 
-            Random.Range(2, _bounds.size.y - 2));
+        int xExtent = (int) Mathf.Ceil(((float) _bounds.width / 2 - 1)* _tileSize - _tileSize/2);
+        int yExtent = (int) Mathf.Ceil(((float) _bounds.height / 2 - 1)* _tileSize - _tileSize/2);
+        Vector3 randomPos;
+        bool tileTaken;
         int i = 0;
-        while (_roomGrid[randPos] != Generator2D.CellType.Room && i < 5)
+        do
         {
+            randomPos = new Vector3(Random.Range(-xExtent, xExtent), 0,
+                Random.Range(-yExtent, yExtent));
+            tileTaken = Physics.CheckBox(transform.position + randomPos, new Vector3(1.5f, 1, 1.5f),
+                Quaternion.identity, LayerMask.GetMask("Walls", "Obstacles", "Enemy", "Items"));
             i++;
-            randPos = new Vector2Int(
-                Random.Range(2, _bounds.size.x - 2), 
-                Random.Range(2, _bounds.size.y - 2));
-        }
+        } while (tileTaken && i < 5);
 
-        return randPos;
+        return randomPos;
     }
 
     private void OnEnemyDeath()

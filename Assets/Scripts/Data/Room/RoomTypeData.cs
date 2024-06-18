@@ -11,9 +11,11 @@ public class RoomTypeData : ScriptableObject
     [SerializeField] private float minSize;
     [SerializeField] private int setPieceCount;
     [SerializeField] private List<RandomSetPiece> randomSetPieces;
+    [SerializeField] private RandomGameObjects randomEnemyGroups;
 
     public float MaxSize => maxSize;
     public float MinSize => minSize;
+    public RandomGameObjects RandomEnemyGroups => randomEnemyGroups;
 
     public void DecorateRoom(Transform center, RectInt bounds, float tileSize)
     {

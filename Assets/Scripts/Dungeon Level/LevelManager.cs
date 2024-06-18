@@ -16,8 +16,6 @@ public class LevelManager : MonoBehaviour, ISavable
 {
     private const float CORNER_OFFSET = 1.34f;
     [SerializeField] private Generator2D generator2D;
-    [SerializeField] private RandomGameObjects randomEnemyGroups;
-    [SerializeField] private RandomGameObjects randomTreasureChests;
     [SerializeField] private RandomCharacterData randomCapturedCharacters;
     [SerializeField] private GameObject exitPrefab;
     [SerializeField] private SaveManager saveManager;
@@ -111,30 +109,21 @@ public class LevelManager : MonoBehaviour, ISavable
         NavMesh.AddNavMeshData(data);
         
         List<CharacterData> capturedCharacters = randomCapturedCharacters.GetRandomGroup();
-        List<GameObject> treasureChests = randomTreasureChests.GetRandomGroup();
         
         //Generate random indexes for placing the random characters
         List<int> capturedCharacterIndexes = GetUniqueRandomIndexes(_roomScripts.Count, capturedCharacters.Count);
-        List<int> treasureChestIndexes = GetUniqueRandomIndexes(_roomScripts.Count, treasureChests.Count);
         int i = 0;
         using List<CharacterData>.Enumerator characterEnumerator = capturedCharacters.GetEnumerator();
-        using List<GameObject>.Enumerator treasureEnumerator = treasureChests.GetEnumerator();
         foreach (RoomController spawner in _roomScripts)
         {
             if (spawner != spawnRoom)
             {
-                spawner.SpawnEnemies(randomEnemyGroups.GetRandomGroup());
                 if (capturedCharacterIndexes.Contains(i))
                 {
                     characterEnumerator.MoveNext();
                     spawner.SpawnCapturedCharacter(characterEnumerator.Current);
                 }
-
-                if (treasureChestIndexes.Contains(i))
-                {
-                    treasureEnumerator.MoveNext();
-                    spawner.SpawnTreasureChest(treasureEnumerator.Current);
-                }
+                spawner.SpawnEnemies();
             }
             i++;
         }
