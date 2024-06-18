@@ -19,16 +19,8 @@ public class Generator2D : MonoBehaviour {
         Hallway,
         [EnumMember(Value="Entrance")]
         Entrance,
-        [EnumMember(Value="Enemy")]
-        Enemy,
-        [EnumMember(Value="Chest")]
-        Chest,
-        [EnumMember(Value="Character")]
-        Character,
         [EnumMember(Value="Corner")]
-        Corner,
-        [EnumMember(Value="Exit")]
-        Exit
+        Corner
     }
 
     private class Room {

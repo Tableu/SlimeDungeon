@@ -1485,6 +1485,10 @@ PrefabInstance:
       propertyPath: partyController
       value: 
       objectReference: {fileID: 843911634}
+    - target: {fileID: 6151538974966643030, guid: 4da3c2fdefb9dd34ab704d2858eab7e9, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4da3c2fdefb9dd34ab704d2858eab7e9, type: 3}
 --- !u!1 &843911628 stripped
@@ -2213,7 +2217,7 @@ MonoBehaviour:
   tileSize: 4
   roomCount: 1000
   roomMaxSize: {x: 12, y: 12}
-  roomMinSize: {x: 5, y: 5}
+  roomMinSize: {x: 6, y: 6}
 --- !u!4 &1812136623
 Transform:
   m_ObjectHideFlags: 0

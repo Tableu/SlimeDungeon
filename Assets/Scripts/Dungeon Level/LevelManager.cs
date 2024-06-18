@@ -33,7 +33,7 @@ public class LevelManager : MonoBehaviour, ISavable
     [SerializeField] private int levelCount;
     [SerializeField] private GameObject endPopup;
     [SerializeField] private PlayerController playerController;
-    
+
     private List<RoomController> _roomScripts = new List<RoomController>();
     private List<Transform> _roomColliders = new List<Transform>();
     private int _tileSize;
@@ -106,7 +106,7 @@ public class LevelManager : MonoBehaviour, ISavable
             allSources.AddRange(sources);
         }
         
-        NavMeshData data = NavMeshBuilder.BuildNavMeshData(new NavMeshBuildSettings(){overrideTileSize = true, tileSize = 512}, allSources, bounds, Vector3.zero,
+        NavMeshData data = NavMeshBuilder.BuildNavMeshData(new NavMeshBuildSettings(){overrideTileSize = true, tileSize = 128}, allSources, bounds, Vector3.zero,
             Quaternion.identity);
         NavMesh.AddNavMeshData(data);
         
@@ -139,7 +139,6 @@ public class LevelManager : MonoBehaviour, ISavable
             i++;
         }
 
-        
         RoomController exitRoom = _roomScripts[Random.Range(0, _roomScripts.Count)];
         while(exitRoom == spawnRoom) {exitRoom = _roomScripts[Random.Range(0, _roomScripts.Count)];}
         exitRoom.SpawnExit(exitPrefab, this);
@@ -256,7 +255,7 @@ public class LevelManager : MonoBehaviour, ISavable
 
         List<Door> doorScripts = doors.GetComponentsInChildren<Door>().ToList();
 
-        script.Initialize(bounds, _tileSize, roomGrid, doorScripts);
+        script.Initialize(bounds, _tileSize, doorScripts);
         return script;
     }
 
