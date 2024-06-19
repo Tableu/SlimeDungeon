@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Controller.Player;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -8,22 +9,21 @@ public class RoomController : MonoBehaviour
 {
     [SerializeField] private RoomCamera roomCamera;
     [SerializeField] private RoomDoors roomDoors;
-    [SerializeField] private List<RoomTypeData> roomTypeDatas;
+    
     private RectInt _bounds;
     private float _tileSize;
     private List<Transform> _waypoints;
     private int _enemyCount = 0;
     private List<EnemyController> _enemies;
-    private List<Door> _doors;
     private RoomTypeData _roomTypeData;
     
     public Action OnAllEnemiesDead;
     public bool AllEnemiesDead => _enemyCount < 1;
 
-    public void Initialize(RectInt bounds,  float tileSize, List<Door> doors)
+    public void Initialize(RectInt bounds,  float tileSize, List<Door> doors, 
+        List<RoomLayoutData> roomLayoutDatas, RandomRoomTypeData randomRoomTypeDatas, Transform colliderTransform)
     {
         _bounds = bounds;
-        _doors = doors;
         _tileSize = tileSize;
         _waypoints = new List<Transform>();
         GameObject waypoints = new GameObject("Waypoints");
@@ -42,20 +42,21 @@ public class RoomController : MonoBehaviour
         roomCamera.Initialize(bounds, tileSize);
         roomDoors.Initialize(this, doors, bounds, tileSize);
         int i = 0;
-        RoomTypeData roomTypeData;
+        RoomLayoutData roomLayoutData;
         do
         {
-            roomTypeData = roomTypeDatas[Random.Range(0, roomTypeDatas.Count)];
-            if (_bounds.width < roomTypeData.MaxSize && _bounds.width >= roomTypeData.MinSize &&
-                _bounds.height < roomTypeData.MaxSize && _bounds.width >= roomTypeData.MinSize)
+            roomLayoutData = roomLayoutDatas[Random.Range(0, roomLayoutDatas.Count)];
+            if (_bounds.width < roomLayoutData.MaxSize && _bounds.width >= roomLayoutData.MinSize &&
+                _bounds.height < roomLayoutData.MaxSize && _bounds.width >= roomLayoutData.MinSize)
             {
-                
                 break;
             }
             i++;
         } while (i < 5);
-        roomTypeData.DecorateRoom(transform, bounds, tileSize);
-        _roomTypeData = roomTypeData;
+
+        List<Transform> decorationPositions = roomLayoutData.PlaceRoomLayout(colliderTransform, bounds, tileSize, doors.Select(o=>o.transform.position).ToList());
+        _roomTypeData = randomRoomTypeDatas.GetRandomElement();
+        _roomTypeData.DecorateRoom(decorationPositions);
     }
     public void SpawnEnemies()
     {
@@ -127,7 +128,7 @@ public class RoomController : MonoBehaviour
         }
     }
 
-    private Vector3 GetRandomPosition()
+    public Vector3 GetRandomPosition()
     {
         int xExtent = (int) Mathf.Ceil(((float) _bounds.width / 2 - 1)* _tileSize - _tileSize/2);
         int yExtent = (int) Mathf.Ceil(((float) _bounds.height / 2 - 1)* _tileSize - _tileSize/2);
@@ -141,7 +142,7 @@ public class RoomController : MonoBehaviour
             tileTaken = Physics.CheckBox(transform.position + randomPos, new Vector3(1.5f, 1, 1.5f),
                 Quaternion.identity, LayerMask.GetMask("Walls", "Obstacles", "Enemy", "Items"));
             i++;
-        } while (tileTaken && i < 5);
+        } while (tileTaken && i < 100);
 
         return randomPos;
     }

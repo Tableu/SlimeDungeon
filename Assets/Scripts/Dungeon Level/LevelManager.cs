@@ -16,7 +16,9 @@ public class LevelManager : MonoBehaviour, ISavable
 {
     private const float CORNER_OFFSET = 1.34f;
     [SerializeField] private Generator2D generator2D;
-    [SerializeField] private RandomCharacterData randomCapturedCharacters;
+    [SerializeField] private RandomCharacterDataGroups randomCapturedCharacters;
+    [SerializeField] private List<RoomLayoutData> roomLayoutDatas;
+    [SerializeField] private RandomRoomTypeData randomRoomTypeDatas;
     [SerializeField] private GameObject exitPrefab;
     [SerializeField] private SaveManager saveManager;
     [SerializeField] private GameObject floorTilePrefab;
@@ -38,6 +40,7 @@ public class LevelManager : MonoBehaviour, ISavable
     private List<Generator2D.LevelData> _dungeonData;
     private bool _saveDataLoaded;
     private int _currentLevel;
+    private RoomController _spawnRoom;
     private Generator2D.LevelData LevelData => _dungeonData[_currentLevel];
 
     public string id { get; } = "LevelManager";
@@ -45,10 +48,6 @@ public class LevelManager : MonoBehaviour, ISavable
     private void Awake()
     {
         saveManager.Load();
-    }
-
-    private void Start()
-    {
         if (!_saveDataLoaded) //If there is no save data, the player is on a new save and the level manager should generate a new set of levels
         {
             _dungeonData = new List<Generator2D.LevelData>();
@@ -79,16 +78,14 @@ public class LevelManager : MonoBehaviour, ISavable
             ((float)generator2D.Size.x * _tileSize)/2, levelCenter.transform.position.y, ((float)generator2D.Size.y * _tileSize)/2);
         fogOfWar.Initialize(paddedSize*2, _tileSize/2);
         
-        RoomController spawnRoom = _roomScripts[Random.Range(0, _roomScripts.Count)];
-        GlobalReferences.Instance.Player.transform.position = spawnRoom.transform.position;
-        
+        _spawnRoom = _roomScripts[Random.Range(0, _roomScripts.Count)];
+
         GameObject floorCollider = new GameObject("Floor Collider");
         floorCollider.layer = LayerMask.NameToLayer("Floor");
         BoxCollider fc = floorCollider.AddComponent<BoxCollider>();
         fc.size = new Vector3((paddedSize.x-2)*_tileSize, 0.001f, (paddedSize.y-2)*_tileSize);
         floorCollider.transform.position = new Vector3(
             ((float)generator2D.Size.x * _tileSize)/2, levelCenter.transform.position.y, ((float)generator2D.Size.y * _tileSize)/2);
-
         //Build and initialize navmesh surfaces
         List<NavMeshBuildSource> allSources = new List<NavMeshBuildSource>();
         Vector3 size = new Vector3(generator2D.Size.x * generator2D.TileSize, 10,
@@ -107,7 +104,11 @@ public class LevelManager : MonoBehaviour, ISavable
         NavMeshData data = NavMeshBuilder.BuildNavMeshData(new NavMeshBuildSettings(){overrideTileSize = true, tileSize = 128}, allSources, bounds, Vector3.zero,
             Quaternion.identity);
         NavMesh.AddNavMeshData(data);
-        
+    }
+
+    private void Start()
+    {
+        GlobalReferences.Instance.Player.transform.position = _spawnRoom.transform.position;
         List<CharacterData> capturedCharacters = randomCapturedCharacters.GetRandomGroup();
         
         //Generate random indexes for placing the random characters
@@ -116,7 +117,7 @@ public class LevelManager : MonoBehaviour, ISavable
         using List<CharacterData>.Enumerator characterEnumerator = capturedCharacters.GetEnumerator();
         foreach (RoomController spawner in _roomScripts)
         {
-            if (spawner != spawnRoom)
+            if (spawner != _spawnRoom)
             {
                 if (capturedCharacterIndexes.Contains(i))
                 {
@@ -129,7 +130,7 @@ public class LevelManager : MonoBehaviour, ISavable
         }
 
         RoomController exitRoom = _roomScripts[Random.Range(0, _roomScripts.Count)];
-        while(exitRoom == spawnRoom) {exitRoom = _roomScripts[Random.Range(0, _roomScripts.Count)];}
+        while(exitRoom == _spawnRoom) {exitRoom = _roomScripts[Random.Range(0, _roomScripts.Count)];}
         exitRoom.SpawnExit(exitPrefab, this);
     }
 
@@ -244,7 +245,7 @@ public class LevelManager : MonoBehaviour, ISavable
 
         List<Door> doorScripts = doors.GetComponentsInChildren<Door>().ToList();
 
-        script.Initialize(bounds, _tileSize, doorScripts);
+        script.Initialize(bounds, _tileSize, doorScripts, roomLayoutDatas, randomRoomTypeDatas, colliders.transform);
         return script;
     }
 
