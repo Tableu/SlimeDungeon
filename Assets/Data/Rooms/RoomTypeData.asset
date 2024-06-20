@@ -12,14 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b86b4d47edbf75a4faf621413cc901aa, type: 3}
   m_Name: RoomTypeData
   m_EditorClassIdentifier: 
-  maxSize: 12
-  minSize: 1
-  setPieceCount: 3
-  randomSetPieces:
-  - Data: {fileID: 11400000, guid: 19ec5a5584975e542ae1d77c3591e512, type: 2}
-    Weight: 10
-    Repeatable: 1
-  - Data: {fileID: 11400000, guid: 2d8ebbebddb701c4c9811dd2f21dd2d6, type: 2}
-    Weight: 1
+  randomDecorations:
+  - Prefab: {fileID: 2403275009475036443, guid: 597db401cb021d944baea90a20a1edaf, type: 3}
+    Weight: 5
     Repeatable: 0
+  - Prefab: {fileID: 976978833530832349, guid: 338bc3bb86158e949b2eec81a6cbf94d, type: 3}
+    Weight: 5
+    Repeatable: 1
+  - Prefab: {fileID: 8885515271054598414, guid: 3f7ea6a909e0bee4eb934199d7b09748, type: 3}
+    Weight: 5
+    Repeatable: 1
   randomEnemyGroups: {fileID: 11400000, guid: 135112b0d90e20b4da213e8210b9c9af, type: 2}
