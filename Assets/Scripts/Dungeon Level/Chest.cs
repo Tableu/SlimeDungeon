@@ -14,15 +14,15 @@ public class Chest : MonoBehaviour, IItem
         if (!_opened)
         {
             ResourceManager.Instance.Coins.Add(_randomChestLoot.GetCoins());
-            GameObject spellItem = Instantiate(spellItemPrefab);
-            spellItem.transform.position = transform.position + new Vector3(0,1,1);
+            GameObject spellItem = Instantiate(spellItemPrefab, transform);
+            spellItem.transform.localPosition += new Vector3(0,1,1);
             SpellItem script = spellItem.GetComponent<SpellItem>();
             if (script != null)
             {
                 script.Initialize(_randomChestLoot.GetSpell());
             }
             
-            chestLid.transform.rotation = Quaternion.Euler(openedRotation.x,openedRotation.y,openedRotation.z);
+            chestLid.transform.localRotation = Quaternion.Euler(openedRotation.x,openedRotation.y,openedRotation.z);
             _opened = true;
             gameObject.layer = LayerMask.NameToLayer("Obstacles");
         }
