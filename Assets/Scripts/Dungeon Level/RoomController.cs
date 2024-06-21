@@ -80,9 +80,7 @@ public class RoomController : MonoBehaviour
         
         foreach (GameObject enemy in enemies)
         {
-            GameObject enemyInstance = Instantiate(enemy, enemyParent.transform, false);
-
-            enemyInstance.transform.localPosition = GetRandomPosition();
+            GameObject enemyInstance = Instantiate(enemy, enemyParent.transform.position + GetRandomPosition(), Quaternion.identity, enemyParent.transform);
             EnemyController controller = enemyInstance.GetComponent<EnemyController>();
             if (controller != null)
             {
@@ -139,7 +137,7 @@ public class RoomController : MonoBehaviour
         {
             randomPos = new Vector3(Random.Range(-xExtent, xExtent), 0,
                 Random.Range(-yExtent, yExtent));
-            tileTaken = Physics.CheckBox(transform.position + randomPos, new Vector3(2f, 1, 2f),
+            tileTaken = Physics.CheckBox(transform.position + randomPos, new Vector3(1f, 1, 1f),
                 Quaternion.identity, LayerMask.GetMask("Walls", "Obstacles", "Enemy", "Items"));
             i++;
         } while (tileTaken && i < 100);
