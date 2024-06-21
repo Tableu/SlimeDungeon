@@ -16,7 +16,7 @@ public class RangedEnemyController : EnemyController
         StateMachine.AddTransition(follow, attack, 
             () => Target != null && 
                   Vector3.Distance(Target.position, transform.position) < EnemyData.AttackRange &&
-                  CanAttack());
+                  CanAttack() && IsPlayerVisible());
         StateMachine.AddTransition(attack, follow, IsAttackAnimationComplete);
         StateMachine.AddAnyTransition(stunned, () => Stunned);
         StateMachine.AddTransition(stunned, patrol, () => !Stunned);

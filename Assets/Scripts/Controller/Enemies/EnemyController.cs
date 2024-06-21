@@ -51,6 +51,7 @@ public abstract class EnemyController : MonoBehaviour, ICharacterInfo, IDamageab
     public List<Transform> Waypoints => waypoints;
     public bool Visible => visibilityAgent == null || visibilityAgent.Visible;
     public Transform Target => _target;
+    
     public Action OnDeath;
     
     #region Unity Event Functions
@@ -118,13 +119,15 @@ public abstract class EnemyController : MonoBehaviour, ICharacterInfo, IDamageab
 
     public abstract bool Attack();
 
-    private bool IsPlayerVisible()
+    public bool IsPlayerVisible()
     {
+        if (GlobalReferences.Instance.Player == null)
+            return false;
         bool hit = Physics.Raycast(transform.position,
             GlobalReferences.Instance.Player.transform.position - transform.position, 
             out RaycastHit hitInfo,
             enemyData.AggroRange+1, 
-            ~(1 << LayerMask.GetMask("Player", "Walls", "Floor")));
+            ~(1 << LayerMask.GetMask("Player", "Walls", "Floor", "Obstacles")));
         return hit && hitInfo.transform.CompareTag("Player");
     }
 

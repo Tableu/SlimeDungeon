@@ -182,6 +182,7 @@ public class FollowState : IState
         if (_controller.Target != null)
         {
             _agent.SetDestination(_controller.Target.position+ new Vector3(Random.Range(-1,1), 0, Random.Range(-1,1)));
+            _agent.stoppingDistance = _controller.IsPlayerVisible() ? _controller.EnemyData.StoppingDistance : 0;
         }
 
         _animator.ChangeState(_agent.velocity.sqrMagnitude > Mathf.Epsilon
@@ -199,7 +200,6 @@ public class FollowState : IState
 
     public void OnEnter()
     {
-        _agent.stoppingDistance = _controller.EnemyData.StoppingDistance;
         _agent.isStopped = false;
         _agent.updateRotation = true;
     }
@@ -226,6 +226,10 @@ public class FollowAtDistanceState : IState
         if (_controller.Target != null)
         {
             SetTarget();
+            if (!_controller.IsPlayerVisible())
+            {
+                _agent.stoppingDistance = 0;
+            }
         }
 
         _animator.ChangeState(_agent.velocity.sqrMagnitude > Mathf.Epsilon
