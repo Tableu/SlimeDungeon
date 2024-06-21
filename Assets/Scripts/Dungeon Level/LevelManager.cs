@@ -108,7 +108,7 @@ public class LevelManager : MonoBehaviour, ISavable
 
     private void Start()
     {
-        GlobalReferences.Instance.Player.transform.position = _spawnRoom.transform.position;
+        GlobalReferences.Instance.Player.transform.position = _spawnRoom.transform.position + _spawnRoom.GetRandomPosition();
         List<CharacterData> capturedCharacters = randomCapturedCharacters.GetRandomGroup();
         
         //Generate random indexes for placing the random characters

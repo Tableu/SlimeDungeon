@@ -139,7 +139,7 @@ public class RoomController : MonoBehaviour
         {
             randomPos = new Vector3(Random.Range(-xExtent, xExtent), 0,
                 Random.Range(-yExtent, yExtent));
-            tileTaken = Physics.CheckBox(transform.position + randomPos, new Vector3(1.5f, 1, 1.5f),
+            tileTaken = Physics.CheckBox(transform.position + randomPos, new Vector3(2f, 1, 2f),
                 Quaternion.identity, LayerMask.GetMask("Walls", "Obstacles", "Enemy", "Items"));
             i++;
         } while (tileTaken && i < 100);

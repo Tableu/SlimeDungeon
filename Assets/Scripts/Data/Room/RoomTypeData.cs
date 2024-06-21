@@ -21,8 +21,12 @@ public class RoomTypeData : ScriptableObject
         {
             GameObject decoration = GetRandomDecoration(decorations);
             BoxCollider collider = decoration.GetComponent<BoxCollider>();
-            bool tileTaken = Physics.CheckBox(decorationSpots[i].position, collider.size/2, 
-                decorationSpots[i].rotation, LayerMask.GetMask("Walls", "Obstacles"));
+            bool tileTaken = false;
+            if (collider != null)
+            {
+                tileTaken = Physics.CheckBox(decorationSpots[i].position, collider.size/2, 
+                    decorationSpots[i].rotation, LayerMask.GetMask("Walls", "Obstacles"));
+            }
 
             if (!tileTaken)
             {
