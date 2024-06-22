@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 976978833530832351}
   - component: {fileID: 976978833530832348}
+  - component: {fileID: 8995797379579547467}
   m_Layer: 14
   m_Name: Barrels
   m_TagString: Untagged
@@ -52,6 +53,19 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0, z: 0}
   m_TimeToStationary: 0.5
+--- !u!65 &8995797379579547467
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 976978833530832349}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Size: {x: 1.6, y: 1, z: 1.6}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &976978832996808811
 PrefabInstance:
   m_ObjectHideFlags: 0

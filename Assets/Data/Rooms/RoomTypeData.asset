@@ -16,10 +16,17 @@ MonoBehaviour:
   - Prefab: {fileID: 2403275009475036443, guid: 597db401cb021d944baea90a20a1edaf, type: 3}
     Weight: 5
     Repeatable: 0
+    RequireWall: 1
   - Prefab: {fileID: 976978833530832349, guid: 338bc3bb86158e949b2eec81a6cbf94d, type: 3}
     Weight: 5
     Repeatable: 1
+    RequireWall: 0
   - Prefab: {fileID: 8885515271054598414, guid: 3f7ea6a909e0bee4eb934199d7b09748, type: 3}
     Weight: 5
     Repeatable: 1
+    RequireWall: 0
+  - Prefab: {fileID: 3405510337610463673, guid: 17508aa6d46d05941bc054c162e1448d, type: 3}
+    Weight: 5
+    Repeatable: 1
+    RequireWall: 1
   randomEnemyGroups: {fileID: 11400000, guid: 135112b0d90e20b4da213e8210b9c9af, type: 2}

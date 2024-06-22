@@ -1062,7 +1062,7 @@ GameObject:
   - component: {fileID: 8475587471981904471}
   - component: {fileID: 2430625358391198396}
   m_Layer: 7
-  m_Name: Center Wall
+  m_Name: 3x3 Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1113,10 +1113,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   decorationSpots:
-  - {fileID: 6282897084966805220}
-  - {fileID: 3841376799463954475}
-  - {fileID: 2012038074366040609}
-  - {fileID: 6732137793025455417}
+  - Location: {fileID: 6282897084966805220}
+    NearWall: 1
+  - Location: {fileID: 3841376799463954475}
+    NearWall: 1
+  - Location: {fileID: 2012038074366040609}
+    NearWall: 1
+  - Location: {fileID: 6732137793025455417}
+    NearWall: 1
 --- !u!1 &8475587472134797774
 GameObject:
   m_ObjectHideFlags: 0

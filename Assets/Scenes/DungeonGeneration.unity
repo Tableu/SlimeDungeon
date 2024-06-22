@@ -1359,6 +1359,10 @@ MonoBehaviour:
   randomCapturedCharacters: {fileID: 11400000, guid: 8def4d2ceea968e4989550de9681dedf, type: 2}
   roomLayoutDatas:
   - {fileID: 11400000, guid: 4fe2ad83cbd3ef645a98bf5d22d62303, type: 2}
+  - {fileID: 11400000, guid: eeacb25f5974a194d915cdefcc69ea08, type: 2}
+  - {fileID: 11400000, guid: 5878d5c594df99b44917c24997775e0e, type: 2}
+  - {fileID: 11400000, guid: 1a4bcd85994156f49a48cf837e4bcb57, type: 2}
+  - {fileID: 11400000, guid: 99844452e1924374ea8fd6209b3b7e17, type: 2}
   randomRoomTypeDatas: {fileID: 11400000, guid: c39e02adda7b7da4c8389cb45de5d91a, type: 2}
   exitPrefab: {fileID: 2340187052246451860, guid: 2b72ec7ea47ce474387206462d581498, type: 3}
   saveManager: {fileID: 11400000, guid: b2904bfcd0490ac4ab6147d784290975, type: 2}
