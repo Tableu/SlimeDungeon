@@ -12,32 +12,32 @@ public class RoomTypeData : ScriptableObject
     
     public RandomGameObjectGroups RandomEnemyGroups => randomEnemyGroups;
 
-    public void DecorateRoom(List<Transform> decorationSpots)
+    public void DecorateRoom(List<RoomLayoutData.DecorationSpot> decorationSpots)
     {
         List<RandomDecoration> decorations = new List<RandomDecoration>(randomDecorations);
         int i = 0;
         int x = 0;
         while (i < decorationSpots.Count && x < decorationSpots.Count*10)
         {
-            GameObject decoration = GetRandomDecoration(decorations);
-            BoxCollider collider = decoration.GetComponent<BoxCollider>();
+            RandomDecoration decoration = GetRandomDecoration(decorations);
+            BoxCollider collider = decoration.Prefab.GetComponent<BoxCollider>();
             bool tileTaken = false;
             if (collider != null)
             {
-                tileTaken = Physics.CheckBox(decorationSpots[i].position, collider.size/2, 
-                    decorationSpots[i].rotation, LayerMask.GetMask("Walls", "Obstacles"));
+                tileTaken = Physics.CheckBox(decorationSpots[i].Location.position, collider.size/2, 
+                    decorationSpots[i].Location.rotation, LayerMask.GetMask("Walls", "Obstacles"));
             }
 
-            if (!tileTaken)
+            if (!tileTaken && (!decoration.RequireWall || decorationSpots[i].NearWall))
             {
-                Instantiate(decoration, decorationSpots[i]);
+                Instantiate(decoration.Prefab, decorationSpots[i].Location);
                 i++;
             }
             x++;
         }
     }
 
-    private GameObject GetRandomDecoration(List<RandomDecoration> setPieces)
+    private RandomDecoration GetRandomDecoration(List<RandomDecoration> setPieces)
     {
         int totalWeight = setPieces.Sum((x => x.Weight));
         int randomWeight = Random.Range(0, totalWeight);
@@ -50,11 +50,11 @@ public class RoomTypeData : ScriptableObject
             {
                 if (!data.Repeatable)
                     setPieces.Remove(data);
-                return data.Prefab;
+                return data;
             }
         }
 
-        return setPieces.Last().Prefab;
+        return setPieces.Last();
     }
     
     [Serializable]
@@ -63,5 +63,6 @@ public class RoomTypeData : ScriptableObject
         public GameObject Prefab;
         public int Weight;
         public bool Repeatable;
+        public bool RequireWall;
     }
 }

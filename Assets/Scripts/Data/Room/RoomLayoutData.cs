@@ -16,6 +16,19 @@ public class RoomLayoutData : ScriptableObject
         public GameObject Prefab;
     }
     
+    [Serializable]
+    public struct DecorationSpot
+    {
+        public Transform Location;
+        public bool NearWall;
+
+        public DecorationSpot(Transform location, bool nearWall)
+        {
+            Location = location;
+            NearWall = nearWall;
+        }
+    }
+
     [SerializeField] private float maxSize;
     [SerializeField] private float minSize;
     [SerializeField] private List<LayoutObject> layoutObjects;
@@ -23,18 +36,27 @@ public class RoomLayoutData : ScriptableObject
     public float MaxSize => maxSize;
     public float MinSize => minSize;
 
-    public List<Transform> PlaceRoomLayout(Transform center, RectInt bounds, float tileSize, List<Vector3> doors)
+    public List<DecorationSpot> PlaceRoomLayout(Transform center, RectInt bounds, float tileSize, List<Vector3> doors)
     {
-        List<Transform> decorationSpots = new List<Transform>();
+        List<DecorationSpot> decorationSpots = new List<DecorationSpot>();
         foreach (LayoutObject layoutObject in layoutObjects)
         {
             Vector3 pos = new Vector3((bounds.width-3)*tileSize/2*layoutObject.RelativePosition.x,
                 0, (bounds.height-3)*tileSize/2*layoutObject.RelativePosition.y);
-            if (doors.Any(o => Vector3.Distance(pos, o) < 2))
+            if (doors.Any(o => Vector3.Distance(pos, o) < 1))
                 continue;
+            if (layoutObject.Prefab == null)
+            {
+                GameObject spot = new GameObject("Decoration Spot");
+                spot.transform.parent = center;
+                spot.transform.localPosition = pos;
+                spot.transform.rotation = Quaternion.Euler(layoutObject.Rotation);
+                decorationSpots.Add(new DecorationSpot(spot.transform, false));
+                continue;
+            }
             GameObject instance = Instantiate(layoutObject.Prefab, center.position + pos, 
                 Quaternion.Euler(layoutObject.Rotation), center);
-            DecorationSpots spots = instance.GetComponent<DecorationSpots>();
+            Decorations spots = instance.GetComponent<Decorations>();
             if(spots != null)
                 decorationSpots.AddRange(spots.Locations);
         }
