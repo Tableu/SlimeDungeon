@@ -46,7 +46,7 @@ public class RoomController : MonoBehaviour
         do
         {
             roomLayoutData = roomLayoutDatas[Random.Range(0, roomLayoutDatas.Count)];
-            if (_bounds.width < roomLayoutData.MaxSize && _bounds.width >= roomLayoutData.MinSize &&
+            if (_bounds.width < roomLayoutData.MaxSize && _bounds.width >= roomLayoutData.MinSize ||
                 _bounds.height < roomLayoutData.MaxSize && _bounds.width >= roomLayoutData.MinSize)
             {
                 break;

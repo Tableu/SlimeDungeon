@@ -1363,6 +1363,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 5878d5c594df99b44917c24997775e0e, type: 2}
   - {fileID: 11400000, guid: 1a4bcd85994156f49a48cf837e4bcb57, type: 2}
   - {fileID: 11400000, guid: 99844452e1924374ea8fd6209b3b7e17, type: 2}
+  - {fileID: 11400000, guid: b5fd7ba0437f0e449add23169d99078b, type: 2}
   randomRoomTypeDatas: {fileID: 11400000, guid: c39e02adda7b7da4c8389cb45de5d91a, type: 2}
   exitPrefab: {fileID: 2340187052246451860, guid: 2b72ec7ea47ce474387206462d581498, type: 3}
   saveManager: {fileID: 11400000, guid: b2904bfcd0490ac4ab6147d784290975, type: 2}

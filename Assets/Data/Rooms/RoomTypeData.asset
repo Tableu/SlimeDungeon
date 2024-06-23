@@ -25,8 +25,28 @@ MonoBehaviour:
     Weight: 5
     Repeatable: 1
     RequireWall: 0
-  - Prefab: {fileID: 3405510337610463673, guid: 17508aa6d46d05941bc054c162e1448d, type: 3}
+  - Prefab: {fileID: 3243498706154587937, guid: ae9a01b559d548b41b07575fcf60d1e8, type: 3}
     Weight: 5
     Repeatable: 1
     RequireWall: 1
+  - Prefab: {fileID: 4853407102204516981, guid: 89197aa736e761e46bbb80b304e6f78a, type: 3}
+    Weight: 5
+    Repeatable: 1
+    RequireWall: 1
+  - Prefab: {fileID: 8706826499124152285, guid: 96aea18a3a3e4f140840c4c8fc79fcd7, type: 3}
+    Weight: 5
+    Repeatable: 1
+    RequireWall: 1
+  - Prefab: {fileID: 976978833530832349, guid: 0f6fb62e18332eb4a80d2d9ec563588f, type: 3}
+    Weight: 5
+    Repeatable: 1
+    RequireWall: 0
+  - Prefab: {fileID: 976978833530832349, guid: c0a6466b037baea42a99319c7a199159, type: 3}
+    Weight: 5
+    Repeatable: 1
+    RequireWall: 0
+  - Prefab: {fileID: 976978833530832349, guid: ac2f6f25826079f499ad0eebf737c91e, type: 3}
+    Weight: 5
+    Repeatable: 1
+    RequireWall: 0
   randomEnemyGroups: {fileID: 11400000, guid: 135112b0d90e20b4da213e8210b9c9af, type: 2}

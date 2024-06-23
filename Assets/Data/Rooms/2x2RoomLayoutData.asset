@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: 2x2RoomLayoutData
   m_EditorClassIdentifier: 
   maxSize: 13
-  minSize: 10
+  minSize: 8
   layoutObjects:
   - RelativePosition: {x: 0.5, y: 0.5}
     Rotation: {x: 0, y: 0, z: 0}
