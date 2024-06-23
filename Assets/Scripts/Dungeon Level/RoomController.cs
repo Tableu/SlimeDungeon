@@ -54,7 +54,8 @@ public class RoomController : MonoBehaviour
             i++;
         } while (i < 20);
 
-        List<RoomLayoutData.DecorationSpot> decorationPositions = roomLayoutData.PlaceRoomLayout(colliderTransform, bounds, tileSize, doors.Select(o=>o.transform.position).ToList());
+        List<RoomLayoutData.DecorationSpot> decorationPositions = roomLayoutData.PlaceRoomLayout(colliderTransform, bounds, tileSize, 
+            doors.Select(o=>o.transform.position).ToList(),this);
         _roomTypeData = randomRoomTypeDatas.GetRandomElement();
         _roomTypeData.DecorateRoom(decorationPositions);
     }

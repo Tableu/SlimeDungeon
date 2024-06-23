@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
+using Random = System.Random;
 
 [CreateAssetMenu(fileName = "RoomLayoutData", menuName = "Data/Rooms/Room Layout Data")]
 public class RoomLayoutData : ScriptableObject
@@ -36,17 +37,17 @@ public class RoomLayoutData : ScriptableObject
     public float MaxSize => maxSize;
     public float MinSize => minSize;
 
-    public List<DecorationSpot> PlaceRoomLayout(Transform center, RectInt bounds, float tileSize, List<Vector3> doors)
+    public List<DecorationSpot> PlaceRoomLayout(Transform center, RectInt bounds, float tileSize, List<Vector3> doors, RoomController controller)
     {
         List<DecorationSpot> decorationSpots = new List<DecorationSpot>();
         foreach (LayoutObject layoutObject in layoutObjects)
         {
-            Vector3 pos = new Vector3((bounds.width-3)*tileSize/2*layoutObject.RelativePosition.x,
-                0, (bounds.height-3)*tileSize/2*layoutObject.RelativePosition.y);
-            if (doors.Any(o => Vector3.Distance(pos, o) < 1))
-                continue;
+            Vector3 pos;
             if (layoutObject.Prefab == null)
             {
+                pos = controller.GetRandomPosition();
+                if (doors.Any(o => Vector3.Distance(pos, o) < 1))
+                    continue;
                 GameObject spot = new GameObject("Decoration Spot");
                 spot.transform.parent = center;
                 spot.transform.localPosition = pos;
@@ -54,6 +55,10 @@ public class RoomLayoutData : ScriptableObject
                 decorationSpots.Add(new DecorationSpot(spot.transform, false));
                 continue;
             }
+            pos = new Vector3((bounds.width-3)*tileSize/2*layoutObject.RelativePosition.x,
+                0, (bounds.height-3)*tileSize/2*layoutObject.RelativePosition.y);
+            if (doors.Any(o => Vector3.Distance(pos, o) < 1))
+                continue;
             GameObject instance = Instantiate(layoutObject.Prefab, center.position + pos, 
                 Quaternion.Euler(layoutObject.Rotation), center);
             Decorations spots = instance.GetComponent<Decorations>();
