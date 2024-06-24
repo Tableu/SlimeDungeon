@@ -179,8 +179,9 @@ GameObject:
   - component: {fileID: 3639934294997974960}
   - component: {fileID: 3639934294997974967}
   - component: {fileID: 3639934294997974966}
-  - component: {fileID: 3639934294997974965}
   - component: {fileID: 3639934294997974964}
+  - component: {fileID: 5792080689920567474}
+  - component: {fileID: 4305009937311930005}
   m_Layer: 11
   m_Name: SpellItem
   m_TagString: Untagged
@@ -255,19 +256,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &3639934294997974965
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3639934294997974955}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &3639934294997974964
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -283,7 +271,36 @@ MonoBehaviour:
   renderers:
   - {fileID: 3639934293969752917}
   - {fileID: 3639934294041363487}
-  speed: 5
-  height: 0.25
-  rotateSpeed: 1
+  rigidbody: {fileID: 5792080689920567474}
+  launchSpeed: {x: 2, y: 8, z: 0}
+  rotateSpeed: 3
   testData: {fileID: 11400000, guid: c5d2a1463d32f91459e236f8fea813c9, type: 2}
+--- !u!54 &5792080689920567474
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3639934294997974955}
+  serializedVersion: 2
+  m_Mass: 2
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 112
+  m_CollisionDetection: 1
+--- !u!135 &4305009937311930005
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3639934294997974955}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: -0.5, z: 0}

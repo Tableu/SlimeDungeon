@@ -54,6 +54,7 @@ public class CapturedCharacter : MonoBehaviour
     private void OnDestroy()
     {
         _roomController.OnAllEnemiesDead -= FreeCharacter;
-        Destroy(_chatBox.gameObject);
+        if(_chatBox != null)
+            Destroy(_chatBox.gameObject);
     }
 }

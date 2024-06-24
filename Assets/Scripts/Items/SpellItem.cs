@@ -1,14 +1,15 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class SpellItem : MonoBehaviour, IItem
 {
     [SerializeField] private List<SpriteRenderer> renderers;
-    [SerializeField] private float speed;
-    [SerializeField] private float height;
+    [SerializeField] private new Rigidbody rigidbody;
+    [SerializeField] private Vector3 launchSpeed;
     [SerializeField] private float rotateSpeed;
+
     private AttackData _data;
-    private Vector3 _pos;
     private GameObject _model;
 
     public void Initialize(AttackData data)
@@ -18,6 +19,12 @@ public class SpellItem : MonoBehaviour, IItem
         {
             renderer.sprite = data.Icon;
         }
+        rigidbody.AddForce(launchSpeed, ForceMode.Impulse);
+    }
+
+    private void Update()
+    {
+        transform.Rotate(Vector3.up, rotateSpeed);
     }
 
     public void PickUp(PlayerController character)
@@ -25,20 +32,16 @@ public class SpellItem : MonoBehaviour, IItem
         character.UnlockAttack(_data);
         Destroy(gameObject);
     }
-    
-    private void Start()
+
+    private void OnCollisionStay(Collision other)
     {
-        _pos = transform.position;
+        if (other.gameObject.layer == LayerMask.NameToLayer("Floor"))
+        {
+            rigidbody.velocity = new Vector3(0, rigidbody.velocity.y, 0);
+        }
     }
 
-    private void Update()
-    {
-        float newY = Mathf.Sin(Time.time * speed)*height + _pos.y;
-        transform.position = new Vector3(_pos.x, newY, _pos.z);
-        transform.Rotate(Vector3.up, rotateSpeed);
-    }
-    
-    #if UNITY_EDITOR
+#if UNITY_EDITOR
     [SerializeField] private AttackData testData;
     [ContextMenu("Test")]
     public void Test()

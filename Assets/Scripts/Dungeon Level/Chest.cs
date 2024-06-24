@@ -15,7 +15,7 @@ public class Chest : MonoBehaviour, IItem
         {
             ResourceManager.Instance.Coins.Add(_randomChestLoot.GetCoins());
             GameObject spellItem = Instantiate(spellItemPrefab, transform);
-            spellItem.transform.localPosition += new Vector3(0,1,1);
+            spellItem.transform.localPosition += new Vector3(0,1,0);
             SpellItem script = spellItem.GetComponent<SpellItem>();
             if (script != null)
             {
