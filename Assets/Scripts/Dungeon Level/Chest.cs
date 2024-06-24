@@ -6,6 +6,7 @@ public class Chest : MonoBehaviour, IItem
     [SerializeField] private Vector3 openedRotation;
     [SerializeField] private RandomizedChestLoot _randomChestLoot;
     [SerializeField] private GameObject spellItemPrefab;
+    [SerializeField] private ParticleSystem particleSystem;
 
     private bool _opened;
 
@@ -21,7 +22,7 @@ public class Chest : MonoBehaviour, IItem
             {
                 script.Initialize(_randomChestLoot.GetSpell());
             }
-            
+            particleSystem.Play();
             chestLid.transform.localRotation = Quaternion.Euler(openedRotation.x,openedRotation.y,openedRotation.z);
             _opened = true;
             gameObject.layer = LayerMask.NameToLayer("Obstacles");
