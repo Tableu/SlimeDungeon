@@ -1,5 +1,3 @@
-using System;
-using Controller;
 using Controller.Player;
 using UnityEngine;
 
@@ -8,6 +6,7 @@ public class CapturedCharacter : MonoBehaviour
     [SerializeField] private GameObject cage;
     [SerializeField] private GameObject character;
     [SerializeField] private Collider characterCollider;
+    private Chatbox _chatBox;
     private RoomController _roomController;
     private Character _character;
     private bool _isFree;
@@ -20,6 +19,8 @@ public class CapturedCharacter : MonoBehaviour
         _roomController.OnAllEnemiesDead += FreeCharacter;
         _character = new Character(characterData);
         characterCollider.enabled = false;
+        _chatBox = ChatBoxManager.Instance.SpawnChatBox(transform);
+        _chatBox.SetMessage("Help!");
     }
 
     public void SwitchCharacter(Character newCharacter)
@@ -31,6 +32,7 @@ public class CapturedCharacter : MonoBehaviour
             character = Instantiate(_character.Data.Model, transform);
             character.layer = LayerMask.NameToLayer("Items");
         }
+        _chatBox.gameObject.SetActive(false);
     }
 
     private void FreeCharacter()
@@ -38,6 +40,7 @@ public class CapturedCharacter : MonoBehaviour
         cage.SetActive(false);
         characterCollider.enabled = true;
         _isFree = true;
+        _chatBox.SetMessage("Thank You!");
     }
 
     private void Update()
@@ -51,5 +54,6 @@ public class CapturedCharacter : MonoBehaviour
     private void OnDestroy()
     {
         _roomController.OnAllEnemiesDead -= FreeCharacter;
+        Destroy(_chatBox.gameObject);
     }
 }
