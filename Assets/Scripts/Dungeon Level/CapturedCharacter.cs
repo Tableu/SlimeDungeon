@@ -6,6 +6,7 @@ public class CapturedCharacter : MonoBehaviour
     [SerializeField] private GameObject cage;
     [SerializeField] private GameObject character;
     [SerializeField] private Collider characterCollider;
+    [SerializeField] private Animator animator;
     private Chatbox _chatBox;
     private RoomController _roomController;
     private Character _character;
@@ -40,6 +41,7 @@ public class CapturedCharacter : MonoBehaviour
         cage.SetActive(false);
         characterCollider.enabled = true;
         _isFree = true;
+        animator.Play("Jump");
         _chatBox.SetMessage("Thank You!");
     }
 

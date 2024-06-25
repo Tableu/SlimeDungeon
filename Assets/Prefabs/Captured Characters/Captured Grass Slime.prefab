@@ -49,6 +49,7 @@ MonoBehaviour:
   cage: {fileID: 5472997351725973545}
   character: {fileID: 387424608489763030}
   characterCollider: {fileID: 2995281531586721768}
+  animator: {fileID: 2995281531586721783}
 --- !u!1001 &2639517421879996134
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -259,5 +260,10 @@ Transform:
 --- !u!135 &2995281531586721768 stripped
 SphereCollider:
   m_CorrespondingSourceObject: {fileID: 986217583, guid: ab153cae36122d34f8f962d78a22be32, type: 3}
+  m_PrefabInstance: {fileID: 2995281531213958023}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &2995281531586721783 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 986217584, guid: ab153cae36122d34f8f962d78a22be32, type: 3}
   m_PrefabInstance: {fileID: 2995281531213958023}
   m_PrefabAsset: {fileID: 0}
