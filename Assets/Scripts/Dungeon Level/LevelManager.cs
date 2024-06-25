@@ -350,9 +350,6 @@ public class LevelManager : MonoBehaviour, ISavable
         
         Vector2Int center = path[(path.Count-1) / 2] * _tileSize;
         hallway.transform.position = new Vector3(center.x, 0, center.y);
-        Vector2Int min = path[0];
-        Vector2Int max = new Vector2Int(0, 0);
-        bool first = true;
         bool firstEntrance = true;
         
         GameObject leftCol = null;
@@ -371,30 +368,14 @@ public class LevelManager : MonoBehaviour, ISavable
             var up = pos + Vector2Int.up;
             var down = pos + Vector2Int.down;
 
-            if (IsHallway(pos))
-            {
-                if (pos.x < min.x)
-                    min.x = pos.x;
-                if (pos.x > max.x)
-                    max.x = pos.x;
-                if (pos.y < min.y)
-                    min.y = pos.y;
-                if (pos.y > max.y)
-                    max.y = pos.y;
-
-                if (first)
-                {
-                    first = false;
-                }
-            }
-
-            if ((LevelData.Grid[pos] == Generator2D.CellType.Room || LevelData.Grid[pos] == Generator2D.CellType.Room) && 
+            if (LevelData.Grid[pos] == Generator2D.CellType.Room && 
                 i - 1 >= 0 && LevelData.Grid[path[i - 1]] == Generator2D.CellType.Entrance)
             {
                 leftCol = null;
                 rightCol = null;
                 upCol = null;
                 downCol = null;
+                firstEntrance = true;
             }
 
             if (LevelData.Grid[pos] == Generator2D.CellType.Entrance)
