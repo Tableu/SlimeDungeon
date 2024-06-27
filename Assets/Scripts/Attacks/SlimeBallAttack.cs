@@ -11,9 +11,7 @@ public class SlimeBallAttack : Attack
         if (CheckManaCostAndCooldown())
         {
             Transform transform = CharacterInfo.Transform;
-            GameObject slimeball = GameObject.Instantiate(_data.Prefab,
-                    transform.position + new Vector3(CharacterInfo.SpellOffset.x*transform.forward.x, CharacterInfo.SpellOffset.y, CharacterInfo.SpellOffset.z*transform.forward.z), 
-                    Quaternion.identity);
+            GameObject slimeball = SpawnProjectile(transform);
             SetLayer(slimeball);
             var script = slimeball.GetComponent<SlimeBall>();
             if (script == null)

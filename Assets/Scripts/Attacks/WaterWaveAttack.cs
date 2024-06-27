@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using Controller;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -11,10 +9,7 @@ public class WaterWaveAttack : Attack
         if (CheckManaCostAndCooldown())
         {
             Transform transform = CharacterInfo.Transform;
-            GameObject wave = GameObject.Instantiate(Data.Prefab,
-                transform.position + 
-                new Vector3(CharacterInfo.SpellOffset.x*transform.forward.x, CharacterInfo.SpellOffset.y, CharacterInfo.SpellOffset.z*transform.forward.z), 
-                Quaternion.identity);
+            GameObject wave = SpawnProjectile(transform);
             wave.transform.rotation = Quaternion.Euler(
                 Data.Prefab.transform.rotation.eulerAngles.x, 
                 Data.Prefab.transform.rotation.eulerAngles.y+transform.rotation.eulerAngles.y, 

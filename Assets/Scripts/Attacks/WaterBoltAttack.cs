@@ -13,8 +13,7 @@ public class WaterBoltAttack : Attack
         if (CheckManaCostAndCooldown())
         {
             Transform transform = CharacterInfo.Transform;
-            GameObject waterbolt = GameObject.Instantiate(Data.Prefab,
-                transform.position + new Vector3(CharacterInfo.SpellOffset.x*transform.forward.x, CharacterInfo.SpellOffset.y, CharacterInfo.SpellOffset.z*transform.forward.z), Quaternion.identity);
+            GameObject waterbolt = SpawnProjectile(transform);
             SetLayer(waterbolt);
             var script = waterbolt.GetComponent<WaterBolt>();
             if (script == null)

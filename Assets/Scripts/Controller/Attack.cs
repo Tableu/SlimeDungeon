@@ -85,6 +85,14 @@ namespace Controller
             return !OnCooldown;
         }
 
+        protected GameObject SpawnProjectile(Transform transform)
+        {
+            Vector3 offset = CharacterInfo.SpellOffset + Data.SpawnOffset;
+            GameObject projectile = GameObject.Instantiate(Data.Prefab,
+                transform.position + new Vector3(offset.x*transform.forward.x, offset.y, offset.z*transform.forward.z), Quaternion.identity);
+            return projectile;
+        }
+
         protected void SetLayer(GameObject gameObject)
         {
             gameObject.layer = CharacterInfo is PlayerController

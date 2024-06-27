@@ -46,9 +46,10 @@ public class LeafAttack : Attack
     private Vector3 RandomPosition(Transform transform)
     {
         Vector3 randomVector = new Vector3(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
-        return transform.position + new Vector3((CharacterInfo.SpellOffset.x+randomVector.x) * transform.forward.x, 
-            CharacterInfo.SpellOffset.y+randomVector.y,
-            (CharacterInfo.SpellOffset.z+randomVector.z) * transform.forward.z);
+        Vector3 offset = CharacterInfo.SpellOffset + Data.SpawnOffset;
+        return transform.position + new Vector3((offset.x+randomVector.x) * transform.forward.x, 
+            offset.y+randomVector.y,
+            (offset.z+randomVector.z) * transform.forward.z);
     }
 
     public LeafAttack(ICharacterInfo characterInfo, AttackData data) : base(characterInfo, data)

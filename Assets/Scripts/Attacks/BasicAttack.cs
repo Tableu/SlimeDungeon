@@ -14,9 +14,7 @@ public class BasicAttack<T> : Attack where T : BasicProjectile
         if (CheckManaCostAndCooldown())
         {
             Transform transform = CharacterInfo.Transform;
-            GameObject projectile = GameObject.Instantiate(Data.Prefab,
-                transform.position + new Vector3(CharacterInfo.SpellOffset.x*transform.forward.x, CharacterInfo.SpellOffset.y, 
-                    CharacterInfo.SpellOffset.z*transform.forward.z), Quaternion.identity);
+            GameObject projectile = SpawnProjectile(transform);
             SetLayer(projectile);
             var script = projectile.GetComponent<T>();
             if (script == null)

@@ -16,7 +16,9 @@ public class FlamethrowerAttack : Attack
         if (isActive)
             return false;
         Transform transform = CharacterInfo.Transform;
-        _flamethrower = GameObject.Instantiate(Data.Prefab, transform.position + new Vector3(CharacterInfo.SpellOffset.x*transform.forward.x, CharacterInfo.SpellOffset.y, CharacterInfo.SpellOffset.z*transform.forward.z), Quaternion.identity,transform);
+        Vector3 offset = CharacterInfo.SpellOffset + Data.SpawnOffset;
+        _flamethrower = GameObject.Instantiate(Data.Prefab, transform.position + new Vector3(offset.x*transform.forward.x, 
+            offset.y, offset.z*transform.forward.z), Quaternion.identity,transform);
         _flamethrower.transform.rotation = Quaternion.Euler(_flamethrower.transform.rotation.x, CharacterInfo.Transform.rotation.eulerAngles.y-90, _flamethrower.transform.rotation.z);
         SetLayer(_flamethrower);
         var script = _flamethrower.GetComponent<Flamethrower>();

@@ -12,6 +12,7 @@ public abstract class AttackData : ScriptableObject
     [SerializeField] private float manaCost;
     [SerializeField] private float hitStun;
     [SerializeField] private float cooldown;
+    [SerializeField] private Vector3 spawnOffset;
     [SerializeField] private Type elementType;
     [SerializeField] private GameObject prefab;
     [SerializeField] private Sprite icon;
@@ -27,6 +28,7 @@ public abstract class AttackData : ScriptableObject
     public Type ElementType => elementType;
     public Sprite Icon => icon;
     public string Name => name;
+    public Vector3 SpawnOffset => spawnOffset;
         
     public abstract Attack CreateInstance(ICharacterInfo characterInfo);
 }

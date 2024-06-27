@@ -10,8 +10,7 @@ public class BouncingFireballAttack : Attack
         if (CheckManaCostAndCooldown())
         {
             Transform transform = CharacterInfo.Transform;
-            GameObject fireball = GameObject.Instantiate(Data.Prefab,
-                transform.position + new Vector3(CharacterInfo.SpellOffset.x*transform.forward.x, CharacterInfo.SpellOffset.y, CharacterInfo.SpellOffset.z*transform.forward.z), Quaternion.identity);
+            GameObject fireball = SpawnProjectile(transform);
             SetLayer(fireball);
             BouncingFireball script = fireball.GetComponent<BouncingFireball>();
             if (script == null)
