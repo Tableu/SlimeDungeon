@@ -38,7 +38,7 @@ public class BouncingFireball : MonoBehaviour
         if (Time.time - lastCollisionTime < 0.1)
             return;
 
-        int mask = LayerMask.GetMask("Floor", "Walls");
+        int mask = LayerMask.GetMask("Floor", "Walls", "Obstacles");
         if (mask == (mask | (1 << other.gameObject.layer)))
         {
             if (bounceCount >= _maxBounces)
