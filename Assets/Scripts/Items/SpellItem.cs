@@ -18,7 +18,7 @@ public class SpellItem : MonoBehaviour, IItem
         {
             renderer.sprite = data.Icon;
         }
-        rigidbody.AddForce(launchSpeed, ForceMode.Impulse);
+        rigidbody.AddRelativeForce(launchSpeed, ForceMode.Impulse);
     }
 
     private void Update()

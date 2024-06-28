@@ -272,7 +272,7 @@ MonoBehaviour:
   - {fileID: 3639934293969752917}
   - {fileID: 3639934294041363487}
   rigidbody: {fileID: 5792080689920567474}
-  launchSpeed: {x: 2, y: 8, z: 0}
+  launchSpeed: {x: 0, y: 8, z: 2}
   rotateSpeed: 3
   testData: {fileID: 11400000, guid: c5d2a1463d32f91459e236f8fea813c9, type: 2}
 --- !u!54 &5792080689920567474
