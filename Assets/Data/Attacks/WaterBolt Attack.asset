@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa492b6445062a2439345c96af308be8, type: 3}
   m_Name: WaterBolt Attack
   m_EditorClassIdentifier: 
-  speed: 15
-  damage: 15
-  knockback: 0.1
+  speed: 10
+  damage: 12
+  knockback: 0
   manaCost: 0
   hitStun: 0
-  cooldown: 0.5
+  cooldown: 0.7
   elementType: 2
   prefab: {fileID: 4424843077080825869, guid: e8fcee42ca0e72b439520217d134e1f5, type: 3}
   icon: {fileID: 21300000, guid: 0d1dc8ade7e63d14da6ea8a209621906, type: 3}

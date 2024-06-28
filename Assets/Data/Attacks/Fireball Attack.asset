@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f30f956518e4f1e408081b2d06152acd, type: 3}
   m_Name: Fireball Attack
   m_EditorClassIdentifier: 
-  speed: 30
+  speed: 12
   damage: 20
-  knockback: 2
+  knockback: 0
   manaCost: 0
   hitStun: 0
-  cooldown: 0.5
+  cooldown: 0.6
   elementType: 1
   prefab: {fileID: 4292637640093511300, guid: 157aa440c4a506246823658fa914c881, type: 3}
   icon: {fileID: 21300000, guid: 2d0997ac1b1fd664e98202450e7ea2d7, type: 3}
