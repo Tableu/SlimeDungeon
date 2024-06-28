@@ -12,7 +12,7 @@ public class IceSphere : MonoBehaviour, BasicProjectile
     private Elements.Type _type;
     private bool _exploding;
 
-    public void Initialize(float damage, float hitStun, float knockback, Vector3 force, Elements.Type type)
+    public void Initialize(float damage, float knockback, float hitStun, Vector3 force, Elements.Type type)
     {
         _damage = damage;
         _hitStun = hitStun;
@@ -39,7 +39,7 @@ public class IceSphere : MonoBehaviour, BasicProjectile
         Destroy(orb);
         rigidbody.velocity = Vector3.zero;
         collider.enabled = false;
-        Collider[] enemies = Physics.OverlapSphere(transform.position, 2, LayerMask.GetMask("Enemy"));
+        Collider[] enemies = Physics.OverlapSphere(transform.position, 3, LayerMask.GetMask("Enemy"));
         foreach (Collider enemy in enemies)
         {
             IDamageable damageable = enemy.gameObject.GetComponent<IDamageable>();
