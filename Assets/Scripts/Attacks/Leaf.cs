@@ -32,7 +32,9 @@ public class Leaf : MonoBehaviour
             _previousCollisions.Add(other.gameObject);
             damage.TakeDamage(_damage,_knockback*_force.normalized, _hitStun, _type);
         }
-        if(LayerMask.NameToLayer("Walls") == other.gameObject.layer)
+
+        int mask = LayerMask.GetMask("Walls", "Obstacles");
+        if(mask == (mask | (1 << other.gameObject.layer)))
             Destroy(gameObject);
     }
 }
