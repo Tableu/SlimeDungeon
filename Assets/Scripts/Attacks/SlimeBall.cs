@@ -25,7 +25,7 @@ public class SlimeBall : MonoBehaviour
         rigidbody.AddForce(force, ForceMode.Impulse);
     }
 
-    private void OnCollisionEnter(Collision other)
+    private void OnTriggerEnter(Collider other)
     {
         IDamageable damage = other.gameObject.GetComponent<IDamageable>();
         damage?.TakeDamage(_damage, _knockback*_force.normalized, _hitstun, _type);

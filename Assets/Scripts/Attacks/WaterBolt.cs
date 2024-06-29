@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class WaterBolt : MonoBehaviour
 {
-    [SerializeField] private new Rigidbody rigidbody;
     private float _damage;
     private float _knockback;
     private float _hitStun;
@@ -21,9 +20,13 @@ public class WaterBolt : MonoBehaviour
         _force = force;
         _type = type;
         _maxBounces = maxBounces;
-        rigidbody.AddForce(force, ForceMode.Impulse);
     }
-    
+
+    private void FixedUpdate()
+    {
+        transform.position += Time.fixedDeltaTime * _force;
+    }
+
     private void OnCollisionEnter(Collision other)
     {
         IDamageable damage = other.gameObject.GetComponent<IDamageable>();
@@ -41,8 +44,7 @@ public class WaterBolt : MonoBehaviour
         if (_bounceCount < _maxBounces)
         {
             _bounceCount++;
-            rigidbody.velocity = Vector3.Reflect(_force, other.GetContact(0).normal);
-            _force = rigidbody.velocity;
+            _force = Vector3.Reflect(_force, other.GetContact(0).normal);
             _lastBounceTimestamp = Time.time;
         }
         else

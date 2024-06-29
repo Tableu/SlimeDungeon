@@ -39,7 +39,7 @@ public class IceSphere : MonoBehaviour, BasicProjectile
         Destroy(orb);
         rigidbody.velocity = Vector3.zero;
         collider.enabled = false;
-        Collider[] enemies = Physics.OverlapSphere(transform.position, 3, LayerMask.GetMask("Enemy"));
+        Collider[] enemies = Physics.OverlapSphere(transform.position, 2, LayerMask.GetMask("Enemy"));
         foreach (Collider enemy in enemies)
         {
             IDamageable damageable = enemy.gameObject.GetComponent<IDamageable>();

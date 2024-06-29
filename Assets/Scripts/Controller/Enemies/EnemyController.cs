@@ -167,9 +167,14 @@ public abstract class EnemyController : MonoBehaviour, ICharacterInfo, IDamageab
         {
             Stunned = true;
         }
-        rigidbody.isKinematic = false;
-        rigidbody.velocity = Vector3.zero;
-        rigidbody.AddForce(knockback, ForceMode.Impulse);
+
+        if (knockback != Vector3.zero)
+        {
+            rigidbody.isKinematic = false;
+            rigidbody.velocity = Vector3.zero;
+            rigidbody.AddForce(knockback, ForceMode.Impulse);
+        }
+
         _stunCounter++;
     }
 

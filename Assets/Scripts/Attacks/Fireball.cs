@@ -21,7 +21,7 @@ public class Fireball : MonoBehaviour, BasicProjectile
         rigidbody.AddForce(force, ForceMode.Impulse);
     }
     
-    private void OnCollisionEnter(Collision other)
+    private void OnTriggerEnter(Collider other)
     {
         IDamageable damage = other.gameObject.GetComponent<IDamageable>();
         if (damage != null)

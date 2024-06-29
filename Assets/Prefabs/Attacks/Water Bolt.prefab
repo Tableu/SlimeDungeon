@@ -4725,7 +4725,7 @@ Rigidbody:
   m_Drag: 0
   m_AngularDrag: 0
   m_UseGravity: 0
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 4
   m_CollisionDetection: 1
@@ -4754,4 +4754,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb66b326ada2a834fa6fb3cd1d522689, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rigidbody: {fileID: 7962919076163763453}
