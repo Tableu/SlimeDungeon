@@ -44,6 +44,12 @@ public abstract class EnemyController : MonoBehaviour, ICharacterInfo, IDamageab
         get;
         private set;
     }
+
+    public bool PlayerVisible
+    {
+        get;
+        private set;
+    }
     public Type ElementType => enemyData.ElementType;
     public Vector3 SpellOffset => enemyData.SpellOffset;
     public Transform Transform => transform;
@@ -73,6 +79,13 @@ public abstract class EnemyController : MonoBehaviour, ICharacterInfo, IDamageab
 
     protected void FixedUpdate()
     {
+        if (GlobalReferences.Instance.Player != null)
+        {
+            var diff = transform.position - GlobalReferences.Instance.Player.transform.position;
+            if (diff.magnitude < enemyData.AggroRange)
+                PlayerVisible = IsPlayerVisible();
+        }
+
         agent.speed = Speed;
         StateMachine.Tick();
     }
@@ -119,15 +132,18 @@ public abstract class EnemyController : MonoBehaviour, ICharacterInfo, IDamageab
 
     public abstract bool Attack();
 
-    public bool IsPlayerVisible()
+    private bool IsPlayerVisible()
     {
         if (GlobalReferences.Instance.Player == null)
             return false;
+        Collider col = GlobalReferences.Instance.Player.GetComponentInChildren<Collider>();
+        if (col == null)
+            return false;
         bool hit = Physics.Raycast(transform.position,
-            GlobalReferences.Instance.Player.transform.position - transform.position, 
+            col.bounds.center - transform.position, 
             out RaycastHit hitInfo,
             enemyData.AggroRange+1, 
-            ~(1 << LayerMask.GetMask("Player", "Walls", "Floor", "Obstacles")));
+            LayerMask.GetMask("Player", "Walls", "Obstacles"));
         return hit && hitInfo.transform.CompareTag("Player");
     }
 
@@ -151,7 +167,7 @@ public abstract class EnemyController : MonoBehaviour, ICharacterInfo, IDamageab
         if (GlobalReferences.Instance.Player != null)
         {
             var diff = transform.position - GlobalReferences.Instance.Player.transform.position;
-            if (diff.magnitude < enemyData.AggroRange && IsPlayerVisible())
+            if (diff.magnitude < enemyData.AggroRange && PlayerVisible)
             {
                 _target = GlobalReferences.Instance.Player.transform;
                 return true;

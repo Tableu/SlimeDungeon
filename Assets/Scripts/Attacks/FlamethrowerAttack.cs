@@ -75,7 +75,6 @@ public class FlamethrowerAttack : Attack
                 Task.Delay(TimeSpan.FromSeconds(updateInterval)).Wait(manaCostCancellationTokenSource.Token);
             }
         });
-        End();
     }
 
     public FlamethrowerAttack(ICharacterInfo characterInfo, AttackData data) : base(characterInfo, data)

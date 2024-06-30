@@ -182,7 +182,7 @@ public class FollowState : IState
         if (_controller.Target != null)
         {
             _agent.SetDestination(_controller.Target.position);
-            _agent.stoppingDistance = _controller.IsPlayerVisible() ? _controller.EnemyData.StoppingDistance : 0;
+            _agent.stoppingDistance = _controller.PlayerVisible ? _controller.EnemyData.StoppingDistance : 0;
         }
 
         _animator.ChangeState(Mathf.RoundToInt(_agent.velocity.sqrMagnitude) > 0
@@ -226,7 +226,7 @@ public class FollowAtDistanceState : IState
         if (_controller.Target != null)
         {
             SetTarget();
-            if (!_controller.IsPlayerVisible())
+            if (!_controller.PlayerVisible)
             {
                 _agent.stoppingDistance = 0;
             }

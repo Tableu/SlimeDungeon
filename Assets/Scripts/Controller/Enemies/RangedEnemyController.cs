@@ -35,7 +35,7 @@ public class RangedEnemyController : EnemyController
     {
         if (Target != null &&
             Vector3.Distance(Target.position, transform.position) < EnemyData.AttackRange &&
-            (Attacks.Count == 0 || !Attacks[0].OnCooldown) && IsPlayerVisible())
+            (Attacks.Count == 0 || !Attacks[0].OnCooldown) && PlayerVisible)
         {
             return true;
         }
