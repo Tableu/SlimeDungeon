@@ -13,15 +13,17 @@ public class RangedEnemyController : EnemyController
         var follow = new FollowState(this, agent, animator);
         StateMachine.AddTransition(patrol, follow, PlayerInRange);
         StateMachine.AddTransition(follow, patrol, PlayerOutOfRange);
-        StateMachine.AddTransition(follow, attack, 
-            () => Target != null && 
-                  Vector3.Distance(Target.position, transform.position) < EnemyData.AttackRange &&
-                  CanAttack() && IsPlayerVisible());
+        StateMachine.AddTransition(follow, attack, CanAttack);
         StateMachine.AddTransition(attack, follow, IsAttackAnimationComplete);
         StateMachine.AddAnyTransition(stunned, () => Stunned);
         StateMachine.AddTransition(stunned, patrol, () => !Stunned);
         StateMachine.SetState(patrol);
         animator.OnAlertObservers += OnAlertObservers;
+    }
+
+    protected new void FixedUpdate()
+    {
+        base.FixedUpdate();
     }
 
     public override bool Attack()
@@ -31,7 +33,14 @@ public class RangedEnemyController : EnemyController
     
     private bool CanAttack()
     {
-        return Attacks.Count == 0 || !Attacks[0].OnCooldown;
+        if (Target != null &&
+            Vector3.Distance(Target.position, transform.position) < EnemyData.AttackRange &&
+            (Attacks.Count == 0 || !Attacks[0].OnCooldown) && IsPlayerVisible())
+        {
+            return true;
+        }
+        Attacks[0].End();
+        return false;
     }
 
     private void OnAlertObservers(string message)

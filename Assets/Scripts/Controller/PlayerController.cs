@@ -125,6 +125,7 @@ public class PlayerController : MonoBehaviour, ICharacterInfo, ISavable, IDamage
         PlayerInputActions.Other.BasicAttack.canceled += delegate(InputAction.CallbackContext context)
         {
             _basicAttackHeld = false;
+            _currentCharacter.BasicAttack.End();
         };
     }
 

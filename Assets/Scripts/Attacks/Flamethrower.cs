@@ -16,6 +16,16 @@ public class Flamethrower : MonoBehaviour
         _force = force;
         _hitStun = hitStun;
         _type = type;
+        if (gameObject.layer == LayerMask.NameToLayer("PlayerAttacks"))
+        {
+            var particleCollision = particleSystem.collision;
+            particleCollision.collidesWith = LayerMask.GetMask("Enemy", "Walls", "Obstacles");
+        }
+        else if (gameObject.layer == LayerMask.NameToLayer("EnemyAttacks"))
+        {
+            var particleCollision = particleSystem.collision;
+            particleCollision.collidesWith = LayerMask.GetMask("Player", "Walls", "Obstacles");
+        }
     }
     private void FixedUpdate()
     {
