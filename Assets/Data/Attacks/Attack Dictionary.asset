@@ -32,3 +32,5 @@ MonoBehaviour:
       Value: {fileID: 11400000, guid: da9e96c6b994ade4099aaaf8a4ebc915, type: 2}
     - Key: Water Bolt
       Value: {fileID: 11400000, guid: b018f63bcc11b804a8fbe50c7227a381, type: 2}
+    - Key: Leaf Orb
+      Value: {fileID: 11400000, guid: 05433e067e92cef489a1253e843c8c97, type: 2}
