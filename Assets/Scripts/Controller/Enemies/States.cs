@@ -170,22 +170,24 @@ public class FollowState : IState
     private readonly EnemyController _controller;
     private readonly NavMeshAgent _agent;
     private readonly EnemyAnimator _animator;
+    private Vector3 _offset;
     
     public FollowState(EnemyController controller, NavMeshAgent agent, EnemyAnimator animator)
     {
         _controller = controller;
         _agent = agent;
         _animator = animator;
+        _offset = new Vector3(Random.Range(-1, 1), 0, Random.Range(-1, 1));
     }
     public void Tick()
     {
         if (_controller.Target != null)
         {
-            _agent.SetDestination(_controller.Target.position+ new Vector3(Random.Range(-1,1), 0, Random.Range(-1,1)));
+            _agent.SetDestination(_controller.Target.position + _offset);
             _agent.stoppingDistance = _controller.IsPlayerVisible() ? _controller.EnemyData.StoppingDistance : 0;
         }
 
-        _animator.ChangeState(_agent.velocity.sqrMagnitude > Mathf.Epsilon
+        _animator.ChangeState(Mathf.RoundToInt(_agent.velocity.sqrMagnitude) > 0
             ? EnemyControllerState.Walk
             : EnemyControllerState.Idle);
     }
