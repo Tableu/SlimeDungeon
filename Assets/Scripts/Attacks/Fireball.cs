@@ -23,11 +23,15 @@ public class Fireball : MonoBehaviour, BasicProjectile
     
     private void OnTriggerEnter(Collider other)
     {
-        IDamageable damage = other.gameObject.GetComponent<IDamageable>();
-        if (damage != null)
+        if (other.attachedRigidbody != null)
         {
-            damage.TakeDamage(_damage,_knockback*_force.normalized, _hitStun, _type);
+            IDamageable damage = other.attachedRigidbody.gameObject.GetComponent<IDamageable>();
+            if (damage != null)
+            {
+                damage.TakeDamage(_damage, _knockback * _force.normalized, _hitStun, _type);
+            }
         }
+
         fireball.Stop();
         GameObject g = Instantiate(explosion, transform.position, Quaternion.identity);
         g.layer = gameObject.layer;

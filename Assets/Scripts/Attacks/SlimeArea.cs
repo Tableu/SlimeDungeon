@@ -35,18 +35,18 @@ public class SlimeArea : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        ApplyDamage(other.gameObject);
-        ApplySlow(other.gameObject);
+        ApplyDamage(other);
+        ApplySlow(other);
     }
 
     private void OnTriggerStay(Collider other)
     {
-        ApplyDamage(other.gameObject);
+        ApplyDamage(other);
     }
 
     private void OnTriggerExit(Collider other)
     {
-        RemoveSlow(other.gameObject);
+        RemoveSlow(other);
     }
 
     private void OnDestroy()
@@ -60,15 +60,19 @@ public class SlimeArea : MonoBehaviour
         }
     }
 
-    private void ApplyDamage(GameObject enemy)
+    private void ApplyDamage(Collider enemy)
     {
-        IDamageable damageable = enemy.GetComponent<IDamageable>();
+        IDamageable damageable = enemy.attachedRigidbody != null ? 
+            enemy.attachedRigidbody.gameObject.GetComponent<IDamageable>() 
+            : enemy.GetComponent<IDamageable>();
         damageable?.TakeDamage(_damage, Vector3.zero, 0, _type);
     }
 
-    private void ApplySlow(GameObject enemy)
+    private void ApplySlow(Collider enemy)
     {
-        ICharacterInfo characterInfo = enemy.GetComponent<ICharacterInfo>();
+        ICharacterInfo characterInfo = enemy.attachedRigidbody != null ? 
+            enemy.attachedRigidbody.gameObject.GetComponent<ICharacterInfo>() 
+            : enemy.GetComponent<ICharacterInfo>();
         if (characterInfo != null)
         {
             characterInfo.Speed.BaseModifier -= _slow;
@@ -76,9 +80,11 @@ public class SlimeArea : MonoBehaviour
         }
     }
 
-    private void RemoveSlow(GameObject enemy)
+    private void RemoveSlow(Collider enemy)
     {
-        ICharacterInfo characterInfo = enemy.GetComponent<ICharacterInfo>();
+        ICharacterInfo characterInfo = enemy.attachedRigidbody != null ? 
+            enemy.attachedRigidbody.gameObject.GetComponent<ICharacterInfo>() 
+            : enemy.GetComponent<ICharacterInfo>();
         if (characterInfo != null)
         {
             characterInfo.Speed.BaseModifier += _slow;

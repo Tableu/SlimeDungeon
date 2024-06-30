@@ -42,7 +42,9 @@ public class IceSphere : MonoBehaviour, BasicProjectile
         Collider[] enemies = Physics.OverlapSphere(transform.position, 2, LayerMask.GetMask("Enemy"));
         foreach (Collider enemy in enemies)
         {
-            IDamageable damageable = enemy.gameObject.GetComponent<IDamageable>();
+            IDamageable damageable = enemy.attachedRigidbody != null ? 
+                enemy.attachedRigidbody.gameObject.GetComponent<IDamageable>() 
+                : enemy.GetComponent<IDamageable>();
             damageable?.TakeDamage(_damage, Vector3.zero, _hitStun, _type);
         }
     }

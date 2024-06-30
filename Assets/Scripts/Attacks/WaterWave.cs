@@ -25,10 +25,13 @@ public class WaterWave : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        IDamageable damage = other.gameObject.GetComponent<IDamageable>();
-        if (damage != null && (_enemyMask & (1 << other.gameObject.layer)) != 0)
+        if (other.attachedRigidbody != null)
         {
-            damage.TakeDamage(_damage,_knockback*_force.normalized, _hitStun, _type);
+            IDamageable damage = other.attachedRigidbody.gameObject.GetComponent<IDamageable>();
+            if (damage != null && (_enemyMask & (1 << other.gameObject.layer)) != 0)
+            {
+                damage.TakeDamage(_damage, _knockback * _force.normalized, _hitStun, _type);
+            }
         }
 
         if ((LayerMask.GetMask("PlayerAttacks", "EnemyAttacks") & (1 << other.gameObject.layer)) != 0)

@@ -54,11 +54,10 @@ public class BouncingFireball : MonoBehaviour
         Collider[] enemyColliders = Physics.OverlapSphere(transform.position, 2.5f, LayerMask.GetMask("Enemy"));
         foreach (Collider col in enemyColliders)
         {
-            IDamageable dmg = col.GetComponent<IDamageable>();
-            if (dmg != null)
-            {
-                dmg.TakeDamage(_damage, _knockback*_force.normalized, _hitStun, _type);
-            }
+            IDamageable dmg = col.attachedRigidbody != null ? 
+                col.attachedRigidbody.gameObject.GetComponent<IDamageable>() 
+                : col.GetComponent<IDamageable>();
+            dmg?.TakeDamage(_damage, _knockback*_force.normalized, _hitStun, _type);
         }
         SpawnExplosion();
         Destroy(gameObject);

@@ -24,9 +24,9 @@ public class Leaf : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        IDamageable damage = other.gameObject.layer == LayerMask.NameToLayer("Player") ? 
-            other.gameObject.GetComponentInParent<IDamageable>() : 
-            other.gameObject.GetComponent<IDamageable>();
+        IDamageable damage = other.attachedRigidbody != null ? 
+            other.attachedRigidbody.gameObject.GetComponent<IDamageable>() 
+            : other.GetComponent<IDamageable>();
         if (damage != null && !_previousCollisions.Contains(other.gameObject))
         {
             _previousCollisions.Add(other.gameObject);

@@ -10,6 +10,7 @@ public class LeafOrb : MonoBehaviour, BasicProjectile
     private float _hitStun;
     private Vector3 _force;
     private Elements.Type _type;
+    private int _mask;
 
     public void Initialize(float damage, float knockback, float hitStun, Vector3 force, Type type)
     {
@@ -19,12 +20,19 @@ public class LeafOrb : MonoBehaviour, BasicProjectile
         _force = force;
         _type = type;
         rigidbody.AddForce(force, ForceMode.Impulse);
+        if (gameObject.layer == LayerMask.NameToLayer("PlayerAttacks"))
+        {
+            _mask = LayerMask.GetMask("Walls", "Obstacles", "Enemy");
+        }
+        else if (gameObject.layer == LayerMask.NameToLayer("EnemyAttacks"))
+        {
+            _mask = LayerMask.GetMask("Walls", "Obstacles", "Player");
+        }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        int mask = LayerMask.GetMask("Walls", "Obstacles", "Enemy");
-        if (mask == (mask | (1 << other.gameObject.layer)))
+        if (_mask == (_mask | (1 << other.gameObject.layer)))
         {
             int angle = 0;
             while (angle < 360)

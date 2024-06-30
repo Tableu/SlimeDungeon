@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using Type = Elements.Type;
 
@@ -32,20 +33,19 @@ public class LeafStorm : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        ApplyDamage(other.gameObject);
+        ApplyDamage(other);
     }
 
     private void OnTriggerStay(Collider other)
     {
-        ApplyDamage(other.gameObject);
+        ApplyDamage(other);
     }
 
-    private void ApplyDamage(GameObject enemy)
+    private void ApplyDamage(Collider enemy)
     {
-        IDamageable damageable = enemy.GetComponent<IDamageable>();
-        if (damageable != null)
-        {
-            damageable.TakeDamage(_damage, Vector3.zero, 0, _type);
-        }
+        IDamageable damageable = enemy.attachedRigidbody != null ? 
+            enemy.attachedRigidbody.gameObject.GetComponent<IDamageable>() 
+            : enemy.GetComponent<IDamageable>();
+        damageable?.TakeDamage(_damage, Vector3.zero, 0, _type);
     }
 }

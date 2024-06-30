@@ -27,8 +27,12 @@ public class SlimeBall : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        IDamageable damage = other.gameObject.GetComponent<IDamageable>();
-        damage?.TakeDamage(_damage, _knockback*_force.normalized, _hitstun, _type);
+        if (other.attachedRigidbody != null)
+        {
+            IDamageable damage = other.attachedRigidbody.gameObject.GetComponent<IDamageable>();
+            damage?.TakeDamage(_damage, _knockback * _force.normalized, _hitstun, _type);
+        }
+
         Vector3 position = new Vector3(transform.position.x, 0, transform.position.z);
         GameObject g = Instantiate(_slimeArea, position, Quaternion.identity);
         SlimeArea script = g.GetComponent<SlimeArea>();
