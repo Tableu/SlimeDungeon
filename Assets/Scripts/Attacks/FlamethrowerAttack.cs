@@ -63,6 +63,7 @@ public class FlamethrowerAttack : Attack
     {
         base.CleanUp();
         manaCostCancellationTokenSource?.Cancel();
+        End();
     }
 
     private async void ApplyManaCost(float updateInterval)
