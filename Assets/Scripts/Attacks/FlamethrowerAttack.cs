@@ -73,7 +73,12 @@ public class FlamethrowerAttack : Attack
         {
             while (isActive)
             {
-                Task.Delay(TimeSpan.FromSeconds(updateInterval)).Wait(manaCostCancellationTokenSource.Token);
+                try
+                {
+                    Task.Delay(TimeSpan.FromSeconds(updateInterval)).Wait(manaCostCancellationTokenSource.Token);
+                }
+                catch (OperationCanceledException e)
+                { }
             }
         });
     }
