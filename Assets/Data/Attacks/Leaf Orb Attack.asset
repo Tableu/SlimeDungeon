@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Leaf Orb Attack
   m_EditorClassIdentifier: 
   speed: 12
-  damage: 0
+  damage: 8
   knockback: 0
   manaCost: 30
   hitStun: 0

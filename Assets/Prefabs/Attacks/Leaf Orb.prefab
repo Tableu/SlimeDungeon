@@ -4873,3 +4873,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rigidbody: {fileID: 4292637640093542438}
   leafAttackData: {fileID: 11400000, guid: 26b21ae9161b48948a727fec0ee6ba51, type: 2}
+  leafFragmentCount: 10

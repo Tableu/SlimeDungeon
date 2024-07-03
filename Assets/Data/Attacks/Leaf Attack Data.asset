@@ -13,12 +13,14 @@ MonoBehaviour:
   m_Name: Leaf Attack Data
   m_EditorClassIdentifier: 
   speed: 20
-  damage: 5
+  damage: 4
   knockback: 0
   manaCost: 0
   hitStun: 0
-  cooldown: 0.01
+  cooldown: 0.004
+  spawnOffset: {x: -0.2, y: 0, z: -0.2}
   elementType: 4
   prefab: {fileID: 4292637640093511300, guid: 5d5bf45a3e1bb9f4ebb34ed83cf2cf0a, type: 3}
   icon: {fileID: 21300000, guid: 411f88b287eb8504aa08edb04c1443c6, type: 3}
   name: Leaf
+  randomAngle: 10

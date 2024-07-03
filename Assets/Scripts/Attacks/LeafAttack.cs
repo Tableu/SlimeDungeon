@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 
 public class LeafAttack : Attack
 {
+    private LeafAttackData _data;
     public override bool Begin()
     {
         if (CheckManaCostAndCooldown())
@@ -15,8 +16,9 @@ public class LeafAttack : Attack
             var script = leaf.GetComponent<Leaf>();
             if (script == null)
                 return false;
+            Quaternion angleAxis = Quaternion.AngleAxis(Random.Range(-_data.RandomAngle,_data.RandomAngle), Vector3.up);
             script.Initialize(Data.Damage, Data.Knockback, Data.HitStun,
-                transform.forward * Data.Speed, Data.ElementType);
+                angleAxis*transform.forward * Data.Speed, Data.ElementType);
             Cooldown(Data.Cooldown);
             return true;
         }
@@ -52,8 +54,8 @@ public class LeafAttack : Attack
             (offset.z+randomVector.z) * transform.forward.z);
     }
 
-    public LeafAttack(ICharacterInfo characterInfo, AttackData data) : base(characterInfo, data)
+    public LeafAttack(ICharacterInfo characterInfo, LeafAttackData data) : base(characterInfo, data)
     {
-        
+        _data = data;
     }
 }

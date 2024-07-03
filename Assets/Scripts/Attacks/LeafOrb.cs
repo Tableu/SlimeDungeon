@@ -4,7 +4,8 @@ using Type = Elements.Type;
 public class LeafOrb : MonoBehaviour, BasicProjectile
 {
     [SerializeField] private new Rigidbody rigidbody;
-    [SerializeField] private AttackData leafAttackData;
+    [SerializeField] private LeafAttackData leafAttackData;
+    [SerializeField] private float leafFragmentCount;
     private float _damage;
     private float _knockback;
     private float _hitStun;
@@ -34,7 +35,8 @@ public class LeafOrb : MonoBehaviour, BasicProjectile
     {
         if (_mask == (_mask | (1 << other.gameObject.layer)))
         {
-            int angle = 0;
+            float angle = 0;
+            float increment = 360 / leafFragmentCount;
             while (angle < 360)
             {
                 Quaternion angleAxis = Quaternion.AngleAxis(angle, Vector3.up);
@@ -42,9 +44,9 @@ public class LeafOrb : MonoBehaviour, BasicProjectile
                 leaf.layer = gameObject.layer;
                 Leaf script = leaf.GetComponent<Leaf>();
                 if(script != null)
-                    script.Initialize(leafAttackData.Damage, leafAttackData.Knockback, leafAttackData.HitStun,
+                    script.Initialize(_damage, _knockback, _hitStun,
                         angleAxis*Vector3.right*leafAttackData.Speed, leafAttackData.ElementType);
-                angle += 20;
+                angle += increment;
             }
         }
         Destroy(gameObject);
