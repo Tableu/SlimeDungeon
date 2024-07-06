@@ -13,8 +13,9 @@ public class BouncingFireball : MonoBehaviour
     private int _maxBounces;
     private int bounceCount = 0;
     private float lastCollisionTime;
+    private LayerMask _enemyMask;
 
-    public void Initialize(float damage, float knockback, float hitStun, Vector3 force, int maxBounces, Elements.Type type)
+    public void Initialize(float damage, float knockback, float hitStun, Vector3 force, int maxBounces, Elements.Type type, LayerMask enemyMask)
     {
         _hitStun = hitStun;
         _damage = damage;
@@ -23,6 +24,7 @@ public class BouncingFireball : MonoBehaviour
         _type = type;
         _maxBounces = maxBounces;
         rigidbody.AddForce(force, ForceMode.Impulse);
+        _enemyMask = enemyMask;
     }
 
     private void OnDrawGizmosSelected()
@@ -50,15 +52,6 @@ public class BouncingFireball : MonoBehaviour
             lastCollisionTime = Time.time;
             return;
         }
-        //todo should set radius in the attack data class
-        Collider[] enemyColliders = Physics.OverlapSphere(transform.position, 2.5f, LayerMask.GetMask("Enemy"));
-        foreach (Collider col in enemyColliders)
-        {
-            IDamageable dmg = col.attachedRigidbody != null ? 
-                col.attachedRigidbody.gameObject.GetComponent<IDamageable>() 
-                : col.GetComponent<IDamageable>();
-            dmg?.TakeDamage(_damage, _knockback*_force.normalized, _hitStun, _type);
-        }
         SpawnExplosion();
         Destroy(gameObject);
     }
@@ -68,6 +61,14 @@ public class BouncingFireball : MonoBehaviour
         fireball.Stop();
         GameObject g = Instantiate(explosion, transform.position, Quaternion.identity);
         g.layer = gameObject.layer;
-        
+        //todo should set radius in the attack data class
+        Collider[] enemyColliders = Physics.OverlapSphere(transform.position, 2.5f,_enemyMask);
+        foreach (Collider col in enemyColliders)
+        {
+            IDamageable dmg = col.attachedRigidbody != null ? 
+                col.attachedRigidbody.gameObject.GetComponent<IDamageable>() 
+                : col.GetComponent<IDamageable>();
+            dmg?.TakeDamage(_damage, _knockback*_force.normalized, _hitStun, _type);
+        }
     }
 }
