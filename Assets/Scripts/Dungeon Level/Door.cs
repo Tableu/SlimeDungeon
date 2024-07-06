@@ -38,7 +38,7 @@ public class Door : MonoBehaviour
         if (_fogWar == null)
             return;
         Vector2Int levelCoords = _fogWar.WorldToLevel(transform.position);
-        for (int x = 0; x < _fogWar._UnitScale+1; x++)
+        for (int x = 1; x < _fogWar._UnitScale+2; x++)
         {
             switch (parent.rotation.eulerAngles.y)
             {
@@ -67,7 +67,7 @@ public class Door : MonoBehaviour
         if (_fogWar == null)
             return;
         Vector2Int levelCoords = _fogWar.WorldToLevel(transform.position);
-        for (int x = 0; x < _fogWar._UnitScale+1; x++)
+        for (int x = 1; x < _fogWar._UnitScale+2; x++)
         {
             switch (parent.rotation.eulerAngles.y)
             {
