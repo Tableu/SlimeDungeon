@@ -10,22 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: eee29ab224b67ec449499822efdd63e6, type: 3}
-  m_Name: Grass Slime Enemy Data
+  m_Name: Water Slime Melee Enemy
   m_EditorClassIdentifier: 
   health: 100
   speed: 2.5
-  elementType: 4
+  elementType: 2
   spellOffset: {x: 0.3, y: 0.3, z: 0.3}
   attacks:
-  - {fileID: 11400000, guid: 05433e067e92cef489a1253e843c8c97, type: 2}
-  attackRange: 10
+  - {fileID: 11400000, guid: c5d2a1463d32f91459e236f8fea813c9, type: 2}
+  attackRange: 2
   aggroRange: 20
   deAggroRange: 25
-  stoppingDistance: 10
+  stoppingDistance: 0.1
   moveAndAttack: 0
   coinsOnDeath: 10
   idleTimeRange: {x: 2, y: 3}
   meleeAttackData:
-    Damage: 0
+    Damage: 5
     HitStun: 0
     Knockback: 0

@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: GrassSlimeData
   m_EditorClassIdentifier: 
   health: 100
-  speed: 2.5
+  speed: 2
   elementType: 4
   spellOffset: {x: 0.3, y: 0.3, z: 0.3}
-  maxVelocity: {x: 5, y: 5}
+  maxVelocity: {x: 4.5, y: 4.5}
   name: Grass Slime
   model: {fileID: 3238378463816399697, guid: ab153cae36122d34f8f962d78a22be32, type: 3}
   capturedCharacter: {fileID: 834991341219302362, guid: 32c86c1cde944a049a1e3999b11b2b40, type: 3}

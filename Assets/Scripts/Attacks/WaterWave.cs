@@ -38,7 +38,7 @@ public class WaterWave : MonoBehaviour
         {
             Destroy(other.gameObject);
         }
-        if ((LayerMask.GetMask("Walls") & (1 << other.gameObject.layer)) != 0)
+        if ((LayerMask.GetMask("Walls", "Obstacles") & (1 << other.gameObject.layer)) != 0)
         {
             Destroy(gameObject);
         }
