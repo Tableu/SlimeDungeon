@@ -75,6 +75,7 @@ public abstract class EnemyController : MonoBehaviour, ICharacterInfo, IDamageab
         StateMachine = new FSM(); 
         EnemyHealthBars.Instance.SpawnHealthBar(transform, this);
         agent.speed = Speed;
+        EnemyMask = LayerMask.GetMask("Player");
     }
 
     protected void FixedUpdate()

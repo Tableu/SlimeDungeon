@@ -85,6 +85,7 @@ public class PlayerController : MonoBehaviour, ICharacterInfo, ISavable, IDamage
         partyController.OnCharacterChanged += OnCharacterChanged;
         partyController.OnPartyMemberAdded += OnPartyMemberAdded;
         partyController.Initialize(_playerInputActions);
+        EnemyMask = LayerMask.GetMask("Enemy");
     }
 
     private void Start()

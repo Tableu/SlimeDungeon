@@ -81,12 +81,14 @@ namespace FischlWorks_FogWar
 
             foreach (MeshRenderer renderer in meshRenderers)
             {
-                renderer.enabled = visibility;
+                if(renderer != null)
+                    renderer.enabled = visibility;
             }
 
             foreach (SkinnedMeshRenderer renderer in skinnedMeshRenderers)
             {
-                renderer.enabled = visibility;
+                if(renderer != null)
+                    renderer.enabled = visibility;
             }
         }
 
