@@ -1,16 +1,16 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class WaterWave : MonoBehaviour
 {
-    [SerializeField] private ParticleSystem waterwave;
     [SerializeField] private new Rigidbody rigidbody;
-    [SerializeField] private new Collider collider;
     private float _damage;
     private float _knockback;
     private float _hitStun;
     private Vector3 _force;
     private Elements.Type _type;
     private LayerMask _enemyMask;
+    private List<IDamageable> previousCollisions = new List<IDamageable>();
     
     public void Initialize(float damage, float knockback, float hitStun, Vector3 force, Elements.Type type, LayerMask enemyMask)
     {
@@ -28,9 +28,11 @@ public class WaterWave : MonoBehaviour
         if (other.attachedRigidbody != null)
         {
             IDamageable damage = other.attachedRigidbody.gameObject.GetComponent<IDamageable>();
-            if (damage != null && (_enemyMask & (1 << other.gameObject.layer)) != 0)
+            if (damage != null && (_enemyMask & (1 << other.gameObject.layer)) != 0
+            && !previousCollisions.Contains(damage))
             {
                 damage.TakeDamage(_damage, _knockback * _force.normalized, _hitStun, _type);
+                previousCollisions.Add(damage);
             }
         }
 

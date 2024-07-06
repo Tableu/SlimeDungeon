@@ -23,5 +23,5 @@ MonoBehaviour:
   prefab: {fileID: 3134170781979577925, guid: 89583c669eaed8c42a06aae0c2db7641, type: 3}
   icon: {fileID: 21300000, guid: 96281732b7dd97f43848d6dec60fd16b, type: 3}
   name: Bouncing Fireball
-  maxBounceCount: 3
+  maxBounceCount: 2
   launchAngle: {x: 1, y: -0.4}

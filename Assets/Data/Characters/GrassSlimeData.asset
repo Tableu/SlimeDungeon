@@ -22,4 +22,4 @@ MonoBehaviour:
   capturedCharacter: {fileID: 834991341219302362, guid: 32c86c1cde944a049a1e3999b11b2b40, type: 3}
   basicAttack: {fileID: 11400000, guid: 26b21ae9161b48948a727fec0ee6ba51, type: 2}
   spells:
-  - {fileID: 11400000, guid: ceb89c81dfc12a642a266a0cb68a90ce, type: 2}
+  - {fileID: 11400000, guid: 05e8b705c599cef4881ca8cb1cf35551, type: 2}

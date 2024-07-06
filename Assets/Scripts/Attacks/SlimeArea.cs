@@ -55,7 +55,7 @@ public class SlimeArea : MonoBehaviour
         {
             if (enemy != null)
             {
-                enemy.Speed.BaseModifier += _slow;
+                enemy.Speed.BaseModifier -= _slow;
             }
         }
     }
@@ -75,7 +75,7 @@ public class SlimeArea : MonoBehaviour
             : enemy.GetComponent<ICharacterInfo>();
         if (characterInfo != null)
         {
-            characterInfo.Speed.BaseModifier -= _slow;
+            characterInfo.Speed.MultiplicativeModifer += _slow;
             slowedEnemies.Add(characterInfo);
         }
     }
@@ -87,7 +87,7 @@ public class SlimeArea : MonoBehaviour
             : enemy.GetComponent<ICharacterInfo>();
         if (characterInfo != null)
         {
-            characterInfo.Speed.BaseModifier += _slow;
+            characterInfo.Speed.MultiplicativeModifer -= _slow;
             slowedEnemies.Remove(characterInfo);
         }
     }

@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: Water Wave Attack
   m_EditorClassIdentifier: 
   speed: 5
-  damage: 5
+  damage: 6
   knockback: 5
-  manaCost: 10
+  manaCost: 30
   hitStun: 0.1
-  cooldown: 5
+  cooldown: 4
   spawnOffset: {x: 0, y: 0, z: 0}
   elementType: 2
   prefab: {fileID: 9175583315540566512, guid: eb9d2daa27a97c44985a32abdcadb9da, type: 3}
