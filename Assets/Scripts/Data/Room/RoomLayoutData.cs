@@ -46,7 +46,7 @@ public class RoomLayoutData : ScriptableObject
             if (layoutObject.Prefab == null)
             {
                 pos = controller.GetRandomPosition();
-                if (doors.Any(o => Vector3.Distance(pos, o) < 1))
+                if (doors.Any(o => Vector3.Distance(pos, o) < 2))
                     continue;
                 GameObject spot = new GameObject("Decoration Spot");
                 spot.transform.parent = center;

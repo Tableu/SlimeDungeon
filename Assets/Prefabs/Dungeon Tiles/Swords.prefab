@@ -9,6 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5144741132533800032}
+  - component: {fileID: 2359429355034219809}
+  - component: {fileID: 2522185098922141199}
   m_Layer: 14
   m_Name: Swords
   m_TagString: Untagged
@@ -33,6 +35,35 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!208 &2359429355034219809
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4853407102204516981}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 1.275, y: 0.48638076, z: 0.41431826}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.000000029802322, y: 0.25, z: 0}
+  m_TimeToStationary: 0.5
+--- !u!65 &2522185098922141199
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4853407102204516981}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.45, y: 0.9727616, z: 0.7286365}
+  m_Center: {x: 0.000000029802322, y: 0.4863808, z: 0}
 --- !u!1001 &146382061327049467
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -298,24 +329,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5895583696831924534, guid: 33b88a355dbcf1249aeafebe7d0f5879, type: 3}
   m_PrefabInstance: {fileID: 4150385763954092492}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &7514383513229311194 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5895583696832419094, guid: 33b88a355dbcf1249aeafebe7d0f5879, type: 3}
-  m_PrefabInstance: {fileID: 4150385763954092492}
-  m_PrefabAsset: {fileID: 0}
---- !u!65 &8488851412798964625
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7514383513229311194}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1.1590223, y: 0.9727616, z: 0.7286365}
-  m_Center: {x: 0.000000029802322, y: 0.4863808, z: 0}
 --- !u!1001 &4150385764619206984
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -576,24 +589,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 33b88a355dbcf1249aeafebe7d0f5879, type: 3}
---- !u!1 &1377440140518529132 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5895583696832419094, guid: 33b88a355dbcf1249aeafebe7d0f5879, type: 3}
-  m_PrefabInstance: {fileID: 4813491071323426170}
-  m_PrefabAsset: {fileID: 0}
---- !u!65 &746970261344244673
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1377440140518529132}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1.1590223, y: 0.9727616, z: 0.7286365}
-  m_Center: {x: 0.000000029802322, y: 0.4863808, z: 0}
 --- !u!4 &1377440140518949964 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5895583696831924534, guid: 33b88a355dbcf1249aeafebe7d0f5879, type: 3}
