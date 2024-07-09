@@ -47,6 +47,8 @@ namespace FischlWorks_FogWar
 
         private List<MeshRenderer> meshRenderers = null;
         private List<SkinnedMeshRenderer> skinnedMeshRenderers = null;
+        private List<ParticleSystemRenderer> particleSystems = null;
+        private List<Light> lights = null;
 
 
 
@@ -66,6 +68,8 @@ namespace FischlWorks_FogWar
 
             meshRenderers = GetComponentsInChildren<MeshRenderer>().ToList();
             skinnedMeshRenderers = GetComponentsInChildren<SkinnedMeshRenderer>().ToList();
+            particleSystems = GetComponentsInChildren<ParticleSystemRenderer>().ToList();
+            lights = GetComponentsInChildren<Light>().ToList();
         }
 
 
@@ -89,6 +93,22 @@ namespace FischlWorks_FogWar
             {
                 if(renderer != null)
                     renderer.enabled = visibility;
+            }
+
+            foreach (ParticleSystemRenderer system in particleSystems)
+            {
+                if (system != null)
+                {
+                    system.enabled = visibility;
+                }
+            }
+
+            foreach (Light l in lights)
+            {
+                if (l != null)
+                {
+                    l.enabled = visibility;
+                }
             }
         }
 
