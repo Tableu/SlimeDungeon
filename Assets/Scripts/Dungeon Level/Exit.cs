@@ -1,3 +1,4 @@
+using FischlWorks_FogWar;
 using UnityEngine;
 
 public class Exit : MonoBehaviour, IItem
