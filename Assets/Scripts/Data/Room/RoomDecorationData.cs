@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
-using Random = System.Random;
 
-[CreateAssetMenu(fileName = "RoomLayoutData", menuName = "Data/Rooms/Room Layout Data")]
-public class RoomLayoutData : ScriptableObject
+[CreateAssetMenu(fileName = "RoomData", menuName = "Data/Rooms/Room Data")]
+public class RoomDecorationData : ScriptableObject
 {
     [Serializable]
     private struct LayoutObject
@@ -15,6 +14,8 @@ public class RoomLayoutData : ScriptableObject
         public Vector2 RelativePosition;
         public Vector3 Rotation;
         public GameObject Prefab;
+        public bool DecorationSpot;
+        public bool NearWall;
     }
     
     [Serializable]
@@ -43,7 +44,7 @@ public class RoomLayoutData : ScriptableObject
         foreach (LayoutObject layoutObject in layoutObjects)
         {
             Vector3 pos;
-            if (layoutObject.Prefab == null)
+            if (layoutObject.DecorationSpot)
             {
                 pos = controller.GetRandomPosition();
                 if (doors.Any(o => Vector3.Distance(pos, o) < 2))
@@ -52,12 +53,12 @@ public class RoomLayoutData : ScriptableObject
                 spot.transform.parent = center;
                 spot.transform.localPosition = pos;
                 spot.transform.rotation = Quaternion.Euler(layoutObject.Rotation);
-                decorationSpots.Add(new DecorationSpot(spot.transform, false));
+                decorationSpots.Add(new DecorationSpot(spot.transform, layoutObject.NearWall));
                 continue;
             }
             pos = new Vector3((bounds.width-3)*tileSize/2*layoutObject.RelativePosition.x,
                 0, (bounds.height-3)*tileSize/2*layoutObject.RelativePosition.y);
-            if (doors.Any(o => Vector3.Distance(pos, o) < 1))
+            if (doors.Any(o => Vector3.Distance(pos, o) < 2))
                 continue;
             GameObject instance = Instantiate(layoutObject.Prefab, center.position + pos, 
                 Quaternion.Euler(layoutObject.Rotation), center);

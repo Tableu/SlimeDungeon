@@ -15,13 +15,13 @@ public class RoomController : MonoBehaviour
     private List<Transform> _waypoints;
     private int _enemyCount = 0;
     private List<EnemyController> _enemies;
-    private RoomTypeData _roomTypeData;
+    private RoomData _roomData;
     
     public Action OnAllEnemiesDead;
     public bool AllEnemiesDead => _enemyCount < 1;
 
     public void Initialize(RectInt bounds,  float tileSize, List<Door> doors, 
-        List<RoomLayoutData> roomLayoutDatas, RandomRoomTypeData randomRoomTypeDatas, Transform colliderTransform)
+        List<RoomDecorationData> roomLayoutDatas, RandomRoomTypeData randomRoomTypeDatas, Transform colliderTransform)
     {
         _bounds = bounds;
         _tileSize = tileSize;
@@ -42,22 +42,22 @@ public class RoomController : MonoBehaviour
         roomCamera.Initialize(bounds, tileSize);
         roomDoors.Initialize(this, doors, bounds, tileSize);
         int i = 0;
-        RoomLayoutData roomLayoutData;
+        RoomDecorationData roomDecorationData;
         do
         {
-            roomLayoutData = roomLayoutDatas[Random.Range(0, roomLayoutDatas.Count)];
-            if (_bounds.width < roomLayoutData.MaxSize && _bounds.width >= roomLayoutData.MinSize ||
-                _bounds.height < roomLayoutData.MaxSize && _bounds.width >= roomLayoutData.MinSize)
+            roomDecorationData = roomLayoutDatas[Random.Range(0, roomLayoutDatas.Count)];
+            if (_bounds.width < roomDecorationData.MaxSize && _bounds.width >= roomDecorationData.MinSize ||
+                _bounds.height < roomDecorationData.MaxSize && _bounds.width >= roomDecorationData.MinSize)
             {
                 break;
             }
             i++;
         } while (i < 20);
 
-        List<RoomLayoutData.DecorationSpot> decorationPositions = roomLayoutData.PlaceRoomLayout(colliderTransform, bounds, tileSize, 
+        List<RoomDecorationData.DecorationSpot> decorationPositions = roomDecorationData.PlaceRoomLayout(colliderTransform, bounds, tileSize, 
             doors.Select(o=>o.transform.position).ToList(),this);
-        _roomTypeData = randomRoomTypeDatas.GetRandomElement();
-        _roomTypeData.DecorateRoom(decorationPositions);
+        _roomData = randomRoomTypeDatas.GetRandomElement();
+        _roomData.DecorateRoom(decorationPositions);
     }
     public void SpawnEnemies()
     {
@@ -67,7 +67,7 @@ public class RoomController : MonoBehaviour
             return;
         }
 
-        List<GameObject> enemies = _roomTypeData.RandomEnemyGroups.GetRandomGroup();
+        List<GameObject> enemies = _roomData.RandomEnemyGroups.GetRandomGroup();
 
         GameObject enemyParent = new GameObject("Enemies")
         {

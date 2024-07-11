@@ -5,15 +5,15 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 using Vector3 = UnityEngine.Vector3;
 
-[CreateAssetMenu(fileName = "RoomTypeData", menuName = "Data/Rooms/Room Type Data")]
-public class RoomTypeData : ScriptableObject
+[CreateAssetMenu(fileName = "RoomData", menuName = "Data/Rooms/Room Data")]
+public class RoomData : ScriptableObject
 {
     [SerializeField] private List<RandomDecoration> randomDecorations;
     [SerializeField] private RandomGameObjectGroups randomEnemyGroups;
     
     public RandomGameObjectGroups RandomEnemyGroups => randomEnemyGroups;
 
-    public void DecorateRoom(List<RoomLayoutData.DecorationSpot> decorationSpots)
+    public void DecorateRoom(List<RoomDecorationData.DecorationSpot> decorationSpots)
     {
         List<RandomDecoration> decorations = new List<RandomDecoration>(randomDecorations);
         int i = 0;
