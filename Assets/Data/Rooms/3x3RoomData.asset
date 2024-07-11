@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0d6a471cba1d089419adf6e490555721, type: 3}
-  m_Name: 3x3RoomLayoutData
+  m_Name: 3x3RoomData
   m_EditorClassIdentifier: 
   maxSize: 11
   minSize: 7
@@ -18,27 +18,45 @@ MonoBehaviour:
   - RelativePosition: {x: 1, y: 1}
     Rotation: {x: 0, y: -90, z: 0}
     Prefab: {fileID: 5823740747177944704, guid: 40de3b71c427c74408ca93587e431717, type: 3}
+    DecorationSpot: 0
+    NearWall: 0
   - RelativePosition: {x: -1, y: 1}
     Rotation: {x: 0, y: 180, z: 0}
     Prefab: {fileID: 5823740747177944704, guid: 40de3b71c427c74408ca93587e431717, type: 3}
+    DecorationSpot: 0
+    NearWall: 0
   - RelativePosition: {x: -1, y: -1}
     Rotation: {x: 0, y: 90, z: 0}
     Prefab: {fileID: 5823740747177944704, guid: 40de3b71c427c74408ca93587e431717, type: 3}
+    DecorationSpot: 0
+    NearWall: 0
   - RelativePosition: {x: 1, y: -1}
     Rotation: {x: 0, y: 0, z: 0}
     Prefab: {fileID: 5823740747177944704, guid: 40de3b71c427c74408ca93587e431717, type: 3}
+    DecorationSpot: 0
+    NearWall: 0
   - RelativePosition: {x: 0, y: 0}
     Rotation: {x: 0, y: 0, z: 0}
     Prefab: {fileID: 8475587471981904468, guid: 9c518a259b52c024ba5cdd655e55a0bf, type: 3}
+    DecorationSpot: 0
+    NearWall: 0
   - RelativePosition: {x: 0.5, y: 0.5}
     Rotation: {x: 0, y: 0, z: 0}
     Prefab: {fileID: 0}
+    DecorationSpot: 1
+    NearWall: 0
   - RelativePosition: {x: -0.5, y: 0.5}
     Rotation: {x: 0, y: 0, z: 0}
     Prefab: {fileID: 0}
+    DecorationSpot: 1
+    NearWall: 0
   - RelativePosition: {x: 0.5, y: -0.5}
     Rotation: {x: 0, y: 0, z: 0}
     Prefab: {fileID: 0}
+    DecorationSpot: 1
+    NearWall: 0
   - RelativePosition: {x: -0.5, y: -0.5}
     Rotation: {x: 0, y: 0, z: 0}
     Prefab: {fileID: 0}
+    DecorationSpot: 1
+    NearWall: 0

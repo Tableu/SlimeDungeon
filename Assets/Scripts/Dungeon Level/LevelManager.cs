@@ -17,7 +17,7 @@ public class LevelManager : MonoBehaviour, ISavable
     private const float CORNER_OFFSET = 1.34f;
     [SerializeField] private Generator2D generator2D;
     [SerializeField] private RandomCharacterDataGroups randomCapturedCharacters;
-    [SerializeField] private List<RoomLayoutData> roomLayoutDatas;
+    [SerializeField] private List<RoomDecorationData> roomLayoutDatas;
     [SerializeField] private RandomRoomTypeData randomRoomTypeDatas;
     [SerializeField] private GameObject exitPrefab;
     [SerializeField] private SaveManager saveManager;

@@ -10,26 +10,33 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0d6a471cba1d089419adf6e490555721, type: 3}
-  m_Name: 2x2RoomLayoutData
+  m_Name: 5x5RoomData
   m_EditorClassIdentifier: 
   maxSize: 13
-  minSize: 8
+  minSize: 10
   layoutObjects:
+  - RelativePosition: {x: 0, y: 0}
+    Rotation: {x: 0, y: 0, z: 0}
+    Prefab: {fileID: 8475587471981904468, guid: f1dc148e46dc54d4193ea448a06035d7, type: 3}
+    DecorationSpot: 0
+    NearWall: 0
   - RelativePosition: {x: 0.5, y: 0.5}
     Rotation: {x: 0, y: 0, z: 0}
     Prefab: {fileID: 5116745627753682297, guid: f0fdf0cad1e6e1b48a0d3e6209f116e1, type: 3}
+    DecorationSpot: 0
+    NearWall: 0
   - RelativePosition: {x: -0.5, y: 0.5}
     Rotation: {x: 0, y: 0, z: 0}
     Prefab: {fileID: 5116745627753682297, guid: f0fdf0cad1e6e1b48a0d3e6209f116e1, type: 3}
-  - RelativePosition: {x: -0.5, y: -0.5}
-    Rotation: {x: 0, y: 0, z: 0}
-    Prefab: {fileID: 5116745627753682297, guid: f0fdf0cad1e6e1b48a0d3e6209f116e1, type: 3}
+    DecorationSpot: 0
+    NearWall: 0
   - RelativePosition: {x: 0.5, y: -0.5}
     Rotation: {x: 0, y: 0, z: 0}
     Prefab: {fileID: 5116745627753682297, guid: f0fdf0cad1e6e1b48a0d3e6209f116e1, type: 3}
-  - RelativePosition: {x: 0, y: 0.1}
+    DecorationSpot: 0
+    NearWall: 0
+  - RelativePosition: {x: -0.5, y: -0.5}
     Rotation: {x: 0, y: 0, z: 0}
-    Prefab: {fileID: 0}
-  - RelativePosition: {x: 0, y: -0.1}
-    Rotation: {x: 0, y: 0, z: 0}
-    Prefab: {fileID: 0}
+    Prefab: {fileID: 5116745627753682297, guid: f0fdf0cad1e6e1b48a0d3e6209f116e1, type: 3}
+    DecorationSpot: 0
+    NearWall: 0

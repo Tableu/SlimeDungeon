@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b86b4d47edbf75a4faf621413cc901aa, type: 3}
-  m_Name: RoomTypeData
+  m_Name: RoomDecorationData
   m_EditorClassIdentifier: 
   randomDecorations:
   - Prefab: {fileID: 2403275009475036443, guid: 597db401cb021d944baea90a20a1edaf, type: 3}

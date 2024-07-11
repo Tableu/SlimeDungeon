@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0d6a471cba1d089419adf6e490555721, type: 3}
-  m_Name: LibraryLayoutRoomData
+  m_Name: LibraryRoomData
   m_EditorClassIdentifier: 
   maxSize: 13
   minSize: 10
@@ -18,12 +18,20 @@ MonoBehaviour:
   - RelativePosition: {x: 0.5, y: -0.5}
     Rotation: {x: 0, y: 0, z: 0}
     Prefab: {fileID: 3405510337610463673, guid: abd0111331de97544995f5fa95fe6c58, type: 3}
+    DecorationSpot: 0
+    NearWall: 0
   - RelativePosition: {x: 0.5, y: 0.5}
     Rotation: {x: 0, y: 0, z: 0}
     Prefab: {fileID: 3405510337610463673, guid: abd0111331de97544995f5fa95fe6c58, type: 3}
+    DecorationSpot: 0
+    NearWall: 0
   - RelativePosition: {x: -0.5, y: 0.5}
     Rotation: {x: 0, y: 0, z: 0}
     Prefab: {fileID: 3405510337610463673, guid: abd0111331de97544995f5fa95fe6c58, type: 3}
+    DecorationSpot: 0
+    NearWall: 0
   - RelativePosition: {x: -0.5, y: -0.5}
     Rotation: {x: 0, y: 0, z: 0}
     Prefab: {fileID: 3405510337610463673, guid: abd0111331de97544995f5fa95fe6c58, type: 3}
+    DecorationSpot: 0
+    NearWall: 0
