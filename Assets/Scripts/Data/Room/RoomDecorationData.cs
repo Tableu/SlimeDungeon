@@ -47,7 +47,7 @@ public class RoomDecorationData : ScriptableObject
             if (layoutObject.DecorationSpot)
             {
                 pos = controller.GetRandomPosition();
-                if (doors.Any(o => Vector3.Distance(pos, o) < 2))
+                if (doors.Any(o => Vector3.Distance(controller.transform.position + pos, o) < 2))
                     continue;
                 GameObject spot = new GameObject("Decoration Spot");
                 spot.transform.parent = center;
@@ -58,7 +58,7 @@ public class RoomDecorationData : ScriptableObject
             }
             pos = new Vector3((bounds.width-3)*tileSize/2*layoutObject.RelativePosition.x,
                 0, (bounds.height-3)*tileSize/2*layoutObject.RelativePosition.y);
-            if (doors.Any(o => Vector3.Distance(pos, o) < 2))
+            if (doors.Any(o => Vector3.Distance(controller.transform.position + pos, o) < 2))
                 continue;
             GameObject instance = Instantiate(layoutObject.Prefab, center.position + pos, 
                 Quaternion.Euler(layoutObject.Rotation), center);
