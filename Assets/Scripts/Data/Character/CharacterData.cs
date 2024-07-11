@@ -22,13 +22,13 @@ namespace Controller.Player
         [FormerlySerializedAs("item")] 
         [SerializeField] private GameObject capturedCharacter;
         [SerializeField] private AttackData basicAttack;
-        [SerializeField] private List<AttackData> spells;
+        [FormerlySerializedAs("spells")] [SerializeField] private List<AttackData> startingSpells;
         
         public Vector2 MaxVelocity => maxVelocity;
         public GameObject Model => model;
         public GameObject CapturedCharacter => capturedCharacter;
         public AttackData BasicAttack => basicAttack;
-        public List<AttackData> Spells => spells;
+        public List<AttackData> StartingSpells => startingSpells;
         public string Name => name;
         public float Health => health;
         public float Speed => speed;

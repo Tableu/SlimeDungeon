@@ -26,7 +26,7 @@ public class SpellInfoGroup : MonoBehaviour
             script.Initialize(data.BasicAttack);
         }
 
-        foreach (AttackData attackData in data.Spells)
+        foreach (AttackData attackData in data.StartingSpells)
         {
             widget = Instantiate(spellInfo, verticalGroup.transform);
             _spellInfos.Add(widget);

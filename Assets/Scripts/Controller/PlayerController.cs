@@ -83,7 +83,6 @@ public class PlayerController : MonoBehaviour, ICharacterInfo, ISavable, IDamage
         _playerInputActions.Enable();
         
         partyController.OnCharacterChanged += OnCharacterChanged;
-        partyController.OnPartyMemberAdded += OnPartyMemberAdded;
         partyController.Initialize(_playerInputActions);
         EnemyMask = LayerMask.GetMask("Enemy");
     }
@@ -128,6 +127,9 @@ public class PlayerController : MonoBehaviour, ICharacterInfo, ISavable, IDamage
             _basicAttackHeld = false;
             _currentCharacter.BasicAttack.End();
         };
+        
+        foreach(AttackData attackData in _currentCharacter.Data.StartingSpells)
+            UnlockAttack(attackData);
     }
 
     //Code for rotating the player to follow the mouse
@@ -289,6 +291,14 @@ public class PlayerController : MonoBehaviour, ICharacterInfo, ISavable, IDamage
         {
             _unlockedAttacks.Add(attackData);
             OnAttackUnlocked?.Invoke(attackData);
+            for (var index = 0; index < _attacks.Count; index++)
+            {
+                if (_attacks[index] == null)
+                {
+                    EquipAttack(attackData, index);
+                    break;
+                }
+            }
         }
     }
 
@@ -314,14 +324,6 @@ public class PlayerController : MonoBehaviour, ICharacterInfo, ISavable, IDamage
         model = Instantiate(character.Data.Model, transform);
         model.layer = gameObject.layer;
         _currentCharacter.Equip(model, this);
-    }
-
-    private void OnPartyMemberAdded(Character character, int index)
-    {
-        foreach (AttackData attackData in character.Data.Spells)
-        {
-            UnlockAttack(attackData);
-        }
     }
     #endregion
     
