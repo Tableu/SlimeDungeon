@@ -16,7 +16,6 @@ public class LevelManager : MonoBehaviour, ISavable
 {
     private const float CORNER_OFFSET = 1.34f;
     [SerializeField] private Generator2D generator2D;
-    [SerializeField] private RandomCharacterDataGroups randomCapturedCharacters;
     [SerializeField] private List<RoomDecorationData> roomLayoutDatas;
     [SerializeField] private RandomRoomTypeData randomRoomTypeDatas;
     [SerializeField] private GameObject exitPrefab;
@@ -27,7 +26,6 @@ public class LevelManager : MonoBehaviour, ISavable
     [SerializeField] private GameObject doorPrefab;
     [SerializeField] private GameObject roomPrefab;
     [SerializeField] private GameObject wallColliderPrefab;
-    [SerializeField] private GameObject capturedCharacterPrefab;
     [SerializeField] private GameObject levelCenter;
     [SerializeField] private csFogWar fogOfWar;
     [SerializeField] private LoadingScreen loadingScreen;
@@ -110,24 +108,13 @@ public class LevelManager : MonoBehaviour, ISavable
     private void Start()
     {
         GlobalReferences.Instance.Player.transform.position = _spawnRoom.transform.position + _spawnRoom.GetRandomPosition();
-        List<CharacterData> capturedCharacters = randomCapturedCharacters.GetRandomGroup();
         
-        //Generate random indexes for placing the random characters
-        List<int> capturedCharacterIndexes = GetUniqueRandomIndexes(_roomScripts.Count, capturedCharacters.Count);
-        int i = 0;
-        using List<CharacterData>.Enumerator characterEnumerator = capturedCharacters.GetEnumerator();
         foreach (RoomController spawner in _roomScripts)
         {
             if (spawner != _spawnRoom)
             {
-                if (capturedCharacterIndexes.Contains(i))
-                {
-                    characterEnumerator.MoveNext();
-                    spawner.SpawnCapturedCharacter(characterEnumerator.Current, capturedCharacterPrefab);
-                }
                 spawner.SpawnEnemies();
             }
-            i++;
         }
 
         RoomController exitRoom = _roomScripts[Random.Range(0, _roomScripts.Count)];
@@ -500,15 +487,7 @@ public class LevelManager : MonoBehaviour, ISavable
         col.size = new Vector3(col.size.x+length, col.size.y, col.size.z);
         col.center = new Vector3(col.center.x+(direction*length/2), col.center.y, col.center.z);
     }
-    
 
-    private List<int> GetUniqueRandomIndexes(int indexRange, int randomIndexCount)
-    {
-        System.Random rnd = new System.Random(LevelData.RandomSeed);
-        return Enumerable.Range(0, indexRange)
-            .OrderBy(i => rnd.Next()).Take(randomIndexCount).ToList();
-    }
-    
     private void PlaceFloorTile(Vector2Int location, Transform parent = null)
     {
         GameObject tile = Instantiate(floorTilePrefab, new Vector3(location.x * _tileSize, 0, location.y * _tileSize), Quaternion.identity);

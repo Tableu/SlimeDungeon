@@ -53,17 +53,17 @@ public class PartyController : MonoBehaviour, ISavable
                 return;
             var col = itemsOrderedByProximity[0];
 
-            CapturedCharacter character = col.gameObject.GetComponentInParent<CapturedCharacter>();
-            if (character != null)
+            CharacterItem characterItem = col.gameObject.GetComponentInParent<CharacterItem>();
+            if (characterItem != null)
             {
-                Character oldCharacter = AddPartyMember(character.Character);
+                Character oldCharacter = AddPartyMember(characterItem.Character);
                 if (oldCharacter != null)
                 {
-                    character.SwitchCharacter(oldCharacter);
+                    characterItem.SwitchCharacter(oldCharacter);
                 }
                 else
                 {
-                    Destroy(character.gameObject);
+                    Destroy(characterItem.gameObject);
                 }
             }
         };

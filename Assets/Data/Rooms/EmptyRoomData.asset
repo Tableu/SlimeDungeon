@@ -19,9 +19,9 @@ MonoBehaviour:
     Rotation: {x: 0, y: 0, z: 0}
     Prefab: {fileID: 0}
     DecorationSpot: 1
-    NearWall: 0
+    NearWall: 1
   - RelativePosition: {x: 0.6, y: -0.3}
-    Rotation: {x: 0, y: 0, z: 0}
+    Rotation: {x: 0, y: 180, z: 0}
     Prefab: {fileID: 0}
     DecorationSpot: 1
-    NearWall: 0
+    NearWall: 1

@@ -1356,7 +1356,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   generator2D: {fileID: 1812136622}
-  randomCapturedCharacters: {fileID: 11400000, guid: 8def4d2ceea968e4989550de9681dedf, type: 2}
   roomLayoutDatas:
   - {fileID: 11400000, guid: 4fe2ad83cbd3ef645a98bf5d22d62303, type: 2}
   - {fileID: 11400000, guid: eeacb25f5974a194d915cdefcc69ea08, type: 2}
@@ -1373,7 +1372,6 @@ MonoBehaviour:
   doorPrefab: {fileID: 5547930298432026259, guid: adb652c710c917e49af3461d3bdb2a7a, type: 3}
   roomPrefab: {fileID: 6143618360204090084, guid: f798f4b4bd5e67546a4301d4b27915cb, type: 3}
   wallColliderPrefab: {fileID: 4447234519500044207, guid: 29f0ee8506eec2d47a448b46c751627f, type: 3}
-  capturedCharacterPrefab: {fileID: 834991341219302362, guid: a4b4fc3681ea16d4caa2d2d7e25bb26a, type: 3}
   levelCenter: {fileID: 280513639}
   fogOfWar: {fileID: 1962354831}
   loadingScreen: {fileID: 511321716424306895}

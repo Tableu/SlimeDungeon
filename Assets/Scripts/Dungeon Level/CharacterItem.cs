@@ -1,10 +1,12 @@
+using System;
 using Controller.Player;
 using UnityEngine;
 
-public class CapturedCharacter : MonoBehaviour
+public class CharacterItem : MonoBehaviour
 {
     [SerializeField] private GameObject cage;
     [SerializeField] private GameObject modelRoot;
+    [SerializeField] private bool captured;
     private Collider _characterCollider;
     private Animator _animator;
     private Chatbox _chatBox;
@@ -15,18 +17,33 @@ public class CapturedCharacter : MonoBehaviour
 
     public Character Character => _character;
     
-    public void Initialize(RoomController roomController, CharacterData characterData)
+    public void Initialize(RandomCharacterData randomCharacterData, RoomController roomController)
     {
-        _roomController = roomController;
-        _roomController.OnAllEnemiesDead += FreeCharacter;
-        _character = new Character(characterData);
-        _model = Instantiate(characterData.Model, modelRoot.transform);
+        CharacterData data = randomCharacterData.GetRandomElement();
+        _character = new Character(data);
+        _model = Instantiate(data.Model, modelRoot.transform);
         _model.layer = LayerMask.NameToLayer("Items");
         _characterCollider = _model.GetComponent<Collider>();
         _characterCollider.enabled = false;
         _animator = _model.GetComponent<Animator>();
-        _chatBox = ChatBoxManager.Instance.SpawnChatBox(transform);
-        _chatBox.SetMessage("Help!");
+        if(captured)
+            SetCaptured(roomController);
+    }
+
+    private void Start()
+    {
+        if (captured)
+        {
+            _chatBox = ChatBoxManager.Instance.SpawnChatBox(transform);
+            _chatBox.SetMessage("Help!");
+        }
+    }
+
+    private void SetCaptured(RoomController roomController)
+    {
+        cage.SetActive(true);
+        _roomController = roomController;
+        _roomController.OnAllEnemiesDead += FreeCharacter;
     }
 
     public void SwitchCharacter(Character newCharacter)
@@ -62,7 +79,8 @@ public class CapturedCharacter : MonoBehaviour
 
     private void OnDestroy()
     {
-        _roomController.OnAllEnemiesDead -= FreeCharacter;
+        if(_roomController != null)
+            _roomController.OnAllEnemiesDead -= FreeCharacter;
         if(_chatBox != null)
             Destroy(_chatBox.gameObject);
     }

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
@@ -8,7 +7,7 @@ using UnityEngine;
 public class RoomDecorationData : ScriptableObject
 {
     [Serializable]
-    private struct LayoutObject
+    public struct LayoutObject
     {
         [Vector2Range(-1f, 1f, -1f, 1f)]
         public Vector2 RelativePosition;
@@ -37,38 +36,7 @@ public class RoomDecorationData : ScriptableObject
     
     public float MaxSize => maxSize;
     public float MinSize => minSize;
-
-    public List<DecorationSpot> PlaceRoomLayout(Transform center, RectInt bounds, float tileSize, List<Vector3> doors, RoomController controller)
-    {
-        List<DecorationSpot> decorationSpots = new List<DecorationSpot>();
-        foreach (LayoutObject layoutObject in layoutObjects)
-        {
-            Vector3 pos;
-            if (layoutObject.DecorationSpot)
-            {
-                pos = controller.GetRandomPosition();
-                if (doors.Any(o => Vector3.Distance(controller.transform.position + pos, o) < 2))
-                    continue;
-                GameObject spot = new GameObject("Decoration Spot");
-                spot.transform.parent = center;
-                spot.transform.localPosition = pos;
-                spot.transform.rotation = Quaternion.Euler(layoutObject.Rotation);
-                decorationSpots.Add(new DecorationSpot(spot.transform, layoutObject.NearWall));
-                continue;
-            }
-            pos = new Vector3((bounds.width-3)*tileSize/2*layoutObject.RelativePosition.x,
-                0, (bounds.height-3)*tileSize/2*layoutObject.RelativePosition.y);
-            if (doors.Any(o => Vector3.Distance(controller.transform.position + pos, o) < 2))
-                continue;
-            GameObject instance = Instantiate(layoutObject.Prefab, center.position + pos, 
-                Quaternion.Euler(layoutObject.Rotation), center);
-            Decorations spots = instance.GetComponent<Decorations>();
-            if(spots != null)
-                decorationSpots.AddRange(spots.Locations);
-        }
-
-        return decorationSpots;
-    }
+    public List<LayoutObject> LayoutObjects => layoutObjects;
 }
 
 //https://www.saguiitay.com/unity-tutorial-vector2rangeattribute/

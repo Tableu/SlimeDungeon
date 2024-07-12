@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6098925621551717471}
   - component: {fileID: 5314454333888932125}
+  - component: {fileID: 2955294554445752804}
   m_Layer: 11
   m_Name: Captured Character
   m_TagString: Untagged
@@ -48,6 +49,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cage: {fileID: 8761491210766798537}
   modelRoot: {fileID: 3348791780189112047}
+  captured: 1
+--- !u!208 &2955294554445752804
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 834991341219302362}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.6, y: 0.6, z: 0.6}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0.6, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &3348791780189112047
 GameObject:
   m_ObjectHideFlags: 0

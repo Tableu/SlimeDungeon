@@ -15,4 +15,9 @@ public class Chatbox : MonoBehaviour
     {
         text.text = message;
     }
+
+    public void SetIcon(string icon)
+    {
+        
+    }
 }

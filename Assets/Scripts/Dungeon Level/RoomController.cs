@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Controller.Player;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -16,6 +15,7 @@ public class RoomController : MonoBehaviour
     private int _enemyCount = 0;
     private List<EnemyController> _enemies;
     private RoomData _roomData;
+    private RoomDecorationData _roomDecorationData;
     
     public Action OnAllEnemiesDead;
     public bool AllEnemiesDead => _enemyCount < 1;
@@ -42,23 +42,94 @@ public class RoomController : MonoBehaviour
         roomCamera.Initialize(bounds, tileSize);
         roomDoors.Initialize(this, doors, bounds, tileSize);
         int i = 0;
-        RoomDecorationData roomDecorationData;
+        
         do
         {
-            roomDecorationData = roomLayoutDatas[Random.Range(0, roomLayoutDatas.Count)];
-            if (_bounds.width < roomDecorationData.MaxSize && _bounds.width >= roomDecorationData.MinSize ||
-                _bounds.height < roomDecorationData.MaxSize && _bounds.width >= roomDecorationData.MinSize)
+            _roomDecorationData = roomLayoutDatas[Random.Range(0, roomLayoutDatas.Count)];
+            if (_bounds.width < _roomDecorationData.MaxSize && _bounds.width >= _roomDecorationData.MinSize ||
+                _bounds.height < _roomDecorationData.MaxSize && _bounds.width >= _roomDecorationData.MinSize)
             {
                 break;
             }
             i++;
         } while (i < 20);
 
-        List<RoomDecorationData.DecorationSpot> decorationPositions = roomDecorationData.PlaceRoomLayout(colliderTransform, bounds, tileSize, 
+        List<RoomDecorationData.DecorationSpot> decorationPositions = PlaceRoomLayout(colliderTransform, bounds, tileSize, 
             doors.Select(o=>o.transform.position).ToList(),this);
         _roomData = randomRoomTypeDatas.GetRandomElement();
-        _roomData.DecorateRoom(decorationPositions);
+        DecorateRoom(decorationPositions, this);
     }
+    
+    private List<RoomDecorationData.DecorationSpot> PlaceRoomLayout(Transform center, RectInt bounds, float tileSize, List<Vector3> doors, RoomController controller)
+    {
+        List<RoomDecorationData.DecorationSpot> decorationSpots = new List<RoomDecorationData.DecorationSpot>();
+        foreach (RoomDecorationData.LayoutObject layoutObject in _roomDecorationData.LayoutObjects)
+        {
+            Vector3 pos;
+            if (layoutObject.DecorationSpot)
+            {
+                pos = controller.GetRandomPosition();
+                if (doors.Any(o => Vector3.Distance(controller.transform.position + pos, o) < 2))
+                    continue;
+                GameObject spot = new GameObject("Decoration Spot");
+                spot.transform.parent = center;
+                spot.transform.localPosition = pos;
+                spot.transform.rotation = Quaternion.Euler(layoutObject.Rotation);
+                decorationSpots.Add(new RoomDecorationData.DecorationSpot(spot.transform, layoutObject.NearWall));
+                continue;
+            }
+            pos = new Vector3((bounds.width-3)*tileSize/2*layoutObject.RelativePosition.x,
+                0, (bounds.height-3)*tileSize/2*layoutObject.RelativePosition.y);
+            if (doors.Any(o => Vector3.Distance(controller.transform.position + pos, o) < 2))
+                continue;
+            GameObject instance = Instantiate(layoutObject.Prefab, center.position + pos, 
+                Quaternion.Euler(layoutObject.Rotation), center);
+            Decorations spots = instance.GetComponent<Decorations>();
+            if(spots != null)
+                decorationSpots.AddRange(spots.Locations);
+        }
+
+        return decorationSpots;
+    }
+    
+    private void DecorateRoom(List<RoomDecorationData.DecorationSpot> decorationSpots, RoomController roomController)
+    {
+        List<RoomData.RandomDecoration> decorations = new List<RoomData.RandomDecoration>(_roomData.RandomDecorations);
+        int i = 0;
+        int x = 0;
+        while (i < decorationSpots.Count && x < decorationSpots.Count*10)
+        {
+            RoomData.RandomDecoration decoration = RoomData.GetRandomDecoration(decorations);
+            BoxCollider col = decoration.Prefab.GetComponent<BoxCollider>();
+            bool tileTaken = false;
+            if (col != null)
+            {
+                tileTaken = Physics.CheckBox(decorationSpots[i].Location.position, col.size/2, 
+                    decorationSpots[i].Location.rotation, LayerMask.GetMask("Walls", "Obstacles"));
+            }
+
+            if (!tileTaken && (!decoration.RequireWall || decorationSpots[i].NearWall))
+            {
+                GameObject decorationObject = Instantiate(decoration.Prefab, decorationSpots[i].Location);
+                CharacterItem characterItem = decorationObject.GetComponent<CharacterItem>();
+                if (characterItem)
+                    characterItem.Initialize(_roomData.RandomCharacterItems, roomController);
+                
+                col = decorationObject.GetComponent<BoxCollider>();
+                if (col != null && decorationSpots[i].NearWall) //Purpose is to snap decorations to the wall
+                {
+                    Physics.Raycast(decorationSpots[i].Location.position, decorationSpots[i].Location.forward * -1,
+                        out RaycastHit hit, Single.PositiveInfinity, LayerMask.GetMask("Walls"));
+                    Vector3 diff = hit.point - col.ClosestPoint(hit.point) + decorationSpots[i].Location.forward*0.1f;
+                    decorationObject.transform.position += new Vector3(diff.x, 0, diff.z);
+                }
+                
+                i++;
+            }
+            x++;
+        }
+    }
+    
     public void SpawnEnemies()
     {
         if (_waypoints == null)
@@ -90,28 +161,6 @@ public class RoomController : MonoBehaviour
                 _enemies.Add(controller);
                 _enemyCount++;
             }
-        }
-    }
-
-    public void SpawnCapturedCharacter(CharacterData data, GameObject capturedCharacterPrefab)
-    {
-        GameObject capturedParent = new GameObject("Captured Characters")
-        {
-            transform =
-            {
-                parent = transform,
-                localPosition = Vector3.zero
-            },
-            layer = LayerMask.NameToLayer("Items")
-        };
-        
-        GameObject characterInstance = Instantiate(capturedCharacterPrefab, capturedParent.transform, false);
-
-        characterInstance.transform.localPosition = GetRandomPosition();
-        CapturedCharacter script = characterInstance.GetComponent<CapturedCharacter>();
-        if (script != null)
-        {
-            script.Initialize(this, data);
         }
     }
 
