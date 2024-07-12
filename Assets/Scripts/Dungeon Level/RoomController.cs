@@ -93,7 +93,7 @@ public class RoomController : MonoBehaviour
         }
     }
 
-    public void SpawnCapturedCharacter(CharacterData data)
+    public void SpawnCapturedCharacter(CharacterData data, GameObject capturedCharacterPrefab)
     {
         GameObject capturedParent = new GameObject("Captured Characters")
         {
@@ -105,7 +105,7 @@ public class RoomController : MonoBehaviour
             layer = LayerMask.NameToLayer("Items")
         };
         
-        GameObject characterInstance = Instantiate(data.CapturedCharacter, capturedParent.transform, false);
+        GameObject characterInstance = Instantiate(capturedCharacterPrefab, capturedParent.transform, false);
 
         characterInstance.transform.localPosition = GetRandomPosition();
         CapturedCharacter script = characterInstance.GetComponent<CapturedCharacter>();

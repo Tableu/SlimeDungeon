@@ -18,15 +18,11 @@ namespace Controller.Player
         
         [Header("References")]
         [SerializeField] private GameObject model;
-        [FormerlySerializedAs("capturedForm")] 
-        [FormerlySerializedAs("item")] 
-        [SerializeField] private GameObject capturedCharacter;
         [SerializeField] private AttackData basicAttack;
         [FormerlySerializedAs("spells")] [SerializeField] private List<AttackData> startingSpells;
         
         public Vector2 MaxVelocity => maxVelocity;
         public GameObject Model => model;
-        public GameObject CapturedCharacter => capturedCharacter;
         public AttackData BasicAttack => basicAttack;
         public List<AttackData> StartingSpells => startingSpells;
         public string Name => name;

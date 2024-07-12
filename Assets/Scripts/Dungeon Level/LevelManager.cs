@@ -27,6 +27,7 @@ public class LevelManager : MonoBehaviour, ISavable
     [SerializeField] private GameObject doorPrefab;
     [SerializeField] private GameObject roomPrefab;
     [SerializeField] private GameObject wallColliderPrefab;
+    [SerializeField] private GameObject capturedCharacterPrefab;
     [SerializeField] private GameObject levelCenter;
     [SerializeField] private csFogWar fogOfWar;
     [SerializeField] private LoadingScreen loadingScreen;
@@ -122,7 +123,7 @@ public class LevelManager : MonoBehaviour, ISavable
                 if (capturedCharacterIndexes.Contains(i))
                 {
                     characterEnumerator.MoveNext();
-                    spawner.SpawnCapturedCharacter(characterEnumerator.Current);
+                    spawner.SpawnCapturedCharacter(characterEnumerator.Current, capturedCharacterPrefab);
                 }
                 spawner.SpawnEnemies();
             }

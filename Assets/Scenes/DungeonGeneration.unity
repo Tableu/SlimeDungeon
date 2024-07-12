@@ -1373,6 +1373,7 @@ MonoBehaviour:
   doorPrefab: {fileID: 5547930298432026259, guid: adb652c710c917e49af3461d3bdb2a7a, type: 3}
   roomPrefab: {fileID: 6143618360204090084, guid: f798f4b4bd5e67546a4301d4b27915cb, type: 3}
   wallColliderPrefab: {fileID: 4447234519500044207, guid: 29f0ee8506eec2d47a448b46c751627f, type: 3}
+  capturedCharacterPrefab: {fileID: 834991341219302362, guid: a4b4fc3681ea16d4caa2d2d7e25bb26a, type: 3}
   levelCenter: {fileID: 280513639}
   fogOfWar: {fileID: 1962354831}
   loadingScreen: {fileID: 511321716424306895}
