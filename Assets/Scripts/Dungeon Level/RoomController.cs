@@ -15,13 +15,12 @@ public class RoomController : MonoBehaviour
     private int _enemyCount = 0;
     private List<EnemyController> _enemies;
     private RoomData _roomData;
-    private RoomDecorationData _roomDecorationData;
     
     public Action OnAllEnemiesDead;
     public bool AllEnemiesDead => _enemyCount < 1;
 
     public void Initialize(RectInt bounds,  float tileSize, List<Door> doors, 
-        List<RoomDecorationData> roomLayoutDatas, RandomRoomTypeData randomRoomTypeDatas, Transform colliderTransform)
+        RandomRoomData randomRoomDatas, Transform colliderTransform)
     {
         _bounds = bounds;
         _tileSize = tileSize;
@@ -45,45 +44,47 @@ public class RoomController : MonoBehaviour
         
         do
         {
-            _roomDecorationData = roomLayoutDatas[Random.Range(0, roomLayoutDatas.Count)];
-            if (_bounds.width < _roomDecorationData.MaxSize && _bounds.width >= _roomDecorationData.MinSize ||
-                _bounds.height < _roomDecorationData.MaxSize && _bounds.width >= _roomDecorationData.MinSize)
+            _roomData = randomRoomDatas.GetRandomElement();
+            if (_bounds.width < _roomData.MaxSize && _bounds.width >= _roomData.MinSize ||
+                _bounds.height < _roomData.MaxSize && _bounds.width >= _roomData.MinSize)
             {
                 break;
             }
             i++;
         } while (i < 20);
 
-        List<RoomDecorationData.DecorationSpot> decorationPositions = PlaceRoomLayout(colliderTransform, bounds, tileSize, 
-            doors.Select(o=>o.transform.position).ToList(),this);
-        _roomData = randomRoomTypeDatas.GetRandomElement();
-        DecorateRoom(decorationPositions, this);
+        List<RoomData.DecorationSpot> decorationPositions = PlaceRoomLayout(colliderTransform, bounds, tileSize, 
+            doors.Select(o=>o.transform.position).ToList());
+        DecorateRoom(decorationPositions);
     }
     
-    private List<RoomDecorationData.DecorationSpot> PlaceRoomLayout(Transform center, RectInt bounds, float tileSize, List<Vector3> doors, RoomController controller)
+    private List<RoomData.DecorationSpot> PlaceRoomLayout(Transform center, RectInt bounds, float tileSize, List<Vector3> doors)
     {
-        List<RoomDecorationData.DecorationSpot> decorationSpots = new List<RoomDecorationData.DecorationSpot>();
-        foreach (RoomDecorationData.LayoutObject layoutObject in _roomDecorationData.LayoutObjects)
+        List<RoomData.DecorationSpot> decorationSpots = new List<RoomData.DecorationSpot>();
+        foreach (RoomData.LayoutObject layoutObject in _roomData.LayoutObjects)
         {
             Vector3 pos;
             if (layoutObject.DecorationSpot)
             {
-                pos = controller.GetRandomPosition();
-                if (doors.Any(o => Vector3.Distance(controller.transform.position + pos, o) < 2))
+                pos = GetRandomPosition();
+                if (doors.Any(o => Vector3.Distance(transform.position + pos, o) < 2))
                     continue;
                 GameObject spot = new GameObject("Decoration Spot");
                 spot.transform.parent = center;
                 spot.transform.localPosition = pos;
-                spot.transform.rotation = Quaternion.Euler(layoutObject.Rotation);
-                decorationSpots.Add(new RoomDecorationData.DecorationSpot(spot.transform, layoutObject.NearWall));
+                spot.transform.localRotation = Quaternion.Euler(layoutObject.Rotation);
+                decorationSpots.Add(new RoomData.DecorationSpot(spot.transform, layoutObject.NearWall));
                 continue;
             }
             pos = new Vector3((bounds.width-3)*tileSize/2*layoutObject.RelativePosition.x,
                 0, (bounds.height-3)*tileSize/2*layoutObject.RelativePosition.y);
-            if (doors.Any(o => Vector3.Distance(controller.transform.position + pos, o) < 2))
+            if (doors.Any(o => Vector3.Distance(transform.position + pos, o) < 2))
                 continue;
             GameObject instance = Instantiate(layoutObject.Prefab, center.position + pos, 
                 Quaternion.Euler(layoutObject.Rotation), center);
+            CharacterItem characterItem = instance.GetComponent<CharacterItem>();
+            if (characterItem)
+                characterItem.Initialize(_roomData.RandomCharacterItems, this);
             Decorations spots = instance.GetComponent<Decorations>();
             if(spots != null)
                 decorationSpots.AddRange(spots.Locations);
@@ -92,7 +93,7 @@ public class RoomController : MonoBehaviour
         return decorationSpots;
     }
     
-    private void DecorateRoom(List<RoomDecorationData.DecorationSpot> decorationSpots, RoomController roomController)
+    private void DecorateRoom(List<RoomData.DecorationSpot> decorationSpots)
     {
         List<RoomData.RandomDecoration> decorations = new List<RoomData.RandomDecoration>(_roomData.RandomDecorations);
         int i = 0;
@@ -113,7 +114,7 @@ public class RoomController : MonoBehaviour
                 GameObject decorationObject = Instantiate(decoration.Prefab, decorationSpots[i].Location);
                 CharacterItem characterItem = decorationObject.GetComponent<CharacterItem>();
                 if (characterItem)
-                    characterItem.Initialize(_roomData.RandomCharacterItems, roomController);
+                    characterItem.Initialize(_roomData.RandomCharacterItems, this);
                 
                 col = decorationObject.GetComponent<BoxCollider>();
                 if (col != null && decorationSpots[i].NearWall) //Purpose is to snap decorations to the wall
@@ -137,6 +138,9 @@ public class RoomController : MonoBehaviour
             Debug.Log("Enemy spawn failed - waypoints were not created");
             return;
         }
+
+        if (_roomData.RandomEnemyGroups == null)
+            return;
 
         List<GameObject> enemies = _roomData.RandomEnemyGroups.GetRandomGroup();
 
