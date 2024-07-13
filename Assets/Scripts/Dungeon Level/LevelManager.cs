@@ -76,6 +76,7 @@ public class LevelManager : MonoBehaviour, ISavable
         fogOfWar.Initialize(paddedSize*2, _tileSize/2);
         
         _spawnRoom = _roomScripts[Random.Range(0, _roomScripts.Count)];
+        _spawnRoom.SetAsSpawnRoom();
 
         GameObject floorCollider = new GameObject("Floor Collider");
         floorCollider.layer = LayerMask.NameToLayer("Floor");
@@ -106,14 +107,6 @@ public class LevelManager : MonoBehaviour, ISavable
     private void Start()
     {
         GlobalReferences.Instance.Player.transform.position = _spawnRoom.transform.position + _spawnRoom.GetRandomPosition();
-        
-        foreach (RoomController spawner in _roomScripts)
-        {
-            if (spawner != _spawnRoom)
-            {
-                spawner.SpawnEnemies();
-            }
-        }
 
         RoomController exitRoom = _roomScripts[Random.Range(0, _roomScripts.Count)];
         while(exitRoom == _spawnRoom) {exitRoom = _roomScripts[Random.Range(0, _roomScripts.Count)];}

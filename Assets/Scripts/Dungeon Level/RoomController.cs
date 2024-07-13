@@ -15,6 +15,7 @@ public class RoomController : MonoBehaviour
     private int _enemyCount = 0;
     private List<EnemyController> _enemies;
     private RoomData _roomData;
+    private bool _isSpawnRoom = false;
     
     public Action OnAllEnemiesDead;
     public bool AllEnemiesDead => _enemyCount < 1;
@@ -58,6 +59,76 @@ public class RoomController : MonoBehaviour
         DecorateRoom(decorationPositions);
     }
     
+    public void SetAsSpawnRoom()
+    {
+        _isSpawnRoom = true;
+    }
+    
+    public void SpawnExit(GameObject exit, LevelManager levelManager)
+    {
+        GameObject exitInstance = Instantiate(exit, transform, false);
+
+        exitInstance.transform.localPosition = GetRandomPosition();
+        Exit script = exitInstance.GetComponent<Exit>();
+        if (script != null)
+        {
+            script.Initialize(this, levelManager);
+        }
+    }
+
+    private void Start()
+    {
+        SpawnEnemies();
+    }
+
+    private void OnDestroy()
+    {
+        foreach (EnemyController controller in _enemies)
+        {
+            if (controller != null)
+            {
+                controller.OnDeath -= OnEnemyDeath;
+            }
+        }
+    }
+
+    private void SpawnEnemies()
+    {
+        if (_waypoints == null)
+        {
+            Debug.Log("Enemy spawn failed - waypoints were not created");
+            return;
+        }
+
+        if (_roomData.RandomEnemyGroups == null || _isSpawnRoom)
+            return;
+
+        List<GameObject> enemies = _roomData.RandomEnemyGroups.GetRandomGroup();
+
+        GameObject enemyParent = new GameObject("Enemies")
+        {
+            transform =
+            {
+                parent = transform,
+                localPosition = Vector3.zero
+            },
+            layer = LayerMask.NameToLayer("Enemy")
+        };
+        
+        foreach (GameObject enemy in enemies)
+        {
+            GameObject enemyInstance = Instantiate(enemy, enemyParent.transform.position + GetRandomPosition(), Quaternion.identity, enemyParent.transform);
+            EnemyController controller = enemyInstance.GetComponent<EnemyController>();
+            if (controller != null)
+            {
+                controller.SetWaypoints(_waypoints);
+                controller.OnDeath += OnEnemyDeath;
+                _enemies.Add(controller);
+                _enemyCount++;
+            }
+        }
+    }
+
     private List<RoomData.DecorationSpot> PlaceRoomLayout(Transform center, RectInt bounds, float tileSize, List<Vector3> doors)
     {
         List<RoomData.DecorationSpot> decorationSpots = new List<RoomData.DecorationSpot>();
@@ -131,55 +202,6 @@ public class RoomController : MonoBehaviour
         }
     }
     
-    public void SpawnEnemies()
-    {
-        if (_waypoints == null)
-        {
-            Debug.Log("Enemy spawn failed - waypoints were not created");
-            return;
-        }
-
-        if (_roomData.RandomEnemyGroups == null)
-            return;
-
-        List<GameObject> enemies = _roomData.RandomEnemyGroups.GetRandomGroup();
-
-        GameObject enemyParent = new GameObject("Enemies")
-        {
-            transform =
-            {
-                parent = transform,
-                localPosition = Vector3.zero
-            },
-            layer = LayerMask.NameToLayer("Enemy")
-        };
-        
-        foreach (GameObject enemy in enemies)
-        {
-            GameObject enemyInstance = Instantiate(enemy, enemyParent.transform.position + GetRandomPosition(), Quaternion.identity, enemyParent.transform);
-            EnemyController controller = enemyInstance.GetComponent<EnemyController>();
-            if (controller != null)
-            {
-                controller.SetWaypoints(_waypoints);
-                controller.OnDeath += OnEnemyDeath;
-                _enemies.Add(controller);
-                _enemyCount++;
-            }
-        }
-    }
-
-    public void SpawnExit(GameObject exit, LevelManager levelManager)
-    {
-        GameObject exitInstance = Instantiate(exit, transform, false);
-
-        exitInstance.transform.localPosition = GetRandomPosition();
-        Exit script = exitInstance.GetComponent<Exit>();
-        if (script != null)
-        {
-            script.Initialize(this, levelManager);
-        }
-    }
-
     public Vector3 GetRandomPosition()
     {
         int xExtent = (int) Mathf.Ceil(((float) _bounds.width / 2 - 1)* _tileSize - _tileSize/2);
@@ -205,17 +227,6 @@ public class RoomController : MonoBehaviour
         if (AllEnemiesDead)
         {
             OnAllEnemiesDead?.Invoke();
-        }
-    }
-
-    private void OnDestroy()
-    {
-        foreach (EnemyController controller in _enemies)
-        {
-            if (controller != null)
-            {
-                controller.OnDeath -= OnEnemyDeath;
-            }
         }
     }
 }

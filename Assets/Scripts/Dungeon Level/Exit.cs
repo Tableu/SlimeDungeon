@@ -1,4 +1,3 @@
-using FischlWorks_FogWar;
 using UnityEngine;
 
 public class Exit : MonoBehaviour, IItem
@@ -10,6 +9,10 @@ public class Exit : MonoBehaviour, IItem
         _levelManager = levelManager;
         collider.enabled = false;
         controller.OnAllEnemiesDead += delegate { collider.enabled = true; };
+        if (controller.AllEnemiesDead)
+        {
+            collider.enabled = true;
+        }
     }
 
     public void PickUp(PlayerController character)
