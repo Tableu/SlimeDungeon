@@ -15,6 +15,7 @@ public class RoomData : ScriptableObject
         public Vector2 RelativePosition;
         public Vector3 Rotation;
         public GameObject Prefab;
+        public bool RandomPosition;
         public bool DecorationSpot;
         public bool NearWall;
     }

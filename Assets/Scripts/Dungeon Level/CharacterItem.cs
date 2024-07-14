@@ -45,7 +45,7 @@ public class CharacterItem : MonoBehaviour, IItem
 
     private void Update()
     {
-        if (_isFree && GlobalReferences.Instance.Player != null)
+        if ((_isFree || !captured) && GlobalReferences.Instance.Player != null)
         {
             AttackTargeting.RotateTowards(transform, GlobalReferences.Instance.Player.transform);
         }

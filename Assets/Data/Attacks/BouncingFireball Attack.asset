@@ -15,7 +15,7 @@ MonoBehaviour:
   speed: 15
   damage: 20
   knockback: 0
-  manaCost: 10
+  manaCost: 30
   hitStun: 1
   cooldown: 2
   spawnOffset: {x: 0, y: 0, z: 0}

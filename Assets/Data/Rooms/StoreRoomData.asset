@@ -10,35 +10,52 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0d6a471cba1d089419adf6e490555721, type: 3}
-  m_Name: 5x5RoomData
+  m_Name: StoreRoomData
   m_EditorClassIdentifier: 
-  maxSize: 13
-  minSize: 10
+  maxSize: 6
+  minSize: 1
   layoutObjects:
+  - RelativePosition: {x: 0.3, y: 0}
+    Rotation: {x: 0, y: 0, z: 0}
+    Prefab: {fileID: 834991341219302362, guid: 5221b9bac5460e44b8af3985c7828cbe, type: 3}
+    RandomPosition: 0
+    DecorationSpot: 0
+    NearWall: 1
   - RelativePosition: {x: 0, y: 0}
     Rotation: {x: 0, y: 0, z: 0}
-    Prefab: {fileID: 8475587471981904468, guid: f1dc148e46dc54d4193ea448a06035d7, type: 3}
+    Prefab: {fileID: 834991341219302362, guid: 5221b9bac5460e44b8af3985c7828cbe, type: 3}
+    RandomPosition: 0
     DecorationSpot: 0
-    NearWall: 0
+    NearWall: 1
+  - RelativePosition: {x: -0.3, y: 0}
+    Rotation: {x: 0, y: 0, z: 0}
+    Prefab: {fileID: 834991341219302362, guid: 5221b9bac5460e44b8af3985c7828cbe, type: 3}
+    RandomPosition: 0
+    DecorationSpot: 0
+    NearWall: 1
   - RelativePosition: {x: 0.5, y: 0.5}
     Rotation: {x: 0, y: 0, z: 0}
-    Prefab: {fileID: 5116745627753682297, guid: f0fdf0cad1e6e1b48a0d3e6209f116e1, type: 3}
-    DecorationSpot: 0
-    NearWall: 0
-  - RelativePosition: {x: -0.5, y: 0.5}
-    Rotation: {x: 0, y: 0, z: 0}
-    Prefab: {fileID: 5116745627753682297, guid: f0fdf0cad1e6e1b48a0d3e6209f116e1, type: 3}
-    DecorationSpot: 0
-    NearWall: 0
-  - RelativePosition: {x: 0.5, y: -0.5}
-    Rotation: {x: 0, y: 0, z: 0}
-    Prefab: {fileID: 5116745627753682297, guid: f0fdf0cad1e6e1b48a0d3e6209f116e1, type: 3}
-    DecorationSpot: 0
+    Prefab: {fileID: 0}
+    RandomPosition: 0
+    DecorationSpot: 1
     NearWall: 0
   - RelativePosition: {x: -0.5, y: -0.5}
     Rotation: {x: 0, y: 0, z: 0}
-    Prefab: {fileID: 5116745627753682297, guid: f0fdf0cad1e6e1b48a0d3e6209f116e1, type: 3}
-    DecorationSpot: 0
+    Prefab: {fileID: 0}
+    RandomPosition: 0
+    DecorationSpot: 1
+    NearWall: 0
+  - RelativePosition: {x: 0.5, y: -0.5}
+    Rotation: {x: 0, y: 0, z: 0}
+    Prefab: {fileID: 0}
+    RandomPosition: 0
+    DecorationSpot: 1
+    NearWall: 0
+  - RelativePosition: {x: -0.5, y: 0.5}
+    Rotation: {x: 0, y: 0, z: 0}
+    Prefab: {fileID: 0}
+    RandomPosition: 0
+    DecorationSpot: 1
     NearWall: 0
   randomDecorations:
   - Prefab: {fileID: 8706826499124152285, guid: 96aea18a3a3e4f140840c4c8fc79fcd7, type: 3}
@@ -61,10 +78,6 @@ MonoBehaviour:
     Weight: 5
     Repeatable: 1
     RequireWall: 0
-  - Prefab: {fileID: 2403275009475036443, guid: 597db401cb021d944baea90a20a1edaf, type: 3}
-    Weight: 5
-    Repeatable: 0
-    RequireWall: 0
   - Prefab: {fileID: 3243498706154587937, guid: ae9a01b559d548b41b07575fcf60d1e8, type: 3}
     Weight: 5
     Repeatable: 1
@@ -81,9 +94,5 @@ MonoBehaviour:
     Weight: 5
     Repeatable: 0
     RequireWall: 1
-  - Prefab: {fileID: 834991341219302362, guid: a4b4fc3681ea16d4caa2d2d7e25bb26a, type: 3}
-    Weight: 4
-    Repeatable: 0
-    RequireWall: 0
-  randomEnemyGroups: {fileID: 11400000, guid: 327de8ed5f32b1444bea16fb7fd6e8ef, type: 2}
+  randomEnemyGroups: {fileID: 0}
   randomCharacterItems: {fileID: 11400000, guid: 68965c9505bcdbc42a13c0a7c04b31e4, type: 2}

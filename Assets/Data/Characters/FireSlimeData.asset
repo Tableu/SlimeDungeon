@@ -15,11 +15,11 @@ MonoBehaviour:
   health: 100
   speed: 2
   elementType: 1
+  cost: 15
   spellOffset: {x: 0.3, y: 0.3, z: 0.3}
   maxVelocity: {x: 4.5, y: 4.5}
   name: Fire Slime
   model: {fileID: 1493230507176055047, guid: b95414d9119b7cb4bb1a797d09f7068e, type: 3}
-  capturedCharacter: {fileID: 834991341219302362, guid: a4b4fc3681ea16d4caa2d2d7e25bb26a, type: 3}
   basicAttack: {fileID: 11400000, guid: c5d2a1463d32f91459e236f8fea813c9, type: 2}
-  spells:
+  startingSpells:
   - {fileID: 11400000, guid: d99d32efdf526504d86ca74c35d880c4, type: 2}

@@ -101,5 +101,9 @@ MonoBehaviour:
     Weight: 5
     Repeatable: 0
     RequireWall: 1
+  - Prefab: {fileID: 834991341219302362, guid: a4b4fc3681ea16d4caa2d2d7e25bb26a, type: 3}
+    Weight: 4
+    Repeatable: 0
+    RequireWall: 0
   randomEnemyGroups: {fileID: 11400000, guid: 135112b0d90e20b4da213e8210b9c9af, type: 2}
   randomCharacterItems: {fileID: 11400000, guid: 68965c9505bcdbc42a13c0a7c04b31e4, type: 2}

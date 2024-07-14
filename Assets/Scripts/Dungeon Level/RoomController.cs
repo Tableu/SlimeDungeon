@@ -134,12 +134,15 @@ public class RoomController : MonoBehaviour
         List<RoomData.DecorationSpot> decorationSpots = new List<RoomData.DecorationSpot>();
         foreach (RoomData.LayoutObject layoutObject in _roomData.LayoutObjects)
         {
-            Vector3 pos;
+            Vector3 pos = layoutObject.RandomPosition ? GetRandomPosition() : 
+                new Vector3((bounds.width-3)*tileSize/2*layoutObject.RelativePosition.x,
+                0, (bounds.height-3)*tileSize/2*layoutObject.RelativePosition.y);;
+
+            if (doors.Any(o => Vector3.Distance(transform.position + pos, o) < 2))
+                continue;
+            
             if (layoutObject.DecorationSpot)
             {
-                pos = GetRandomPosition();
-                if (doors.Any(o => Vector3.Distance(transform.position + pos, o) < 2))
-                    continue;
                 GameObject spot = new GameObject("Decoration Spot");
                 spot.transform.parent = center;
                 spot.transform.localPosition = pos;
@@ -147,10 +150,6 @@ public class RoomController : MonoBehaviour
                 decorationSpots.Add(new RoomData.DecorationSpot(spot.transform, layoutObject.NearWall));
                 continue;
             }
-            pos = new Vector3((bounds.width-3)*tileSize/2*layoutObject.RelativePosition.x,
-                0, (bounds.height-3)*tileSize/2*layoutObject.RelativePosition.y);
-            if (doors.Any(o => Vector3.Distance(transform.position + pos, o) < 2))
-                continue;
             GameObject instance = Instantiate(layoutObject.Prefab, center.position + pos, 
                 Quaternion.Euler(layoutObject.Rotation), center);
             CharacterItem characterItem = instance.GetComponent<CharacterItem>();
@@ -192,6 +191,7 @@ public class RoomController : MonoBehaviour
                 {
                     Physics.Raycast(decorationSpots[i].Location.position, decorationSpots[i].Location.forward * -1,
                         out RaycastHit hit, Single.PositiveInfinity, LayerMask.GetMask("Walls"));
+
                     Vector3 diff = hit.point - col.ClosestPoint(hit.point) + decorationSpots[i].Location.forward*0.1f;
                     decorationObject.transform.position += new Vector3(diff.x, 0, diff.z);
                 }
