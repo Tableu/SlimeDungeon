@@ -1,8 +1,7 @@
-using System;
 using Controller.Player;
 using UnityEngine;
 
-public class CharacterItem : MonoBehaviour
+public class CharacterItem : MonoBehaviour, IItem
 {
     [SerializeField] private GameObject cage;
     [SerializeField] private GameObject modelRoot;
@@ -24,7 +23,7 @@ public class CharacterItem : MonoBehaviour
         _model = Instantiate(data.Model, modelRoot.transform);
         _model.layer = LayerMask.NameToLayer("Items");
         _characterCollider = _model.GetComponent<Collider>();
-        _characterCollider.enabled = false;
+        _characterCollider.enabled = !captured;
         _animator = _model.GetComponent<Animator>();
         if(captured)
             SetCaptured(roomController);
@@ -37,36 +36,11 @@ public class CharacterItem : MonoBehaviour
             _chatBox = ChatBoxManager.Instance.SpawnChatBox(transform);
             _chatBox.SetMessage("Help!");
         }
-    }
-
-    private void SetCaptured(RoomController roomController)
-    {
-        cage.SetActive(true);
-        _roomController = roomController;
-        _roomController.OnAllEnemiesDead += FreeCharacter;
-    }
-
-    public void SwitchCharacter(Character newCharacter)
-    {
-        if (newCharacter != null)
+        else
         {
-            _character = newCharacter;
-            Destroy(_model);
-            _model = Instantiate(_character.Data.Model, _model.transform);
-            _model.layer = LayerMask.NameToLayer("Items");
-            _characterCollider = _model.GetComponent<Collider>();
-            _animator = _model.GetComponent<Animator>();
+            _chatBox = ChatBoxManager.Instance.SpawnChatBox(transform);
+            _chatBox.SetMessage("<sprite name=\"UI_117\"> "+_character.Data.Cost.ToString());
         }
-        _chatBox.gameObject.SetActive(false);
-    }
-
-    private void FreeCharacter()
-    {
-        cage.SetActive(false);
-        _characterCollider.enabled = true;
-        _isFree = true;
-        _animator.Play("Jump");
-        _chatBox.SetMessage("Thank You!");
     }
 
     private void Update()
@@ -83,5 +57,54 @@ public class CharacterItem : MonoBehaviour
             _roomController.OnAllEnemiesDead -= FreeCharacter;
         if(_chatBox != null)
             Destroy(_chatBox.gameObject);
+    }
+    
+    private void SetCaptured(RoomController roomController)
+    {
+        if(cage != null)
+            cage.SetActive(true);
+        _roomController = roomController;
+        _roomController.OnAllEnemiesDead += FreeCharacter;
+    }
+
+    public void PickUp(PlayerController character)
+    {
+        //slightly hacky solution here
+        PartyController partyController = character.GetComponent<PartyController>();
+        if (partyController == null)
+            return;
+        Character oldCharacter = partyController.AddPartyMember(Character);
+        if (oldCharacter != null)
+        {
+            SwitchCharacter(oldCharacter);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    private void SwitchCharacter(Character newCharacter)
+    {
+        if (newCharacter != null)
+        {
+            _character = newCharacter;
+            Destroy(_model);
+            _model = Instantiate(_character.Data.Model, modelRoot.transform);
+            _model.layer = LayerMask.NameToLayer("Items");
+            _characterCollider = _model.GetComponent<Collider>();
+            _animator = _model.GetComponent<Animator>();
+        }
+        _chatBox.gameObject.SetActive(false);
+    }
+
+    private void FreeCharacter()
+    {
+        if(cage != null)
+            cage.SetActive(false);
+        _characterCollider.enabled = true;
+        _isFree = true;
+        _animator.Play("Jump");
+        _chatBox.SetMessage("Thank You!");
     }
 }

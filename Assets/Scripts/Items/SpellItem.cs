@@ -11,6 +11,8 @@ public class SpellItem : MonoBehaviour, IItem
     private AttackData _data;
     private GameObject _model;
 
+    public AttackData Data => _data;
+
     public void Initialize(AttackData data)
     {
         _data = data;

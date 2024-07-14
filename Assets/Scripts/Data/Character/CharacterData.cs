@@ -12,6 +12,7 @@ namespace Controller.Player
         [SerializeField] private float health;
         [SerializeField] private float speed;
         [SerializeField] private Elements.Type elementType;
+        [SerializeField] private int cost;
         [SerializeField] private Vector3 spellOffset;
         [SerializeField] private Vector2 maxVelocity;
         [SerializeField] private new string name;
@@ -30,6 +31,7 @@ namespace Controller.Player
         public float Speed => speed;
         public Elements.Type ElementType => elementType;
         public Vector3 SpellOffset => spellOffset;
+        public int Cost => cost;
 
         public abstract CharacterAnimator AttachScript(GameObject gameObject);
     }

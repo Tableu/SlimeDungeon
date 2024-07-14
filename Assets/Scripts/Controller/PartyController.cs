@@ -44,29 +44,6 @@ public class PartyController : MonoBehaviour, ISavable
     private void Start()
     {
         _playerInputActions.Other.SwitchForms.started += SwitchCharacters;
-        _playerInputActions.Other.PickUp.started += delegate(InputAction.CallbackContext context)
-        {
-            Collider[] itemColliders = Physics.OverlapSphere(transform.position, 5, LayerMask.GetMask("Items"));
-            var itemsOrderedByProximity = itemColliders.OrderBy(c => (transform.position - c.transform.position).sqrMagnitude)
-                .ToArray();
-            if (itemsOrderedByProximity.Length == 0)
-                return;
-            var col = itemsOrderedByProximity[0];
-
-            CharacterItem characterItem = col.gameObject.GetComponentInParent<CharacterItem>();
-            if (characterItem != null)
-            {
-                Character oldCharacter = AddPartyMember(characterItem.Character);
-                if (oldCharacter != null)
-                {
-                    characterItem.SwitchCharacter(oldCharacter);
-                }
-                else
-                {
-                    Destroy(characterItem.gameObject);
-                }
-            }
-        };
     }
     
     private void InitializeParty()
@@ -88,7 +65,7 @@ public class PartyController : MonoBehaviour, ISavable
             }
         }
     }
-    private Character AddPartyMember(Character character)
+    public Character AddPartyMember(Character character)
     {
         Character oldCharacter = null;
         if (_partyMembers.Count >= _maxPartyCount)

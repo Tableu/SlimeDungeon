@@ -107,9 +107,12 @@ public class PlayerController : MonoBehaviour, ICharacterInfo, ISavable, IDamage
             if (itemsOrderedByProximity.Length == 0)
                 return;
             var col = itemsOrderedByProximity[0];
-            IItem item = col.GetComponent<IItem>();
+            IItem item = col.GetComponent<IItem>() ?? col.GetComponentInParent<IItem>();
             if (item != null)
             {
+                StoreItem storeItem = col.GetComponent<StoreItem>() ?? col.GetComponentInParent<StoreItem>();
+                if (storeItem != null && !storeItem.Buy())
+                    return;
                 item.PickUp(this);
             }
         };
