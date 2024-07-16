@@ -1361,8 +1361,8 @@ MonoBehaviour:
   saveManager: {fileID: 11400000, guid: b2904bfcd0490ac4ab6147d784290975, type: 2}
   floorTilePrefab: {fileID: 2021926822154840307, guid: 8d58b8a8d97ee894c992dd006ed40afe, type: 3}
   wallPrefab: {fileID: 4447234519500044207, guid: 6115e6ab756526f4692f60677c71fb3a, type: 3}
-  cornerWallPrefab: {fileID: 4447234519500044207, guid: 3b8badfd285d7cf4daea90aa389e5075, type: 3}
   doorPrefab: {fileID: 5547930298432026259, guid: adb652c710c917e49af3461d3bdb2a7a, type: 3}
+  doorHallwayPrefab: {fileID: 5547930298432026259, guid: 0fd276f60fcee8849ab6a923e5bbe43b, type: 3}
   roomPrefab: {fileID: 6143618360204090084, guid: f798f4b4bd5e67546a4301d4b27915cb, type: 3}
   wallColliderPrefab: {fileID: 4447234519500044207, guid: 29f0ee8506eec2d47a448b46c751627f, type: 3}
   levelCenter: {fileID: 280513639}
@@ -2271,7 +2271,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   size: {x: 40, y: 40}
   tileSize: 4
-  roomCount: 1000
   roomMaxSize: {x: 11, y: 11}
   roomMinSize: {x: 6, y: 6}
 --- !u!4 &1812136623
