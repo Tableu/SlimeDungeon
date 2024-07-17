@@ -193,17 +193,35 @@ public class Generator2D : MonoBehaviour {
         Vector2Int roomSize = new Vector2Int(roomMinSize.x, roomMinSize.y);
         Vector2Int location = GetRoomLocation(wall, roomSize, direction);
         Room newRoom = new Room(location, roomSize);
-        Room temp;
         
         if (RoomIntersects(newRoom) || 
             (newRoom.bounds.xMin < 0 || newRoom.bounds.xMax > size.x || 
              newRoom.bounds.yMin < 0 || newRoom.bounds.yMax > size.y))
         {
-            /*if (_grid.InBounds(wall + direction) && _grid[wall + direction] == CellType.Room)
+            if (_grid.InBounds(wall + direction) && _grid[wall + direction] == CellType.Room)
             {
+                Vector2Int pos;
+                if (direction.x == 0)
+                {
+                    for (int j = newRoom.bounds.xMin; j < newRoom.bounds.xMax; j++)
+                    {
+                        pos = new Vector2Int(j, wall.y);
+                        if (_grid.InBounds(pos) && _grid[pos] == CellType.Entrance)
+                            return false;
+                    }
+                }
+                else
+                {
+                    for (int j = newRoom.bounds.yMin; j < newRoom.bounds.yMax; j++)
+                    {
+                        pos = new Vector2Int(wall.x, j);
+                        if (_grid.InBounds(pos) && _grid[pos] == CellType.Entrance)
+                            return false;
+                    }
+                }
                 _grid[wall] = CellType.Entrance;
                 return true;
-            }*/
+            }
             return false;
         }
         
