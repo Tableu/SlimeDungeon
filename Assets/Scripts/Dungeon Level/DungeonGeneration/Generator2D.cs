@@ -42,12 +42,14 @@ public class Generator2D : MonoBehaviour {
         public Grid2D<CellType> Grid;
         public List<RectInt> Rooms;
         public int RandomSeed;
+        public int EndRoomIndex;
 
-        public LevelData(Grid2D<CellType> grid, List<RectInt> rooms, int randomSeed)
+        public LevelData(Grid2D<CellType> grid, List<RectInt> rooms, int randomSeed, int endRoomIndex)
         {
             Grid = grid;
             Rooms = rooms;
             RandomSeed = randomSeed;
+            EndRoomIndex = endRoomIndex;
         }
     }
 
@@ -59,6 +61,7 @@ public class Generator2D : MonoBehaviour {
     private System.Random _sysRandom;
     private Grid2D<CellType> _grid;
     private List<Room> _rooms;
+    private int _endRoomIndex;
 
     public Vector2Int Size => size;
     public int TileSize => tileSize;
@@ -87,7 +90,7 @@ public class Generator2D : MonoBehaviour {
         sw.Close();
         #endif
 
-        return new LevelData(_grid, _rooms.Select(r => r.bounds).ToList(), seed);
+        return new LevelData(_grid, _rooms.Select(r => r.bounds).ToList(), seed, _endRoomIndex);
     }
 
     private Vector2Int GetRandomWall(Room room)
@@ -181,7 +184,12 @@ public class Generator2D : MonoBehaviour {
         {
             bool doorCreated = CreateRoom(room);
             if (doorCreated)
+            {
                 doors++;
+                if (doors == 1)
+                    _endRoomIndex = _rooms.Count - 1;
+            }
+
             i++;
         }
     }
