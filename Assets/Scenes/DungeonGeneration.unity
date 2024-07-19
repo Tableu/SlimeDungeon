@@ -1356,7 +1356,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   generator2D: {fileID: 1812136622}
-  randomRoomDatas: {fileID: 11400000, guid: c39e02adda7b7da4c8389cb45de5d91a, type: 2}
+  dungeonLevelData: {fileID: 11400000, guid: 88a33a8952dd1bc4f900b0bd8044df6f, type: 2}
   exitPrefab: {fileID: 2340187052246451860, guid: 2b72ec7ea47ce474387206462d581498, type: 3}
   saveManager: {fileID: 11400000, guid: b2904bfcd0490ac4ab6147d784290975, type: 2}
   floorTilePrefab: {fileID: 2021926822154840307, guid: 8d58b8a8d97ee894c992dd006ed40afe, type: 3}

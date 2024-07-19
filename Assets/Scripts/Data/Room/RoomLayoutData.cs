@@ -6,7 +6,7 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 
 [CreateAssetMenu(fileName = "RoomData", menuName = "Data/Rooms/Room Data")]
-public class RoomData : ScriptableObject
+public class RoomLayoutData : ScriptableObject
 {
     [Serializable]
     public struct LayoutObject
@@ -46,15 +46,11 @@ public class RoomData : ScriptableObject
     [SerializeField] private float minSize;
     [SerializeField] private List<LayoutObject> layoutObjects;
     [SerializeField] private List<RandomDecoration> randomDecorations;
-    [SerializeField] private RandomGameObjectGroups randomEnemyGroups;
-    [SerializeField] private RandomCharacterData randomCharacterItems;
     
     public float MaxSize => maxSize;
     public float MinSize => minSize;
     public List<LayoutObject> LayoutObjects => layoutObjects;
-    public RandomGameObjectGroups RandomEnemyGroups => randomEnemyGroups;
     public List<RandomDecoration> RandomDecorations => randomDecorations;
-    public RandomCharacterData RandomCharacterItems => randomCharacterItems;
     
     public static RandomDecoration GetRandomDecoration(List<RandomDecoration> setPieces)
     {

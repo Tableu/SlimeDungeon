@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Decorations : MonoBehaviour
 {
-    [SerializeField] private List<RoomData.DecorationSpot> decorationSpots = new List<RoomData.DecorationSpot>();
+    [SerializeField] private List<RoomLayoutData.DecorationSpot> decorationSpots = new List<RoomLayoutData.DecorationSpot>();
 
-    public List<RoomData.DecorationSpot> Locations => decorationSpots;
+    public List<RoomLayoutData.DecorationSpot> Locations => decorationSpots;
 }

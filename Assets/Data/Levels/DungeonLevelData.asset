@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cc971eab8a60494bae8249678da1b08, type: 3}
+  m_Name: DungeonLevelData
+  m_EditorClassIdentifier: 
+  floors:
+  - {fileID: 11400000, guid: c39e02adda7b7da4c8389cb45de5d91a, type: 2}
