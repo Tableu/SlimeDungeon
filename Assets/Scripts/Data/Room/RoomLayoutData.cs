@@ -91,7 +91,7 @@ public class Vector2RangeAttribute : PropertyAttribute
         MaxY = fMaxY;
     }
 }
-
+#if UNITY_EDITOR
 [CustomPropertyDrawer(typeof(Vector2RangeAttribute))]
 public class Vector2RangeAttributeDrawer : PropertyDrawer
 {
@@ -112,3 +112,4 @@ public class Vector2RangeAttributeDrawer : PropertyDrawer
         }
     }
 }
+#endif
