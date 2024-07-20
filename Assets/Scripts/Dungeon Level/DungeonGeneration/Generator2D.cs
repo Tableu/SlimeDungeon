@@ -7,7 +7,7 @@ using UnityEngine;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-public class Generator2D : MonoBehaviour {
+public class Generator2D {
     [JsonConverter(typeof(StringEnumConverter))]
     public enum CellType {
         [EnumMember(Value="None")]
@@ -53,9 +53,6 @@ public class Generator2D : MonoBehaviour {
         }
     }
 
-    
-    [SerializeField] private int tileSize;
-    
     private Vector2Int _roomMaxSize;
     private Vector2Int _roomMinSize;
     private Vector2Int _size;
@@ -65,7 +62,6 @@ public class Generator2D : MonoBehaviour {
     private int _endRoomIndex;
 
     public Vector2Int Size => _size;
-    public int TileSize => tileSize;
 
     public LevelData Generate(int seed, LevelGenerationData levelGenerationData)
     {
@@ -75,7 +71,7 @@ public class Generator2D : MonoBehaviour {
         _sysRandom = new System.Random(seed);
         _grid = new Grid2D<CellType>(_size, Vector2Int.zero);
         _rooms = new List<Room>();
-
+        
         MakeRooms();
 #if UNITY_EDITOR
         using var sw = new StreamWriter("dungeon_debug.txt");

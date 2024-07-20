@@ -153,7 +153,6 @@ Transform:
   m_Children:
   - {fileID: 1148748922}
   - {fileID: 908279961}
-  - {fileID: 1812136623}
   - {fileID: 2128071497}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -1355,8 +1354,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b442d0b71853b5d4cb5ef6140a07cd6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  generator2D: {fileID: 1812136622}
-  dungeonLevelData: {fileID: 11400000, guid: 88a33a8952dd1bc4f900b0bd8044df6f, type: 2}
+  dungeonGenerationData: {fileID: 11400000, guid: 88a33a8952dd1bc4f900b0bd8044df6f, type: 2}
   exitPrefab: {fileID: 2340187052246451860, guid: 2b72ec7ea47ce474387206462d581498, type: 3}
   saveManager: {fileID: 11400000, guid: b2904bfcd0490ac4ab6147d784290975, type: 2}
   floorTilePrefab: {fileID: 2021926822154840307, guid: 8d58b8a8d97ee894c992dd006ed40afe, type: 3}
@@ -2240,54 +2238,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 511321715997589307, guid: a092e55c619994545b305a096e997f57, type: 3}
   m_PrefabInstance: {fileID: 511321716424306894}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1812136621
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1812136623}
-  - component: {fileID: 1812136622}
-  m_Layer: 0
-  m_Name: DungeonGenerator
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1812136622
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1812136621}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f953ab52d1c4c1049857c52449807d57, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  size: {x: 40, y: 40}
-  tileSize: 4
-  roomMaxSize: {x: 11, y: 11}
-  roomMinSize: {x: 6, y: 6}
---- !u!4 &1812136623
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1812136621}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 95787098}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1870461743
 GameObject:
   m_ObjectHideFlags: 0
@@ -2667,7 +2617,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 95787098}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &511321716424306894
 PrefabInstance:

@@ -14,7 +14,6 @@ using Random = UnityEngine.Random;
 
 public class LevelManager : MonoBehaviour, ISavable
 {
-    [SerializeField] private Generator2D generator2D;
     [FormerlySerializedAs("dungeonLevelData")] [SerializeField] private DungeonGenerationData dungeonGenerationData;
     [SerializeField] private GameObject exitPrefab;
     [SerializeField] private SaveManager saveManager;
@@ -37,6 +36,7 @@ public class LevelManager : MonoBehaviour, ISavable
     private List<Generator2D.LevelData> _dungeonData;
     private bool _saveDataLoaded;
     private int _currentLevel;
+    private Generator2D _generator2D;
     private RoomController _spawnRoom;
     private Generator2D.LevelData LevelData => _dungeonData[_currentLevel];
 
@@ -44,6 +44,7 @@ public class LevelManager : MonoBehaviour, ISavable
 
     private void Awake()
     {
+        _generator2D = new Generator2D();
         saveManager.Load();
         if (!_saveDataLoaded) //If there is no save data, the player is on a new save and the level manager should generate a new set of levels
         {
@@ -51,23 +52,23 @@ public class LevelManager : MonoBehaviour, ISavable
             int seed = (int) System.DateTime.Now.Ticks;
             for (int x = 0; x < levelCount; x++)
             {
-                _dungeonData.Add(generator2D.Generate(seed+x, dungeonGenerationData.Floors[x]));
+                _dungeonData.Add(_generator2D.Generate(seed+x, dungeonGenerationData.Floors[x]));
             }
 
             _currentLevel = 0;
         }
 
         Random.InitState(LevelData.RandomSeed);
-        _tileSize = generator2D.TileSize;
+        _tileSize = dungeonGenerationData.TileSize;
 
         foreach (RectInt room in LevelData.Rooms)
         {
             _roomScripts.Add(PlaceRoom(room));
         }
 
-        Vector2Int paddedSize = generator2D.Size + new Vector2Int(_tileSize, _tileSize);
+        Vector2Int paddedSize = _generator2D.Size + new Vector2Int(_tileSize, _tileSize);
         levelCenter.transform.position = new Vector3(
-            ((float)generator2D.Size.x * _tileSize)/2, levelCenter.transform.position.y, ((float)generator2D.Size.y * _tileSize)/2);
+            ((float)_generator2D.Size.x * _tileSize)/2, levelCenter.transform.position.y, ((float)_generator2D.Size.y * _tileSize)/2);
         fogOfWar.Initialize(paddedSize*2, _tileSize/2);
         
         _roomScripts[0].SetAsSpawnRoom();
@@ -78,11 +79,11 @@ public class LevelManager : MonoBehaviour, ISavable
         BoxCollider fc = floorCollider.AddComponent<BoxCollider>();
         fc.size = new Vector3((paddedSize.x-2)*_tileSize, 0.001f, (paddedSize.y-2)*_tileSize);
         floorCollider.transform.position = new Vector3(
-            ((float)generator2D.Size.x * _tileSize)/2, levelCenter.transform.position.y, ((float)generator2D.Size.y * _tileSize)/2);
+            ((float)_generator2D.Size.x * _tileSize)/2, levelCenter.transform.position.y, ((float)_generator2D.Size.y * _tileSize)/2);
         //Build and initialize navmesh surfaces
         List<NavMeshBuildSource> allSources = new List<NavMeshBuildSource>();
-        Vector3 size = new Vector3(generator2D.Size.x * generator2D.TileSize, 10,
-            generator2D.Size.y * generator2D.TileSize);
+        Vector3 size = new Vector3(_generator2D.Size.x * _tileSize, 10,
+            _generator2D.Size.y * _tileSize);
         Vector3 center = new Vector3(size.x / 2, 0, size.z / 2);
         Bounds bounds = new Bounds(center, size);
         foreach (Transform colliders in _roomColliders)
