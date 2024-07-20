@@ -1366,7 +1366,6 @@ MonoBehaviour:
   levelCenter: {fileID: 280513639}
   fogOfWar: {fileID: 1962354831}
   loadingScreen: {fileID: 511321716424306895}
-  levelCount: 5
   endPopup: {fileID: 881729151}
   playerController: {fileID: 843911631}
 --- !u!114 &805531064

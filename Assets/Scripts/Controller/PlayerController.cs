@@ -85,6 +85,9 @@ public class PlayerController : MonoBehaviour, ICharacterInfo, ISavable, IDamage
         partyController.OnCharacterChanged += OnCharacterChanged;
         partyController.Initialize(_playerInputActions);
         EnemyMask = LayerMask.GetMask("Enemy");
+        
+        foreach(AttackData attackData in _currentCharacter.Data.StartingSpells) //Must be initialized in awake to properly trigger events
+            UnlockAttack(attackData);
     }
 
     private void Start()
@@ -130,9 +133,6 @@ public class PlayerController : MonoBehaviour, ICharacterInfo, ISavable, IDamage
             _basicAttackHeld = false;
             _currentCharacter.BasicAttack.End();
         };
-        
-        foreach(AttackData attackData in _currentCharacter.Data.StartingSpells)
-            UnlockAttack(attackData);
     }
 
     //Code for rotating the player to follow the mouse
