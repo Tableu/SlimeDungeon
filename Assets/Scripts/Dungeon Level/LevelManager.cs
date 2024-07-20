@@ -26,7 +26,6 @@ public class LevelManager : MonoBehaviour, ISavable
     [SerializeField] private GameObject levelCenter;
     [SerializeField] private csFogWar fogOfWar;
     [SerializeField] private LoadingScreen loadingScreen;
-    [SerializeField] private int levelCount;
     [SerializeField] private GameObject endPopup;
     [SerializeField] private PlayerController playerController;
 
@@ -50,7 +49,7 @@ public class LevelManager : MonoBehaviour, ISavable
         {
             _dungeonData = new List<Generator2D.LevelData>();
             int seed = (int) System.DateTime.Now.Ticks;
-            for (int x = 0; x < levelCount; x++)
+            for (int x = 0; x < dungeonGenerationData.Floors.Count; x++)
             {
                 _dungeonData.Add(_generator2D.Generate(seed+x, dungeonGenerationData.Floors[x]));
             }
@@ -109,7 +108,7 @@ public class LevelManager : MonoBehaviour, ISavable
     public void ExitLevel()
     {
         _currentLevel++;
-        if (_currentLevel < levelCount)
+        if (_currentLevel < dungeonGenerationData.Floors.Count)
         {
             saveManager.Save();
             StartCoroutine(LoadSceneAsync());
