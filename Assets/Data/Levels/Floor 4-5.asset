@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8d4c4c1e72bc8884cafce226487e1af2, type: 3}
-  m_Name: RandomRoomData
+  m_Name: Floor 4-5
   m_EditorClassIdentifier: 
   list:
   - Weight: 5
@@ -48,3 +48,6 @@ MonoBehaviour:
       Layout: {fileID: 11400000, guid: 510ab32c696134446b8b8355478e9dbf, type: 2}
       EnemyGroups: {fileID: 0}
       Characters: {fileID: 11400000, guid: 68965c9505bcdbc42a13c0a7c04b31e4, type: 2}
+  roomMaxSize: {x: 11, y: 11}
+  roomMinSize: {x: 6, y: 6}
+  size: {x: 40, y: 40}

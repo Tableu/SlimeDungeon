@@ -14,14 +14,14 @@ public class RoomController : MonoBehaviour
     private List<Transform> _waypoints;
     private int _enemyCount = 0;
     private List<EnemyController> _enemies;
-    private RandomRoomData.Room _roomData;
+    private LevelGenerationData.Room _roomData;
     private bool _isSpawnRoom = false;
     
     public Action OnAllEnemiesDead;
     public bool AllEnemiesDead => _enemyCount < 1;
 
     public void Initialize(RectInt bounds,  float tileSize, List<Door> doors, 
-        RandomRoomData randomRoomData, Transform colliderTransform)
+        LevelGenerationData levelGenerationData, Transform colliderTransform)
     {
         _bounds = bounds;
         _tileSize = tileSize;
@@ -45,7 +45,7 @@ public class RoomController : MonoBehaviour
         
         do
         {
-            _roomData = randomRoomData.GetRandomElement();
+            _roomData = levelGenerationData.GetRandomElement();
             if (_bounds.width < _roomData.Layout.MaxSize && _bounds.width >= _roomData.Layout.MinSize ||
                 _bounds.height < _roomData.Layout.MaxSize && _bounds.width >= _roomData.Layout.MinSize)
             {

@@ -53,23 +53,27 @@ public class Generator2D : MonoBehaviour {
         }
     }
 
-    [SerializeField] private Vector2Int size;
+    
     [SerializeField] private int tileSize;
-    [SerializeField] private Vector2Int roomMaxSize;
-    [SerializeField] private Vector2Int roomMinSize;
-
+    
+    private Vector2Int _roomMaxSize;
+    private Vector2Int _roomMinSize;
+    private Vector2Int _size;
     private System.Random _sysRandom;
     private Grid2D<CellType> _grid;
     private List<Room> _rooms;
     private int _endRoomIndex;
 
-    public Vector2Int Size => size;
+    public Vector2Int Size => _size;
     public int TileSize => tileSize;
 
-    public LevelData Generate(int seed)
+    public LevelData Generate(int seed, LevelGenerationData levelGenerationData)
     {
+        _roomMaxSize = levelGenerationData.RoomMaxSize;
+        _roomMinSize = levelGenerationData.RoomMinSize;
+        _size = levelGenerationData.Size;
         _sysRandom = new System.Random(seed);
-        _grid = new Grid2D<CellType>(size, Vector2Int.zero);
+        _grid = new Grid2D<CellType>(_size, Vector2Int.zero);
         _rooms = new List<Room>();
 
         MakeRooms();
@@ -162,17 +166,14 @@ public class Generator2D : MonoBehaviour {
         while (true)
         {
             Vector2Int location = new Vector2Int(
-                _sysRandom.Next(0, size.x),
-                _sysRandom.Next(0, size.y)
+                _sysRandom.Next(0, _size.x),
+                _sysRandom.Next(0, _size.y)
             );
 
-            Vector2Int roomSize = new Vector2Int(
-                _sysRandom.Next(roomMinSize.x, roomMaxSize.x),
-                _sysRandom.Next(roomMinSize.y, roomMaxSize.y)
-            );
+            Vector2Int roomSize = _roomMinSize;
             room = new Room(location, roomSize);
-            if (room.bounds.xMin < 0 || room.bounds.xMax > size.x || 
-                room.bounds.yMin < 0 || room.bounds.yMax > size.y)
+            if (room.bounds.xMin < 0 || room.bounds.xMax > _size.x || 
+                room.bounds.yMin < 0 || room.bounds.yMax > _size.y)
                 continue;
             break;
         }
@@ -198,13 +199,13 @@ public class Generator2D : MonoBehaviour {
     {
         Vector2Int wall = GetRandomWall(startingRoom);
         Vector2Int direction = GetWallDirection(wall, startingRoom);
-        Vector2Int roomSize = new Vector2Int(roomMinSize.x, roomMinSize.y);
+        Vector2Int roomSize = new Vector2Int(_roomMinSize.x, _roomMinSize.y);
         Vector2Int location = GetRoomLocation(wall, roomSize, direction);
         Room newRoom = new Room(location, roomSize);
         
         if (RoomIntersects(newRoom) || 
-            (newRoom.bounds.xMin < 0 || newRoom.bounds.xMax > size.x || 
-             newRoom.bounds.yMin < 0 || newRoom.bounds.yMax > size.y))
+            (newRoom.bounds.xMin < 0 || newRoom.bounds.xMax > _size.x || 
+             newRoom.bounds.yMin < 0 || newRoom.bounds.yMax > _size.y))
         {
             if (_grid.InBounds(wall + direction) && _grid[wall + direction] == CellType.Room)
             {
@@ -234,8 +235,8 @@ public class Generator2D : MonoBehaviour {
         }
         
         Vector2Int targetSize = new Vector2Int(
-            _sysRandom.Next(roomMinSize.x, roomMaxSize.x),
-            _sysRandom.Next(roomMinSize.y, roomMaxSize.y)
+            _sysRandom.Next(_roomMinSize.x, _roomMaxSize.x),
+            _sysRandom.Next(_roomMinSize.y, _roomMaxSize.y)
         );
 
         while (roomSize.y < targetSize.y)
@@ -287,8 +288,8 @@ public class Generator2D : MonoBehaviour {
             }
         }
         
-        if (newRoom.bounds.xMin < 0 || newRoom.bounds.xMax > size.x || 
-            newRoom.bounds.yMin < 0 || newRoom.bounds.yMax > size.y)
+        if (newRoom.bounds.xMin < 0 || newRoom.bounds.xMax > _size.x || 
+            newRoom.bounds.yMin < 0 || newRoom.bounds.yMax > _size.y)
             return false;
         
         AddRoom(newRoom);

@@ -9,12 +9,13 @@ using Systems.Save;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public class LevelManager : MonoBehaviour, ISavable
 {
     [SerializeField] private Generator2D generator2D;
-    [SerializeField] private DungeonLevelData dungeonLevelData;
+    [FormerlySerializedAs("dungeonLevelData")] [SerializeField] private DungeonGenerationData dungeonGenerationData;
     [SerializeField] private GameObject exitPrefab;
     [SerializeField] private SaveManager saveManager;
     [SerializeField] private GameObject floorTilePrefab;
@@ -50,7 +51,7 @@ public class LevelManager : MonoBehaviour, ISavable
             int seed = (int) System.DateTime.Now.Ticks;
             for (int x = 0; x < levelCount; x++)
             {
-                _dungeonData.Add(generator2D.Generate(seed+x));
+                _dungeonData.Add(generator2D.Generate(seed+x, dungeonGenerationData.Floors[x]));
             }
 
             _currentLevel = 0;
@@ -224,7 +225,7 @@ public class LevelManager : MonoBehaviour, ISavable
 
         List<Door> doorScripts = doors.GetComponentsInChildren<Door>().ToList();
 
-        script.Initialize(bounds, _tileSize, doorScripts, dungeonLevelData.Floors[_currentLevel], colliders.transform);
+        script.Initialize(bounds, _tileSize, doorScripts, dungeonGenerationData.Floors[_currentLevel], colliders.transform);
         return script;
     }
 
