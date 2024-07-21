@@ -51,7 +51,7 @@ public class LevelManager : MonoBehaviour, ISavable
             int seed = (int) System.DateTime.Now.Ticks;
             for (int x = 0; x < dungeonGenerationData.Floors.Count; x++)
             {
-                _dungeonData.Add(_generator2D.Generate(seed+x, dungeonGenerationData.Floors[x]));
+                _dungeonData.Add(_generator2D.Generate(seed+x, dungeonGenerationData.Floors[x], x));
             }
 
             _currentLevel = 0;

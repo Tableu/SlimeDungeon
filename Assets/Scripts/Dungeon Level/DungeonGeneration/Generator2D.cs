@@ -59,11 +59,11 @@ public class Generator2D {
     private System.Random _sysRandom;
     private Grid2D<CellType> _grid;
     private List<Room> _rooms;
-    private int _endRoomIndex;
+    private int _endRoomIndex = 0;
 
     public Vector2Int Size => _size;
 
-    public LevelData Generate(int seed, LevelGenerationData levelGenerationData)
+    public LevelData Generate(int seed, LevelGenerationData levelGenerationData, int index)
     {
         _roomMaxSize = levelGenerationData.RoomMaxSize;
         _roomMinSize = levelGenerationData.RoomMinSize;
@@ -74,7 +74,7 @@ public class Generator2D {
         
         MakeRooms();
 #if UNITY_EDITOR
-        using var sw = new StreamWriter("dungeon_debug.txt");
+        using var sw = new StreamWriter("dungeon_debug "+index+".txt");
         for (int y = _grid.Size.y-1; y > -1; y--)
         {
             for (int x = 0; x < _grid.Size.x; x++)
@@ -189,6 +189,9 @@ public class Generator2D {
 
             i++;
         }
+
+        if (_endRoomIndex == 0)
+            _endRoomIndex = _rooms.Count - 1;
     }
 
     private bool CreateRoom(Room startingRoom)
@@ -208,7 +211,7 @@ public class Generator2D {
                 Vector2Int pos;
                 if (direction.x == 0)
                 {
-                    for (int j = newRoom.bounds.xMin; j < newRoom.bounds.xMax; j++)
+                    for (int j = startingRoom.bounds.xMin; j < startingRoom.bounds.xMax; j++)
                     {
                         pos = new Vector2Int(j, wall.y);
                         if (_grid.InBounds(pos) && _grid[pos] == CellType.Entrance)
@@ -217,7 +220,7 @@ public class Generator2D {
                 }
                 else
                 {
-                    for (int j = newRoom.bounds.yMin; j < newRoom.bounds.yMax; j++)
+                    for (int j = startingRoom.bounds.yMin; j < startingRoom.bounds.yMax; j++)
                     {
                         pos = new Vector2Int(wall.x, j);
                         if (_grid.InBounds(pos) && _grid[pos] == CellType.Entrance)
