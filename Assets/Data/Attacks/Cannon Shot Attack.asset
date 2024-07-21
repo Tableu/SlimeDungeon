@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f30f956518e4f1e408081b2d06152acd, type: 3}
   m_Name: Cannon Shot Attack
   m_EditorClassIdentifier: 
-  speed: 12
+  speed: 8
   damage: 20
   knockback: 0
   manaCost: 0
   hitStun: 0
-  cooldown: 0.6
+  cooldown: 1
   cost: 0
   spawnOffset: {x: 0, y: 0, z: 0}
   elementType: 0

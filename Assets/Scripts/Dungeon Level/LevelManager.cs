@@ -6,6 +6,7 @@ using System.Linq;
 using FischlWorks_FogWar;
 using Newtonsoft.Json.Linq;
 using Systems.Save;
+using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.SceneManagement;
@@ -121,6 +122,15 @@ public class LevelManager : MonoBehaviour, ISavable
             Time.timeScale = 0;
             playerController.enabled = false;
         }
+    }
+
+    public void HandlePlayerDeath()
+    {
+        File.Delete(SaveManager.DefaultSavePath);
+        endPopup.SetActive(true);
+        Time.timeScale = 0;
+        TextMeshProUGUI text = endPopup.GetComponentInChildren<TextMeshProUGUI>();
+        text.text = "You Died!";
     }
 
     public void LoadTitleScreen()

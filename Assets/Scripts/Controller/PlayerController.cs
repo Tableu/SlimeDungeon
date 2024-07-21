@@ -20,7 +20,8 @@ public class PlayerController : MonoBehaviour, ICharacterInfo, ISavable, IDamage
     [SerializeField] private ParticleSystem walkingSmokeParticleSystem;
     [SerializeField] private ParticleSystem switchFormParticleSystem;
     [SerializeField] private new Rigidbody rigidbody;
-    [SerializeField] private PartyController partyController; 
+    [SerializeField] private PartyController partyController;
+    [SerializeField] private LevelManager levelManager;
 
     private List<Attack> _attacks;
     private Vector2 _direction;
@@ -219,6 +220,7 @@ public class PlayerController : MonoBehaviour, ICharacterInfo, ISavable, IDamage
         }
         PlayerInputActions.Disable();
         PlayerInputActions.Dispose();
+        levelManager.HandlePlayerDeath();
     }
     #endregion
     public void TakeDamage(float damage, Vector3 knockback, float hitStun, Elements.Type attackType)
