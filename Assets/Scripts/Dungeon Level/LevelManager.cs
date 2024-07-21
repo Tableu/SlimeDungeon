@@ -46,6 +46,7 @@ public class LevelManager : MonoBehaviour, ISavable
     {
         _generator2D = new Generator2D();
         saveManager.Load();
+        playerController.enabled = true;
         if (!_saveDataLoaded) //If there is no save data, the player is on a new save and the level manager should generate a new set of levels
         {
             _dungeonData = new List<Generator2D.LevelData>();

@@ -49,21 +49,13 @@ public class PartyController : MonoBehaviour, ISavable
     private void InitializeParty()
     {
         _partyMembers.Clear();
-        foreach (Character character in _initialPartyMembers)
+        for (var index = 0; index < _initialPartyMembers.Count; index++)
         {
+            Character character = _initialPartyMembers[index];
             _partyMembers.Add(character);
-            OnPartyMemberAdded?.Invoke(character, _currentPartyMemberIndex);
+            OnPartyMemberAdded?.Invoke(character, index);
         }
-
-        int i = 0;
-        for (i = 0; i < _partyMembers.Count; i++)
-        {
-            if (_partyMembers[i].Health > 0)
-            {
-                ChangeCharacter(_partyMembers[i], _partyMembers.Count - 1);
-                break;
-            }
-        }
+        ChangeCharacter(_partyMembers[_currentPartyMemberIndex], _currentPartyMemberIndex);
     }
     public Character AddPartyMember(Character character)
     {
@@ -162,7 +154,7 @@ public class PartyController : MonoBehaviour, ISavable
         }
     }
     
-    public void CharacterFainted()
+    public bool IsPartyAllFainted()
     {
         int index = 0;
         foreach (Character form in _partyMembers)
@@ -170,12 +162,12 @@ public class PartyController : MonoBehaviour, ISavable
             if (form.Health > 0)
             {
                 ChangeCharacter(form, index);
-                return;
+                return false;
             }
 
             index++;
         }
-        Destroy(gameObject);
+        return true;
     }
     
     private void ChangeCharacter(Character newCharacter, int newIndex)
@@ -199,14 +191,15 @@ public class PartyController : MonoBehaviour, ISavable
         
         return new SaveData()
         {
-            Characters = saveData
+            Characters = saveData,
+            CurrentCharacterIndex = _currentPartyMemberIndex
         };
     }
 
     public void LoadState(JObject state)
     {
         var saveData = state.ToObject<SaveData>();
-
+        _currentPartyMemberIndex = saveData.CurrentCharacterIndex;
         _initialPartyMembers.Clear();
         foreach (Character.SaveData data in saveData.Characters)
         {
@@ -220,6 +213,7 @@ public class PartyController : MonoBehaviour, ISavable
     public struct SaveData
     {
         public List<Character.SaveData> Characters;
+        public int CurrentCharacterIndex;
     }
     #endregion
 }

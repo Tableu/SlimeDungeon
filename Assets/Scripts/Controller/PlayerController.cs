@@ -73,7 +73,6 @@ public class PlayerController : MonoBehaviour, ICharacterInfo, ISavable, IDamage
     #region Unity Event Functions
     private void Awake()
     {
-        
         Mana = playerData.Mana;
         Speed = new ModifiableStat(1);
         _attacks = new List<Attack>(new Attack[playerData.MaxSpellCount]);
@@ -220,7 +219,6 @@ public class PlayerController : MonoBehaviour, ICharacterInfo, ISavable, IDamage
         }
         PlayerInputActions.Disable();
         PlayerInputActions.Dispose();
-        levelManager.HandlePlayerDeath();
     }
     #endregion
     public void TakeDamage(float damage, Vector3 knockback, float hitStun, Elements.Type attackType)
@@ -240,7 +238,11 @@ public class PlayerController : MonoBehaviour, ICharacterInfo, ISavable, IDamage
 
     private void HandleDeath()
     {
-        partyController.CharacterFainted();
+        if (partyController.IsPartyAllFainted())
+        {
+            levelManager.HandlePlayerDeath();
+            Destroy(gameObject);
+        }
     }
 
     private IEnumerator HandleKnockback(Vector3 knockback, float hitStun)
