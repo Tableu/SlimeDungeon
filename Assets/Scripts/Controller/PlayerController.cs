@@ -29,9 +29,10 @@ public class PlayerController : MonoBehaviour, ICharacterInfo, ISavable, IDamage
     private bool _isMouseOverUI;
     private bool _basicAttackHeld;
     private List<AttackData> _unlockedAttacks = new List<AttackData>();
+    private bool _loaded = false;
 
     private Character _currentCharacter;
-    private bool disableRotation = false;
+    private bool _disableRotation = false;
     private PlayerInputActions _playerInputActions;
 
     public Vector2 MaxVelocity => _currentCharacter.MaxVelocity;
@@ -71,10 +72,10 @@ public class PlayerController : MonoBehaviour, ICharacterInfo, ISavable, IDamage
     #region Unity Event Functions
     private void Awake()
     {
+        
         Mana = playerData.Mana;
         Speed = new ModifiableStat(1);
         _attacks = new List<Attack>(new Attack[playerData.MaxSpellCount]);
-        _unlockedAttacks = new List<AttackData>();
         
         _lastDirection = Vector2.zero;
         switchFormParticleSystem.Stop();
@@ -85,9 +86,14 @@ public class PlayerController : MonoBehaviour, ICharacterInfo, ISavable, IDamage
         partyController.OnCharacterChanged += OnCharacterChanged;
         partyController.Initialize(_playerInputActions);
         EnemyMask = LayerMask.GetMask("Enemy");
-        
-        foreach(AttackData attackData in _currentCharacter.Data.StartingSpells) //Must be initialized in awake to properly trigger events
-            UnlockAttack(attackData);
+
+        if (!_loaded)
+        {
+            _unlockedAttacks = new List<AttackData>();
+            foreach (AttackData attackData in
+                _currentCharacter.Data.StartingSpells) //Must be initialized in awake to properly trigger events
+                UnlockAttack(attackData);
+        }
     }
 
     private void Start()
@@ -139,7 +145,7 @@ public class PlayerController : MonoBehaviour, ICharacterInfo, ISavable, IDamage
     private void Update()
     {
         _isMouseOverUI = EventSystem.current.IsPointerOverGameObject();
-        if (disableRotation) return;
+        if (_disableRotation) return;
         Vector2 mousePos = Mouse.current.position.ReadValue();
         Ray ray = Camera.main.ScreenPointToRay(mousePos);
         if (Physics.Raycast(ray, out RaycastHit hitData, 1000, LayerMask.GetMask("Walls", "Default", "Floor")))
@@ -199,7 +205,7 @@ public class PlayerController : MonoBehaviour, ICharacterInfo, ISavable, IDamage
     private void OnDisable()
     {
         _playerInputActions.Disable();
-        disableRotation = true;
+        _disableRotation = true;
     }
 
     private void OnDestroy()
@@ -342,8 +348,9 @@ public class PlayerController : MonoBehaviour, ICharacterInfo, ISavable, IDamage
 
     public void LoadState(JObject state)
     {
+        _loaded = true;
         var saveData = state.ToObject<SaveData>();
-        _unlockedAttacks.Clear();
+        _unlockedAttacks = new List<AttackData>();
         foreach (string attack in saveData.UnlockedAttacks)
         {
             _unlockedAttacks.Add(attackDictionary.Dictionary[attack]);

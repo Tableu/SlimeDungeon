@@ -65,9 +65,10 @@ public class LevelManager : MonoBehaviour, ISavable
             _roomScripts.Add(PlaceRoom(room));
         }
 
-        Vector2Int paddedSize = _generator2D.Size + new Vector2Int(_tileSize, _tileSize);
+        Vector2Int floorSize = dungeonGenerationData.Floors[_currentLevel].Size;
+        Vector2Int paddedSize = floorSize + new Vector2Int(_tileSize, _tileSize);
         levelCenter.transform.position = new Vector3(
-            ((float)_generator2D.Size.x * _tileSize)/2, levelCenter.transform.position.y, ((float)_generator2D.Size.y * _tileSize)/2);
+            ((float)floorSize.x * _tileSize)/2, levelCenter.transform.position.y, ((float)floorSize.y * _tileSize)/2);
         fogOfWar.Initialize(paddedSize*2, _tileSize/2);
         
         _roomScripts[0].SetAsSpawnRoom();
@@ -78,11 +79,11 @@ public class LevelManager : MonoBehaviour, ISavable
         BoxCollider fc = floorCollider.AddComponent<BoxCollider>();
         fc.size = new Vector3((paddedSize.x-2)*_tileSize, 0.001f, (paddedSize.y-2)*_tileSize);
         floorCollider.transform.position = new Vector3(
-            ((float)_generator2D.Size.x * _tileSize)/2, levelCenter.transform.position.y, ((float)_generator2D.Size.y * _tileSize)/2);
+            ((float)floorSize.x * _tileSize)/2, levelCenter.transform.position.y, ((float)floorSize.y * _tileSize)/2);
         //Build and initialize navmesh surfaces
         List<NavMeshBuildSource> allSources = new List<NavMeshBuildSource>();
-        Vector3 size = new Vector3(_generator2D.Size.x * _tileSize, 10,
-            _generator2D.Size.y * _tileSize);
+        Vector3 size = new Vector3(floorSize.x * _tileSize, 10,
+            floorSize.y * _tileSize);
         Vector3 center = new Vector3(size.x / 2, 0, size.z / 2);
         Bounds bounds = new Bounds(center, size);
         foreach (Transform colliders in _roomColliders)

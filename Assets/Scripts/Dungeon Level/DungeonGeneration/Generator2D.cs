@@ -61,8 +61,6 @@ public class Generator2D {
     private List<Room> _rooms;
     private int _endRoomIndex = 0;
 
-    public Vector2Int Size => _size;
-
     public LevelData Generate(int seed, LevelGenerationData levelGenerationData, int index)
     {
         _roomMaxSize = levelGenerationData.RoomMaxSize;
@@ -74,7 +72,7 @@ public class Generator2D {
         
         MakeRooms();
 #if UNITY_EDITOR
-        using var sw = new StreamWriter("dungeon_debug "+index+".txt");
+        using var sw = new StreamWriter("Logs/dungeon_debug "+index+".txt");
         for (int y = _grid.Size.y-1; y > -1; y--)
         {
             for (int x = 0; x < _grid.Size.x; x++)
@@ -311,7 +309,7 @@ public class Generator2D {
         _rooms.Add(newRoom);
 
         foreach (var pos in newRoom.bounds.allPositionsWithin) {
-            if(_grid[pos] == CellType.Entrance)
+            if(_grid[pos] == CellType.Entrance || _grid[pos] == CellType.Corner)
                 continue;
             if ((pos.x == newRoom.bounds.xMin || pos.x == newRoom.bounds.xMax-1) &&
                 (pos.y == newRoom.bounds.yMin || pos.y == newRoom.bounds.yMax-1))
