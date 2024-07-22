@@ -68,7 +68,7 @@ public class PlayerController : MonoBehaviour, ICharacterInfo, ISavable, IDamage
 
     public Action<Attack, int> OnAttackEquipped;
     public Action<Attack, int> OnAttackUnEquipped;
-    public Action<AttackData> OnAttackUnlocked;
+    public Action<AttackData, bool> OnAttackUnlocked;
     public Action<AttackData> OnAttackRemoved;
     #region Unity Event Functions
     private void Awake()
@@ -303,15 +303,17 @@ public class PlayerController : MonoBehaviour, ICharacterInfo, ISavable, IDamage
         if (!_unlockedAttacks.Contains(attackData))
         {
             _unlockedAttacks.Add(attackData);
-            OnAttackUnlocked?.Invoke(attackData);
+            
             for (var index = 0; index < _attacks.Count; index++)
             {
                 if (_attacks[index] == null)
                 {
+                    OnAttackUnlocked?.Invoke(attackData, true);
                     EquipAttack(attackData, index);
-                    break;
+                    return;
                 }
             }
+            OnAttackUnlocked?.Invoke(attackData, false);
         }
     }
 

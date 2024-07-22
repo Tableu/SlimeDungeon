@@ -47,6 +47,7 @@ public class LevelManager : MonoBehaviour, ISavable
         _generator2D = new Generator2D();
         saveManager.Load();
         playerController.enabled = true;
+        
         if (!_saveDataLoaded) //If there is no save data, the player is on a new save and the level manager should generate a new set of levels
         {
             _dungeonData = new List<Generator2D.LevelData>();
@@ -99,6 +100,7 @@ public class LevelManager : MonoBehaviour, ISavable
         
         NavMeshData data = NavMeshBuilder.BuildNavMeshData(new NavMeshBuildSettings(){overrideTileSize = true, tileSize = 128}, allSources, bounds, Vector3.zero,
             Quaternion.identity);
+        NavMesh.RemoveAllNavMeshData();
         NavMesh.AddNavMeshData(data);
     }
 

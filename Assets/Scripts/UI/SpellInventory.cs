@@ -14,7 +14,7 @@ public class SpellInventory : MonoBehaviour
 
         foreach (var attackData in controller.UnlockedAttacks)
         {
-            AddSpell(attackData);
+            AddSpell(attackData, false);
         }
 
         controller.OnAttackEquipped += OnSpellEquipped;
@@ -24,12 +24,14 @@ public class SpellInventory : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    public void AddSpell(AttackData data)
+    public void AddSpell(AttackData data, bool equipped)
     {
         GameObject spellIcon = Instantiate(spellInventoryIconPrefab, grid.transform);
         var script = spellIcon.GetComponent<SpellInventoryIcon>();
         script.Initialize(data, this);
         inventoryIconList.Add(script);
+        if(equipped)
+            script.OnDisable();
     }
 
     public void EquipSpell(int index, AttackData data)
