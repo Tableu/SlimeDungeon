@@ -48,6 +48,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   camera: {fileID: 7080844422888210028}
   modelParent: {fileID: 6567686448682039757}
+  pauseCamera: 1
 --- !u!1 &5293492355989753306
 GameObject:
   m_ObjectHideFlags: 0
