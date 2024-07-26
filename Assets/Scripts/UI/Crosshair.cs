@@ -37,5 +37,6 @@ public class Crosshair : MonoBehaviour
             yield return new WaitForFixedUpdate();
             time += Time.fixedDeltaTime;
         }
+        reloadIcon.fillAmount = 1;
     }
 }
