@@ -4,6 +4,7 @@
 [Bb]uild/
 [Bb]uilds/
 [Ll]ogs/
+Assets/Samples/
 Assets/AssetStoreTools*
 UserSettings/
 
@@ -38,4 +39,3 @@ sysinfo.txt
 # Builds
 *.apk
 *.unitypackage
-dungeon_debug.txt
