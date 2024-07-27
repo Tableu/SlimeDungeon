@@ -1,4 +1,5 @@
 using Controller.Player;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,6 +7,7 @@ public class CharacterBarIcon : MonoBehaviour
 {
     [SerializeField] private RawImage icon;
     [SerializeField] private Slider slider;
+    [SerializeField] private TextMeshProUGUI text;
     private Character _characterInstance;
     private UIRenderTexture _renderTexture;
     private void Awake()
@@ -31,5 +33,6 @@ public class CharacterBarIcon : MonoBehaviour
         _renderTexture.ChangeModel(_characterInstance.Data.Model);
         slider.maxValue = _characterInstance.Data.Health;
         slider.gameObject.SetActive(true);
+        text.text = characterInstance.Data.Name;
     }
 }
