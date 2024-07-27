@@ -10,6 +10,7 @@ public class Crosshair : MonoBehaviour
     [SerializeField] private Image reloadIcon;
     private void Start()
     {
+        Cursor.visible = false;
         controller.CurrentCharacter.BasicAttack.OnCooldownEvent += OnCooldown;
         controller.OnCharacterChanged += delegate
         {
