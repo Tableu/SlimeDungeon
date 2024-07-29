@@ -19,7 +19,7 @@ public class TitleScreen : MonoBehaviour
         Instantiate(characterDictionary.Dictionary.ElementAt(rand.Next(0, characterDictionary.Dictionary.Count)).Value.Model, model.transform);
     }
 
-    public void OnContineuClick()
+    public void OnContinueClick()
     {
         SceneManager.LoadScene("Scenes/DungeonGeneration");
     }
