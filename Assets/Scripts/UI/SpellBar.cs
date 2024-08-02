@@ -6,6 +6,7 @@ public class SpellBar : MonoBehaviour
 {
     [SerializeField] private GameObject spellIconPrefab;
     [SerializeField] private PlayerController playerController;
+    [SerializeField] private bool raycastTarget;
     private List<SpellBarIcon> spellIcons;
     
     private void Start()
@@ -19,7 +20,7 @@ public class SpellBar : MonoBehaviour
             if (script != null)
             {
                 spellIcons.Add(script);
-                script.Initialize(i, inputMap.actions[i].controls[0].name.ToUpper());
+                script.Initialize(i, inputMap.actions[i].controls[0].name.ToUpper(), raycastTarget);
             }
         }
 

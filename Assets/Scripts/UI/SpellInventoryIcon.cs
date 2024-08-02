@@ -30,7 +30,7 @@ public class SpellInventoryIcon : DraggableItem
             EventSystem.current.RaycastAll(eventData, results);
             foreach (var result in results)
             {
-                var spellBarIcon = result.gameObject.GetComponent<SpellBarIcon>();
+                var spellBarIcon = result.gameObject.GetComponentInParent<SpellBarIcon>();
                 if (spellBarIcon != null)
                 {
                     _inventory.EquipSpell(spellBarIcon.Index, _data);

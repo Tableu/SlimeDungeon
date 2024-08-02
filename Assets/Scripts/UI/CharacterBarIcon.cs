@@ -15,6 +15,7 @@ public class CharacterBarIcon : MonoBehaviour
         icon.enabled = false;
         slider.gameObject.SetActive(false);
         _renderTexture = UIRenderTextureManager.Instance.SpawnRenderTexture();
+        gameObject.SetActive(false);
     }
 
     private void FixedUpdate()
@@ -27,6 +28,7 @@ public class CharacterBarIcon : MonoBehaviour
 
     public void SetIcon(Character characterInstance)
     {
+        gameObject.SetActive(true);
         icon.enabled = true;
         icon.texture = _renderTexture.RenderTexture; 
         _characterInstance = characterInstance;

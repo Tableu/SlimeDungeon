@@ -21,10 +21,11 @@ public class SpellBarIcon : MonoBehaviour
         background.enabled = false;
     }
     
-    public void Initialize(int index, string input)
+    public void Initialize(int index, string input, bool raycastTarget = false)
     {
         _index = index;
         inputIcon.sprite = iconDictionary.Dictionary[input];
+        icon.raycastTarget = raycastTarget;
     }
 
     private void OnCooldown(float duration)

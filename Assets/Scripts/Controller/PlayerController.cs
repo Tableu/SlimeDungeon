@@ -145,7 +145,7 @@ public class PlayerController : MonoBehaviour, ICharacterInfo, ISavable, IDamage
     private void Update()
     {
         _isMouseOverUI = EventSystem.current.IsPointerOverGameObject();
-        if (_disableRotation) return;
+        if (_disableRotation || _isMouseOverUI) return;
         Vector2 mousePos = Mouse.current.position.ReadValue();
         Ray ray = Camera.main.ScreenPointToRay(mousePos);
         if (Physics.Raycast(ray, out RaycastHit hitData, 1000, LayerMask.GetMask("Walls", "Default", "Floor")))
