@@ -1227,6 +1227,7 @@ GameObject:
   - component: {fileID: 805531062}
   - component: {fileID: 805531063}
   - component: {fileID: 805531064}
+  - component: {fileID: 805531065}
   m_Layer: 0
   m_Name: Level
   m_TagString: Untagged
@@ -1275,6 +1276,7 @@ MonoBehaviour:
   loadingScreen: {fileID: 511321716424306895}
   endPopup: {fileID: 881729151}
   playerController: {fileID: 843911631}
+  levelPlacer: {fileID: 805531065}
 --- !u!114 &805531064
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1288,6 +1290,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: Level Manager
+--- !u!114 &805531065
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 805531061}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dce971be2c003204dbdd89f7b1eae47b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  floorTilePrefab: {fileID: 2021926822154840307, guid: 8d58b8a8d97ee894c992dd006ed40afe, type: 3}
+  wallPrefab: {fileID: 4447234519500044207, guid: 6115e6ab756526f4692f60677c71fb3a, type: 3}
+  doorPrefab: {fileID: 5547930298432026259, guid: adb652c710c917e49af3461d3bdb2a7a, type: 3}
+  doorHallwayPrefab: {fileID: 5547930298432026259, guid: 0fd276f60fcee8849ab6a923e5bbe43b, type: 3}
+  roomPrefab: {fileID: 6143618360204090084, guid: f798f4b4bd5e67546a4301d4b27915cb, type: 3}
+  wallColliderPrefab: {fileID: 4447234519500044207, guid: 29f0ee8506eec2d47a448b46c751627f, type: 3}
 --- !u!1001 &843911627
 PrefabInstance:
   m_ObjectHideFlags: 0
