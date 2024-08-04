@@ -41,22 +41,27 @@ public class RoomController : MonoBehaviour
         _enemies = new List<EnemyController>();
         roomCamera.Initialize(bounds, tileSize);
         roomDoors.Initialize(this, doors, bounds, tileSize);
-        int i = 0;
-        
-        do
+        if (levelGenerationData != null)
         {
-            _roomData = levelGenerationData.GetRandomElement();
-            if (_bounds.width < _roomData.Layout.MaxSize && _bounds.width >= _roomData.Layout.MinSize ||
-                _bounds.height < _roomData.Layout.MaxSize && _bounds.width >= _roomData.Layout.MinSize)
-            {
-                break;
-            }
-            i++;
-        } while (i < 20);
+            int i = 0;
 
-        List<RoomLayoutData.DecorationSpot> decorationPositions = PlaceRoomLayout(colliderTransform, bounds, tileSize, 
-            doors.Select(o=>o.transform.position).ToList());
-        DecorateRoom(decorationPositions);
+            do
+            {
+                _roomData = levelGenerationData.GetRandomElement();
+                if (_bounds.width < _roomData.Layout.MaxSize && _bounds.width >= _roomData.Layout.MinSize ||
+                    _bounds.height < _roomData.Layout.MaxSize && _bounds.width >= _roomData.Layout.MinSize)
+                {
+                    break;
+                }
+
+                i++;
+            } while (i < 20);
+
+            List<RoomLayoutData.DecorationSpot> decorationPositions = PlaceRoomLayout(colliderTransform, bounds,
+                tileSize,
+                doors.Select(o => o.transform.position).ToList());
+            DecorateRoom(decorationPositions);
+        }
     }
     
     public void SetAsSpawnRoom()

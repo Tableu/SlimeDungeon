@@ -58,9 +58,33 @@ public class LevelManager : MonoBehaviour, ISavable
         Random.InitState(LevelData.RandomSeed);
         _tileSize = dungeonGenerationData.TileSize;
 
-        LevelPlacer.Results result = levelPlacer.Run(_tileSize, LevelData, dungeonGenerationData.Floors[_currentLevel]);
-        _roomColliders = result.Colliders;
+        bool isBossLevel = false;
+        LevelPlacer.Results result = new LevelPlacer.Results();
+        foreach (BossLevel bossLevel in dungeonGenerationData.BossLevels)
+        {
+            if (_currentLevel == bossLevel.Index)
+            {
+                isBossLevel = true;
+                GameObject level = Instantiate(bossLevel.Prefab, transform);
+                BossLevelInfo info = level.GetComponent<BossLevelInfo>();
+                result = new LevelPlacer.Results
+                {
+                    Colliders = info.GetColliders(),
+                    FloorSize = info.FloorSize,
+                    StartRoom = info.StartRoom,
+                    ExitRoom = info.ExitRoom
+                };
+                break;
+            }
+        }
+
+        if (!isBossLevel)
+        {
+            result =
+                levelPlacer.Run(_tileSize, LevelData, dungeonGenerationData.Floors[_currentLevel]);
+        }
         
+        _roomColliders = result.Colliders;
         Vector2Int floorSize = result.FloorSize;
         Vector2Int paddedSize = floorSize + new Vector2Int(_tileSize, _tileSize);
         levelCenter.transform.position = new Vector3(
