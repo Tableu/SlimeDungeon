@@ -119,15 +119,6 @@ public class LevelPlacer : MonoBehaviour
 
         CreateWallColliders(bounds, roomSize, colliders.transform);
 
-        Grid2D<Generator2D.CellType> roomGrid = new Grid2D<Generator2D.CellType>(roomSize, Vector2Int.zero);
-        for (int y = 0; y < roomSize.y; y++)
-        {
-            for (int x = 0; x < roomSize.x; x++)
-            {
-                roomGrid[x, y] = _levelData.Grid[location.x+x, location.y+y];
-            }
-        }
-
         List<Door> doorScripts = doors.GetComponentsInChildren<Door>().ToList();
 
         script.Initialize(bounds, _tileSize, doorScripts, _generationData, colliders.transform);
@@ -234,4 +225,30 @@ public class LevelPlacer : MonoBehaviour
             tile.transform.parent = parent;
         return tile;
     }
+    
+    #if UNITY_EDITOR
+    [Header("Editor Values")]
+    [SerializeField] private Array2DCellType grid;
+    [SerializeField] private int tileSize;
+    
+    [ContextMenu("Run")]
+    public void Editor_Run()
+    {
+        _tileSize = tileSize;
+        List<Generator2D.CellType> cellList = new List<Generator2D.CellType>();
+        foreach (Generator2D.CellType cell in grid.GetCells())
+        {
+            cellList.Add(cell);
+        }
+
+        Grid2D<Generator2D.CellType> roomGrid = new Grid2D<Generator2D.CellType>(grid.GridSize, Vector2Int.zero)
+        {
+            data = cellList.ToArray()
+        };
+
+        _levelData = new Generator2D.LevelData(roomGrid, new List<RectInt>(), 0, 0);
+        RectInt bounds = new RectInt(Vector2Int.zero, grid.GridSize);
+        PlaceRoom(bounds);
+    }
+#endif
 }
