@@ -69,7 +69,7 @@ public class LevelManager : MonoBehaviour, ISavable
                 BossLevelInfo info = level.GetComponent<BossLevelInfo>();
                 result = new LevelPlacer.Results
                 {
-                    Colliders = info.GetColliders(),
+                    Colliders = info.Colliders,
                     FloorSize = info.FloorSize,
                     StartRoom = info.StartRoom,
                     ExitRoom = info.ExitRoom

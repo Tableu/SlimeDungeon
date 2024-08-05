@@ -5,32 +5,35 @@ using UnityEngine;
 public class RoomDoors : MonoBehaviour
 {
     [SerializeField] private BoxCollider triggerCollider;
-    private List<Door> _doors;
-    private RoomController _controller;
+    [SerializeField] private List<Door> doors;
+    [SerializeField] private RoomController controller;
 
     private void Start()
     {
-        _controller.OnAllEnemiesDead += delegate
+        if (controller != null)
         {
-            foreach (Door door in _doors)
+            controller.OnAllEnemiesDead += delegate
             {
-                door.Lock(false);
-            }
-        };
+                foreach (Door door in doors)
+                {
+                    door.Lock(false);
+                }
+            };
+        }
     }
 
     public void Initialize(RoomController controller, List<Door> doors, RectInt bounds, float tileSize)
     {
-        _doors = doors;
-        _controller = controller;
+        this.doors = doors;
+        this.controller = controller;
         triggerCollider.size = new Vector3(tileSize * (bounds.size.x-3)+0.5f, 5, tileSize * (bounds.size.y-3)+0.5f);
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (_controller.AllEnemiesDead)
+        if (controller == null || controller.AllEnemiesDead)
             return;
-        foreach (Door door in _doors)
+        foreach (Door door in doors)
         {
             door.Close();
             door.Lock(true);

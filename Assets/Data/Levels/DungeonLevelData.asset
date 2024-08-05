@@ -18,4 +18,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e4747c39e1eee504b83241da2f32edae, type: 2}
   - {fileID: 11400000, guid: c39e02adda7b7da4c8389cb45de5d91a, type: 2}
   - {fileID: 11400000, guid: c39e02adda7b7da4c8389cb45de5d91a, type: 2}
+  - {fileID: 11400000, guid: c39e02adda7b7da4c8389cb45de5d91a, type: 2}
+  bossLevels:
+  - Index: 0
+    FloorSize: {x: 25, y: 25}
+    Prefab: {fileID: 5050765204641268506, guid: 2fe85606ac8ae5545b11785b0a1e4fb5, type: 3}
   tileSize: 4
