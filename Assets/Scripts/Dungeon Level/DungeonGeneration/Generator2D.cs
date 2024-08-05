@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
 public class Generator2D {
+    [Serializable]
     [JsonConverter(typeof(StringEnumConverter))]
     public enum CellType {
         [EnumMember(Value="None")]
