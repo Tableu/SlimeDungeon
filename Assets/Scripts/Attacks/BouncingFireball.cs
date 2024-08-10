@@ -63,7 +63,6 @@ public class BouncingFireball : MonoBehaviour
         fireball.Stop();
         GameObject g = Instantiate(explosion, transform.position, Quaternion.identity);
         g.layer = gameObject.layer;
-        //todo should set radius in the attack data class
         Collider[] enemyColliders = Physics.OverlapSphere(transform.position, _explosionDamageRadius,_enemyMask);
         foreach (Collider col in enemyColliders)
         {
