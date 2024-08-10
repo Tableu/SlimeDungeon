@@ -6,8 +6,10 @@ public class BouncingFireballAttackData : AttackData
 {
     [SerializeField] private int maxBounceCount;
     [SerializeField] private Vector2 launchAngle;
+    [SerializeField] private float explosionDamageRadius = 2.5f;
     public int MaxBounceCount => maxBounceCount;
     public Vector2 LaunchAngle => launchAngle;
+    public float ExplosionDamageRadius => explosionDamageRadius;
     public override Attack CreateInstance(ICharacterInfo characterInfo)
     {
         return new BouncingFireballAttack(characterInfo, this);

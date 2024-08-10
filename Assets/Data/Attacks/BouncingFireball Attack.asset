@@ -18,6 +18,7 @@ MonoBehaviour:
   manaCost: 30
   hitStun: 1
   cooldown: 2
+  cost: 0
   spawnOffset: {x: 0, y: 0, z: 0}
   elementType: 1
   prefab: {fileID: 3134170781979577925, guid: 89583c669eaed8c42a06aae0c2db7641, type: 3}
@@ -25,3 +26,4 @@ MonoBehaviour:
   name: Bouncing Fireball
   maxBounceCount: 2
   launchAngle: {x: 1, y: -0.4}
+  explosionDamageRadius: 2.5

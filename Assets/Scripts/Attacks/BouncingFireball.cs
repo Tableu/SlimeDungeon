@@ -14,8 +14,9 @@ public class BouncingFireball : MonoBehaviour
     private int bounceCount = 0;
     private float lastCollisionTime;
     private LayerMask _enemyMask;
+    private float _explosionDamageRadius;
 
-    public void Initialize(float damage, float knockback, float hitStun, Vector3 force, int maxBounces, Elements.Type type, LayerMask enemyMask)
+    public void Initialize(float damage, float knockback, float hitStun, Vector3 force, int maxBounces, float explosionDamageRadius, Elements.Type type, LayerMask enemyMask)
     {
         _hitStun = hitStun;
         _damage = damage;
@@ -25,6 +26,7 @@ public class BouncingFireball : MonoBehaviour
         _maxBounces = maxBounces;
         rigidbody.AddForce(force, ForceMode.Impulse);
         _enemyMask = enemyMask;
+        _explosionDamageRadius = explosionDamageRadius;
     }
 
     private void OnDrawGizmosSelected()
@@ -62,7 +64,7 @@ public class BouncingFireball : MonoBehaviour
         GameObject g = Instantiate(explosion, transform.position, Quaternion.identity);
         g.layer = gameObject.layer;
         //todo should set radius in the attack data class
-        Collider[] enemyColliders = Physics.OverlapSphere(transform.position, 2.5f,_enemyMask);
+        Collider[] enemyColliders = Physics.OverlapSphere(transform.position, _explosionDamageRadius,_enemyMask);
         foreach (Collider col in enemyColliders)
         {
             IDamageable dmg = col.attachedRigidbody != null ? 

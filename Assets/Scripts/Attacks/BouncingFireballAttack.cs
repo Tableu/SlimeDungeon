@@ -22,7 +22,8 @@ public class BouncingFireballAttack : Attack
             maxBounces = _data.MaxBounceCount;
             launchAngle = new Vector3(launchAngle.x*_data.LaunchAngle.x, _data.LaunchAngle.y, launchAngle.z*_data.LaunchAngle.x);
             
-            script.Initialize(Data.Damage, Data.Knockback, Data.HitStun, launchAngle*Data.Speed, maxBounces, Data.ElementType, CharacterInfo.EnemyMask);
+            script.Initialize(Data.Damage, Data.Knockback, Data.HitStun, launchAngle*Data.Speed, maxBounces, 
+                _data.ExplosionDamageRadius, Data.ElementType, CharacterInfo.EnemyMask);
             Cooldown(Data.Cooldown);
             return true;
         }
