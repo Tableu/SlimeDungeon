@@ -20,9 +20,9 @@ public class EnemyHealthBars : MonoBehaviour
         }
     }
 
-    public void SpawnHealthBar(Transform enemy, EnemyController controller)
+    public void SpawnHealthBar(Transform enemy, EnemyController controller, Vector3 offset)
     {
-        GameObject statbars = Instantiate(enemyStatBars, enemy.position, enemyStatBars.transform.rotation, transform);
+        GameObject statbars = Instantiate(enemyStatBars, enemy.position+offset, enemyStatBars.transform.rotation, transform);
         EnemyStatBar script = statbars.GetComponent<EnemyStatBar>();
         script.Initialize(controller);
     }

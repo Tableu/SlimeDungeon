@@ -88,6 +88,8 @@ public class RoomController : MonoBehaviour
 
     private void OnDestroy()
     {
+        if (_enemies == null)
+            return;
         foreach (EnemyController controller in _enemies)
         {
             if (controller != null)

@@ -1,7 +1,5 @@
-using System;
 using System.Collections;
 using Controller;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -30,7 +28,8 @@ public class SpellBarIcon : MonoBehaviour
 
     private void OnCooldown(float duration)
     {
-        StartCoroutine(Cooldown(duration));
+        if(isActiveAndEnabled)
+            StartCoroutine(Cooldown(duration));
     }
 
     private IEnumerator Cooldown(float duration)

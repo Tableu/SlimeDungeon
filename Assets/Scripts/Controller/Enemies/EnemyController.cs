@@ -21,6 +21,9 @@ public abstract class EnemyController : MonoBehaviour, ICharacterInfo, IDamageab
     [SerializeField] private EnemyData enemyData;
     [SerializeField] private csFogVisibilityAgent visibilityAgent;
     [SerializeField] private new Rigidbody rigidbody;
+    [SerializeField] private bool stunnable = true;
+    [SerializeField] private bool spawnHealthBar = true;
+    [SerializeField] private Vector3 statBarOffset;
 
     protected FSM StateMachine;
     protected List<Attack> Attacks;
@@ -73,7 +76,8 @@ public abstract class EnemyController : MonoBehaviour, ICharacterInfo, IDamageab
         }
 
         StateMachine = new FSM(); 
-        EnemyHealthBars.Instance.SpawnHealthBar(transform, this);
+        if(spawnHealthBar)
+            EnemyHealthBars.Instance.SpawnHealthBar(transform, this, statBarOffset);
         agent.speed = Speed;
         EnemyMask = LayerMask.GetMask("Player");
     }
@@ -112,7 +116,7 @@ public abstract class EnemyController : MonoBehaviour, ICharacterInfo, IDamageab
 
     private IEnumerator HandleKnockback(Vector3 knockback, float hitStun)
     {
-        if (hitStun > 0)
+        if (hitStun > 0 && stunnable)
         {
             ApplyStun(knockback, hitStun);
             yield return new WaitForSeconds(hitStun);
