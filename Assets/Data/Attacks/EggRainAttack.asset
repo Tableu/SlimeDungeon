@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 764132e1af727b1409c8f337adac039e, type: 3}
+  m_Name: EggRainAttack
+  m_EditorClassIdentifier: 
+  speed: 5
+  damage: 10
+  knockback: 0
+  manaCost: 30
+  hitStun: 0
+  cooldown: 5
+  cost: 0
+  spawnOffset: {x: 0, y: 0, z: 0}
+  elementType: 0
+  prefab: {fileID: 1154993155413119616, guid: ece2747e5836ec449a1e295d2699ae90, type: 3}
+  icon: {fileID: 21300000, guid: 42f6c722ead369b4b934a116b4324a4d, type: 3}
+  name: Egg Rain Attack
+  eggCount: 8
+  spawnHeight: {x: 8, y: 20}
+  spawnInterval: 0.4
+  enemyPrefab: {fileID: 1068915873035841302, guid: 99564821069a52a4ea7a22344aa60da2, type: 3}
