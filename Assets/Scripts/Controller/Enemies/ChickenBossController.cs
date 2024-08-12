@@ -1,10 +1,14 @@
 using Controller;
+using Systems.Modifiers;
 using UnityEngine;
 
 public class ChickenBossController : EnemyController
 {
+    [SerializeField] private EnemyData secondPhaseData;
+    [SerializeField] private ChickenBossAnimator chickenBossAnimator;
     private bool _attackAnimationComplete;
     private int _attackIndex = 0;
+    private bool _inSecondPhase = false;
 
     protected new void Start()
     {
@@ -23,6 +27,27 @@ public class ChickenBossController : EnemyController
     protected new void FixedUpdate()
     {
         base.FixedUpdate();
+        if(Health <= secondPhaseData.Health && !_inSecondPhase)
+            StartSecondPhase();
+    }
+
+    private void StartSecondPhase()
+    {
+        enemyData = secondPhaseData;
+        foreach (Attack attack in Attacks)
+        {
+            attack.End();
+        }
+        Attacks.Clear();
+        Speed = new ModifiableStat(enemyData.Speed);
+        foreach (AttackData attackData in enemyData.Attacks)
+        {
+            var attack = attackData.CreateInstance(this);
+            Attacks.Add(attack);
+        }
+        agent.speed = Speed;
+        _inSecondPhase = true;
+        chickenBossAnimator.SwitchToSecondPhase();
     }
 
     public override bool Attack()

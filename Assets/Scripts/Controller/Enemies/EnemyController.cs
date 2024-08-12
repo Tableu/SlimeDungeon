@@ -18,7 +18,7 @@ public abstract class EnemyController : MonoBehaviour, ICharacterInfo, IDamageab
     [SerializeField] protected NavMeshAgent agent;
     [SerializeField] protected EnemyAnimator animator;
     [SerializeField] private List<Transform> waypoints;
-    [SerializeField] private EnemyData enemyData;
+    [SerializeField] protected EnemyData enemyData;
     [SerializeField] private csFogVisibilityAgent visibilityAgent;
     [SerializeField] private new Rigidbody rigidbody;
     [SerializeField] private bool stunnable = true;
@@ -35,7 +35,7 @@ public abstract class EnemyController : MonoBehaviour, ICharacterInfo, IDamageab
     public ModifiableStat Speed
     {
         get;
-        private set;
+        protected set;
     }
     public float Health
     {

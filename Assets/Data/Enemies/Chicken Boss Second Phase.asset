@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: eee29ab224b67ec449499822efdd63e6, type: 3}
-  m_Name: Chicken Boss First Phase
+  m_Name: Chicken Boss Second Phase
   m_EditorClassIdentifier: 
-  health: 350
-  speed: 3
+  health: 150
+  speed: 9
   elementType: 1
   spellOffset: {x: 0.5, y: 0.5, z: 0.5}
   attacks:
-  - {fileID: 11400000, guid: 93d57c1d71b609445abf48a1bd96df90, type: 2}
+  - {fileID: 11400000, guid: 730208c8c64576b49840119cffa8b51a, type: 2}
   - {fileID: 11400000, guid: ad2af0a3af004e941a458424f046a0cd, type: 2}
   attackRange: 20
   aggroRange: 20

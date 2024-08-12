@@ -1,5 +1,11 @@
 public class ChickenBossAnimator : EnemyAnimator
 {
+    private bool _isSecondPhase = false;
+    public void SwitchToSecondPhase()
+    {
+        _isSecondPhase = true;
+        PlayChargeEffect();
+    }
     public override void ChangeState(EnemyControllerState state)
     {
         switch (state)
@@ -10,8 +16,7 @@ public class ChickenBossAnimator : EnemyAnimator
                 animator.SetBool("Run", false);
                 break;
             case EnemyControllerState.Walk:
-                animator.SetBool("Walk", true);
-                animator.SetBool("Run", false);
+                animator.SetBool(_isSecondPhase ? "Run" : "Walk", true);
                 break;
             case EnemyControllerState.Attack:
                 OnAlertObservers.Invoke("AttackEnded");

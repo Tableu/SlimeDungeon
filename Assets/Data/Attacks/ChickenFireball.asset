@@ -17,7 +17,7 @@ MonoBehaviour:
   knockback: 0
   manaCost: 30
   hitStun: 0
-  cooldown: 2
+  cooldown: 3
   cost: 0
   spawnOffset: {x: 0, y: 0, z: 0}
   elementType: 1
