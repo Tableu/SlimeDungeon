@@ -8,12 +8,14 @@ public class RoomController : MonoBehaviour
 {
     [SerializeField] private RoomCamera roomCamera;
     [SerializeField] private RoomDoors roomDoors;
+    [SerializeField] private List<EnemyController> presetEnemies = new List<EnemyController>();
+    [SerializeField] private List<Transform> waypoints;
+    [SerializeField] private new BoxCollider collider;
     
     private RectInt _bounds;
     private float _tileSize;
-    private List<Transform> _waypoints;
     private int _enemyCount = 0;
-    private List<EnemyController> _enemies;
+    private List<EnemyController> _enemies = new List<EnemyController>();
     private LevelGenerationData.Room _roomData;
     private bool _isSpawnRoom = false;
     
@@ -25,18 +27,18 @@ public class RoomController : MonoBehaviour
     {
         _bounds = bounds;
         _tileSize = tileSize;
-        _waypoints = new List<Transform>();
+        this.waypoints = new List<Transform>();
         GameObject waypoints = new GameObject("Waypoints");
         waypoints.transform.parent = transform;
         Vector2 waypoint = (bounds.max - new Vector2(2,2))*tileSize;
-        _waypoints.Add(new GameObject("Waypoint 1").transform);
-        _waypoints[0].SetParent(waypoints.transform);
-        _waypoints[0].transform.position = new Vector3(waypoint.x, 0, waypoint.y);
+        this.waypoints.Add(new GameObject("Waypoint 1").transform);
+        this.waypoints[0].SetParent(waypoints.transform);
+        this.waypoints[0].transform.position = new Vector3(waypoint.x, 0, waypoint.y);
         
         waypoint = (bounds.min + new Vector2(1,1))*tileSize;
-        _waypoints.Add(new GameObject("Waypoint 2").transform);
-        _waypoints[1].SetParent(waypoints.transform);
-        _waypoints[1].transform.position = new Vector3(waypoint.x, 0, waypoint.y);
+        this.waypoints.Add(new GameObject("Waypoint 2").transform);
+        this.waypoints[1].SetParent(waypoints.transform);
+        this.waypoints[1].transform.position = new Vector3(waypoint.x, 0, waypoint.y);
 
         _enemies = new List<EnemyController>();
         roomCamera.Initialize(bounds, tileSize);
@@ -63,6 +65,14 @@ public class RoomController : MonoBehaviour
             DecorateRoom(decorationPositions);
         }
     }
+
+    public void AddEnemy(EnemyController controller)
+    {
+        if(waypoints != null)
+            controller.SetWaypoints(waypoints);
+        controller.OnDeath += OnEnemyDeath;
+        _enemies.Add(controller);
+    }
     
     public void SetAsSpawnRoom()
     {
@@ -84,6 +94,10 @@ public class RoomController : MonoBehaviour
     private void Start()
     {
         SpawnEnemies();
+        foreach (EnemyController enemyController in presetEnemies)
+        {
+            AddEnemy(enemyController);
+        }
     }
 
     private void OnDestroy()
@@ -101,7 +115,7 @@ public class RoomController : MonoBehaviour
 
     private void SpawnEnemies()
     {
-        if (_waypoints == null)
+        if (waypoints == null)
         {
             Debug.Log("Enemy spawn failed - waypoints were not created");
             return;
@@ -128,7 +142,7 @@ public class RoomController : MonoBehaviour
             EnemyController controller = enemyInstance.GetComponent<EnemyController>();
             if (controller != null)
             {
-                controller.SetWaypoints(_waypoints);
+                controller.SetWaypoints(waypoints);
                 controller.OnDeath += OnEnemyDeath;
                 _enemies.Add(controller);
                 _enemyCount++;
@@ -209,10 +223,29 @@ public class RoomController : MonoBehaviour
         }
     }
     
-    public Vector3 GetRandomPosition()
+    private Vector3 GetRandomPosition()
     {
         int xExtent = (int) Mathf.Ceil(((float) _bounds.width / 2 - 1)* _tileSize - _tileSize/2);
         int yExtent = (int) Mathf.Ceil(((float) _bounds.height / 2 - 1)* _tileSize - _tileSize/2);
+        Vector3 randomPos;
+        bool tileTaken;
+        int i = 0;
+        do
+        {
+            randomPos = new Vector3(Random.Range(-xExtent, xExtent), 0,
+                Random.Range(-yExtent, yExtent));
+            tileTaken = Physics.CheckBox(transform.position + randomPos, new Vector3(1f, 1, 1f),
+                Quaternion.identity, LayerMask.GetMask("Walls", "Obstacles", "Enemy", "Items"));
+            i++;
+        } while (tileTaken && i < 100);
+
+        return randomPos;
+    }
+
+    public Vector3 GetRandomPositionInBounds()
+    {
+        int xExtent = (int) Mathf.Ceil(collider.bounds.extents.x);
+        int yExtent = (int) Mathf.Ceil(collider.bounds.extents.y);
         Vector3 randomPos;
         bool tileTaken;
         int i = 0;

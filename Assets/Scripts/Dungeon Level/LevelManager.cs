@@ -124,7 +124,7 @@ public class LevelManager : MonoBehaviour, ISavable
 
     private void Start()
     {
-        GlobalReferences.Instance.Player.transform.position = _spawnRoom.transform.position + _spawnRoom.GetRandomPosition();
+        GlobalReferences.Instance.Player.transform.position = _spawnRoom.transform.position + _spawnRoom.GetRandomPositionInBounds();
         _exitRoom.SpawnExit(exitPrefab, this);
     }
 
@@ -147,11 +147,17 @@ public class LevelManager : MonoBehaviour, ISavable
 
     public void HandlePlayerDeath()
     {
+        StartCoroutine(EndGame());
         File.Delete(SaveManager.DefaultSavePath);
         endPopup.SetActive(true);
-        Time.timeScale = 0;
         TextMeshProUGUI text = endPopup.GetComponentInChildren<TextMeshProUGUI>();
         text.text = "You Died!";
+    }
+
+    private IEnumerator EndGame()
+    {
+        yield return new WaitForSeconds(0.2f);
+        Time.timeScale = 0;
     }
 
     public void LoadTitleScreen()
