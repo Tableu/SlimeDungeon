@@ -1010,6 +1010,7 @@ MonoBehaviour:
   statBarOffset: {x: 0, y: 0, z: 0}
   secondPhaseData: {fileID: 11400000, guid: 0f57907d04d081b41afa3bf45d6aedfa, type: 2}
   chickenBossAnimator: {fileID: 7324665684081910828}
+  bossHealthBar: {fileID: 469827917666668257, guid: ce57f158a5981ac4da05914df63a970c, type: 3}
 --- !u!1001 &6639209096910654153
 PrefabInstance:
   m_ObjectHideFlags: 0

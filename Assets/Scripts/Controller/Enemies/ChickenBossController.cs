@@ -6,9 +6,11 @@ public class ChickenBossController : EnemyController
 {
     [SerializeField] private EnemyData secondPhaseData;
     [SerializeField] private ChickenBossAnimator chickenBossAnimator;
+    [SerializeField] private GameObject bossHealthBar;
     private bool _attackAnimationComplete;
     private int _attackIndex = 0;
     private bool _inSecondPhase = false;
+    private bool _detectedPlayer = false;
 
     protected new void Start()
     {
@@ -29,6 +31,13 @@ public class ChickenBossController : EnemyController
         base.FixedUpdate();
         if(Health <= secondPhaseData.Health && !_inSecondPhase)
             StartSecondPhase();
+        if (!_detectedPlayer && PlayerVisible)
+        {
+            GameObject healthBar = Instantiate(bossHealthBar, GlobalReferences.Instance.Canvas.transform);
+            BossHealthBar script = healthBar.GetComponent<BossHealthBar>();
+            script.Initialize(this, "Chicken Lord");
+            _detectedPlayer = true;
+        }
     }
 
     private void StartSecondPhase()
