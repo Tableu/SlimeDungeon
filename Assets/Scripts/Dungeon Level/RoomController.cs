@@ -72,6 +72,7 @@ public class RoomController : MonoBehaviour
             controller.SetWaypoints(waypoints);
         controller.OnDeath += OnEnemyDeath;
         _enemies.Add(controller);
+        _enemyCount++;
     }
     
     public void SetAsSpawnRoom()
