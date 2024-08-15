@@ -6,7 +6,8 @@ public class EnemyHealthBars : MonoBehaviour
 
     public static EnemyHealthBars Instance => _instance;
 
-    [SerializeField] private GameObject enemyStatBars;
+    [SerializeField] private GameObject healthBarPrefab;
+    [SerializeField] private Camera canvasCamera;
     
     private void Awake()
     {
@@ -22,8 +23,9 @@ public class EnemyHealthBars : MonoBehaviour
 
     public void SpawnHealthBar(Transform enemy, EnemyController controller, Vector3 offset)
     {
-        GameObject statbars = Instantiate(enemyStatBars, enemy.position+offset, enemyStatBars.transform.rotation, transform);
-        EnemyStatBar script = statbars.GetComponent<EnemyStatBar>();
-        script.Initialize(controller);
+        Vector3 pos = canvasCamera.WorldToScreenPoint(enemy.position);
+        GameObject healthBar = Instantiate(healthBarPrefab, pos, Quaternion.identity, transform);
+        EnemyHealthBar script = healthBar.GetComponent<EnemyHealthBar>();
+        script.Initialize(controller, offset, canvasCamera);
     }
 }
