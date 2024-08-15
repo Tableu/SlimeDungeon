@@ -91,6 +91,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   triggerCollider: {fileID: 1100019076871245254}
+  doors: []
+  controller: {fileID: 0}
 --- !u!65 &1100019076871245254
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -215,9 +217,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   roomCamera: {fileID: 9123644433592179862}
   roomDoors: {fileID: 7992780125637467383}
-  roomLayoutDatas:
-  - {fileID: 11400000, guid: 4fe2ad83cbd3ef645a98bf5d22d62303, type: 2}
-  randomRoomTypeDatas: {fileID: 11400000, guid: c39e02adda7b7da4c8389cb45de5d91a, type: 2}
+  presetEnemies: []
+  waypoints: []
+  collider: {fileID: 1100019076871245254}
 --- !u!1 &6833332271193961645
 GameObject:
   m_ObjectHideFlags: 0
