@@ -111,6 +111,9 @@ MonoBehaviour:
   enemyData: {fileID: 11400000, guid: a85df6c5a0b9c9f418138f0856c99cdb, type: 2}
   visibilityAgent: {fileID: 6472144971781621928}
   rigidbody: {fileID: 6042655304471014061}
+  stunnable: 1
+  spawnHealthBar: 1
+  statBarOffset: {x: 0, y: 20, z: 0}
 --- !u!114 &6472144971781621928
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -141,9 +144,7 @@ MonoBehaviour:
   animator: {fileID: 0}
   stunEffect: {fileID: 9092857177499490824}
   stunAura: {fileID: 6761136828445309366}
-  particleSystem: {fileID: 1361210729244400241}
-  controller: {fileID: 1062181426651133041}
-  light: {fileID: 2942184105863836804}
+  chargeEffect: {fileID: 0}
 --- !u!1001 &1395471156194845875
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -408,19 +409,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d3beea4ae344b9b43896eb2b8cd1b886, type: 3}
---- !u!198 &1361210729244400241 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 6170521484640371035, guid: d3beea4ae344b9b43896eb2b8cd1b886, type: 3}
-  m_PrefabInstance: {fileID: 5134637297097497386}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1361210729244400246 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6170521484640371036, guid: d3beea4ae344b9b43896eb2b8cd1b886, type: 3}
-  m_PrefabInstance: {fileID: 5134637297097497386}
-  m_PrefabAsset: {fileID: 0}
---- !u!108 &2942184105863836804 stripped
-Light:
-  m_CorrespondingSourceObject: {fileID: 8040431330009788334, guid: d3beea4ae344b9b43896eb2b8cd1b886, type: 3}
   m_PrefabInstance: {fileID: 5134637297097497386}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6147734606095543011

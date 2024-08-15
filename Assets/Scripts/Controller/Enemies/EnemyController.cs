@@ -23,7 +23,7 @@ public abstract class EnemyController : MonoBehaviour, ICharacterInfo, IDamageab
     [SerializeField] private new Rigidbody rigidbody;
     [SerializeField] private bool stunnable = true;
     [SerializeField] private bool spawnHealthBar = true;
-    [SerializeField] private Vector3 statBarOffset = new Vector3(0,2,0);
+    [SerializeField] private Vector3 statBarOffset = new Vector3(0,20,0);
 
     protected FSM StateMachine;
     protected List<Attack> Attacks;

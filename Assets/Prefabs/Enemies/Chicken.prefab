@@ -148,6 +148,9 @@ MonoBehaviour:
   enemyData: {fileID: 11400000, guid: 0c5b67fae6f96a745b70a5da2cfc077e, type: 2}
   visibilityAgent: {fileID: 9156532417752548872}
   rigidbody: {fileID: 6042655304471014061}
+  stunnable: 1
+  spawnHealthBar: 1
+  statBarOffset: {x: 0, y: 20, z: 0}
 --- !u!114 &6130159507144060821
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -163,6 +166,7 @@ MonoBehaviour:
   animator: {fileID: 6042655304471014063}
   stunEffect: {fileID: 1294409137733998528}
   stunAura: {fileID: 6350538473073523532}
+  chargeEffect: {fileID: 0}
 --- !u!1001 &1632680865806460489
 PrefabInstance:
   m_ObjectHideFlags: 0
