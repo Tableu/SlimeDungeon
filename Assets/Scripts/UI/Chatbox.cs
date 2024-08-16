@@ -3,21 +3,31 @@ using UnityEngine;
 
 public class Chatbox : MonoBehaviour
 {
-    [SerializeField] private Canvas canvas;
-    [SerializeField] private TextMeshPro text;
+    [SerializeField] private TextMeshProUGUI text;
+    [SerializeField] private Vector2 padding;
+    private Transform _character;
+    private Vector3 _offset;
+    private Camera _camera;
 
-    public void Initialize()
+    public void Initialize(Transform character, Vector3 offset, Camera camera)
     {
-        canvas.worldCamera = Camera.main;
+        _character = character;
+        _offset = offset;
+        _camera = camera;
+    }
+
+    private void Update()
+    {
+        if (_character != null)
+        {
+            transform.position = _offset + _camera.WorldToScreenPoint(_character.position);
+        }
     }
 
     public void SetMessage(string message)
     {
         text.text = message;
-    }
-
-    public void SetIcon(string icon)
-    {
-        
+        RectTransform rt = GetComponent<RectTransform>();
+        rt.sizeDelta = text.GetPreferredValues() + padding;
     }
 }

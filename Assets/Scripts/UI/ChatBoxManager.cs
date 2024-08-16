@@ -8,6 +8,7 @@ public class ChatBoxManager : MonoBehaviour
 
     [SerializeField] private GameObject chatBoxPrefab;
     [SerializeField] private Vector3 offset;
+    [SerializeField] private Camera canvasCamera;
     
     private void Awake()
     {
@@ -23,10 +24,11 @@ public class ChatBoxManager : MonoBehaviour
 
     public Chatbox SpawnChatBox(Transform character)
     {
+        Vector3 pos = canvasCamera.WorldToScreenPoint(character.position);
         GameObject chatBox =
-            Instantiate(chatBoxPrefab, character.position + offset, chatBoxPrefab.transform.rotation, transform);
+            Instantiate(chatBoxPrefab, pos, Quaternion.identity, transform);
         Chatbox script = chatBox.GetComponent<Chatbox>();
-        script.Initialize();
+        script.Initialize(character, offset, canvasCamera);
         return script;
     }
 }
