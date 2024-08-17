@@ -39,6 +39,13 @@ public class BouncingFireball : MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
+        if (_enemyMask == (_enemyMask | (1 << other.gameObject.layer)))
+        {
+            SpawnExplosion();
+            Destroy(gameObject);
+            return;
+        }
+
         if (Time.time - lastCollisionTime < 0.1)
             return;
 
@@ -52,10 +59,7 @@ public class BouncingFireball : MonoBehaviour
             }
             bounceCount++;
             lastCollisionTime = Time.time;
-            return;
         }
-        SpawnExplosion();
-        Destroy(gameObject);
     }
 
     private void SpawnExplosion()
