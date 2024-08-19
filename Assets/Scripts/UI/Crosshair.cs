@@ -8,6 +8,7 @@ public class Crosshair : MonoBehaviour
 {
     [SerializeField] private PartyController controller;
     [SerializeField] private Image reloadIcon;
+    [SerializeField] private Image crossHairIcon;
     private void Start()
     {
         Cursor.visible = false;
@@ -39,5 +40,24 @@ public class Crosshair : MonoBehaviour
             time += Time.fixedDeltaTime;
         }
         reloadIcon.fillAmount = 1;
+    }
+
+    public void Show()
+    {
+        Cursor.visible = false;
+        crossHairIcon.enabled = true;
+        reloadIcon.enabled = true;
+    }
+
+    public void Hide()
+    {
+        Cursor.visible = true;
+        crossHairIcon.enabled = false;
+        reloadIcon.enabled = false;
+    }
+
+    private void OnDestroy()
+    {
+        Cursor.visible = true;
     }
 }

@@ -1,29 +1,54 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class PauseMenu : MonoBehaviour
 {
     [SerializeField] private GameObject pauseMenu;
     [SerializeField] private PlayerController playerController;
-    private void Start()
+    [SerializeField] private LevelManager levelManager;
+    [SerializeField] private Button exitButton;
+    [SerializeField] private Crosshair crosshair;
+        private void Start()
     {
         playerController.PlayerInputActions.Other.Escape.started += OnClick;
+        exitButton.onClick.AddListener(Exit);
     }
 
     private void OnClick(InputAction.CallbackContext context)
     {
-        Time.timeScale = !pauseMenu.activeSelf ? 0 : 1;
-        pauseMenu.SetActive(!pauseMenu.activeSelf);
+        TogglePause();
+    }
+
+    private void Exit()
+    {
+        levelManager.LoadTitleScreen();
     }
 
     public void CloseWindow()
     {
-        Time.timeScale = 1;
-        pauseMenu.SetActive(false);
+        TogglePause();
     }
+
+    private void TogglePause()
+    {
+        Time.timeScale = !pauseMenu.activeSelf ? 0 : 1;
+        pauseMenu.SetActive(!pauseMenu.activeSelf);
+        playerController.enabled = !pauseMenu.activeSelf;
+        if (pauseMenu.activeSelf)
+        {
+            crosshair.Hide();
+        }
+        else
+        {
+            crosshair.Show();
+        }
+    }
+    
 
     private void OnDestroy()
     {
         playerController.PlayerInputActions.Other.Escape.started -= OnClick;
+        exitButton.onClick.RemoveListener(Exit);
     }
 }

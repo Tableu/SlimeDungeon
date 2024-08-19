@@ -202,6 +202,12 @@ public class PlayerController : MonoBehaviour, ICharacterInfo, ISavable, IDamage
         }
     }
 
+    private void OnEnable()
+    {
+        _playerInputActions.Enable();
+        _disableRotation = false;
+    }
+
     private void OnDisable()
     {
         _playerInputActions.Disable();
