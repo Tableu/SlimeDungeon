@@ -178,6 +178,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Escape"",
+                    ""type"": ""Button"",
+                    ""id"": ""5c355708-969d-4716-a2a9-70048083e4f4"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -233,6 +242,17 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Basic Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""96965549-91aa-474a-9080-d6bd48463ba9"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Escape"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -318,6 +338,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Other_PickUp = m_Other.FindAction("Pick Up", throwIfNotFound: true);
         m_Other_SwitchForms = m_Other.FindAction("SwitchForms", throwIfNotFound: true);
         m_Other_BasicAttack = m_Other.FindAction("Basic Attack", throwIfNotFound: true);
+        m_Other_Escape = m_Other.FindAction("Escape", throwIfNotFound: true);
         // Spells
         m_Spells = asset.FindActionMap("Spells", throwIfNotFound: true);
         m_Spells_First = m_Spells.FindAction("First", throwIfNotFound: true);
@@ -441,6 +462,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Other_PickUp;
     private readonly InputAction m_Other_SwitchForms;
     private readonly InputAction m_Other_BasicAttack;
+    private readonly InputAction m_Other_Escape;
     public struct OtherActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -448,6 +470,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         public InputAction @PickUp => m_Wrapper.m_Other_PickUp;
         public InputAction @SwitchForms => m_Wrapper.m_Other_SwitchForms;
         public InputAction @BasicAttack => m_Wrapper.m_Other_BasicAttack;
+        public InputAction @Escape => m_Wrapper.m_Other_Escape;
         public InputActionMap Get() { return m_Wrapper.m_Other; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -466,6 +489,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @BasicAttack.started += instance.OnBasicAttack;
             @BasicAttack.performed += instance.OnBasicAttack;
             @BasicAttack.canceled += instance.OnBasicAttack;
+            @Escape.started += instance.OnEscape;
+            @Escape.performed += instance.OnEscape;
+            @Escape.canceled += instance.OnEscape;
         }
 
         private void UnregisterCallbacks(IOtherActions instance)
@@ -479,6 +505,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @BasicAttack.started -= instance.OnBasicAttack;
             @BasicAttack.performed -= instance.OnBasicAttack;
             @BasicAttack.canceled -= instance.OnBasicAttack;
+            @Escape.started -= instance.OnEscape;
+            @Escape.performed -= instance.OnEscape;
+            @Escape.canceled -= instance.OnEscape;
         }
 
         public void RemoveCallbacks(IOtherActions instance)
@@ -568,6 +597,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         void OnPickUp(InputAction.CallbackContext context);
         void OnSwitchForms(InputAction.CallbackContext context);
         void OnBasicAttack(InputAction.CallbackContext context);
+        void OnEscape(InputAction.CallbackContext context);
     }
     public interface ISpellsActions
     {

@@ -21,7 +21,6 @@ public class SpellInventory : MonoBehaviour
         controller.OnAttackUnEquipped += OnSpellUnEquip;
         controller.OnAttackUnlocked += AddSpell;
         controller.OnAttackRemoved += RemoveSpell;
-        gameObject.SetActive(false);
     }
 
     public void AddSpell(AttackData data, bool equipped)
