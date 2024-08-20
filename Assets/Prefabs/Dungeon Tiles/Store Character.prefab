@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6098925621551717471}
   - component: {fileID: 5314454333888932125}
   - component: {fileID: 2955294554445752804}
-  - component: {fileID: 9078546748525848250}
+  - component: {fileID: 917285778858893939}
   m_Layer: 11
   m_Name: Store Character
   m_TagString: Untagged
@@ -50,6 +50,8 @@ MonoBehaviour:
   cage: {fileID: 0}
   modelRoot: {fileID: 3348791780189112047}
   captured: 0
+  outlineScripts: []
+  isStoreItem: 0
 --- !u!208 &2955294554445752804
 NavMeshObstacle:
   m_ObjectHideFlags: 0
@@ -66,7 +68,7 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0.6, z: 0}
   m_TimeToStationary: 0.5
---- !u!114 &9078546748525848250
+--- !u!114 &917285778858893939
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -75,9 +77,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 834991341219302362}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c2475c9d7a92b1b48b928347d65630e3, type: 3}
+  m_Script: {fileID: 11500000, guid: 9b7f62cb0d2700840b28dedfdab7a684, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cage: {fileID: 0}
+  modelRoot: {fileID: 3348791780189112047}
+  captured: 0
+  outlineScripts: []
+  isStoreItem: 1
 --- !u!1 &3348791780189112047
 GameObject:
   m_ObjectHideFlags: 0

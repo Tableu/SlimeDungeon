@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using cakeslice;
 using UnityEngine;
 
 public class SpellItem : MonoBehaviour, IItem
@@ -7,6 +8,8 @@ public class SpellItem : MonoBehaviour, IItem
     [SerializeField] private new Rigidbody rigidbody;
     [SerializeField] private Vector3 launchSpeed;
     [SerializeField] private float rotateSpeed;
+    [SerializeField] private bool isStoreItem;
+    [SerializeField] private List<Outline> outlineScripts;
 
     private AttackData _data;
     private GameObject _model;
@@ -32,6 +35,25 @@ public class SpellItem : MonoBehaviour, IItem
     {
         character.UnlockAttack(_data);
         Destroy(gameObject);
+    }
+
+    public bool CanPickup()
+    {
+        if (isStoreItem)
+        {
+            return ResourceManager.Instance.Coins.Value >= _data.Cost;
+        }
+
+        return true;
+    }
+
+    public void Highlight(bool enable)
+    {
+        foreach (Outline script in outlineScripts)
+        {
+            if(script != null)
+                script.enabled = enable;
+        }
     }
 
     private void OnCollisionStay(Collision other)

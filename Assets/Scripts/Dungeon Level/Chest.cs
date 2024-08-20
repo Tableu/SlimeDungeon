@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using cakeslice;
 using UnityEngine;
 
 public class Chest : MonoBehaviour, IItem
@@ -7,6 +9,7 @@ public class Chest : MonoBehaviour, IItem
     [SerializeField] private RandomizedChestLoot _randomChestLoot;
     [SerializeField] private GameObject spellItemPrefab;
     [SerializeField] private ParticleSystem particleSystem;
+    [SerializeField] private List<Outline> outlineScripts;
 
     private bool _opened;
 
@@ -27,5 +30,19 @@ public class Chest : MonoBehaviour, IItem
             _opened = true;
             gameObject.layer = LayerMask.NameToLayer("Obstacles");
         }
+    }
+
+    public void Highlight(bool enable)
+    {
+        foreach (Outline script in outlineScripts)
+        {
+            if(script != null)
+                script.enabled = enable;
+        }
+    }
+
+    public bool CanPickup()
+    {
+        return !_opened;
     }
 }

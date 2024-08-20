@@ -54,6 +54,9 @@ MonoBehaviour:
   _randomChestLoot: {fileID: 11400000, guid: 76babf8f2af06a34aad4b80fdf585416, type: 2}
   spellItemPrefab: {fileID: 3639934294997974955, guid: b8421b34b707ea54aae5a18a016559eb, type: 3}
   particleSystem: {fileID: 6538518840988375631}
+  outlineScripts:
+  - {fileID: 7768498541771972292}
+  - {fileID: 3082546683325235756}
 --- !u!65 &852861734606637570
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -154,6 +157,20 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 4ad289074c1d9c2469c5bea23e1b3704, type: 3}
   m_PrefabInstance: {fileID: 655389482611892020}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &3082546683325235756
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 421368671237497445}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbf3575480402db40813e763382412fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  color: 0
+  eraseRenderer: 0
 --- !u!4 &1050130629618219231 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 4ad289074c1d9c2469c5bea23e1b3704, type: 3}
@@ -230,6 +247,25 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 1bf63c0899d49114e9e0a11b3dbb5187, type: 3}
   m_PrefabInstance: {fileID: 4715692222620475928}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &5598230276394229577 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 1bf63c0899d49114e9e0a11b3dbb5187, type: 3}
+  m_PrefabInstance: {fileID: 4715692222620475928}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7768498541771972292
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5598230276394229577}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbf3575480402db40813e763382412fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  color: 0
+  eraseRenderer: 0
 --- !u!1001 &8204442922000263844
 PrefabInstance:
   m_ObjectHideFlags: 0

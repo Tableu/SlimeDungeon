@@ -182,6 +182,7 @@ GameObject:
   - component: {fileID: 3639934294997974964}
   - component: {fileID: 5792080689920567474}
   - component: {fileID: 4305009937311930005}
+  - component: {fileID: 4321453907845276185}
   m_Layer: 11
   m_Name: SpellItem
   m_TagString: Untagged
@@ -274,6 +275,9 @@ MonoBehaviour:
   rigidbody: {fileID: 5792080689920567474}
   launchSpeed: {x: 0, y: 8, z: 2}
   rotateSpeed: 3
+  isStoreItem: 0
+  outlineScripts:
+  - {fileID: 4321453907845276185}
   testData: {fileID: 11400000, guid: c5d2a1463d32f91459e236f8fea813c9, type: 2}
 --- !u!54 &5792080689920567474
 Rigidbody:
@@ -304,3 +308,17 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: -0.5, z: 0}
+--- !u!114 &4321453907845276185
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3639934294997974955}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbf3575480402db40813e763382412fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  color: 0
+  eraseRenderer: 0

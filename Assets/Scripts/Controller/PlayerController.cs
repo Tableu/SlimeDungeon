@@ -22,6 +22,7 @@ public class PlayerController : MonoBehaviour, ICharacterInfo, ISavable, IDamage
     [SerializeField] private new Rigidbody rigidbody;
     [SerializeField] private PartyController partyController;
     [SerializeField] private LevelManager levelManager;
+    [SerializeField] private float itemPickupRange;
 
     private List<Attack> _attacks;
     private Vector2 _direction;
@@ -35,6 +36,7 @@ public class PlayerController : MonoBehaviour, ICharacterInfo, ISavable, IDamage
     private Character _currentCharacter;
     private bool _disableRotation = false;
     private PlayerInputActions _playerInputActions;
+    private IItem _highlightedItem;
 
     public Vector2 MaxVelocity => _currentCharacter.MaxVelocity;
     public float Health
@@ -110,19 +112,11 @@ public class PlayerController : MonoBehaviour, ICharacterInfo, ISavable, IDamage
         
         PlayerInputActions.Other.PickUp.started += delegate(InputAction.CallbackContext context)
         {
-            Collider[] itemColliders = Physics.OverlapSphere(transform.position, 5, LayerMask.GetMask("Items"));
-            var itemsOrderedByProximity = itemColliders.OrderBy(c => (transform.position - c.transform.position).sqrMagnitude)
-                .ToArray();
-            if (itemsOrderedByProximity.Length == 0)
-                return;
-            var col = itemsOrderedByProximity[0];
-            IItem item = col.GetComponent<IItem>() ?? col.GetComponentInParent<IItem>();
-            if (item != null)
+            if (_highlightedItem != null)
             {
-                StoreItem storeItem = col.GetComponent<StoreItem>() ?? col.GetComponentInParent<StoreItem>();
-                if (storeItem != null && !storeItem.Buy())
-                    return;
-                item.PickUp(this);
+                _highlightedItem.PickUp(this);
+                _highlightedItem.Highlight(false);
+                _highlightedItem = null;
             }
         };
         
@@ -155,6 +149,28 @@ public class PlayerController : MonoBehaviour, ICharacterInfo, ISavable, IDamage
             transform.rotation =
                 Quaternion.LookRotation(Vector3.RotateTowards(transform.forward, target, Mathf.Infinity, 0.0f));
             transform.forward = new Vector3(target.x, 0, target.z).normalized;
+        }
+        
+        //Check for nearby items
+        Collider[] itemColliders = Physics.OverlapSphere(transform.position, itemPickupRange, LayerMask.GetMask("Items"));
+        var itemsOrderedByProximity = itemColliders.OrderBy(c => (transform.position - c.transform.position).sqrMagnitude)
+            .ToArray();
+        if (itemsOrderedByProximity.Length == 0)
+        {
+            _highlightedItem?.Highlight(false);
+            _highlightedItem = null;
+            return;
+        }
+
+        var col = itemsOrderedByProximity[0];
+        IItem item = col.GetComponent<IItem>() ?? col.GetComponentInParent<IItem>();
+        if (item != null && item.CanPickup())
+        {
+            if (_highlightedItem == item)
+                return;
+            _highlightedItem?.Highlight(false);
+            item.Highlight(true);
+            _highlightedItem = item;
         }
     }
 
