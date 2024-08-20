@@ -1,3 +1,4 @@
+using System.Collections;
 using System.IO;
 using System.Linq;
 using Systems.Save;
@@ -10,6 +11,7 @@ public class TitleScreen : MonoBehaviour
     [SerializeField] private GameObject continueButton;
     [FormerlySerializedAs("formDictionary")] [SerializeField] private CharacterDataDictionary characterDictionary;
     [SerializeField] private GameObject model;
+    [SerializeField] private LoadingScreen loadingScreen;
     private bool _saveExists;
     private void Start()
     {
@@ -21,7 +23,7 @@ public class TitleScreen : MonoBehaviour
 
     public void OnContinueClick()
     {
-        SceneManager.LoadScene("Scenes/DungeonGeneration");
+        StartCoroutine(LoadSceneAsync());
     }
 
     public void OnNewGameClick()
@@ -34,5 +36,16 @@ public class TitleScreen : MonoBehaviour
     public void OnExitClick()
     {
         Application.Quit();
+    }
+    
+    private IEnumerator LoadSceneAsync()
+    {
+        AsyncOperation loadSceneAsync = SceneManager.LoadSceneAsync("Scenes/DungeonGeneration");
+        loadingScreen.gameObject.SetActive(true);
+        while (!loadSceneAsync.isDone)
+        {
+            loadingScreen.RotateIcon();
+            yield return null;
+        }
     }
 }
