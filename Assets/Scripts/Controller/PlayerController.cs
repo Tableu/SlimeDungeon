@@ -39,6 +39,7 @@ public class PlayerController : MonoBehaviour, ICharacterInfo, ISavable, IDamage
     private IItem _highlightedItem;
 
     public Vector2 MaxVelocity => _currentCharacter.MaxVelocity;
+    public IItem HighlightedItem => _highlightedItem;
     public float Health
     {
         get => _currentCharacter.Health;
