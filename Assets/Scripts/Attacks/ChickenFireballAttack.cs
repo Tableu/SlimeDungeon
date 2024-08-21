@@ -29,7 +29,6 @@ public class ChickenFireballAttack : Attack
         if (script == null)
             return;
             
-        int maxBounces = 0;
         transform.Rotate(0,angle,0);
         Vector3 launchAngle = transform.forward;
         

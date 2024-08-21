@@ -8,7 +8,7 @@ public class Chest : MonoBehaviour, IItem
     [SerializeField] private Vector3 openedRotation;
     [SerializeField] private RandomizedChestLoot _randomChestLoot;
     [SerializeField] private GameObject spellItemPrefab;
-    [SerializeField] private ParticleSystem particleSystem;
+    [SerializeField] private new ParticleSystem particleSystem;
     [SerializeField] private List<Outline> outlineScripts;
 
     private bool _opened;

@@ -1,12 +1,12 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class PauseMenu : MonoBehaviour
 {
     [SerializeField] private GameObject pauseMenu;
     [SerializeField] private PlayerController playerController;
-    [SerializeField] private LevelManager levelManager;
     [SerializeField] private Button exitButton;
     [SerializeField] private Crosshair crosshair;
         private void Start()
@@ -22,7 +22,8 @@ public class PauseMenu : MonoBehaviour
 
     private void Exit()
     {
-        levelManager.LoadTitleScreen();
+        Time.timeScale = 1;
+        SceneManager.LoadScene("Scenes/Title Screen");
     }
 
     public void CloseWindow()

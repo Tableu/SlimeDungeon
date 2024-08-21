@@ -10,8 +10,6 @@ public class ChickenFireball : MonoBehaviour
     private float _hitStun;
     private Vector3 _force;
     private Elements.Type _type;
-    private int bounceCount = 0;
-    private float lastCollisionTime;
     private LayerMask _enemyMask;
 
     public void Initialize(float damage, float knockback, float hitStun, Vector3 force, Elements.Type type, LayerMask enemyMask)

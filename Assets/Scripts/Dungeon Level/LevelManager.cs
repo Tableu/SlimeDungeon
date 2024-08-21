@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using FischlWorks_FogWar;
 using Newtonsoft.Json.Linq;
 using Systems.Save;
@@ -158,12 +157,6 @@ public class LevelManager : MonoBehaviour, ISavable
     {
         yield return new WaitForSeconds(0.2f);
         Time.timeScale = 0;
-    }
-
-    public void LoadTitleScreen()
-    {
-        Time.timeScale = 1;
-        SceneManager.LoadScene("Scenes/Title Screen");
     }
 
     private IEnumerator LoadSceneAsync()
