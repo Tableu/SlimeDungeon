@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Exit : MonoBehaviour, IItem
+public class LevelExit : MonoBehaviour, IItem
 {
     [SerializeField] private new Collider collider;
     private LevelManager _levelManager;

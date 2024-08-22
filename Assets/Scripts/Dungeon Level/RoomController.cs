@@ -85,7 +85,7 @@ public class RoomController : MonoBehaviour
         GameObject exitInstance = Instantiate(exit, transform, false);
 
         exitInstance.transform.localPosition = GetRandomPosition();
-        Exit script = exitInstance.GetComponent<Exit>();
+        LevelExit script = exitInstance.GetComponent<LevelExit>();
         if (script != null)
         {
             script.Initialize(this, levelManager);
