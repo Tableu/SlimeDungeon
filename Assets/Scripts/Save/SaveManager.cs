@@ -82,5 +82,11 @@ namespace Systems.Save
             }
             return true;
         }
+
+        public void ClearPlayerPrefs()
+        {
+            PlayerPrefs.SetInt("SlimesSaved", 0);
+            PlayerPrefs.Save();
+        }
     }
 }

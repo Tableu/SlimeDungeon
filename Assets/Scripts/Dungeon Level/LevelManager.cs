@@ -133,10 +133,12 @@ public class LevelManager : MonoBehaviour, ISavable
         if (_currentLevel < dungeonGenerationData.Floors.Count)
         {
             saveManager.Save();
+            PlayerPrefs.Save();
             StartCoroutine(LoadSceneAsync());
         }
         else
         {
+            saveManager.ClearPlayerPrefs();
             File.Delete(SaveManager.DefaultSavePath);
             endPopup.SetActive(true);
             Time.timeScale = 0;
