@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6098925621551717471}
-  - component: {fileID: 5314454333888932125}
   - component: {fileID: 2955294554445752804}
   - component: {fileID: 5545737133256766534}
+  - component: {fileID: 8188085521232450078}
   m_Layer: 11
   m_Name: Captured Character
   m_TagString: Untagged
@@ -36,21 +36,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5314454333888932125
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 834991341219302362}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b7f62cb0d2700840b28dedfdab7a684, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cage: {fileID: 8761491210766798537}
-  modelRoot: {fileID: 3348791780189112047}
-  captured: 1
 --- !u!208 &2955294554445752804
 NavMeshObstacle:
   m_ObjectHideFlags: 0
@@ -80,6 +65,20 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.2, y: 1.2, z: 1.2}
   m_Center: {x: 0, y: 0.6, z: 0}
+--- !u!114 &8188085521232450078
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 834991341219302362}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ddffddd33ac014469ad220430fb214b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cage: {fileID: 8761491210766798537}
+  modelRoot: {fileID: 3348791780189112047}
 --- !u!1 &3348791780189112047
 GameObject:
   m_ObjectHideFlags: 0

@@ -12,6 +12,9 @@ public class InputHint : MonoBehaviour
         {
             switch (playerController.HighlightedItem)
             {
+                case CapturedSlimeItem:
+                    text.text = "[Spacebar] - Free slime";
+                    break;
                 case CharacterItem:
                     text.text = "[Spacebar] - Pick up character";
                     break;

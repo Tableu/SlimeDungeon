@@ -174,9 +174,9 @@ public class RoomController : MonoBehaviour
             }
             GameObject instance = Instantiate(layoutObject.Prefab, center.position + pos, 
                 Quaternion.Euler(layoutObject.Rotation), center);
-            CharacterItem characterItem = instance.GetComponent<CharacterItem>();
+            CapturedSlimeItem characterItem = instance.GetComponent<CapturedSlimeItem>();
             if (characterItem)
-                characterItem.Initialize(_roomData.Characters, this);
+                characterItem.Initialize(_roomData.Characters);
             Decorations spots = instance.GetComponent<Decorations>();
             if(spots != null)
                 decorationSpots.AddRange(spots.Locations);
@@ -204,9 +204,9 @@ public class RoomController : MonoBehaviour
             if (!tileTaken && (!decoration.RequireWall || decorationSpots[i].NearWall))
             {
                 GameObject decorationObject = Instantiate(decoration.Prefab, decorationSpots[i].Location);
-                CharacterItem characterItem = decorationObject.GetComponent<CharacterItem>();
+                CapturedSlimeItem characterItem = decorationObject.GetComponent<CapturedSlimeItem>();
                 if (characterItem)
-                    characterItem.Initialize(_roomData.Characters, this);
+                    characterItem.Initialize(_roomData.Characters);
                 
                 col = decorationObject.GetComponent<BoxCollider>();
                 if (col != null && decorationSpots[i].NearWall) //Purpose is to snap decorations to the wall

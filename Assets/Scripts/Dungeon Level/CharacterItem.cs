@@ -6,13 +6,9 @@ using UnityEngine;
 
 public class CharacterItem : MonoBehaviour, IItem
 {
-    [SerializeField] private GameObject cage;
     [SerializeField] private GameObject modelRoot;
-    [SerializeField] private bool captured;
-    [SerializeField] private bool isStoreItem; 
+    [SerializeField] private bool bought;
     
-    private Collider _characterCollider;
-    private Animator _animator;
     private List<Outline> _outlineScripts;
     private Chatbox _chatBox;
     private RoomController _roomController;
@@ -20,43 +16,30 @@ public class CharacterItem : MonoBehaviour, IItem
     private GameObject _model;
     private bool _isFree;
 
-    public Character Character => _character;
-    
-    public void Initialize(RandomCharacterData randomCharacterData, RoomController roomController)
+    public void Initialize(CharacterData data)
     {
         _outlineScripts = new List<Outline>();
-        CharacterData data = randomCharacterData.GetRandomElement();
         _character = new Character(data);
         _model = Instantiate(data.Model, modelRoot.transform);
         _model.layer = LayerMask.NameToLayer("Items");
-        List<Renderer> modelRenderers = _model.GetComponentsInChildren<Renderer>().ToList();
+        List<Renderer> modelRenderers = gameObject.GetComponentsInChildren<Renderer>().ToList();
         foreach(Renderer modelRenderer in modelRenderers)
             _outlineScripts.Add(modelRenderer.gameObject.AddComponent<Outline>());
         Highlight(false);
-        _characterCollider = _model.GetComponent<Collider>();
-        _characterCollider.enabled = !captured;
-        _animator = _model.GetComponent<Animator>();
-        if(captured)
-            SetCaptured(roomController);
     }
 
     private void Start()
     {
-        if (captured)
+        if (!bought)
         {
             _chatBox = ChatBoxManager.Instance.SpawnChatBox(transform);
-            _chatBox.SetMessage("Help!");
-        }
-        else
-        {
-            _chatBox = ChatBoxManager.Instance.SpawnChatBox(transform);
-            _chatBox.SetMessage("<sprite name=\"UI_117\"> "+_character.Data.Cost.ToString());
+            _chatBox.SetMessage("<sprite name=\"UI_117\"> " + _character.Data.Cost.ToString());
         }
     }
 
     private void Update()
     {
-        if ((_isFree || !captured) && GlobalReferences.Instance.Player != null)
+        if (GlobalReferences.Instance.Player != null)
         {
             AttackTargeting.RotateTowards(transform, GlobalReferences.Instance.Player.transform);
         }
@@ -64,30 +47,21 @@ public class CharacterItem : MonoBehaviour, IItem
 
     private void OnDestroy()
     {
-        if(_roomController != null)
-            _roomController.OnAllEnemiesDead -= FreeCharacter;
         if(_chatBox != null)
             Destroy(_chatBox.gameObject);
-    }
-    
-    private void SetCaptured(RoomController roomController)
-    {
-        if(cage != null)
-            cage.SetActive(true);
-        _roomController = roomController;
-        _roomController.OnAllEnemiesDead += FreeCharacter;
     }
 
     public void PickUp(PlayerController character)
     {
-        //slightly hacky solution here
+        //slightly hacky solution here - would rather not use GetComponent here
         PartyController partyController = character.GetComponent<PartyController>();
         if (partyController == null)
             return;
-        Character oldCharacter = partyController.AddPartyMember(Character);
+        Character oldCharacter = partyController.AddPartyMember(_character);
         if (oldCharacter != null)
         {
             SwitchCharacter(oldCharacter);
+            bought = true;
         }
         else
         {
@@ -97,11 +71,7 @@ public class CharacterItem : MonoBehaviour, IItem
 
     public bool CanPickup()
     {
-        if (isStoreItem)
-        {
-            return ResourceManager.Instance.Coins.Value >= _character.Data.Cost;
-        }
-        return _isFree;
+        return bought || ResourceManager.Instance.Coins.Value >= _character.Data.Cost;
     }
 
     public void Highlight(bool enable)
@@ -121,8 +91,6 @@ public class CharacterItem : MonoBehaviour, IItem
             Destroy(_model);
             _model = Instantiate(_character.Data.Model, modelRoot.transform);
             _model.layer = LayerMask.NameToLayer("Items");
-            _characterCollider = _model.GetComponent<Collider>();
-            _animator = _model.GetComponent<Animator>();
             _outlineScripts.Clear();
             List<Renderer> modelRenderers = _model.GetComponentsInChildren<Renderer>().ToList();
             foreach(Renderer modelRenderer in modelRenderers)
@@ -130,15 +98,5 @@ public class CharacterItem : MonoBehaviour, IItem
             Highlight(false);
         }
         _chatBox.gameObject.SetActive(false);
-    }
-
-    private void FreeCharacter()
-    {
-        if(cage != null)
-            cage.SetActive(false);
-        _characterCollider.enabled = true;
-        _isFree = true;
-        _animator.Play("Jump");
-        _chatBox.SetMessage("Thank You!");
     }
 }
