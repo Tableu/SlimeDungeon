@@ -24,7 +24,7 @@ public static class AttackTargeting
     public static void RotateTowards(Transform transform, Transform target)
     {
         var diff = target.position - transform.position;
-        var targetVector = new Vector3(diff.x, transform.position.y, diff.z);
+        var targetVector = new Vector3(diff.x, target.position.y, diff.z);
         transform.rotation = Quaternion.LookRotation(Vector3.RotateTowards(transform.forward, targetVector, 
             Mathf.Infinity, 0.0f));
     }
