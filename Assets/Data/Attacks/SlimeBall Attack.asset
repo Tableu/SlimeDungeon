@@ -18,6 +18,7 @@ MonoBehaviour:
   manaCost: 50
   hitStun: 0
   cooldown: 5
+  cost: 20
   spawnOffset: {x: 0, y: 0, z: 0}
   elementType: 4
   prefab: {fileID: 798176772263355702, guid: 1888bdf6ad2007544974d7209668b9cd, type: 3}
