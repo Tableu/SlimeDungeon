@@ -22,6 +22,7 @@ public class InputHint : MonoBehaviour
                     text.text = "[Spacebar] - Open chest";
                     break;
                 case LevelExit:
+                case HubExit:
                     text.text = "[Spacebar] - Enter portal";
                     break;
                 case SpellItem:
