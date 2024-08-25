@@ -45,6 +45,8 @@ public class CharacterItem : MonoBehaviour, IItem
 
     public void PickUp(PlayerController character)
     {
+        if (!bought)
+            ResourceManager.Instance.Coins.Remove(_character.Data.Cost);
         //slightly hacky solution here - would rather not use GetComponent here
         PartyController partyController = character.GetComponent<PartyController>();
         if (partyController == null)

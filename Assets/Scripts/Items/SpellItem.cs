@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using cakeslice;
 using UnityEngine;
@@ -13,8 +14,7 @@ public class SpellItem : MonoBehaviour, IItem
 
     private AttackData _data;
     private GameObject _model;
-
-    public AttackData Data => _data;
+    private Chatbox _chatBox;
 
     public void Initialize(AttackData data)
     {
@@ -26,13 +26,27 @@ public class SpellItem : MonoBehaviour, IItem
         rigidbody.AddRelativeForce(launchSpeed, ForceMode.Impulse);
     }
 
+    private void Start()
+    {
+        _chatBox = ChatBoxManager.Instance.SpawnChatBox(transform);
+        _chatBox.SetMessage("<sprite name=\"UI_117\"> " + _data.Cost.ToString());
+    }
+
     private void Update()
     {
         transform.Rotate(Vector3.up, rotateSpeed);
     }
 
+    private void OnDestroy()
+    {
+        if(_chatBox != null)
+            Destroy(_chatBox.gameObject);
+    }
+
     public void PickUp(PlayerController character)
     {
+        if (isStoreItem)
+            ResourceManager.Instance.Coins.Remove(_data.Cost);
         character.UnlockAttack(_data);
         Destroy(gameObject);
     }

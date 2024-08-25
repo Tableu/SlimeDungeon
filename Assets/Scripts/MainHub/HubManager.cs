@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +14,9 @@ public class HubManager : MonoBehaviour
     [SerializeField] private LoadingScreen loadingScreen;
     [SerializeField] private PartyController partyController;
     [SerializeField] private RandomCharacterData randomCharacterData;
+    [SerializeField] private RandomizedChestLoot randomizedChestLoot;
     [SerializeField] private List<CharacterItem> characterItems;
+    [SerializeField] private List<SpellItem> spellItems;
     [SerializeField] private SaveManager saveManager;
     private List<CharacterData> _initialCharacterDatas;
 
@@ -30,8 +31,13 @@ public class HubManager : MonoBehaviour
         int characterItemCount = Random.Range(3, 4);
         for (int x = 0; x < characterItemCount; x++)
         {
-            CharacterItem characterItem = characterItems[x];
-            SetCharacterItem(characterItem);
+            SetCharacterItem(characterItems[x]);
+        }
+
+        int spellItemCount = Random.Range(1, 3);
+        for (int x = 0; x < spellItemCount; x++)
+        {
+            SetSpellItem(spellItems[x]);
         }
     }
 
@@ -47,6 +53,13 @@ public class HubManager : MonoBehaviour
                 break;
             }
         }
+    }
+
+    private void SetSpellItem(SpellItem spellItem)
+    {
+        AttackData data = randomizedChestLoot.GetSpell();
+        spellItem.gameObject.SetActive(true);
+        spellItem.Initialize(data);
     }
 
     public void LoadDungeonLevel()
