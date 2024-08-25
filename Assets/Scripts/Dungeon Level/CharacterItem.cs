@@ -37,14 +37,6 @@ public class CharacterItem : MonoBehaviour, IItem
         }
     }
 
-    private void Update()
-    {
-        if (GlobalReferences.Instance.Player != null)
-        {
-            AttackTargeting.RotateTowards(transform, GlobalReferences.Instance.Player.transform);
-        }
-    }
-
     private void OnDestroy()
     {
         if(_chatBox != null)
