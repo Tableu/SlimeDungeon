@@ -10,7 +10,7 @@ public class WaterBoltAttack : Attack
 
     public override bool Begin()
     {
-        if (CheckManaCostAndCooldown())
+        if (CheckCooldown())
         {
             Transform transform = CharacterInfo.Transform;
             GameObject waterbolt = SpawnProjectile(transform);

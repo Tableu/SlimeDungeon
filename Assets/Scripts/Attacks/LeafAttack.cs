@@ -7,7 +7,7 @@ public class LeafAttack : Attack
     private LeafAttackData _data;
     public override bool Begin()
     {
-        if (CheckManaCostAndCooldown())
+        if (CheckCooldown())
         {
             Transform transform = CharacterInfo.Transform;
             GameObject leaf = GameObject.Instantiate(Data.Prefab,RandomPosition(transform),Quaternion.identity);

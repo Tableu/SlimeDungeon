@@ -7,7 +7,7 @@ public class ChickenFireballAttack : Attack
     private ChickenFireballAttackData _data;
     public override bool Begin()
     {
-        if (CheckManaCostAndCooldown())
+        if (CheckCooldown())
         {
             for (int i = 0; i < 360; i += 360/_data.FireballCount)
             {

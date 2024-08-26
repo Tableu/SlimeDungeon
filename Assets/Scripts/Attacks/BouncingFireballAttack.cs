@@ -7,7 +7,7 @@ public class BouncingFireballAttack : Attack
     private BouncingFireballAttackData _data;
     public override bool Begin()
     {
-        if (CheckManaCostAndCooldown())
+        if (CheckCooldown())
         {
             Transform transform = CharacterInfo.Transform;
             GameObject fireball = SpawnProjectile(transform);

@@ -7,7 +7,7 @@ public class EggRainAttack : Attack
     private EggRainAttackData _data;
     public override bool Begin()
     {
-        if (CheckManaCostAndCooldown())
+        if (CheckCooldown())
         {
             RoomController roomController = CharacterInfo.Transform.GetComponentInParent<RoomController>();
             if (roomController == null)

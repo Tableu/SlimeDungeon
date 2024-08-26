@@ -6,7 +6,7 @@ public class WaterWaveAttack : Attack
 {
     public override bool Begin()
     {
-        if (CheckManaCostAndCooldown())
+        if (CheckCooldown())
         {
             Transform transform = CharacterInfo.Transform;
             GameObject wave = SpawnProjectile(transform);

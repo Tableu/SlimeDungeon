@@ -7,7 +7,7 @@ public class LeafStormAttack : Attack
     private LeafStormAttackData _data;
     public override bool Begin()
     {
-        if (CheckManaCostAndCooldown())
+        if (CheckCooldown())
         {
             Vector2 mousePos = Mouse.current.position.ReadValue();
             Ray ray = Camera.main.ScreenPointToRay(mousePos);

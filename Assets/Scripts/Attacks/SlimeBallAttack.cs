@@ -8,7 +8,7 @@ public class SlimeBallAttack : Attack
 
     public override bool Begin()
     {
-        if (CheckManaCostAndCooldown())
+        if (CheckCooldown())
         {
             Transform transform = CharacterInfo.Transform;
             GameObject slimeball = SpawnProjectile(transform);

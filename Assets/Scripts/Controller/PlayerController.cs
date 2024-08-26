@@ -45,11 +45,6 @@ public class PlayerController : MonoBehaviour, ICharacterInfo, ISavable, IDamage
         get => _currentCharacter.Health;
         private set => _currentCharacter.Health = value;
     }
-    public float Mana
-    {
-        get;
-        private set;
-    }
     public ModifiableStat Speed
     {
         get;
@@ -76,7 +71,6 @@ public class PlayerController : MonoBehaviour, ICharacterInfo, ISavable, IDamage
     #region Unity Event Functions
     private void Awake()
     {
-        Mana = playerData.Mana;
         Speed = new ModifiableStat(1);
         _attacks = new List<Attack>(new Attack[playerData.MaxSpellCount]);
         
@@ -177,11 +171,6 @@ public class PlayerController : MonoBehaviour, ICharacterInfo, ISavable, IDamage
 
     private void FixedUpdate()
     {
-        Mana += playerData.ManaRegen;
-        if (Mana > playerData.Mana)
-        {
-            Mana = playerData.Mana;
-        }
         if (_inKnockback)
             return;
         _direction = PlayerInputActions.Movement.Direction.ReadValue<Vector2>();
@@ -344,11 +333,6 @@ public class PlayerController : MonoBehaviour, ICharacterInfo, ISavable, IDamage
     {
         _unlockedAttacks.Remove(attackData);
         OnAttackRemoved?.Invoke(attackData);
-    }
-
-    public void ApplyManaCost(float manaCost)
-    {
-        Mana -= manaCost;
     }
 
     #region Event Functions

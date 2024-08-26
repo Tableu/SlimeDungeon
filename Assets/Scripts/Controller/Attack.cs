@@ -73,17 +73,7 @@ namespace Controller
                 OnCooldown = false;
             });
         }
-        protected bool CheckManaCostAndCooldown()
-        {
-            if (CharacterInfo is PlayerController playerController)
-            {
-                bool canCast = playerController.Mana >= Data.ManaCost && !OnCooldown;
-                if(canCast)
-                    playerController.ApplyManaCost(Data.ManaCost);
-                return canCast;
-            }
-            return !OnCooldown;
-        }
+        protected bool CheckCooldown() => !OnCooldown;
 
         protected GameObject SpawnProjectile(Transform transform)
         {

@@ -11,7 +11,7 @@ public class BasicAttack<T> : Attack where T : BasicProjectile
 {
     public override bool Begin()
     {
-        if (CheckManaCostAndCooldown())
+        if (CheckCooldown())
         {
             Transform transform = CharacterInfo.Transform;
             GameObject projectile = SpawnProjectile(transform);
