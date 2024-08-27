@@ -14,7 +14,6 @@ using Type = Elements.Type;
 
 public class PlayerController : MonoBehaviour, ICharacterInfo, ISavable, IDamageable
 {
-    [SerializeField] private PlayerData playerData;
     [SerializeField] private AttackDataDictionary attackDictionary;
     [SerializeField] private GameObject model;
     [SerializeField] private ParticleSystem walkingSmokeParticleSystem;
@@ -24,7 +23,6 @@ public class PlayerController : MonoBehaviour, ICharacterInfo, ISavable, IDamage
     [SerializeField] private LevelManager levelManager;
     [SerializeField] private float itemPickupRange;
 
-    private List<Attack> _attacks;
     private Vector2 _direction;
     private Vector2 _lastDirection;
     private bool _inKnockback = false;
@@ -60,19 +58,15 @@ public class PlayerController : MonoBehaviour, ICharacterInfo, ISavable, IDamage
     public Type ElementType => _currentCharacter.ElementType;
     public Vector3 SpellOffset => _currentCharacter.Data.SpellOffset;
     public List<AttackData> UnlockedAttacks => _unlockedAttacks;
-    public PlayerData PlayerData => playerData;
     public PlayerInputActions PlayerInputActions => _playerInputActions;
     public string id { get; } = "PlayerController";
 
-    public Action<Attack, int> OnAttackEquipped;
-    public Action<Attack, int> OnAttackUnEquipped;
     public Action<AttackData, bool> OnAttackUnlocked;
     public Action<AttackData> OnAttackRemoved;
     #region Unity Event Functions
     private void Awake()
     {
         Speed = new ModifiableStat(1);
-        _attacks = new List<Attack>(new Attack[playerData.MaxSpellCount]);
         
         _lastDirection = Vector2.zero;
         switchFormParticleSystem.Stop();
@@ -123,10 +117,19 @@ public class PlayerController : MonoBehaviour, ICharacterInfo, ISavable, IDamage
                 _basicAttackHeld = true;
             }
         };
+        
         PlayerInputActions.Other.BasicAttack.canceled += delegate(InputAction.CallbackContext context)
         {
             _basicAttackHeld = false;
             _currentCharacter.BasicAttack.End();
+        };
+        
+        PlayerInputActions.Other.Spell.started += delegate(InputAction.CallbackContext context)
+        {
+            if (_currentCharacter != null && !_isMouseOverUI)
+            {
+                _currentCharacter.CastSpell();
+            }
         };
     }
 
@@ -222,13 +225,6 @@ public class PlayerController : MonoBehaviour, ICharacterInfo, ISavable, IDamage
 
     private void OnDestroy()
     {
-        foreach (Attack attack in _attacks)
-        {
-            if (attack != null)
-            {
-                attack.UnlinkInput();
-            }
-        }
         PlayerInputActions.Disable();
         PlayerInputActions.Dispose();
     }
@@ -272,59 +268,11 @@ public class PlayerController : MonoBehaviour, ICharacterInfo, ISavable, IDamage
         _inKnockback = false;
     }
 
-    public void InitializeAttacks()
-    {
-        var i = 0;
-        foreach (AttackData attackData in _unlockedAttacks)
-        {
-            EquipAttack(attackData,i);
-            if (i >= playerData.MaxSpellCount)
-                break;
-            i++;
-        }
-    }
-    
-    public void EquipAttack(AttackData attackData, int index)
-    {
-        if (index < 0 || index >= _attacks.Count)
-            return;
-        bool attackInSlot = _attacks[index] != null;
-        if (attackInSlot && _attacks[index].OnCooldown)
-            return;
-        if (attackInSlot)
-        {
-            UnEquipAttack(index);
-        }
-        var inputs = PlayerInputActions.Spells.Get();
-        _attacks[index] = attackData.CreateInstance(this);
-        OnAttackEquipped?.Invoke(_attacks[index], index);
-        _attacks[index].LinkInput(inputs.actions[index]);
-    }
-
-    public void UnEquipAttack(int index)
-    {
-        if (index < 0 || index >= _attacks.Count)
-            return;
-        OnAttackUnEquipped?.Invoke(_attacks[index], index);
-        _attacks[index].UnlinkInput();
-        _attacks[index].CleanUp();
-    }
-
     public void UnlockAttack(AttackData attackData)
     {
         if (!_unlockedAttacks.Contains(attackData))
         {
             _unlockedAttacks.Add(attackData);
-            
-            for (var index = 0; index < _attacks.Count; index++)
-            {
-                if (_attacks[index] == null)
-                {
-                    OnAttackUnlocked?.Invoke(attackData, true);
-                    EquipAttack(attackData, index);
-                    return;
-                }
-            }
             OnAttackUnlocked?.Invoke(attackData, false);
         }
     }
@@ -345,7 +293,7 @@ public class PlayerController : MonoBehaviour, ICharacterInfo, ISavable, IDamage
         Destroy(model);
         model = Instantiate(character.Data.Model, transform);
         model.layer = gameObject.layer;
-        _currentCharacter.Equip(model, this);
+        _currentCharacter.Equip(model, _playerInputActions);
     }
     #endregion
     

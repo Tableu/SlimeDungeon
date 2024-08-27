@@ -15,36 +15,57 @@ namespace Controller.Player
         private Type _elementType;
         private CharacterAnimator _characterAnimator;
         private Attack _basicAttack;
+        private Attack _spell;
+        private ICharacterInfo _characterInfo;
         public CharacterData Data => _data;
         public float Health { get; set; }
         public float Speed => _speed;
         public Vector2 MaxVelocity => _maxVelocity;
         public Type ElementType => _elementType;
         public Attack BasicAttack => _basicAttack;
+        public Attack Spell => _spell;
 
-        public Character(CharacterData data)
+        public Character(CharacterData data, ICharacterInfo characterInfo)
         {
             _data = data;
             Health = data.Health;
             _speed = data.Speed;
             _maxVelocity = data.MaxVelocity;
             _elementType = data.ElementType;
+            _characterInfo = characterInfo;
+            _basicAttack = _data.BasicAttack.CreateInstance(characterInfo);
         }
 
-        public Character(CharacterData data, float health)
+        public Character(CharacterData data, ICharacterInfo characterInfo, float health, AttackData spell)
         {
             _data = data;
             Health = health;
             _speed = data.Speed;
             _maxVelocity = data.MaxVelocity;
             _elementType = data.ElementType;
+            _characterInfo = characterInfo;
+            _basicAttack = _data.BasicAttack.CreateInstance(characterInfo);
+            if(spell != null)
+                _spell = spell.CreateInstance(characterInfo);
         }
 
-        public void Equip(GameObject model, PlayerController controller)
+        ~Character()
+        {
+            if (_basicAttack != null)
+            {
+                _basicAttack.CleanUp();
+            }
+
+            if (_spell != null)
+            {
+                _spell.CleanUp();
+            }
+        }
+
+        public void Equip(GameObject model, PlayerInputActions playerInputActions)
         {
             _characterAnimator = _data.AttachScript(model);
-            _characterAnimator.Initialize(this, controller.PlayerInputActions);
-            _basicAttack = _data.BasicAttack.CreateInstance(controller);
+            _characterAnimator.Initialize(this, playerInputActions);
         }
 
         public void Drop()
@@ -53,28 +74,52 @@ namespace Controller.Player
             {
                 Object.Destroy(_characterAnimator);
             }
-
-            if (_basicAttack != null)
-            {
-                _basicAttack.CleanUp();
-                _basicAttack = null;
-            }
         }
 
         public void CastBasicAttack()
         {
             _basicAttack?.Begin();
         }
+
+        public void CastSpell()
+        {
+            _spell?.Begin();
+        }
+        
+        public void EquipSpell(AttackData attackData)
+        {
+            if (attackData == null)
+                return;
+            bool hasSpell = _spell != null;
+            if (hasSpell && _spell.OnCooldown)
+                return;
+            if (hasSpell)
+            {
+                UnEquipSpell();
+            }
+            _spell = attackData.CreateInstance(_characterInfo);
+        }
+        
+        private void UnEquipSpell()
+        {
+            if (_spell == null)
+                return;
+            _spell.UnlinkInput();
+            _spell.CleanUp();
+            _spell = null;
+        }
         
         [Serializable]
         public struct SaveData
         {
-            public SaveData(string character, float health)
+            public SaveData(string character, float health, string spell)
             {
                 Character = character;
                 Health = health;
+                Spell = spell;
             }
             public float Health;
+            public string Spell;
             [FormerlySerializedAs("Form")] public string Character;
         }
     }

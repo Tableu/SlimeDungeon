@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Controller;
 using Controller.Player;
 using Newtonsoft.Json.Linq;
 using Systems.Save;
@@ -10,7 +11,9 @@ using UnityEngine.InputSystem;
 public class PartyController : MonoBehaviour, ISavable
 {
     [SerializeField] private PlayerData playerData;
+    [SerializeField] private PlayerController playerController;
     [SerializeField] private CharacterDataDictionary characterDictionary;
+    [SerializeField] private AttackDataDictionary attackDictionary;
     
     private int _currentPartyMemberIndex = 0;
     private int _maxPartyCount;
@@ -36,7 +39,9 @@ public class PartyController : MonoBehaviour, ISavable
         string initialForm = PlayerPrefs.GetString("Initial Form");
         if (_initialPartyMembers.Count == 0)
         {
-            _initialPartyMembers.Add(new Character(characterDictionary.Dictionary[initialForm]));
+            Character character = new Character(characterDictionary.Dictionary[initialForm], playerController);
+            character.EquipSpell(character.Data.StartingSpells[0]);
+            _initialPartyMembers.Add(character);
         }
         InitializeParty();
     }
@@ -153,7 +158,14 @@ public class PartyController : MonoBehaviour, ISavable
             form.Health += amount;
         }
     }
-    
+
+    public void EquipSpell(AttackData data, int index)
+    {
+        if (index < 0 || index > _partyMembers.Count || data == null)
+            return;
+        _partyMembers[index].EquipSpell(data);
+    }
+
     public bool IsPartyAllFainted()
     {
         int index = 0;
@@ -186,7 +198,9 @@ public class PartyController : MonoBehaviour, ISavable
         List<Character.SaveData> saveData = new List<Character.SaveData>();
         foreach (Character character in _partyMembers)
         {
-            saveData.Add(new Character.SaveData(characterDictionary.Dictionary.First(i => i.Value == character.Data).Key, character.Health));
+            saveData.Add(new Character.SaveData(
+                characterDictionary.Dictionary.First(i => i.Value == character.Data).Key, 
+                character.Health, character.Spell.Data.Name));
         }
         
         return new SaveData()
@@ -203,7 +217,13 @@ public class PartyController : MonoBehaviour, ISavable
         _initialPartyMembers.Clear();
         foreach (Character.SaveData data in saveData.Characters)
         {
-            _initialPartyMembers.Add(new Character(characterDictionary.Dictionary[data.Character], data.Health));
+            AttackData attackData = attackDictionary.Dictionary.ContainsKey(data.Spell)
+                ? attackDictionary.Dictionary[data.Spell]
+                : null;
+            _initialPartyMembers.Add(new Character(
+                characterDictionary.Dictionary[data.Character], 
+                playerController, data.Health,
+                attackData));
         }
 
         InitializeParty();
