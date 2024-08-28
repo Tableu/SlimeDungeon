@@ -43,11 +43,11 @@ public class SpellItem : MonoBehaviour, IItem
             Destroy(_chatBox.gameObject);
     }
 
-    public void PickUp(PlayerController character)
+    public void PickUp(PlayerController character, InventoryController inventory)
     {
         if (isStoreItem)
             ResourceManager.Instance.Coins.Remove(_data.Cost);
-        character.UnlockAttack(_data);
+        inventory.UnlockAttack(_data);
         Destroy(gameObject);
     }
 

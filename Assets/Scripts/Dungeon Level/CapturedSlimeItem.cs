@@ -62,7 +62,7 @@ public class CapturedSlimeItem : MonoBehaviour, IItem
         _chatBox.SetMessage("Thank You!");
     }
 
-    public void PickUp(PlayerController character)
+    public void PickUp(PlayerController character, InventoryController inventory)
     {
         FreeCharacter();
     }

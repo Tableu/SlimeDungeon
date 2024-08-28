@@ -44,7 +44,7 @@ public class CharacterItem : MonoBehaviour, IItem
             Destroy(_chatBox.gameObject);
     }
 
-    public void PickUp(PlayerController character)
+    public void PickUp(PlayerController character, InventoryController inventory)
     {
         if (!bought)
             ResourceManager.Instance.Coins.Remove(_initialCharacterData.Cost);

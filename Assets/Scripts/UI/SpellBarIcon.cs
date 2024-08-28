@@ -8,21 +8,26 @@ public class SpellBarIcon : MonoBehaviour
     [SerializeField] private Image icon;
     [SerializeField] private Image background;
     [SerializeField] private Image inputIcon;
+    [SerializeField] private GameObject inputIconParent;
     [SerializeField] private IconDictionary iconDictionary;
-    private int _index;
     private Attack _attack;
-
-    public int Index => _index;
     private void Awake()
     {
         icon.enabled = false;
         background.enabled = false;
     }
     
-    public void Initialize(int index, string input, bool raycastTarget = false)
+    public void Initialize(string input, bool raycastTarget = false)
     {
-        _index = index;
-        inputIcon.sprite = iconDictionary.Dictionary[input];
+        if (iconDictionary.Dictionary.ContainsKey(input))
+        {
+            inputIcon.sprite = iconDictionary.Dictionary[input];
+        }
+        else
+        {
+            inputIconParent.SetActive(false);
+        }
+
         icon.raycastTarget = raycastTarget;
     }
 

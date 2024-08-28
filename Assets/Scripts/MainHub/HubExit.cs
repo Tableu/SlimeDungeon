@@ -4,7 +4,7 @@ public class HubExit : MonoBehaviour, IItem
 {
     [SerializeField] private HubManager hubManager;
     
-    public void PickUp(PlayerController character)
+    public void PickUp(PlayerController character, InventoryController inventory)
     {
         hubManager.LoadDungeonLevel();
     }
