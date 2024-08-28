@@ -1,25 +1,21 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using Controller;
 using Controller.Player;
-using Newtonsoft.Json.Linq;
 using Systems.Modifiers;
-using Systems.Save;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using Type = Elements.Type;
 
-public class PlayerController : MonoBehaviour, ICharacterInfo, ISavable, IDamageable
+public class PlayerController : MonoBehaviour, ICharacterInfo, IDamageable
 {
-    [SerializeField] private AttackDataDictionary attackDictionary;
     [SerializeField] private GameObject model;
     [SerializeField] private ParticleSystem walkingSmokeParticleSystem;
     [SerializeField] private ParticleSystem switchFormParticleSystem;
     [SerializeField] private new Rigidbody rigidbody;
     [SerializeField] private PartyController partyController;
+    [SerializeField] private InventoryController inventoryController;
     [SerializeField] private LevelManager levelManager;
     [SerializeField] private float itemPickupRange;
 
@@ -28,8 +24,6 @@ public class PlayerController : MonoBehaviour, ICharacterInfo, ISavable, IDamage
     private bool _inKnockback = false;
     private bool _isMouseOverUI;
     private bool _basicAttackHeld;
-    private List<AttackData> _unlockedAttacks = new List<AttackData>();
-    private bool _loaded = false;
 
     private Character _currentCharacter;
     private bool _disableRotation = false;
@@ -57,12 +51,7 @@ public class PlayerController : MonoBehaviour, ICharacterInfo, ISavable, IDamage
     public Transform Transform => transform;
     public Type ElementType => _currentCharacter.ElementType;
     public Vector3 SpellOffset => _currentCharacter.Data.SpellOffset;
-    public List<AttackData> UnlockedAttacks => _unlockedAttacks;
     public PlayerInputActions PlayerInputActions => _playerInputActions;
-    public string id { get; } = "PlayerController";
-
-    public Action<AttackData, bool> OnAttackUnlocked;
-    public Action<AttackData> OnAttackRemoved;
     #region Unity Event Functions
     private void Awake()
     {
@@ -76,15 +65,8 @@ public class PlayerController : MonoBehaviour, ICharacterInfo, ISavable, IDamage
         
         partyController.OnCharacterChanged += OnCharacterChanged;
         partyController.Initialize(_playerInputActions);
+        inventoryController.Initialize();
         EnemyMask = LayerMask.GetMask("Enemy");
-
-        if (!_loaded)
-        {
-            _unlockedAttacks = new List<AttackData>();
-            foreach (AttackData attackData in
-                _currentCharacter.Data.StartingSpells) //Must be initialized in awake to properly trigger events
-                UnlockAttack(attackData);
-        }
     }
 
     private void Start()
@@ -103,7 +85,7 @@ public class PlayerController : MonoBehaviour, ICharacterInfo, ISavable, IDamage
         {
             if (_highlightedItem != null)
             {
-                _highlightedItem.PickUp(this);
+                _highlightedItem.PickUp(this, inventoryController);
                 _highlightedItem.Highlight(false);
                 _highlightedItem = null;
             }
@@ -121,7 +103,8 @@ public class PlayerController : MonoBehaviour, ICharacterInfo, ISavable, IDamage
         PlayerInputActions.Other.BasicAttack.canceled += delegate(InputAction.CallbackContext context)
         {
             _basicAttackHeld = false;
-            _currentCharacter.BasicAttack.End();
+            if(_currentCharacter != null)
+                _currentCharacter.BasicAttack.End();
         };
         
         PlayerInputActions.Other.Spell.started += delegate(InputAction.CallbackContext context)
@@ -268,21 +251,6 @@ public class PlayerController : MonoBehaviour, ICharacterInfo, ISavable, IDamage
         _inKnockback = false;
     }
 
-    public void UnlockAttack(AttackData attackData)
-    {
-        if (!_unlockedAttacks.Contains(attackData))
-        {
-            _unlockedAttacks.Add(attackData);
-            OnAttackUnlocked?.Invoke(attackData, false);
-        }
-    }
-
-    public void RemoveAttack(AttackData attackData)
-    {
-        _unlockedAttacks.Remove(attackData);
-        OnAttackRemoved?.Invoke(attackData);
-    }
-
     #region Event Functions
     private void OnCharacterChanged(Character character)
     {
@@ -294,34 +262,6 @@ public class PlayerController : MonoBehaviour, ICharacterInfo, ISavable, IDamage
         model = Instantiate(character.Data.Model, transform);
         model.layer = gameObject.layer;
         _currentCharacter.Equip(model, _playerInputActions);
-    }
-    #endregion
-    
-    #region Save Methods
-    
-    public object SaveState()
-    {
-        return new SaveData()
-        {
-            UnlockedAttacks = _unlockedAttacks.Select(x => attackDictionary.Dictionary.First(i => i.Value == x).Key).ToList()
-        };
-    }
-
-    public void LoadState(JObject state)
-    {
-        _loaded = true;
-        var saveData = state.ToObject<SaveData>();
-        _unlockedAttacks = new List<AttackData>();
-        foreach (string attack in saveData.UnlockedAttacks)
-        {
-            _unlockedAttacks.Add(attackDictionary.Dictionary[attack]);
-        }
-    }
-    
-    [Serializable]
-    public struct SaveData
-    {
-        public List<string> UnlockedAttacks;
     }
     #endregion
 }

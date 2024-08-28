@@ -1,46 +1,26 @@
-using System.Collections.Generic;
-using Controller;
+using Controller.Player;
 using UnityEngine;
 
 public class SpellBar : MonoBehaviour
 {
-    [SerializeField] private GameObject spellIconPrefab;
-    [SerializeField] private PlayerController playerController;
     [SerializeField] private bool raycastTarget;
-    private List<SpellBarIcon> spellIcons;
+    [SerializeField] private PartyController partyController;
+    [SerializeField] private SpellBarIcon spellIcon;
     
     private void Start()
     {
-        spellIcons = new List<SpellBarIcon>();
-        var inputMap = playerController.PlayerInputActions.Spells.Get();
-        for (int i = 0; i < playerController.PlayerData.MaxSpellCount; i++)
+        spellIcon.Initialize("mouse_right", raycastTarget);
+        partyController.OnCharacterChanged += OnCharacterChanged;
+        partyController.OnSpellEquipped += delegate(AttackData data)
         {
-            GameObject icon = Instantiate(spellIconPrefab, transform);
-            var script = icon.GetComponent<SpellBarIcon>();
-            if (script != null)
-            {
-                spellIcons.Add(script);
-                script.Initialize(i, inputMap.actions[i].controls[0].name.ToUpper(), raycastTarget);
-            }
-        }
-
-        playerController.OnAttackEquipped += OnAttackEquipped;
-        playerController.OnAttackUnEquipped += OnAttackUnEquipped;
-        playerController.InitializeAttacks();
+            OnCharacterChanged(partyController.CurrentCharacter);
+        };
+        OnCharacterChanged(partyController.CurrentCharacter);
     }
 
-    private void OnAttackEquipped(Attack attack, int index)
+    private void OnCharacterChanged(Character character)
     {
-        spellIcons[index].EquipAttack(attack);
-    }
-
-    private void OnAttackUnEquipped(Attack attack, int index)
-    {
-        spellIcons[index].UnEquipAttack();
-    }
-
-    private void OnDestroy()
-    {
-        playerController.OnAttackEquipped -= OnAttackEquipped;
+        spellIcon.UnEquipAttack();
+        spellIcon.EquipAttack(character.Spell);
     }
 }

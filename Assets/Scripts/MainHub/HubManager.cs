@@ -27,7 +27,7 @@ public class HubManager : MonoBehaviour
 
     private void Start()
     {
-        _initialCharacterDatas = partyController.InitialPartyMembers.Select(character => character.Data).ToList();
+        _initialCharacterDatas = partyController.Characters.Select(character => character.Data).ToList();
         int characterItemCount = Random.Range(3, 4);
         for (int x = 0; x < characterItemCount; x++)
         {

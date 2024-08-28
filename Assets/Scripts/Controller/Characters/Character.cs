@@ -86,18 +86,22 @@ namespace Controller.Player
             _spell?.Begin();
         }
         
-        public void EquipSpell(AttackData attackData)
+        public AttackData EquipSpell(AttackData attackData)
         {
+            AttackData oldSpell = null;
             if (attackData == null)
-                return;
+                return null;
             bool hasSpell = _spell != null;
             if (hasSpell && _spell.OnCooldown)
-                return;
+                return null;
             if (hasSpell)
             {
+                oldSpell = _spell.Data;
                 UnEquipSpell();
             }
+            
             _spell = attackData.CreateInstance(_characterInfo);
+            return oldSpell;
         }
         
         private void UnEquipSpell()
