@@ -141,6 +141,7 @@ MonoBehaviour:
   icon: {fileID: 966446957740679157}
   background: {fileID: 8235765722415106421}
   inputIcon: {fileID: 5624600054562174115}
+  inputIconParent: {fileID: 2482011714931335119}
   iconDictionary: {fileID: 11400000, guid: 92ef02eaf6f2e4449a48f25e1b4ed5aa, type: 2}
 --- !u!1 &1218132219159432893
 GameObject:

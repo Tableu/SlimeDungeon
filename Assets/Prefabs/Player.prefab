@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 1181766018220291398}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0.2, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1392420255982393758}
@@ -4825,6 +4825,8 @@ GameObject:
   - component: {fileID: 6118174223459350817}
   - component: {fileID: 6118174223459350816}
   - component: {fileID: 843911632}
+  - component: {fileID: 500489513634131218}
+  - component: {fileID: 8527553915472690078}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -4841,7 +4843,7 @@ Transform:
   m_GameObject: {fileID: 1736435026822939428}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.2, y: 1.2, z: 1.2}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 5012095242868417657}
@@ -4862,13 +4864,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a37b826fb73b0ea439851d52898398cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerData: {fileID: 11400000, guid: 981442e40bdc9ec4c930620b3fba501d, type: 2}
-  attackDictionary: {fileID: 11400000, guid: ad056721a83fb6d4f8fb8f8c8913f870, type: 2}
   model: {fileID: 5676042677077458627}
   walkingSmokeParticleSystem: {fileID: 8112632922913053220}
   switchFormParticleSystem: {fileID: 1181766018201568994}
   rigidbody: {fileID: 6118174223459350816}
-  partyController: {fileID: 0}
+  partyController: {fileID: 500489513634131218}
+  inventoryController: {fileID: 0}
   levelManager: {fileID: 0}
   itemPickupRange: 2
 --- !u!54 &6118174223459350816
@@ -4881,7 +4882,7 @@ Rigidbody:
   serializedVersion: 2
   m_Mass: 1
   m_Drag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 0
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
@@ -4900,6 +4901,38 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: Player
+--- !u!114 &500489513634131218
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1736435026822939428}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e90e85e8cc9e6c469427103633a5fe1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerData: {fileID: 11400000, guid: 981442e40bdc9ec4c930620b3fba501d, type: 2}
+  playerController: {fileID: 6118174223459350817}
+  characterDictionary: {fileID: 11400000, guid: b43cbbdadab028343a4c346542c1b8bc, type: 2}
+  attackDictionary: {fileID: 11400000, guid: ad056721a83fb6d4f8fb8f8c8913f870, type: 2}
+--- !u!114 &8527553915472690078
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1736435026822939428}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5537e7b921a00694e93c43a1815c94fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackDictionary: {fileID: 11400000, guid: ad056721a83fb6d4f8fb8f8c8913f870, type: 2}
+  playerController: {fileID: 6118174223459350817}
+  partyController: {fileID: 500489513634131218}
+  inventoryWidget: {fileID: 0}
 --- !u!1 &6151538974966643030
 GameObject:
   m_ObjectHideFlags: 0
@@ -4911,7 +4944,7 @@ GameObject:
   - component: {fileID: 1225510842710866119}
   - component: {fileID: 8112632922913053220}
   - component: {fileID: 3844967707740764718}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Walking Smoke Particles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4927,8 +4960,8 @@ Transform:
   m_GameObject: {fileID: 6151538974966643030}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.75, y: 0.75, z: 0.75}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1392420255982393758}
   m_RootOrder: 1

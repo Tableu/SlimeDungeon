@@ -20,3 +20,7 @@ MonoBehaviour:
       Value: {fileID: 21300000, guid: 44b9949f7e3069043bb9c86023b4c38e, type: 3}
     - Key: C
       Value: {fileID: 21300000, guid: f9b6ba7b9f75ad54db23b34b3613a59d, type: 3}
+    - Key: mouse_right
+      Value: {fileID: 21300000, guid: 360aa037325459c41bd1ed47a8ec4050, type: 3}
+    - Key: mouse_left
+      Value: {fileID: 21300000, guid: ceb7aa166d37ae444afca62f4bffb62b, type: 3}
