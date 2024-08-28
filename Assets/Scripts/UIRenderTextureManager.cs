@@ -21,14 +21,14 @@ public class UIRenderTextureManager : MonoBehaviour
         }
     }
 
-    public UIRenderTexture SpawnRenderTexture()
+    public UIRenderTexture SpawnRenderTexture(bool pauseCamera = true)
     {
         GameObject rtObject = Instantiate(renderTexturePrefab, transform);
         rtObject.transform.localPosition =  new Vector3(10 * transform.childCount, 0, 0);
         UIRenderTexture script = rtObject.GetComponent<UIRenderTexture>();
         if (script != null)
         {
-            script.Initialize(renderTexture);
+            script.Initialize(renderTexture, pauseCamera);
         }
 
         return script;

@@ -10,7 +10,7 @@ public class LoadingScreen : MonoBehaviour
     private float angle = 10;
     private void Start()
     {
-        loadingTexture.Initialize(renderTexture);
+        loadingTexture.Initialize(renderTexture, false);
         loadingIcon.texture = loadingTexture.RenderTexture;
     }
 

@@ -5,14 +5,15 @@ public class UIRenderTexture : MonoBehaviour
 {
     [SerializeField] private new Camera camera;
     [SerializeField] private Transform modelParent;
-    [SerializeField] private bool pauseCamera = true;
+    private bool _pauseCamera;
     private GameObject _model;
     private RenderTexture _renderTexture;
 
     public RenderTexture RenderTexture => _renderTexture;
     
-    public void Initialize(RenderTexture renderTexture)
+    public void Initialize(RenderTexture renderTexture, bool pauseCamera = true)
     {
+        _pauseCamera = pauseCamera;
         RenderTexture rt = new RenderTexture(renderTexture);
         rt.Create();
         rt.Release();
@@ -26,7 +27,7 @@ public class UIRenderTexture : MonoBehaviour
             Destroy(_model);
         _model = Instantiate(model, modelParent);
         camera.enabled = true;
-        if(pauseCamera)
+        if(_pauseCamera)
             StartCoroutine(PauseCamera());
     }
 
