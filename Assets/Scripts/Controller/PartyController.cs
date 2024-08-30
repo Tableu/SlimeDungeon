@@ -160,6 +160,15 @@ public class PartyController : MonoBehaviour, ISavable
             OnSpellUnEquipped.Invoke(oldSpell);
     }
 
+    public void UnEquipSpell(int index)
+    {
+        if (index < 0 || index > _characters.Count)
+            return;
+        AttackData oldSpell = _characters[index].UnEquipSpell();
+        if (oldSpell != null)
+            OnSpellUnEquipped.Invoke(oldSpell);
+    }
+
     public bool IsPartyAllFainted()
     {
         int index = 0;

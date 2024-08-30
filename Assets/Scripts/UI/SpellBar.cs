@@ -15,12 +15,17 @@ public class SpellBar : MonoBehaviour
         {
             OnCharacterChanged(partyController.CurrentCharacter);
         };
+        partyController.OnSpellUnEquipped += delegate(AttackData data)
+        {
+            OnCharacterChanged(partyController.CurrentCharacter);
+        };
         OnCharacterChanged(partyController.CurrentCharacter);
     }
 
     private void OnCharacterChanged(Character character)
     {
         spellIcon.UnEquipAttack();
-        spellIcon.EquipAttack(character.Spell);
+        if(character.Spell != null)
+            spellIcon.EquipAttack(character.Spell);
     }
 }

@@ -80,15 +80,23 @@ public class InventoryController : MonoBehaviour, ISavable
         foreach (AttackData attack in _unlockedAttacks)
         {
             iconInfos.Add(new InventoryWidget.IconInfo(attack.Icon, 
-                SelectedCharacter.Spell.Data.Name == attack.Name,
+                SelectedCharacter.Spell?.Data.Name == attack.Name,
                 _equippedAttacks.Contains(attack)));
         }
         return iconInfos;
     }
 
-    public void ItemClicked(int index)
+    public void ItemClicked(int index, bool selected)
     {
-        partyController.EquipSpell(_unlockedAttacks[index], _selectedCharacterIndex);
+        if (selected)
+        {
+            partyController.UnEquipSpell(_selectedCharacterIndex);
+        }
+        else
+        {
+            partyController.EquipSpell(_unlockedAttacks[index], _selectedCharacterIndex);
+        }
+
         inventoryWindow.RefreshAttacks();
     }
 

@@ -6,7 +6,7 @@ public class InventoryWidget : MonoBehaviour
 {
     [SerializeField] private List<InventoryIcon> inventoryIconList;
     
-    public Action<int> OnItemClicked;
+    public Action<int, bool> OnItemClicked;
     private void Awake()
     {
         for (var index = 0; index < inventoryIconList.Count; index++)
@@ -56,9 +56,9 @@ public class InventoryWidget : MonoBehaviour
         inventoryIconList[index].enabled = false;
     }
 
-    public void ItemClicked(int index)
+    public void ItemClicked(int index, bool selected)
     {
-        OnItemClicked?.Invoke(index);
+        OnItemClicked?.Invoke(index, selected);
     }
 
     public readonly struct IconInfo

@@ -4,11 +4,14 @@ using UnityEngine.UI;
 public class InventoryIcon : MonoBehaviour
 {
     [SerializeField] private Image image;
-    [SerializeField] private Image background;
+    [SerializeField] private Image border;
     [SerializeField] private Color disabledColor;
     [SerializeField] private Button button;
+    [SerializeField] private Sprite selectedBorderSprite;
+    [SerializeField] private Sprite borderSprite;
     private int _index;
     private InventoryWidget _inventoryWidget;
+    private bool _selected;
 
     public void Initialize(int index, InventoryWidget inventoryWidget)
     {
@@ -27,20 +30,21 @@ public class InventoryIcon : MonoBehaviour
     public void ClearIcon()
     {
         image.color = new Color(0, 0, 0, 0);
-        background.color = Color.white;
+        border.color = Color.white;
         button.enabled = false;
+        _selected = false;
+        border.sprite = borderSprite;
     }
 
     public void SetSelected()
     {
-        image.color = Color.white;
-        background.color = Color.grey;
-        button.enabled = false;
+        border.sprite = selectedBorderSprite;
+        _selected = true;
     }
 
     public void OnClick()
     {
-        _inventoryWidget.ItemClicked(_index);
+        _inventoryWidget.ItemClicked(_index, _selected);
     }
 
     public void OnDisable()

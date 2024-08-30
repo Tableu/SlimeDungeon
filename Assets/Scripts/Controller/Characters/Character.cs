@@ -95,22 +95,21 @@ namespace Controller.Player
             if (hasSpell && _spell.OnCooldown)
                 return null;
             if (hasSpell)
-            {
-                oldSpell = _spell.Data;
-                UnEquipSpell();
-            }
-            
+                oldSpell = UnEquipSpell();
+
             _spell = attackData.CreateInstance(_characterInfo);
             return oldSpell;
         }
         
-        private void UnEquipSpell()
+        public AttackData UnEquipSpell()
         {
             if (_spell == null)
-                return;
+                return null;
+            AttackData oldSpell = _spell.Data;
             _spell.UnlinkInput();
             _spell.CleanUp();
             _spell = null;
+            return oldSpell;
         }
         
         [Serializable]
