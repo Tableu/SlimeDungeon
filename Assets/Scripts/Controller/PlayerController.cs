@@ -32,11 +32,8 @@ public class PlayerController : MonoBehaviour, ICharacterInfo, IDamageable
 
     public Vector2 MaxVelocity => _currentCharacter.MaxVelocity;
     public IItem HighlightedItem => _highlightedItem;
-    public float Health
-    {
-        get => _currentCharacter.Health;
-        private set => _currentCharacter.Health = value;
-    }
+    public float Health => _currentCharacter.Health;
+
     public ModifiableStat Speed
     {
         get;
@@ -216,8 +213,7 @@ public class PlayerController : MonoBehaviour, ICharacterInfo, IDamageable
     {
         if (!_inKnockback)
         {
-            float typeMultiplier = GlobalReferences.Instance.TypeManager.GetTypeMultiplier(ElementType, attackType);
-            Health -= damage*typeMultiplier;
+            _currentCharacter.ApplyDamage(damage, attackType);
             if (Health <= 0)
             {
                 HandleDeath();

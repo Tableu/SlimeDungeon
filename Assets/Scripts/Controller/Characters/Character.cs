@@ -1,4 +1,5 @@
 using System;
+using Systems.Modifiers;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Object = UnityEngine.Object;
@@ -9,17 +10,19 @@ namespace Controller.Player
     public class Character
     {
         private CharacterData _data;
-        
-        private float _speed;
+
         private Vector2 _maxVelocity;
         private Type _elementType;
         private CharacterAnimator _characterAnimator;
         private Attack _basicAttack;
         private Attack _spell;
         private ICharacterInfo _characterInfo;
+        private EquipmentData _hat;
         public CharacterData Data => _data;
-        public float Health { get; set; }
-        public float Speed => _speed;
+        public float Health { get; private set; }
+        public ModifiableStat Speed { get; }
+        public ModifiableStat Armor { get; }
+
         public Vector2 MaxVelocity => _maxVelocity;
         public Type ElementType => _elementType;
         public Attack BasicAttack => _basicAttack;
@@ -29,7 +32,8 @@ namespace Controller.Player
         {
             _data = data;
             Health = data.Health;
-            _speed = data.Speed;
+            Speed = new ModifiableStat(data.Speed);
+            Armor = new ModifiableStat(0);
             _maxVelocity = data.MaxVelocity;
             _elementType = data.ElementType;
             _characterInfo = characterInfo;
@@ -40,7 +44,8 @@ namespace Controller.Player
         {
             _data = data;
             Health = health;
-            _speed = data.Speed;
+            Speed = new ModifiableStat(data.Speed);
+            Armor = new ModifiableStat(0);
             _maxVelocity = data.MaxVelocity;
             _elementType = data.ElementType;
             _characterInfo = characterInfo;
@@ -62,10 +67,24 @@ namespace Controller.Player
             }
         }
 
+        public void ApplyDamage(float damage, Type attackType)
+        {
+            float typeMultiplier = GlobalReferences.Instance.TypeManager.GetTypeMultiplier(ElementType, attackType);
+            foreach (EquipmentData.Effect buff in _hat.Buffs)
+            {
+                if (buff.Element == attackType && buff.Type == EquipmentData.EffectType.Armor)
+                    damage -= buff.Value;
+            }
+            
+            Health -= damage*typeMultiplier - Armor;
+        }
+
         public void Equip(GameObject model, PlayerInputActions playerInputActions)
         {
             _characterAnimator = _data.AttachScript(model);
             _characterAnimator.Initialize(this, playerInputActions);
+            if(_hat != null)
+                _characterAnimator.RefreshHat(_hat);
         }
 
         public void Drop()
@@ -110,6 +129,34 @@ namespace Controller.Player
             _spell.CleanUp();
             _spell = null;
             return oldSpell;
+        }
+
+        public EquipmentData EquipHat(EquipmentData equipmentData)
+        {
+            EquipmentData oldEquipment = null;
+            if (equipmentData == null)
+                return null;
+            bool hasHat = _hat != null;
+            if (hasHat)
+                oldEquipment = UnEquipHat();
+            
+            _hat = equipmentData;
+            equipmentData.Equip(this);
+            if(_characterAnimator != null)
+                _characterAnimator.RefreshHat(_hat);
+            return oldEquipment;
+        }
+
+        public EquipmentData UnEquipHat()
+        {
+            if (_hat == null)
+                return null;
+            EquipmentData oldEquipment = _hat;
+            _hat.Drop(this);
+            _hat = null;
+            if(_characterAnimator != null)
+                _characterAnimator.RefreshHat(_hat);
+            return oldEquipment;
         }
         
         [Serializable]

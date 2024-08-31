@@ -123,32 +123,6 @@ public class PartyController : MonoBehaviour, ISavable
         }
     }
 
-    public void HealCharacter(float amount)
-    {
-        if (Math.Abs(_currentCharacter.Health - _currentCharacter.Data.Health) > Mathf.Epsilon)
-        {
-            _currentCharacter.Health += amount;
-        }
-        else
-        {
-            foreach (var formInstance in _characters)
-            {
-                if (Math.Abs(_currentCharacter.Health - _currentCharacter.Data.Health) > Mathf.Epsilon)
-                {
-                    formInstance.Health += amount;
-                }
-            }
-        }
-    }
-
-    public void HealCharacters(float amount)
-    {
-        foreach (var form in _characters)
-        {
-            form.Health += amount;
-        }
-    }
-
     public void EquipSpell(AttackData data, int index)
     {
         if (index < 0 || index > _characters.Count || data == null)
