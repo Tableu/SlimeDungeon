@@ -47,7 +47,7 @@ public class SpellItem : MonoBehaviour, IItem
     {
         if (isStoreItem)
             ResourceManager.Instance.Coins.Remove(_data.Cost);
-        inventory.UnlockAttack(_data);
+        inventory.Add(_data.Name, _data, InventoryController.ItemType.Spells);
         Destroy(gameObject);
     }
 

@@ -23,39 +23,42 @@ public class InventoryIcon : MonoBehaviour
     public void SetIcon(Sprite icon)
     {
         image.sprite = icon;
-        image.color = Color.white;
-        button.enabled = true;
     }
 
-    public void ClearIcon()
+    public void SetEmpty()
     {
         image.color = new Color(0, 0, 0, 0);
-        border.color = Color.white;
         button.enabled = false;
+        _selected = false;
+        border.sprite = borderSprite;
+    }
+
+    public void SetDisabled()
+    {
+        image.color = disabledColor;
+        button.enabled = false;
+        _selected = false;
+        border.sprite = borderSprite;
+    }
+    
+    public void SetEnabled()
+    {
+        image.color = Color.white;
+        button.enabled = true;
         _selected = false;
         border.sprite = borderSprite;
     }
 
     public void SetSelected()
     {
-        border.sprite = selectedBorderSprite;
+        image.color = Color.white;
+        button.enabled = true;
         _selected = true;
+        border.sprite = selectedBorderSprite;
     }
 
     public void OnClick()
     {
         _inventoryWidget.ItemClicked(_index, _selected);
-    }
-
-    public void OnDisable()
-    {
-        image.color = disabledColor;
-        button.enabled = false;
-    }
-
-    public void OnEnable()
-    {
-        image.color = Color.white;
-        button.enabled = true;
     }
 }

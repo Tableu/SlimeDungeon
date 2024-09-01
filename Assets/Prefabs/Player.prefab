@@ -4929,10 +4929,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5537e7b921a00694e93c43a1815c94fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackDictionary: {fileID: 11400000, guid: ad056721a83fb6d4f8fb8f8c8913f870, type: 2}
-  playerController: {fileID: 6118174223459350817}
+  inventoryIconDictionary: {fileID: 11400000, guid: 29beadc89f64e66498c64245655d15f9, type: 2}
   partyController: {fileID: 500489513634131218}
-  inventoryWidget: {fileID: 0}
+  inventoryWindow: {fileID: 0}
+  attackDataDictionary: {fileID: 11400000, guid: ad056721a83fb6d4f8fb8f8c8913f870, type: 2}
+  equipmentDataDictionary: {fileID: 11400000, guid: 8dd114946ade3c04196cabd3f0ae78ff, type: 2}
 --- !u!1 &6151538974966643030
 GameObject:
   m_ObjectHideFlags: 0

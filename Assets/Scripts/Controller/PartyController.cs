@@ -28,6 +28,8 @@ public class PartyController : MonoBehaviour, ISavable
     public Action<Character> OnCharacterChanged;
     public Action<AttackData> OnSpellEquipped;
     public Action<AttackData> OnSpellUnEquipped;
+    public Action<EquipmentData> OnEquipmentAdded;
+    public Action<EquipmentData> OnEquipmentRemoved;
     public Action<Character, int> OnPartyMemberAdded;
     public Action<Character> OnPartyMemberRemoved;
 
@@ -123,24 +125,48 @@ public class PartyController : MonoBehaviour, ISavable
         }
     }
 
-    public void EquipSpell(AttackData data, int index)
+    public AttackData EquipSpell(AttackData data, int index)
     {
         if (index < 0 || index > _characters.Count || data == null)
-            return;
+            return null;
         
         AttackData oldSpell = _characters[index].EquipSpell(data);
         OnSpellEquipped.Invoke(data);
         if (oldSpell != null)
             OnSpellUnEquipped.Invoke(oldSpell);
+        return oldSpell;
     }
 
-    public void UnEquipSpell(int index)
+    public AttackData UnEquipSpell(int index)
     {
         if (index < 0 || index > _characters.Count)
-            return;
+            return null;
         AttackData oldSpell = _characters[index].UnEquipSpell();
         if (oldSpell != null)
             OnSpellUnEquipped.Invoke(oldSpell);
+        return oldSpell;
+    }
+    
+    public EquipmentData AddEquipment(EquipmentData data, int index)
+    {
+        if (index < 0 || index > _characters.Count || data == null)
+            return null;
+        
+        EquipmentData oldEquipment = _characters[index].AddEquipment(data);
+        OnEquipmentAdded.Invoke(data);
+        if (oldEquipment != null)
+            OnEquipmentRemoved.Invoke(oldEquipment);
+        return oldEquipment;
+    }
+
+    public EquipmentData RemoveEquipment(int index)
+    {
+        if (index < 0 || index > _characters.Count)
+            return null;
+        EquipmentData oldEquipment = _characters[index].RemoveEquipment();
+        if (oldEquipment != null)
+            OnEquipmentRemoved.Invoke(oldEquipment);
+        return oldEquipment;
     }
 
     public bool IsPartyAllFainted()

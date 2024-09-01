@@ -18,25 +18,27 @@ public class InventoryWidget : MonoBehaviour
 
     public void Refresh(List<IconInfo> icons)
     {
+        using List<IconInfo>.Enumerator iconInfoEnumerator = icons.GetEnumerator();
         foreach (InventoryIcon icon in inventoryIconList)
         {
-            icon.enabled = false;
-            icon.ClearIcon();
-        }
-        using List<InventoryIcon>.Enumerator iconEnumerator = inventoryIconList.GetEnumerator();
-        foreach (IconInfo info in icons)
-        {
-            if (!iconEnumerator.MoveNext())
-                break;
-            if (iconEnumerator.Current == null) continue;
-            iconEnumerator.Current.SetIcon(info.Icon);
-            if (info.Selected)
+            if (iconInfoEnumerator.MoveNext())
             {
-                iconEnumerator.Current.SetSelected();
+                icon.SetIcon(iconInfoEnumerator.Current.Icon);
+                if (iconInfoEnumerator.Current.Selected)
+                {
+                    icon.SetSelected();
+                }else if (iconInfoEnumerator.Current.Disabled)
+                {
+                    icon.SetDisabled();
+                }
+                else
+                {
+                    icon.SetEnabled();
+                }
             }
-            if (!info.Disabled)
+            else
             {
-                iconEnumerator.Current.enabled = true;
+                icon.SetEmpty();
             }
         }
     }

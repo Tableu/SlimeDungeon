@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Controller.Player;
 using Newtonsoft.Json.Linq;
 using Systems.Save;
@@ -8,53 +7,91 @@ using UnityEngine;
 
 public class InventoryController : MonoBehaviour, ISavable
 {
-    [SerializeField] private AttackDataDictionary attackDictionary;
+    public enum ItemType
+    {
+        Spells,
+        Hats
+    }
+
+    public class Item
+    {
+        public ItemType ItemType { get; }
+        public bool Equipped { get; private set; }
+        public string ID { get; }
+        public object Data { get; }
+        public Character Holder { get; private set; }
+
+        public Item(string id, object data, ItemType itemType)
+        {
+            ID = id;
+            Data = data;
+            ItemType = itemType;
+            Equipped = false;
+        }
+
+        public void Equip(Character holder)
+        {
+            Holder = holder;
+            Equipped = true;
+        }
+
+        public void UnEquip()
+        {
+            Holder = null;
+            Equipped = false;
+        }
+    }
+
+    [SerializeField] private IconDictionary inventoryIconDictionary;
     [SerializeField] private PartyController partyController;
     [SerializeField] private InventoryWindow inventoryWindow;
-    
-    private List<AttackData> _unlockedAttacks = new List<AttackData>();
-    private List<AttackData> _equippedAttacks = new List<AttackData>();
+
     private bool _loaded = false;
+    private int _selectedCharacterIndex = 0;
+    private List<Item> _spells = new List<Item>();
+    private List<Item> _hats = new List<Item>();
+    private List<string> _itemIDs = new List<string>();
     public Character SelectedCharacter => partyController.Characters.Count != 0 ? 
         partyController.Characters[_selectedCharacterIndex] : null;
-    private int _selectedCharacterIndex;
-    public List<AttackData> UnlockedAttacks => _unlockedAttacks;
     public string id { get; } = "InventoryController";
 
     public void Initialize()
     {
-        partyController.OnSpellEquipped += delegate(AttackData data) { _equippedAttacks.Add(data); };
-        partyController.OnSpellUnEquipped += delegate(AttackData data) { _equippedAttacks.Remove(data); };
         if (!_loaded)
         {
-            _unlockedAttacks = new List<AttackData>();
             foreach (AttackData attackData in
                 partyController.CurrentCharacter.Data.StartingSpells)
             {
-                //Must be initialized from awake to properly trigger events
-                UnlockAttack(attackData);
-                if(!_equippedAttacks.Contains(attackData))
-                    _equippedAttacks.Add(attackData);
+                Add(attackData.Name, attackData, ItemType.Spells);
+                Equip(attackData.Name, partyController.CurrentCharacter, ItemType.Spells);
             }
-            inventoryWindow.RefreshAttacks();
+            inventoryWindow.Refresh();
         }
     }
 
-    public void UnlockAttack(AttackData attackData)
+    private void Start()
     {
-        if (!_unlockedAttacks.Contains(attackData))
+        foreach (Character character in partyController.Characters)
         {
-            _unlockedAttacks.Add(attackData);
-            if (inventoryWindow.CurrentCategory == InventoryWindow.Category.Spells)
-                inventoryWindow.RefreshAttacks();
-        }
-    }
+            if (character.Equipment != null)
+            {
+                foreach (Item hat in _hats)
+                {
+                    if(hat.ID == character.Equipment.Name)
+                        hat.Equip(character);
+                }
+            }
 
-    public void RemoveAttack(AttackData attackData)
-    {
-        _unlockedAttacks.Remove(attackData);
-        if (inventoryWindow.CurrentCategory == InventoryWindow.Category.Spells)
-            inventoryWindow.RefreshAttacks();
+            if (character.Spell != null)
+            {
+                foreach (Item spell in _spells)
+                {
+                    if(spell.ID == character.Spell.Data.Name)
+                        spell.Equip(character);
+                }
+            }
+        }
+        inventoryWindow.Refresh();
     }
 
     public void ChangeCharacter(int direction)
@@ -73,43 +110,153 @@ public class InventoryController : MonoBehaviour, ISavable
         }
     }
 
-    public List<InventoryWidget.IconInfo> GetAttackIcons()
+    private List<Item> GetItems(ItemType itemType)
+    {
+        switch (itemType)
+        {
+            case ItemType.Hats:
+                return _hats;
+            case ItemType.Spells:
+                return _spells;
+        }
+
+        return null;
+    }
+
+    public List<InventoryWidget.IconInfo> GetIcons(ItemType itemType)
     {
         List<InventoryWidget.IconInfo> iconInfos = new List<InventoryWidget.IconInfo>();
-
-        foreach (AttackData attack in _unlockedAttacks)
+        List<Item> items = GetItems(itemType);
+        if (items == null)
+            return iconInfos;
+        foreach (Item item in items)
         {
-            iconInfos.Add(new InventoryWidget.IconInfo(attack.Icon, 
-                SelectedCharacter.Spell?.Data.Name == attack.Name,
-                _equippedAttacks.Contains(attack)));
+            iconInfos.Add(new InventoryWidget.IconInfo(
+                inventoryIconDictionary.Dictionary[item.ID],
+                SelectedCharacter == item.Holder,
+                item.Equipped && SelectedCharacter != item.Holder));
         }
         return iconInfos;
     }
 
-    public void ItemClicked(int index, bool selected)
+    public void ItemClicked(int index, bool selected, ItemType itemType)
     {
+        List<Item> items = GetItems(itemType);
+        if (items == null || items.Count == 0 || index < 0 || index >= items.Count)
+            return;
+        Item clickedItem = items[index];
+        
         if (selected)
         {
-            partyController.UnEquipSpell(_selectedCharacterIndex);
+            clickedItem.UnEquip();
+            switch (itemType)
+            {
+                case ItemType.Spells:
+                    partyController.UnEquipSpell(_selectedCharacterIndex);
+                    break;
+                case ItemType.Hats:
+                    partyController.RemoveEquipment(_selectedCharacterIndex);
+                    break;
+            }
         }
         else
         {
-            partyController.EquipSpell(_unlockedAttacks[index], _selectedCharacterIndex);
+            clickedItem.Equip(SelectedCharacter);
+            switch (itemType)
+            {
+                case ItemType.Spells:
+                    AttackData oldSpell = partyController.EquipSpell(clickedItem.Data as AttackData, _selectedCharacterIndex);
+                    if(oldSpell != null)
+                        UnEquip(oldSpell.Name, itemType);
+                    break;
+                case ItemType.Hats:
+                    EquipmentData oldEquipment = partyController.AddEquipment(clickedItem.Data as EquipmentData, _selectedCharacterIndex);
+                    if(oldEquipment != null)
+                        UnEquip(oldEquipment.Name, itemType);
+                    break;
+            }
         }
+    }
+    
+    public void Add(string itemID, object data, ItemType itemType)
+    {
+        List<Item> items = GetItems(itemType);
+        if (items != null && !_itemIDs.Contains(itemID))
+        {
+            items.Add(new Item(itemID, data, itemType));
+            _itemIDs.Add(itemID);
+            inventoryWindow.Refresh();
+        }
+    }
 
-        inventoryWindow.RefreshAttacks();
+    public void Remove(string itemID, ItemType itemType)
+    {
+        List<Item> items = GetItems(itemType);
+        if (items == null)
+            return;
+        foreach (Item item in items)
+        {
+            if (item.ID == itemID)
+            {
+                items.Remove(item);
+                _itemIDs.Remove(itemID);
+                break;
+            }
+                
+        }
+    }
+
+    public void Equip(string itemID, Character character, ItemType itemType)
+    {
+        List<Item> items = GetItems(itemType);
+        if (items == null)
+            return;
+        foreach (Item item in items)
+        {
+            if (item.ID == itemID)
+            {
+                item.Equip(character);
+                break;
+            }
+        }
+    }
+        
+    public void UnEquip(string itemID, ItemType itemType)
+    {
+        List<Item> items = GetItems(itemType);
+        if (items == null)
+            return;
+        foreach (Item item in items)
+        {
+            if (item.ID == itemID)
+            {
+                item.UnEquip();
+                break;
+            }
+        }
     }
 
     #region Save Methods
+
+    [SerializeField] private AttackDataDictionary attackDataDictionary;
+    [SerializeField] private EquipmentDataDictionary equipmentDataDictionary;
     
     public object SaveState()
     {
+        List<SavedInventoryItem> savedSpells = new List<SavedInventoryItem>();
+        foreach (Item item in _spells)
+        {
+            savedSpells.Add(new SavedInventoryItem(item.ID, item.ItemType));
+        }
+        List<SavedInventoryItem> savedHats = new List<SavedInventoryItem>();
+        foreach (Item item in _hats)
+        {
+            savedHats.Add(new SavedInventoryItem(item.ID, item.ItemType));
+        }
         return new SaveData()
         {
-            UnlockedAttacks = _unlockedAttacks.Select(x => attackDictionary.Dictionary.
-                First(i => i.Value == x).Key).ToList(),
-            EquippedAttacks = _equippedAttacks.Select(x => attackDictionary.Dictionary.
-                First(i => i.Value == x).Key).ToList()
+            Spells = savedSpells,
+            Hats = savedHats
         };
     }
 
@@ -117,24 +264,38 @@ public class InventoryController : MonoBehaviour, ISavable
     {
         _loaded = true;
         var saveData = state.ToObject<SaveData>();
-        _unlockedAttacks = new List<AttackData>();
-        foreach (string attack in saveData.UnlockedAttacks)
+        _spells = new List<Item>();
+        _hats = new List<Item>();
+        _itemIDs = new List<string>();
+        
+        foreach (SavedInventoryItem hat in saveData.Hats)
         {
-            _unlockedAttacks.Add(attackDictionary.Dictionary[attack]);
+            Add(hat.ID, equipmentDataDictionary.Dictionary[hat.ID], hat.ItemType);
         }
         
-        _equippedAttacks = new List<AttackData>();
-        foreach (string attack in saveData.EquippedAttacks)
+        foreach (SavedInventoryItem spell in saveData.Spells)
         {
-            _equippedAttacks.Add(attackDictionary.Dictionary[attack]);
+            Add(spell.ID, attackDataDictionary.Dictionary[spell.ID], spell.ItemType);
         }
     }
     
     [Serializable]
     public struct SaveData
     {
-        public List<string> UnlockedAttacks;
-        public List<string> EquippedAttacks;
+        public List<SavedInventoryItem> Spells;
+        public List<SavedInventoryItem> Hats;
+    }
+
+    public struct SavedInventoryItem
+    {
+        public string ID;
+        public ItemType ItemType;
+
+        public SavedInventoryItem(string id, ItemType itemType)
+        {
+            ID = id;
+            ItemType = itemType;
+        }
     }
     #endregion
 }
