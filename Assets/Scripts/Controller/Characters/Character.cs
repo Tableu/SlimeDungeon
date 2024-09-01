@@ -17,7 +17,7 @@ namespace Controller.Player
         private Attack _basicAttack;
         private Attack _spell;
         private ICharacterInfo _characterInfo;
-        private EquipmentData _hat;
+        private EquipmentData _equipment;
         public CharacterData Data => _data;
         public float Health { get; private set; }
         public ModifiableStat Speed { get; }
@@ -27,6 +27,7 @@ namespace Controller.Player
         public Type ElementType => _elementType;
         public Attack BasicAttack => _basicAttack;
         public Attack Spell => _spell;
+        public EquipmentData Equipment => _equipment;
 
         public Character(CharacterData data, ICharacterInfo characterInfo)
         {
@@ -70,7 +71,7 @@ namespace Controller.Player
         public void ApplyDamage(float damage, Type attackType)
         {
             float typeMultiplier = GlobalReferences.Instance.TypeManager.GetTypeMultiplier(ElementType, attackType);
-            foreach (EquipmentData.Effect buff in _hat.Buffs)
+            foreach (EquipmentData.Effect buff in _equipment.Buffs)
             {
                 if (buff.Element == attackType && buff.Type == EquipmentData.EffectType.Armor)
                     damage -= buff.Value;
@@ -83,8 +84,8 @@ namespace Controller.Player
         {
             _characterAnimator = _data.AttachScript(model);
             _characterAnimator.Initialize(this, playerInputActions);
-            if(_hat != null)
-                _characterAnimator.RefreshHat(_hat);
+            if(_equipment != null)
+                _characterAnimator.RefreshEquipment(_equipment);
         }
 
         public void Drop()
@@ -131,31 +132,31 @@ namespace Controller.Player
             return oldSpell;
         }
 
-        public EquipmentData EquipHat(EquipmentData equipmentData)
+        public EquipmentData AddEquipment(EquipmentData equipmentData)
         {
             EquipmentData oldEquipment = null;
             if (equipmentData == null)
                 return null;
-            bool hasHat = _hat != null;
-            if (hasHat)
-                oldEquipment = UnEquipHat();
+            bool hasEquipment = _equipment != null;
+            if (hasEquipment)
+                oldEquipment = RemoveEquipment();
             
-            _hat = equipmentData;
+            _equipment = equipmentData;
             equipmentData.Equip(this);
             if(_characterAnimator != null)
-                _characterAnimator.RefreshHat(_hat);
+                _characterAnimator.RefreshEquipment(_equipment);
             return oldEquipment;
         }
 
-        public EquipmentData UnEquipHat()
+        public EquipmentData RemoveEquipment()
         {
-            if (_hat == null)
+            if (_equipment == null)
                 return null;
-            EquipmentData oldEquipment = _hat;
-            _hat.Drop(this);
-            _hat = null;
+            EquipmentData oldEquipment = _equipment;
+            _equipment.Drop(this);
+            _equipment = null;
             if(_characterAnimator != null)
-                _characterAnimator.RefreshHat(_hat);
+                _characterAnimator.RefreshEquipment(_equipment);
             return oldEquipment;
         }
         

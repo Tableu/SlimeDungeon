@@ -9,7 +9,6 @@ public abstract class AttackData : ScriptableObject
     [SerializeField] private float speed;
     [SerializeField] private float damage;
     [SerializeField] private float knockback;
-    [SerializeField] private float manaCost;
     [SerializeField] private float hitStun;
     [SerializeField] private float cooldown;
     [SerializeField] private int cost;
@@ -23,7 +22,6 @@ public abstract class AttackData : ScriptableObject
     public float Damage => damage;
     public float Knockback => knockback;
     public float HitStun => hitStun;
-    public float ManaCost => manaCost;
     public float Cooldown => cooldown;
     public GameObject Prefab => prefab;
     public Type ElementType => elementType;
