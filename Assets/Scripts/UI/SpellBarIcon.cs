@@ -40,9 +40,11 @@ public class SpellBarIcon : MonoBehaviour
     private IEnumerator Cooldown(float duration)
     {
         float time = 0;
+        Attack attack = _attack;
         while (time < duration)
         {
-            icon.fillAmount = time / duration;
+            if(attack == _attack)
+                icon.fillAmount = time / duration;
             yield return new WaitForFixedUpdate();
             time += Time.fixedDeltaTime;
         }
@@ -56,6 +58,8 @@ public class SpellBarIcon : MonoBehaviour
         background.sprite = attack.Data.Icon;
         attack.OnCooldownEvent += OnCooldown;
         _attack = attack;
+        if(!attack.OnCooldown)
+            icon.fillAmount = 1;
     }
 
     public void UnEquipAttack()
