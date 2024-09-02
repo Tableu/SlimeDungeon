@@ -5,6 +5,7 @@ using Controller.Player;
 using Systems.Save;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Windows;
 using Random = UnityEngine.Random;
 
 
@@ -27,6 +28,8 @@ public class HubManager : MonoBehaviour
 
     private void Start()
     {
+        if (!File.Exists(saveManager.savePath))
+            return;
         _initialCharacterDatas = partyController.Characters.Select(character => character.Data).ToList();
         int characterItemCount = Random.Range(3, 4);
         for (int x = 0; x < characterItemCount; x++)
