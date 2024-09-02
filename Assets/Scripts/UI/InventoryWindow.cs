@@ -41,4 +41,18 @@ public class InventoryWindow : MonoBehaviour
     {
         inventoryWidget.Refresh(inventoryController.GetIcons(_currentItemType));
     }
+
+    public void ChangeItemType(string itemType)
+    {
+        switch (itemType)
+        {
+            case "Spells":
+                _currentItemType = InventoryController.ItemType.Spells;
+                break;
+            case "Hats":
+                _currentItemType = InventoryController.ItemType.Hats;
+                break;
+        }
+        Refresh();
+    }
 }
