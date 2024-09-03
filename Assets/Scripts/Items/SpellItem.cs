@@ -28,8 +28,11 @@ public class SpellItem : MonoBehaviour, IItem
 
     private void Start()
     {
-        _chatBox = ChatBoxManager.Instance.SpawnChatBox(transform);
-        _chatBox.SetMessage("<sprite name=\"UI_117\"> " + _data.Cost.ToString());
+        if (isStoreItem)
+        {
+            _chatBox = ChatBoxManager.Instance.SpawnChatBox(transform);
+            _chatBox.SetMessage("<sprite name=\"UI_117\"> " + _data.Cost.ToString());
+        }
     }
 
     private void Update()

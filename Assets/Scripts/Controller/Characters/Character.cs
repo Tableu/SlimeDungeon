@@ -71,12 +71,15 @@ namespace Controller.Player
         public void ApplyDamage(float damage, Type attackType)
         {
             float typeMultiplier = GlobalReferences.Instance.TypeManager.GetTypeMultiplier(ElementType, attackType);
-            foreach (EquipmentData.Effect buff in _equipment.Buffs)
+            if (_equipment != null)
             {
-                if (buff.Element == attackType && buff.Type == EquipmentData.EffectType.Armor)
-                    damage -= buff.Value;
+                foreach (EquipmentData.Effect buff in _equipment.Buffs)
+                {
+                    if (buff.Element == attackType && buff.Type == EquipmentData.EffectType.Armor)
+                        damage -= buff.Value;
+                }
             }
-            
+
             Health -= damage*typeMultiplier - Armor;
         }
 
