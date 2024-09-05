@@ -2430,6 +2430,7 @@ MonoBehaviour:
   characterDictionary: {fileID: 11400000, guid: b43cbbdadab028343a4c346542c1b8bc, type: 2}
   model: {fileID: 1013705705}
   loadingScreen: {fileID: 836506143}
+  saveManager: {fileID: 11400000, guid: b2904bfcd0490ac4ab6147d784290975, type: 2}
 --- !u!1001 &836506142
 PrefabInstance:
   m_ObjectHideFlags: 0

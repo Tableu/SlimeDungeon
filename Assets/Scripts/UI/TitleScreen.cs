@@ -12,6 +12,7 @@ public class TitleScreen : MonoBehaviour
     [FormerlySerializedAs("formDictionary")] [SerializeField] private CharacterDataDictionary characterDictionary;
     [SerializeField] private GameObject model;
     [SerializeField] private LoadingScreen loadingScreen;
+    [SerializeField] private SaveManager saveManager;
     private bool _saveExists;
     private void Start()
     {
@@ -30,6 +31,7 @@ public class TitleScreen : MonoBehaviour
     {
         if(_saveExists)
             File.Delete(SaveManager.DefaultSavePath);
+        saveManager.ClearPlayerPrefs();
         SceneManager.LoadScene("Scenes/Character Selection");
     }
 
