@@ -18,26 +18,31 @@ MonoBehaviour:
   - RelativePosition: {x: 0, y: 0}
     Rotation: {x: 0, y: 0, z: 0}
     Prefab: {fileID: 8475587471981904468, guid: f1dc148e46dc54d4193ea448a06035d7, type: 3}
+    RandomPosition: 0
     DecorationSpot: 0
     NearWall: 0
   - RelativePosition: {x: 0.5, y: 0.5}
     Rotation: {x: 0, y: 0, z: 0}
     Prefab: {fileID: 5116745627753682297, guid: f0fdf0cad1e6e1b48a0d3e6209f116e1, type: 3}
+    RandomPosition: 0
     DecorationSpot: 0
     NearWall: 0
   - RelativePosition: {x: -0.5, y: 0.5}
     Rotation: {x: 0, y: 0, z: 0}
     Prefab: {fileID: 5116745627753682297, guid: f0fdf0cad1e6e1b48a0d3e6209f116e1, type: 3}
+    RandomPosition: 0
     DecorationSpot: 0
     NearWall: 0
   - RelativePosition: {x: 0.5, y: -0.5}
     Rotation: {x: 0, y: 0, z: 0}
     Prefab: {fileID: 5116745627753682297, guid: f0fdf0cad1e6e1b48a0d3e6209f116e1, type: 3}
+    RandomPosition: 0
     DecorationSpot: 0
     NearWall: 0
   - RelativePosition: {x: -0.5, y: -0.5}
     Rotation: {x: 0, y: 0, z: 0}
     Prefab: {fileID: 5116745627753682297, guid: f0fdf0cad1e6e1b48a0d3e6209f116e1, type: 3}
+    RandomPosition: 0
     DecorationSpot: 0
     NearWall: 0
   randomDecorations:
@@ -82,8 +87,6 @@ MonoBehaviour:
     Repeatable: 0
     RequireWall: 1
   - Prefab: {fileID: 834991341219302362, guid: a4b4fc3681ea16d4caa2d2d7e25bb26a, type: 3}
-    Weight: 4
+    Weight: 10
     Repeatable: 0
     RequireWall: 0
-  randomEnemyGroups: {fileID: 11400000, guid: 327de8ed5f32b1444bea16fb7fd6e8ef, type: 2}
-  randomCharacterItems: {fileID: 11400000, guid: 68965c9505bcdbc42a13c0a7c04b31e4, type: 2}
