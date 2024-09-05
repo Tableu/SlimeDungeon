@@ -18849,6 +18849,7 @@ MonoBehaviour:
   - {fileID: 919679050}
   - {fileID: 777707215}
   saveManager: {fileID: 11400000, guid: b2904bfcd0490ac4ab6147d784290975, type: 2}
+  _mainHubData: {fileID: 11400000, guid: a1d02dd33dc440b47857cd8933a5f9d9, type: 2}
 --- !u!4 &1857187694 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4661435515762813124, guid: e289bf5debb17f6459818c207d781953, type: 3}

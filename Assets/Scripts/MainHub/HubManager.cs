@@ -6,7 +6,6 @@ using Systems.Save;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Windows;
-using Random = UnityEngine.Random;
 
 
 
@@ -19,6 +18,7 @@ public class HubManager : MonoBehaviour
     [SerializeField] private List<CharacterItem> characterItems;
     [SerializeField] private List<SpellItem> spellItems;
     [SerializeField] private SaveManager saveManager;
+    [SerializeField] private MainHubData _mainHubData;
     private List<CharacterData> _initialCharacterDatas;
 
     private void Awake()
@@ -31,14 +31,14 @@ public class HubManager : MonoBehaviour
         if (!File.Exists(saveManager.savePath))
             return;
         _initialCharacterDatas = partyController.Characters.Select(character => character.Data).ToList();
-        int characterItemCount = Random.Range(3, 4);
-        for (int x = 0; x < characterItemCount; x++)
+        MainHubLevel levelData = _mainHubData.GetLevelData(PlayerPrefs.GetInt("SlimesSaved"));
+
+        for (int x = 0; x < levelData.CharacterCount; x++)
         {
             SetCharacterItem(characterItems[x]);
         }
 
-        int spellItemCount = Random.Range(1, 3);
-        for (int x = 0; x < spellItemCount; x++)
+        for (int x = 0; x < levelData.SpellCount; x++)
         {
             SetSpellItem(spellItems[x]);
         }
