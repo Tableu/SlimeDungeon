@@ -13,4 +13,6 @@ MonoBehaviour:
   m_Name: Equipment Dictionary
   m_EditorClassIdentifier: 
   dataObjects:
-    entries: []
+    entries:
+    - Key: Hat
+      Value: {fileID: 11400000, guid: 50966eeca31c04f46a5d1fca65657d22, type: 2}
