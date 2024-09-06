@@ -21,7 +21,6 @@ namespace Controller.Player
         public CharacterData Data => _data;
         public float Health { get; private set; }
         public ModifiableStat Speed { get; }
-        public ModifiableStat Armor { get; }
 
         public Vector2 MaxVelocity => _maxVelocity;
         public Type ElementType => _elementType;
@@ -34,7 +33,6 @@ namespace Controller.Player
             _data = data;
             Health = data.Health;
             Speed = new ModifiableStat(data.Speed);
-            Armor = new ModifiableStat(0);
             _maxVelocity = data.MaxVelocity;
             _elementType = data.ElementType;
             _characterInfo = characterInfo;
@@ -46,7 +44,6 @@ namespace Controller.Player
             _data = data;
             Health = health;
             Speed = new ModifiableStat(data.Speed);
-            Armor = new ModifiableStat(0);
             _maxVelocity = data.MaxVelocity;
             _elementType = data.ElementType;
             _characterInfo = characterInfo;
@@ -75,12 +72,12 @@ namespace Controller.Player
             {
                 foreach (EquipmentData.Effect buff in _equipment.Buffs)
                 {
-                    if (buff.Element == attackType && buff.Type == EquipmentData.EffectType.Armor)
+                    if (buff.Element.HasFlag(attackType) && buff.Type == EquipmentData.EffectType.Armor)
                         damage -= buff.Value;
                 }
             }
 
-            Health -= damage*typeMultiplier - Armor;
+            Health -= damage*typeMultiplier;
         }
 
         public void Equip(GameObject model, PlayerInputActions playerInputActions)

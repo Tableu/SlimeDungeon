@@ -17,11 +17,11 @@ public class EquipmentData : ScriptableObject
     }
 
     [Serializable]
-    public readonly struct Effect
+    public struct Effect
     {
-        public readonly EffectType Type;
-        public readonly Type Element;
-        public readonly float Value;
+        public EffectType Type;
+        public Type Element;
+        public float Value;
 
         public Effect(EffectType type, Type element, float value)
         {
@@ -46,8 +46,6 @@ public class EquipmentData : ScriptableObject
             switch (buff.Type)
             {
                 case EffectType.Armor:
-                    if(buff.Element == Type.None)
-                        character.Armor.BaseModifier += buff.Value;
                     break;
                 case EffectType.Damage:
                     break;
@@ -65,8 +63,6 @@ public class EquipmentData : ScriptableObject
             switch (buff.Type)
             {
                 case EffectType.Armor:
-                    if(buff.Element == Type.None)
-                        character.Armor.BaseModifier -= buff.Value;
                     break;
                 case EffectType.Damage:
                     break;
