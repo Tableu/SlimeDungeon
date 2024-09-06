@@ -82,7 +82,7 @@ namespace Controller.Player
 
         public void Equip(GameObject model, PlayerInputActions playerInputActions)
         {
-            _characterAnimator = _data.AttachScript(model);
+            _characterAnimator = model.GetComponent<CharacterAnimator>();
             _characterAnimator.Initialize(this, playerInputActions);
             if(_equipment != null)
                 _characterAnimator.RefreshEquipment(_equipment);

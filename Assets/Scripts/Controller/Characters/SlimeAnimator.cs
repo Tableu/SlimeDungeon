@@ -26,6 +26,8 @@ namespace Controller.Player
 
         private void Update()
         {
+            if (inputActions == null)
+                return;
             if (_movementEnabledLastFrame != inputActions.Movement.Pressed.enabled && 
                 inputActions.Movement.Pressed.IsPressed())
             {
@@ -39,6 +41,8 @@ namespace Controller.Player
 
         private void OnDestroy()
         {
+            if (inputActions == null)
+                return;
             inputActions.Movement.Pressed.canceled -= MovementCanceled;
             inputActions.Movement.Pressed.started -= MovementStarted;
         }

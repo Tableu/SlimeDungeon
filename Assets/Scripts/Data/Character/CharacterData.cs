@@ -5,8 +5,9 @@ using UnityEngine.Serialization;
 
 namespace Controller.Player
 {
+    [CreateAssetMenu(fileName = "CharacterData", menuName = "Data/CharacterData")]
     [Serializable]
-    public abstract class CharacterData : ScriptableObject
+    public class CharacterData : ScriptableObject
     {
         [Header("Stats")]
         [SerializeField] private float health;
@@ -32,7 +33,5 @@ namespace Controller.Player
         public Elements.Type ElementType => elementType;
         public Vector3 SpellOffset => spellOffset;
         public int Cost => cost;
-
-        public abstract CharacterAnimator AttachScript(GameObject gameObject);
     }
 }

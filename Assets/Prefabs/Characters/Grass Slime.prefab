@@ -7,6 +7,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1721066092903444907, guid: 909e8d8b41d854b46bb8c0412480eeff, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1721066092903444907, guid: 909e8d8b41d854b46bb8c0412480eeff, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1721066092903444907, guid: 909e8d8b41d854b46bb8c0412480eeff, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6216532115693788942, guid: 909e8d8b41d854b46bb8c0412480eeff, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -55,8 +67,25 @@ PrefabInstance:
       propertyPath: m_Name
       value: Grass Slime
       objectReference: {fileID: 0}
+    - target: {fileID: 8967329325710345655, guid: 909e8d8b41d854b46bb8c0412480eeff, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.024
+      objectReference: {fileID: 0}
+    - target: {fileID: 8967329325710345655, guid: 909e8d8b41d854b46bb8c0412480eeff, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.53899974
+      objectReference: {fileID: 0}
+    - target: {fileID: 8967329325710345655, guid: 909e8d8b41d854b46bb8c0412480eeff, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.09099996
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 909e8d8b41d854b46bb8c0412480eeff, type: 3}
+--- !u!4 &976451149775878994 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8967329325710345655, guid: 909e8d8b41d854b46bb8c0412480eeff, type: 3}
+  m_PrefabInstance: {fileID: 8214380621997358821}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &3238378463816399697 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6705402075998324148, guid: 909e8d8b41d854b46bb8c0412480eeff, type: 3}
@@ -96,3 +125,16 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &5181039112670788842
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3238378463816399697}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2420a177c2aff5045bd10772fd8d41b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hatRoot: {fileID: 976451149775878994}

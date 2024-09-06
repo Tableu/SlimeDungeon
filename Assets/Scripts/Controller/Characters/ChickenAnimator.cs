@@ -23,6 +23,8 @@ public class ChickenAnimator : CharacterAnimator
     
     private void Update()
     {
+        if (inputActions == null)
+            return;
         if (_movementEnabledLastFrame != inputActions.Movement.Pressed.enabled && 
             inputActions.Movement.Pressed.IsPressed())
         {
