@@ -131,9 +131,9 @@ public class PartyController : MonoBehaviour, ISavable
             return null;
         
         AttackData oldSpell = _characters[index].EquipSpell(data);
-        OnSpellEquipped.Invoke(data);
+        OnSpellEquipped?.Invoke(data);
         if (oldSpell != null)
-            OnSpellUnEquipped.Invoke(oldSpell);
+            OnSpellUnEquipped?.Invoke(oldSpell);
         return oldSpell;
     }
 
@@ -143,7 +143,7 @@ public class PartyController : MonoBehaviour, ISavable
             return null;
         AttackData oldSpell = _characters[index].UnEquipSpell();
         if (oldSpell != null)
-            OnSpellUnEquipped.Invoke(oldSpell);
+            OnSpellUnEquipped?.Invoke(oldSpell);
         return oldSpell;
     }
     
@@ -153,9 +153,9 @@ public class PartyController : MonoBehaviour, ISavable
             return null;
         
         EquipmentData oldEquipment = _characters[index].AddEquipment(data);
-        OnEquipmentAdded.Invoke(data);
+        OnEquipmentAdded?.Invoke(data);
         if (oldEquipment != null)
-            OnEquipmentRemoved.Invoke(oldEquipment);
+            OnEquipmentRemoved?.Invoke(oldEquipment);
         return oldEquipment;
     }
 
@@ -165,7 +165,7 @@ public class PartyController : MonoBehaviour, ISavable
             return null;
         EquipmentData oldEquipment = _characters[index].RemoveEquipment();
         if (oldEquipment != null)
-            OnEquipmentRemoved.Invoke(oldEquipment);
+            OnEquipmentRemoved?.Invoke(oldEquipment);
         return oldEquipment;
     }
 

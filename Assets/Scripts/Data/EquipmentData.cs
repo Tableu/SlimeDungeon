@@ -34,10 +34,12 @@ public class EquipmentData : ScriptableObject
     [SerializeField] private List<Effect> buffs;
     [SerializeField] private GameObject model;
     [SerializeField] private new string name;
+    [SerializeField] private int cost;
 
     public GameObject Model => model;
     public List<Effect> Buffs => buffs;
     public string Name => name;
+    public int Cost => cost;
 
     public void Equip(Character character)
     {
