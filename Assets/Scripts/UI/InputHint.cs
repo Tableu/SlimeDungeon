@@ -28,6 +28,9 @@ public class InputHint : MonoBehaviour
                 case SpellItem:
                     text.text = "[Spacebar] - Pick up spell";
                     break;
+                case HatItem:
+                    text.text = "[Spacebar] - Pick up hat";
+                    break;
             }
         }
         else

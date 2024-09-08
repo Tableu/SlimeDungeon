@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using cakeslice;
 using UnityEngine;
 
@@ -8,8 +9,8 @@ public class HatItem : MonoBehaviour, IItem
     [SerializeField] private Vector3 launchSpeed;
     [SerializeField] private float rotateSpeed;
     [SerializeField] private bool isStoreItem;
-    [SerializeField] private List<Outline> outlineScripts;
 
+    private List<Outline> _outlineScripts;
     private EquipmentData _data;
     private GameObject _model;
     private Chatbox _chatBox;
@@ -17,7 +18,7 @@ public class HatItem : MonoBehaviour, IItem
     public void Initialize(EquipmentData data)
     {
         _data = data;
-        GameObject hat = Instantiate(data.Model, transform);
+        Instantiate(data.Model, transform);
         rigidbody.AddRelativeForce(launchSpeed, ForceMode.Impulse);
     }
 
@@ -28,6 +29,8 @@ public class HatItem : MonoBehaviour, IItem
             _chatBox = ChatBoxManager.Instance.SpawnChatBox(transform);
             _chatBox.SetMessage("<sprite name=\"UI_117\"> " + _data.Cost.ToString());
         }
+
+        _outlineScripts = GetComponentsInChildren<Outline>().ToList();
     }
 
     private void Update()
@@ -61,7 +64,7 @@ public class HatItem : MonoBehaviour, IItem
 
     public void Highlight(bool enable)
     {
-        foreach (Outline script in outlineScripts)
+        foreach (Outline script in _outlineScripts)
         {
             if(script != null)
                 script.enabled = enable;

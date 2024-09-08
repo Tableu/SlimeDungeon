@@ -18,3 +18,4 @@ MonoBehaviour:
     Value: 2
   model: {fileID: 7505111013321609002, guid: cf6f986d4652d2d41a44b94b7d62a704, type: 3}
   name: Hat
+  cost: 10

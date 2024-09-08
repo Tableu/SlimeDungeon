@@ -17,6 +17,7 @@ public class HubManager : MonoBehaviour
     [SerializeField] private RandomizedChestLoot randomizedChestLoot;
     [SerializeField] private List<CharacterItem> characterItems;
     [SerializeField] private List<SpellItem> spellItems;
+    [SerializeField] private List<HatItem> hatItems;
     [SerializeField] private SaveManager saveManager;
     [SerializeField] private MainHubData _mainHubData;
     private List<CharacterData> _initialCharacterDatas;
@@ -42,6 +43,11 @@ public class HubManager : MonoBehaviour
         {
             SetSpellItem(spellItems[x]);
         }
+        
+        for (int x = 0; x < levelData.HatCount; x++)
+        {
+            SetHatItem(hatItems[x]);
+        }
     }
 
     private void SetCharacterItem(CharacterItem characterItem)
@@ -63,6 +69,13 @@ public class HubManager : MonoBehaviour
         AttackData data = randomizedChestLoot.GetSpell();
         spellItem.gameObject.SetActive(true);
         spellItem.Initialize(data);
+    }
+
+    private void SetHatItem(HatItem hatItem)
+    {
+        EquipmentData data = randomizedChestLoot.GetHat();
+        hatItem.gameObject.SetActive(true);
+        hatItem.Initialize(data);
     }
 
     public void LoadDungeonLevel()
