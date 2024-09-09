@@ -6,8 +6,8 @@ public class UIRenderTexture : MonoBehaviour
     [SerializeField] private new Camera camera;
     [SerializeField] private Transform modelParent;
     private bool _pauseCamera;
-    private GameObject _model;
     private RenderTexture _renderTexture;
+    public GameObject Model { get; private set; }
 
     public RenderTexture RenderTexture => _renderTexture;
     
@@ -23,10 +23,17 @@ public class UIRenderTexture : MonoBehaviour
 
     public void ChangeModel(GameObject model)
     {
-        if(_model != null)
-            Destroy(_model);
-        _model = Instantiate(model, modelParent);
+        if(Model != null)
+            Destroy(Model);
+        Model = Instantiate(model, modelParent);
         camera.enabled = true;
+        if(_pauseCamera)
+            StartCoroutine(PauseCamera());
+    }
+
+    public void AdjustCamera(Vector3 offset)
+    {
+        camera.transform.localPosition += offset;
         if(_pauseCamera)
             StartCoroutine(PauseCamera());
     }

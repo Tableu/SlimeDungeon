@@ -11,7 +11,7 @@ namespace Controller.Player
         private GameObject _hat;
         public abstract void Initialize(Character character, PlayerInputActions inputActions);
 
-        public virtual void RefreshEquipment(EquipmentData equipmentData)
+        public virtual void RefreshHat(EquipmentData equipmentData)
         {
             if(_hat != null)
                 Destroy(_hat);

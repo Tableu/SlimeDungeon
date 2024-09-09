@@ -85,7 +85,7 @@ namespace Controller.Player
             _characterAnimator = model.GetComponent<CharacterAnimator>();
             _characterAnimator.Initialize(this, playerInputActions);
             if(_equipment != null)
-                _characterAnimator.RefreshEquipment(_equipment);
+                _characterAnimator.RefreshHat(_equipment);
         }
 
         public void Drop()
@@ -144,7 +144,7 @@ namespace Controller.Player
             _equipment = equipmentData;
             equipmentData.Equip(this);
             if(_characterAnimator != null)
-                _characterAnimator.RefreshEquipment(_equipment);
+                _characterAnimator.RefreshHat(_equipment);
             return oldEquipment;
         }
 
@@ -156,7 +156,7 @@ namespace Controller.Player
             _equipment.Drop(this);
             _equipment = null;
             if(_characterAnimator != null)
-                _characterAnimator.RefreshEquipment(_equipment);
+                _characterAnimator.RefreshHat(_equipment);
             return oldEquipment;
         }
         

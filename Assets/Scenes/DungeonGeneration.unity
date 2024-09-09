@@ -2607,6 +2607,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 843911631}
     - target: {fileID: 3761534644827648116, guid: 2baaee2a3018b7649b65af9fc510fed3, type: 3}
+      propertyPath: partyController
+      value: 
+      objectReference: {fileID: 843911630}
+    - target: {fileID: 3761534644827648116, guid: 2baaee2a3018b7649b65af9fc510fed3, type: 3}
       propertyPath: inventoryController
       value: 
       objectReference: {fileID: 843911632}

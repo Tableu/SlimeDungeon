@@ -1,9 +1,11 @@
+using Controller.Player;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class InventoryWindow : MonoBehaviour
 {
     [SerializeField] private InventoryController inventoryController;
+    [SerializeField] private PartyController partyController;
     [SerializeField] private InventoryWidget inventoryWidget;
     [SerializeField] private RawImage image;
     private UIRenderTexture _renderTexture;
@@ -12,13 +14,20 @@ public class InventoryWindow : MonoBehaviour
     private void Start()
     {
         _currentItemType = InventoryController.ItemType.Spells;
+        partyController.OnEquipmentAdded += RefreshHat;
+        partyController.OnEquipmentRemoved += delegate(EquipmentData data)
+        {
+            RefreshHat(null);
+        };
         inventoryWidget.OnItemClicked += delegate(int i, bool b)
         {
             inventoryController.ItemClicked(i, b, _currentItemType);
             Refresh();
-        };;
+        };
         _renderTexture = UIRenderTextureManager.Instance.SpawnRenderTexture(false);
         _renderTexture.ChangeModel(inventoryController.SelectedCharacter.Data.Model);
+        _renderTexture.AdjustCamera(new Vector3(0,0,-0.5f));
+        RefreshHat(inventoryController.SelectedCharacter.Equipment);
         image.texture = _renderTexture.RenderTexture;
         Refresh();
     }
@@ -26,22 +35,30 @@ public class InventoryWindow : MonoBehaviour
     public void Next()
     {
         inventoryController.ChangeCharacter(1);
-        _renderTexture.ChangeModel(inventoryController.SelectedCharacter?.Data.Model);
-        Refresh();
+        if (inventoryController.SelectedCharacter != null)
+        {
+            _renderTexture.ChangeModel(inventoryController.SelectedCharacter.Data.Model);
+            RefreshHat(inventoryController.SelectedCharacter.Equipment);
+            Refresh();
+        }
     }
 
     public void Previous()
     {
         inventoryController.ChangeCharacter(-1);
-        _renderTexture.ChangeModel(inventoryController.SelectedCharacter?.Data.Model);
-        Refresh();
+        if (inventoryController.SelectedCharacter != null)
+        {
+            _renderTexture.ChangeModel(inventoryController.SelectedCharacter.Data.Model);
+            RefreshHat(inventoryController.SelectedCharacter.Equipment);
+            Refresh();
+        }
     }
 
     public void Refresh()
     {
         inventoryWidget.Refresh(inventoryController.GetIcons(_currentItemType));
     }
-
+    
     public void ChangeItemType(string itemType)
     {
         switch (itemType)
@@ -54,5 +71,22 @@ public class InventoryWindow : MonoBehaviour
                 break;
         }
         Refresh();
+    }
+
+    private void RefreshHat(EquipmentData data)
+    {
+        if (_renderTexture != null && _renderTexture.Model != null)
+        {
+            CharacterAnimator animator = _renderTexture.Model.GetComponentInChildren<CharacterAnimator>();
+            if (animator != null)
+            {
+                animator.RefreshHat(data);
+            }
+        }
+    }
+
+    private void OnDestroy()
+    {
+        partyController.OnEquipmentAdded -= RefreshHat;
     }
 }
