@@ -36,5 +36,9 @@ MonoBehaviour:
       Value: {fileID: 21300000, guid: 411f88b287eb8504aa08edb04c1443c6, type: 3}
     - Key: Cannon Shot
       Value: {fileID: 21300000, guid: 8cfb7309ecb4fa14fa40431963ae59ea, type: 3}
-    - Key: Hat
+    - Key: Crown
       Value: {fileID: 21300000, guid: 495b165e4f96ef14fb23cd71fa625a47, type: 3}
+    - Key: Magician Hat
+      Value: {fileID: 21300000, guid: ee34195976181ef4b83f98f5034ab668, type: 3}
+    - Key: Viking Hat
+      Value: {fileID: 21300000, guid: d70dd1b9c6ae54448923db5c4924edd5, type: 3}
