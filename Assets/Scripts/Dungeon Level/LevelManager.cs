@@ -134,7 +134,7 @@ public class LevelManager : MonoBehaviour, ISavable
         {
             saveManager.Save();
             PlayerPrefs.Save();
-            StartCoroutine(LoadSceneAsync());
+            StartCoroutine(LoadSceneAsync("Scenes/MainHub"));
         }
         else
         {
@@ -144,6 +144,11 @@ public class LevelManager : MonoBehaviour, ISavable
             Time.timeScale = 0;
             playerController.enabled = false;
         }
+    }
+
+    public void GoToTitleScreen()
+    {
+        StartCoroutine(LoadSceneAsync("Scenes/Title Screen"));
     }
 
     public void HandlePlayerDeath()
@@ -161,9 +166,9 @@ public class LevelManager : MonoBehaviour, ISavable
         Time.timeScale = 0;
     }
 
-    private IEnumerator LoadSceneAsync()
+    private IEnumerator LoadSceneAsync(string scene)
     {
-        AsyncOperation loadSceneAsync = SceneManager.LoadSceneAsync("Scenes/MainHub");
+        AsyncOperation loadSceneAsync = SceneManager.LoadSceneAsync(scene);
         
         loadingScreen.gameObject.SetActive(true);
         while (!loadSceneAsync.isDone)
