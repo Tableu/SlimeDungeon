@@ -16,6 +16,7 @@ public class TitleScreen : MonoBehaviour
     private bool _saveExists;
     private void Start()
     {
+        Time.timeScale = 1;
         _saveExists = File.Exists(SaveManager.DefaultSavePath);
         continueButton.SetActive(_saveExists);
         System.Random rand = new System.Random();
