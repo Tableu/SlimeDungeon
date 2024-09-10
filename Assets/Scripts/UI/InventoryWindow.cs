@@ -1,3 +1,4 @@
+using System;
 using Controller.Player;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,6 +7,7 @@ public class InventoryWindow : MonoBehaviour
 {
     [SerializeField] private InventoryController inventoryController;
     [SerializeField] private PartyController partyController;
+    [SerializeField] private PlayerController playerController;
     [SerializeField] private InventoryWidget inventoryWidget;
     [SerializeField] private RawImage image;
     private UIRenderTexture _renderTexture;
@@ -85,8 +87,25 @@ public class InventoryWindow : MonoBehaviour
         }
     }
 
+    private void OnEnable()
+    {
+        if(PlayerCursor.Instance != null)
+            PlayerCursor.Instance.SwitchToCursor();
+        if(playerController != null)
+            playerController.enabled = false;
+    }
+
+    private void OnDisable()
+    {
+        if(PlayerCursor.Instance != null)
+            PlayerCursor.Instance.SwitchToCrossHair();
+        if(playerController != null)
+            playerController.enabled = true;
+    }
+
     private void OnDestroy()
     {
-        partyController.OnEquipmentAdded -= RefreshHat;
+        if(partyController != null)
+            partyController.OnEquipmentAdded -= RefreshHat;
     }
 }

@@ -8,7 +8,6 @@ public class PauseMenu : MonoBehaviour
     [SerializeField] private GameObject pauseMenu;
     [SerializeField] private PlayerController playerController;
     [SerializeField] private Button exitButton;
-    [SerializeField] private Crosshair crosshair;
         private void Start()
     {
         playerController.PlayerInputActions.Other.Escape.started += OnClick;
@@ -38,11 +37,13 @@ public class PauseMenu : MonoBehaviour
         playerController.enabled = !pauseMenu.activeSelf;
         if (pauseMenu.activeSelf)
         {
-            crosshair.Hide();
+            if(PlayerCursor.Instance != null)
+                PlayerCursor.Instance.SwitchToCursor();
         }
         else
         {
-            crosshair.Show();
+            if(PlayerCursor.Instance != null)
+                PlayerCursor.Instance.SwitchToCrossHair();
         }
     }
     

@@ -1,24 +1,42 @@
-using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-public class Crosshair : MonoBehaviour
+public class PlayerCursor : MonoBehaviour
 {
+    private static PlayerCursor _instance;
+    public static PlayerCursor Instance => _instance;
+
     [SerializeField] private PartyController controller;
     [SerializeField] private Image reloadIcon;
     [SerializeField] private Image crossHairIcon;
+    [SerializeField] private Image cursorIcon;
+    
+    private void Awake()
+    {
+        if (_instance != null && _instance != this)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            _instance = this;
+        }
+    }
     private void Start()
     {
-        Cursor.visible = false;
-        controller.CurrentCharacter.BasicAttack.OnCooldownEvent += OnCooldown;
-        controller.OnCharacterChanged += delegate
+        UnityEngine.Cursor.visible = false;
+        if (controller != null)
         {
-            //We don't need to unsubscribe since the basic attack will be destroyed before we are able to do so
-            StopCoroutine(Cooldown(0));
             controller.CurrentCharacter.BasicAttack.OnCooldownEvent += OnCooldown;
-        };
+            controller.OnCharacterChanged += delegate
+            {
+                //We don't need to unsubscribe since the basic attack will be destroyed before we are able to do so
+                StopCoroutine(Cooldown(0));
+                controller.CurrentCharacter.BasicAttack.OnCooldownEvent += OnCooldown;
+            };
+        }
     }
     private void Update()
     {
@@ -42,22 +60,17 @@ public class Crosshair : MonoBehaviour
         reloadIcon.fillAmount = 1;
     }
 
-    public void Show()
+    public void SwitchToCrossHair()
     {
-        Cursor.visible = false;
         crossHairIcon.enabled = true;
         reloadIcon.enabled = true;
+        cursorIcon.enabled = false;
     }
 
-    public void Hide()
+    public void SwitchToCursor()
     {
-        Cursor.visible = true;
+        cursorIcon.enabled = true;
         crossHairIcon.enabled = false;
         reloadIcon.enabled = false;
-    }
-
-    private void OnDestroy()
-    {
-        Cursor.visible = true;
     }
 }
