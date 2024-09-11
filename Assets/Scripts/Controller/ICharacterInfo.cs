@@ -10,6 +10,14 @@ namespace Controller
         {
             get;
         }
+        public ModifiableStat Armor
+        {
+            get;
+        }
+        public ModifiableStat Damage
+        {
+            get;
+        }
         public float Health
         {
             get;

@@ -22,7 +22,7 @@ public class FlamethrowerAttack : Attack
         _flamethrower.transform.rotation = Quaternion.Euler(_flamethrower.transform.rotation.x, CharacterInfo.Transform.rotation.eulerAngles.y-90, _flamethrower.transform.rotation.z);
         SetLayer(_flamethrower);
         var script = _flamethrower.GetComponent<Flamethrower>();
-        script.Initialize(Data.Damage, Data.Knockback, Data.HitStun,
+        script.Initialize(Data.Damage*CharacterInfo.Damage, Data.Knockback, Data.HitStun,
             transform.forward * Data.Speed, Data.ElementType);
 
         CharacterInfo.Speed.MultiplicativeModifer -= 0.5f;

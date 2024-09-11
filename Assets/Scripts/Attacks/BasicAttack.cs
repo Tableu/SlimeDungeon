@@ -19,7 +19,7 @@ public class BasicAttack<T> : Attack where T : BasicProjectile
             var script = projectile.GetComponent<T>();
             if (script == null)
                 return false;
-            script.Initialize(Data.Damage, Data.Knockback, Data.HitStun,
+            script.Initialize(Data.Damage*CharacterInfo.Damage, Data.Knockback, Data.HitStun,
                 transform.forward * Data.Speed, Data.ElementType);
             Cooldown(Data.Cooldown);
             return true;

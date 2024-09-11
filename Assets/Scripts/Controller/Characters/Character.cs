@@ -21,6 +21,8 @@ namespace Controller.Player
         public CharacterData Data => _data;
         public float Health { get; private set; }
         public ModifiableStat Speed { get; }
+        public ModifiableStat Armor { get; }
+        public ModifiableStat Damage { get; }
 
         public Vector2 MaxVelocity => _maxVelocity;
         public Type ElementType => _elementType;
@@ -33,6 +35,8 @@ namespace Controller.Player
             _data = data;
             Health = data.Health;
             Speed = new ModifiableStat(data.Speed);
+            Damage = new ModifiableStat(1.0f);
+            Armor = new ModifiableStat(0);
             _maxVelocity = data.MaxVelocity;
             _elementType = data.ElementType;
             _characterInfo = characterInfo;
@@ -44,6 +48,8 @@ namespace Controller.Player
             _data = data;
             Health = health;
             Speed = new ModifiableStat(data.Speed);
+            Damage = new ModifiableStat(1.0f);
+            Armor = new ModifiableStat(0);
             _maxVelocity = data.MaxVelocity;
             _elementType = data.ElementType;
             _characterInfo = characterInfo;

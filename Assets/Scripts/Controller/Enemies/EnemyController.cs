@@ -37,6 +37,16 @@ public abstract class EnemyController : MonoBehaviour, ICharacterInfo, IDamageab
         get;
         protected set;
     }
+    public ModifiableStat Armor
+    {
+        get;
+        protected set;
+    }
+    public ModifiableStat Damage
+    {
+        get;
+        protected set;
+    }
     public float Health
     {
         get;
@@ -69,6 +79,8 @@ public abstract class EnemyController : MonoBehaviour, ICharacterInfo, IDamageab
     {
         Attacks = new List<Attack>();
         Speed = new ModifiableStat(enemyData.Speed);
+        Armor = new ModifiableStat(0);
+        Damage = new ModifiableStat(1f);
         Health = enemyData.Health;
         foreach (AttackData attackData in enemyData.Attacks)
         {

@@ -34,11 +34,10 @@ public class PlayerController : MonoBehaviour, ICharacterInfo, IDamageable
     public IItem HighlightedItem => _highlightedItem;
     public float Health => _currentCharacter.Health;
 
-    public ModifiableStat Speed
-    {
-        get;
-        private set;
-    }
+    public ModifiableStat Speed => _currentCharacter.Speed;
+    public ModifiableStat Damage => _currentCharacter.Damage;
+    public ModifiableStat Armor => _currentCharacter.Armor;
+
     public LayerMask EnemyMask
     {
         get;
@@ -52,8 +51,6 @@ public class PlayerController : MonoBehaviour, ICharacterInfo, IDamageable
     #region Unity Event Functions
     private void Awake()
     {
-        Speed = new ModifiableStat(1);
-        
         _lastDirection = Vector2.zero;
         switchFormParticleSystem.Stop();
 
@@ -255,7 +252,6 @@ public class PlayerController : MonoBehaviour, ICharacterInfo, IDamageable
     private void OnCharacterChanged(Character character)
     {
         _currentCharacter = character;
-        Speed.UpdateBaseValue(character.Speed);
         switchFormParticleSystem.Play();
         model.SetActive(false);
         Destroy(model);
