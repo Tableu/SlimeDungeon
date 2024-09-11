@@ -44,7 +44,7 @@ public class HatItem : MonoBehaviour, IItem
             Destroy(_chatBox.gameObject);
     }
 
-    public void PickUp(PlayerController character, InventoryController inventory)
+    public void PickUp(PlayerController character, InventoryController inventory, PartyController partyController)
     {
         if (isStoreItem)
             ResourceManager.Instance.Coins.Remove(_data.Cost);

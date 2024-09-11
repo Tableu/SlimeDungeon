@@ -44,14 +44,10 @@ public class CharacterItem : MonoBehaviour, IItem
             Destroy(_chatBox.gameObject);
     }
 
-    public void PickUp(PlayerController character, InventoryController inventory)
+    public void PickUp(PlayerController character, InventoryController inventory, PartyController partyController)
     {
         if (!bought)
             ResourceManager.Instance.Coins.Remove(_initialCharacterData.Cost);
-        //slightly hacky solution here - would rather not use GetComponent here
-        PartyController partyController = character.GetComponent<PartyController>();
-        if (partyController == null)
-            return;
         Character partyMember = _oldPartyMember ?? new Character(_initialCharacterData, character);
         _oldPartyMember = partyController.AddPartyMember(partyMember);
         if (_oldPartyMember != null)

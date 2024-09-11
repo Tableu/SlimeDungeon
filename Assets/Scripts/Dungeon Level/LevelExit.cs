@@ -17,7 +17,7 @@ public class LevelExit : MonoBehaviour, IItem
         }
     }
 
-    public void PickUp(PlayerController character, InventoryController inventory)
+    public void PickUp(PlayerController character, InventoryController inventory, PartyController partyController)
     {
         _levelManager.ExitLevel();
     }

@@ -13,7 +13,7 @@ public class Chest : MonoBehaviour, IItem
 
     private bool _opened;
 
-    public void PickUp(PlayerController character, InventoryController inventory)
+    public void PickUp(PlayerController character, InventoryController inventory, PartyController partyController)
     {
         if (!_opened)
         {
