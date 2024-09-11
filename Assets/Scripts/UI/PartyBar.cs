@@ -7,33 +7,49 @@ public class PartyBar : MonoBehaviour
 {
     [FormerlySerializedAs("formIconPrefab")] [SerializeField] private GameObject characterIconPrefab;
     [SerializeField] private PartyController partyController;
-    private List<CharacterBarIcon> characterIcons;
+    private List<CharacterBarIcon> _characterIcons;
 
     private void Start()
     {
-        characterIcons = new List<CharacterBarIcon>();
+        _characterIcons = new List<CharacterBarIcon>();
         for(int i = 0; i < partyController.MaxPartyCount; i++)
         {
             GameObject icon = Instantiate(characterIconPrefab, transform);
             var script = icon.GetComponent<CharacterBarIcon>();
             if (script != null)
             {
-                characterIcons.Add(script);
+                _characterIcons.Add(script);
                 if(partyController.Characters.Count > i)
                     script.SetIcon(partyController.Characters[i]);
             }
         }
 
+        partyController.OnCharacterChanged += OnCharacterChanged;
         partyController.OnPartyMemberAdded += OnPartyMemberAdd;
     }
 
     private void OnPartyMemberAdd(Character characterInstance, int index)
     {
-        characterIcons[index].SetIcon(characterInstance);
+        _characterIcons[index].SetIcon(characterInstance);
+        _characterIcons[index].SetSelected(partyController.CurrentCharacter);
+    }
+
+    private void OnCharacterChanged(Character character)
+    {
+        if (_characterIcons == null || _characterIcons.Count <= 0)
+            return;
+        foreach (CharacterBarIcon characterBarIcon in _characterIcons)
+        {
+            characterBarIcon.SetSelected(character);
+        }
     }
 
     private void OnDestroy()
     {
-        partyController.OnPartyMemberAdded -= OnPartyMemberAdd;
+        if (partyController != null)
+        {
+            partyController.OnPartyMemberAdded -= OnPartyMemberAdd;
+            partyController.OnCharacterChanged -= OnCharacterChanged;
+        }
     }
 }

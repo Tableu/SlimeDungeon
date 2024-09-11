@@ -8,6 +8,7 @@ public class CharacterBarIcon : MonoBehaviour
     [SerializeField] private RawImage icon;
     [SerializeField] private Slider slider;
     [SerializeField] private TextMeshProUGUI text;
+    [SerializeField] private Image selectedIcon;
     private Character _characterInstance;
     private UIRenderTexture _renderTexture;
     private void Awake()
@@ -36,5 +37,10 @@ public class CharacterBarIcon : MonoBehaviour
         slider.maxValue = _characterInstance.Data.Health;
         slider.gameObject.SetActive(true);
         text.text = characterInstance.Data.Name;
+    }
+
+    public void SetSelected(Character character)
+    {
+        selectedIcon.enabled = _characterInstance == character;
     }
 }
