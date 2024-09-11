@@ -23,7 +23,8 @@ public class PartyBar : MonoBehaviour
                     script.SetIcon(partyController.Characters[i]);
             }
         }
-
+        if(partyController.CurrentCharacter != null)
+            OnCharacterChanged(partyController.CurrentCharacter);
         partyController.OnCharacterChanged += OnCharacterChanged;
         partyController.OnPartyMemberAdded += OnPartyMemberAdd;
     }

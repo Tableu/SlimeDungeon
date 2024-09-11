@@ -13,17 +13,20 @@ public class HubManager : MonoBehaviour
 {
     [SerializeField] private LoadingScreen loadingScreen;
     [SerializeField] private PartyController partyController;
+    [SerializeField] private PlayerController playerController;
     [SerializeField] private RandomCharacterData randomCharacterData;
     [SerializeField] private RandomizedChestLoot randomizedChestLoot;
     [SerializeField] private List<CharacterItem> characterItems;
     [SerializeField] private List<SpellItem> spellItems;
     [SerializeField] private List<HatItem> hatItems;
     [SerializeField] private SaveManager saveManager;
-    [SerializeField] private MainHubData _mainHubData;
+    [SerializeField] private MainHubData mainHubData;
     private List<CharacterData> _initialCharacterDatas;
 
     private void Awake()
     {
+        playerController.Initialize();
+        partyController.Initialize(playerController.PlayerInputActions);
         saveManager.Load();
     }
 
@@ -32,7 +35,7 @@ public class HubManager : MonoBehaviour
         if (!File.Exists(saveManager.savePath))
             return;
         _initialCharacterDatas = partyController.Characters.Select(character => character.Data).ToList();
-        MainHubLevel levelData = _mainHubData.GetLevelData(PlayerPrefs.GetInt("SlimesSaved"));
+        MainHubLevel levelData = mainHubData.GetLevelData(PlayerPrefs.GetInt("SlimesSaved"));
 
         for (int x = 0; x < levelData.CharacterCount; x++)
         {
@@ -85,6 +88,7 @@ public class HubManager : MonoBehaviour
     
     private IEnumerator LoadSceneAsync()
     {
+        saveManager.Save();
         AsyncOperation loadSceneAsync = SceneManager.LoadSceneAsync("Scenes/DungeonGeneration");
         
         loadingScreen.gameObject.SetActive(true);

@@ -35,9 +35,10 @@ public class PartyController : MonoBehaviour, ISavable
 
     public void Initialize(PlayerInputActions inputActions)
     {
-        _playerInputActions = inputActions;
-        _characters = new List<Character>();
         _maxPartyCount = playerData.MaxFormCount;
+        _playerInputActions = inputActions;
+        _playerInputActions = playerController.PlayerInputActions;
+        _playerInputActions.Other.SwitchForms.started += SwitchCharacters;
         string initialForm = PlayerPrefs.GetString("Initial Form");
         if (_characters.Count == 0)
         {
@@ -47,11 +48,6 @@ public class PartyController : MonoBehaviour, ISavable
             OnPartyMemberAdded?.Invoke(character, 0);
             ChangeCharacter(_characters[_currentPartyMemberIndex], _currentPartyMemberIndex);
         }
-    }
-
-    private void Start()
-    {
-        _playerInputActions.Other.SwitchForms.started += SwitchCharacters;
     }
     
     public Character AddPartyMember(Character character)
@@ -203,7 +199,7 @@ public class PartyController : MonoBehaviour, ISavable
         {
             saveData.Add(new Character.SaveData(
                 characterDictionary.Dictionary.First(i => i.Value == character.Data).Key, 
-                character.Health, character.Spell.Data.Name));
+                character.Health, character.Spell?.Data.Name));
         }
         
         return new SaveData()
@@ -220,9 +216,18 @@ public class PartyController : MonoBehaviour, ISavable
         _characters.Clear();
         foreach (Character.SaveData data in saveData.Characters)
         {
-            AttackData attackData = attackDictionary.Dictionary.ContainsKey(data.Spell)
-                ? attackDictionary.Dictionary[data.Spell]
-                : null;
+            AttackData attackData;
+            if (data.Spell == null)
+            {
+                attackData = null;
+            }
+            else
+            {
+                attackData = attackDictionary.Dictionary.ContainsKey(data.Spell)
+                    ? attackDictionary.Dictionary[data.Spell]
+                    : null;
+            }
+            
             _characters.Add(new Character(
                 characterDictionary.Dictionary[data.Character], 
                 playerController, data.Health,

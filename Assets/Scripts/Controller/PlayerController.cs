@@ -49,18 +49,29 @@ public class PlayerController : MonoBehaviour, ICharacterInfo, IDamageable
     public Vector3 SpellOffset => _currentCharacter.Data.SpellOffset;
     public PlayerInputActions PlayerInputActions => _playerInputActions;
     #region Unity Event Functions
-    private void Awake()
+
+    public void Initialize()
     {
         _lastDirection = Vector2.zero;
         switchFormParticleSystem.Stop();
-
-        _playerInputActions = new PlayerInputActions();
-        _playerInputActions.Enable();
         
-        partyController.OnCharacterChanged += OnCharacterChanged;
-        partyController.Initialize(_playerInputActions);
-        inventoryController.Initialize();
+        if (_playerInputActions == null)
+        {
+            _playerInputActions = new PlayerInputActions();
+            _playerInputActions.Enable();
+        }
+        
         EnemyMask = LayerMask.GetMask("Enemy");
+        partyController.OnCharacterChanged += OnCharacterChanged;
+    }
+    
+    private void Awake()
+    {
+        if (_playerInputActions == null)
+        {
+            _playerInputActions = new PlayerInputActions();
+            _playerInputActions.Enable();
+        }
     }
 
     private void Start()
@@ -81,7 +92,7 @@ public class PlayerController : MonoBehaviour, ICharacterInfo, IDamageable
         {
             if (_highlightedItem != null)
             {
-                _highlightedItem.PickUp(this, inventoryController);
+                _highlightedItem.PickUp(this, inventoryController, partyController);
                 _highlightedItem.Highlight(false);
                 _highlightedItem = null;
             }

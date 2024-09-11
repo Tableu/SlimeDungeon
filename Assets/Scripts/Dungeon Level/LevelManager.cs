@@ -22,6 +22,8 @@ public class LevelManager : MonoBehaviour, ISavable
     [SerializeField] private LoadingScreen loadingScreen;
     [SerializeField] private GameObject endPopup;
     [SerializeField] private PlayerController playerController;
+    [SerializeField] private PartyController partyController;
+    [SerializeField] private InventoryController inventoryController;
     [SerializeField] private LevelPlacer levelPlacer;
     
     private List<Transform> _roomColliders = new List<Transform>();
@@ -39,8 +41,9 @@ public class LevelManager : MonoBehaviour, ISavable
     private void Awake()
     {
         _generator2D = new Generator2D();
+        playerController.Initialize();
+        partyController.Initialize(playerController.PlayerInputActions);
         saveManager.Load();
-        playerController.enabled = true;
         
         if (!_saveDataLoaded) //If there is no save data, the player is on a new save and the level manager should generate a new set of levels
         {

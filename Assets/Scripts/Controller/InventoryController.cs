@@ -56,7 +56,7 @@ public class InventoryController : MonoBehaviour, ISavable
         partyController.Characters[_selectedCharacterIndex] : null;
     public string id { get; } = "InventoryController";
 
-    public void Initialize()
+    private void Start()
     {
         if (!_loaded)
         {
@@ -68,10 +68,7 @@ public class InventoryController : MonoBehaviour, ISavable
             }
             inventoryWindow.Refresh();
         }
-    }
-
-    private void Start()
-    {
+        
         foreach (Character character in partyController.Characters)
         {
             if (character.Equipment != null)

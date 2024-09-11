@@ -4825,8 +4825,6 @@ GameObject:
   - component: {fileID: 6118174223459350817}
   - component: {fileID: 6118174223459350816}
   - component: {fileID: 843911632}
-  - component: {fileID: 500489513634131218}
-  - component: {fileID: 8527553915472690078}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -4868,7 +4866,7 @@ MonoBehaviour:
   walkingSmokeParticleSystem: {fileID: 8112632922913053220}
   switchFormParticleSystem: {fileID: 1181766018201568994}
   rigidbody: {fileID: 6118174223459350816}
-  partyController: {fileID: 500489513634131218}
+  partyController: {fileID: 0}
   inventoryController: {fileID: 0}
   levelManager: {fileID: 0}
   itemPickupRange: 2
@@ -4901,39 +4899,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: Player
---- !u!114 &500489513634131218
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1736435026822939428}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e90e85e8cc9e6c469427103633a5fe1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerData: {fileID: 11400000, guid: 981442e40bdc9ec4c930620b3fba501d, type: 2}
-  playerController: {fileID: 6118174223459350817}
-  characterDictionary: {fileID: 11400000, guid: b43cbbdadab028343a4c346542c1b8bc, type: 2}
-  attackDictionary: {fileID: 11400000, guid: ad056721a83fb6d4f8fb8f8c8913f870, type: 2}
---- !u!114 &8527553915472690078
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1736435026822939428}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5537e7b921a00694e93c43a1815c94fa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inventoryIconDictionary: {fileID: 11400000, guid: 29beadc89f64e66498c64245655d15f9, type: 2}
-  partyController: {fileID: 500489513634131218}
-  inventoryWindow: {fileID: 0}
-  attackDataDictionary: {fileID: 11400000, guid: ad056721a83fb6d4f8fb8f8c8913f870, type: 2}
-  equipmentDataDictionary: {fileID: 11400000, guid: 8dd114946ade3c04196cabd3f0ae78ff, type: 2}
 --- !u!1 &6151538974966643030
 GameObject:
   m_ObjectHideFlags: 0
