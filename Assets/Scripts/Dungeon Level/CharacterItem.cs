@@ -35,6 +35,7 @@ public class CharacterItem : MonoBehaviour, IItem
         {
             _chatBox = ChatBoxManager.Instance.SpawnChatBox(transform);
             _chatBox.SetMessage("<sprite name=\"UI_117\"> " + _initialCharacterData.Cost.ToString());
+            _chatBox.gameObject.SetActive(false);
         }
     }
 
@@ -73,6 +74,9 @@ public class CharacterItem : MonoBehaviour, IItem
             if(script != null)
                 script.enabled = enable;
         }
+
+        if (_chatBox != null)
+            _chatBox.gameObject.SetActive(enable);
     }
 
     private void SwitchCharacter(CharacterData data)

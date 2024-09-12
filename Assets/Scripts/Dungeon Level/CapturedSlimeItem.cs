@@ -39,6 +39,7 @@ public class CapturedSlimeItem : MonoBehaviour, IItem
     {
         _chatBox = ChatBoxManager.Instance.SpawnChatBox(transform);
         _chatBox.SetMessage("Help!");
+        _chatBox.gameObject.SetActive(false);
     }
     
     private void Update()
@@ -74,6 +75,8 @@ public class CapturedSlimeItem : MonoBehaviour, IItem
             if(script != null)
                 script.enabled = enable;
         }
+        if(_chatBox != null)
+            _chatBox.gameObject.SetActive(enable);
     }
     
     public bool CanPickup()

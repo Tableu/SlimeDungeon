@@ -28,6 +28,7 @@ public class HatItem : MonoBehaviour, IItem
         {
             _chatBox = ChatBoxManager.Instance.SpawnChatBox(transform);
             _chatBox.SetMessage("<sprite name=\"UI_117\"> " + _data.Cost.ToString());
+            _chatBox.gameObject.SetActive(false);
         }
 
         _outlineScripts = GetComponentsInChildren<Outline>().ToList();
@@ -69,6 +70,9 @@ public class HatItem : MonoBehaviour, IItem
             if(script != null)
                 script.enabled = enable;
         }
+
+        if (_chatBox != null)
+            _chatBox.gameObject.SetActive(enable);
     }
 
     private void OnCollisionStay(Collision other)
@@ -88,4 +92,3 @@ public class HatItem : MonoBehaviour, IItem
     }
 #endif
 }
-
