@@ -32,19 +32,12 @@ public class PauseMenu : MonoBehaviour
 
     private void TogglePause()
     {
-        Time.timeScale = !pauseMenu.activeSelf ? 0 : 1;
         pauseMenu.SetActive(!pauseMenu.activeSelf);
-        playerController.enabled = !pauseMenu.activeSelf;
         if (pauseMenu.activeSelf)
-        {
-            if(PlayerCursor.Instance != null)
-                PlayerCursor.Instance.SwitchToCursor();
-        }
+            WindowManager.Instance.OnPopupOpened();
         else
-        {
-            if(PlayerCursor.Instance != null)
-                PlayerCursor.Instance.SwitchToCrossHair();
-        }
+            WindowManager.Instance.OnPopupClosed();
+        
     }
     
 

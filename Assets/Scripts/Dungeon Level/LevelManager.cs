@@ -161,6 +161,7 @@ public class LevelManager : MonoBehaviour, ISavable
         endPopup.SetActive(true);
         TextMeshProUGUI text = endPopup.GetComponentInChildren<TextMeshProUGUI>();
         text.text = "You Died!";
+        WindowManager.Instance.CloseAllWindows();
     }
 
     private IEnumerator EndGame()

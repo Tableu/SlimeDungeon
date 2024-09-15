@@ -7,11 +7,16 @@ public class InventoryWindow : MonoBehaviour
 {
     [SerializeField] private InventoryController inventoryController;
     [SerializeField] private PartyController partyController;
-    [SerializeField] private PlayerController playerController;
     [SerializeField] private InventoryWidget inventoryWidget;
     [SerializeField] private RawImage image;
     private UIRenderTexture _renderTexture;
     private InventoryController.ItemType _currentItemType;
+
+    private void Awake()
+    {
+        if(WindowManager.Instance != null)
+            WindowManager.Instance.RegisterWindow(gameObject);
+    }
 
     private void Start()
     {
@@ -89,22 +94,18 @@ public class InventoryWindow : MonoBehaviour
 
     private void OnEnable()
     {
-        if(PlayerCursor.Instance != null)
-            PlayerCursor.Instance.SwitchToCursor();
-        if(playerController != null)
-            playerController.enabled = false;
+        WindowManager.Instance.OnWindowChanged();
     }
 
     private void OnDisable()
     {
-        if(PlayerCursor.Instance != null)
-            PlayerCursor.Instance.SwitchToCrossHair();
-        if(playerController != null)
-            playerController.enabled = true;
+        WindowManager.Instance.OnWindowChanged();
     }
 
     private void OnDestroy()
     {
+        if(WindowManager.Instance != null)
+            WindowManager.Instance.UnRegisterWindow(gameObject);
         if(partyController != null)
             partyController.OnEquipmentAdded -= RefreshHat;
     }

@@ -5,28 +5,14 @@ using UnityEngine.UI;
 
 public class PlayerCursor : MonoBehaviour
 {
-    private static PlayerCursor _instance;
-    public static PlayerCursor Instance => _instance;
-
     [SerializeField] private PartyController controller;
     [SerializeField] private Image reloadIcon;
     [SerializeField] private Image crossHairIcon;
     [SerializeField] private Image cursorIcon;
     
-    private void Awake()
-    {
-        if (_instance != null && _instance != this)
-        {
-            Destroy(this.gameObject);
-        }
-        else
-        {
-            _instance = this;
-        }
-    }
     private void Start()
     {
-        UnityEngine.Cursor.visible = false;
+        Cursor.visible = false;
         if (controller != null)
         {
             controller.CurrentCharacter.BasicAttack.OnCooldownEvent += OnCooldown;

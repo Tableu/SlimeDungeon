@@ -76,8 +76,6 @@ public class PlayerController : MonoBehaviour, ICharacterInfo, IDamageable
 
     private void Start()
     {
-        if(PlayerCursor.Instance != null)
-            PlayerCursor.Instance.SwitchToCrossHair();
         PlayerInputActions.Movement.Pressed.started += delegate(InputAction.CallbackContext context)
         {
             walkingSmokeParticleSystem.Play();
@@ -240,8 +238,6 @@ public class PlayerController : MonoBehaviour, ICharacterInfo, IDamageable
         if (partyController.IsPartyAllFainted())
         {
             levelManager.HandlePlayerDeath();
-            if(PlayerCursor.Instance != null)
-                PlayerCursor.Instance.SwitchToCursor();
             Destroy(gameObject);
         }
     }
