@@ -8,9 +8,9 @@ public class PauseMenu : MonoBehaviour
     [SerializeField] private GameObject pauseMenu;
     [SerializeField] private PlayerController playerController;
     [SerializeField] private Button exitButton;
-        private void Start()
+    private void Start()
     {
-        playerController.PlayerInputActions.Other.Escape.started += OnClick;
+        playerController.PlayerInputActions.UI.Escape.started += OnClick;
         exitButton.onClick.AddListener(Exit);
     }
 
@@ -50,7 +50,7 @@ public class PauseMenu : MonoBehaviour
 
     private void OnDestroy()
     {
-        playerController.PlayerInputActions.Other.Escape.started -= OnClick;
+        playerController.PlayerInputActions.UI.Escape.started -= OnClick;
         exitButton.onClick.RemoveListener(Exit);
     }
 }

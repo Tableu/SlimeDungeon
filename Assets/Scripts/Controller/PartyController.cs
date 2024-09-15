@@ -38,7 +38,7 @@ public class PartyController : MonoBehaviour, ISavable
         _maxPartyCount = playerData.MaxFormCount;
         _playerInputActions = inputActions;
         _playerInputActions = playerController.PlayerInputActions;
-        _playerInputActions.Other.SwitchForms.started += SwitchCharacters;
+        _playerInputActions.Combat.SwitchForms.started += SwitchCharacters;
         string initialForm = PlayerPrefs.GetString("Initial Form");
         if (_characters.Count == 0)
         {

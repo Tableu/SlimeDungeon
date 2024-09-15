@@ -149,40 +149,13 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             ]
         },
         {
-            ""name"": ""Other"",
+            ""name"": ""Combat"",
             ""id"": ""5e746e8f-7fd5-4af1-9446-61422db47d0d"",
             ""actions"": [
-                {
-                    ""name"": ""Pick Up"",
-                    ""type"": ""Button"",
-                    ""id"": ""454766d4-066d-4d95-a041-f13828a8f79e"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""SwitchForms"",
-                    ""type"": ""Value"",
-                    ""id"": ""1b378a4c-613f-417f-9fc7-0ab326de32f8"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true
-                },
                 {
                     ""name"": ""Basic Attack"",
                     ""type"": ""Button"",
                     ""id"": ""3f10eca8-ad2a-4b16-85e5-cd44e4dba28a"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Escape"",
-                    ""type"": ""Button"",
-                    ""id"": ""5c355708-969d-4716-a2a9-70048083e4f4"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -196,53 +169,27 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Pick Up"",
+                    ""type"": ""Button"",
+                    ""id"": ""d4afaa9c-fc30-4e4d-acb1-016996c3d457"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SwitchForms"",
+                    ""type"": ""Value"",
+                    ""id"": ""a991fb1a-8f49-4e10-8ae3-b09557ad50c6"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
-                {
-                    ""name"": """",
-                    ""id"": ""5910b4f4-a47e-4ff5-a2ec-98b1edd9dad8"",
-                    ""path"": ""<Keyboard>/space"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Pick Up"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""1D Axis"",
-                    ""id"": ""52f0de9a-9ba7-4af6-a7d4-a96991681fc1"",
-                    ""path"": ""1DAxis"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""SwitchForms"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""negative"",
-                    ""id"": ""74989b14-f043-420c-a3b3-3c4f0cbca633"",
-                    ""path"": ""<Keyboard>/q"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""SwitchForms"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""positive"",
-                    ""id"": ""7b3d31d8-50b5-46fd-a649-d701241385e1"",
-                    ""path"": ""<Keyboard>/e"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""SwitchForms"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
                 {
                     ""name"": """",
                     ""id"": ""85029ef0-903b-41f6-95a4-ea3aac00ddda"",
@@ -256,23 +203,84 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""96965549-91aa-474a-9080-d6bd48463ba9"",
-                    ""path"": ""<Keyboard>/escape"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Escape"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""669a8357-7224-4174-a352-4dd3e92ba259"",
                     ""path"": ""<Mouse>/rightButton"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Spell"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e1946b3d-4478-474f-8581-e220d341a962"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pick Up"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""73202173-2ca4-4196-9cd3-5826b1a2ba7a"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SwitchForms"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""5defb4d7-b6db-4ba2-9a61-bf77d749ebab"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SwitchForms"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""5664b060-af1d-46e0-8055-9db33e0fab8c"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SwitchForms"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                }
+            ]
+        },
+        {
+            ""name"": ""UI"",
+            ""id"": ""ee0f7826-dc85-4959-a2cf-64a91473e015"",
+            ""actions"": [
+                {
+                    ""name"": ""Escape"",
+                    ""type"": ""Button"",
+                    ""id"": ""d02cf392-4342-4aab-b143-1df302f24d7b"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""144f981d-8d36-4969-ba6c-6a2b2158d6c7"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Escape"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -285,13 +293,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Movement = asset.FindActionMap("Movement", throwIfNotFound: true);
         m_Movement_Direction = m_Movement.FindAction("Direction", throwIfNotFound: true);
         m_Movement_Pressed = m_Movement.FindAction("Pressed", throwIfNotFound: true);
-        // Other
-        m_Other = asset.FindActionMap("Other", throwIfNotFound: true);
-        m_Other_PickUp = m_Other.FindAction("Pick Up", throwIfNotFound: true);
-        m_Other_SwitchForms = m_Other.FindAction("SwitchForms", throwIfNotFound: true);
-        m_Other_BasicAttack = m_Other.FindAction("Basic Attack", throwIfNotFound: true);
-        m_Other_Escape = m_Other.FindAction("Escape", throwIfNotFound: true);
-        m_Other_Spell = m_Other.FindAction("Spell", throwIfNotFound: true);
+        // Combat
+        m_Combat = asset.FindActionMap("Combat", throwIfNotFound: true);
+        m_Combat_BasicAttack = m_Combat.FindAction("Basic Attack", throwIfNotFound: true);
+        m_Combat_Spell = m_Combat.FindAction("Spell", throwIfNotFound: true);
+        m_Combat_PickUp = m_Combat.FindAction("Pick Up", throwIfNotFound: true);
+        m_Combat_SwitchForms = m_Combat.FindAction("SwitchForms", throwIfNotFound: true);
+        // UI
+        m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
+        m_UI_Escape = m_UI.FindAction("Escape", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -404,94 +414,135 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     }
     public MovementActions @Movement => new MovementActions(this);
 
-    // Other
-    private readonly InputActionMap m_Other;
-    private List<IOtherActions> m_OtherActionsCallbackInterfaces = new List<IOtherActions>();
-    private readonly InputAction m_Other_PickUp;
-    private readonly InputAction m_Other_SwitchForms;
-    private readonly InputAction m_Other_BasicAttack;
-    private readonly InputAction m_Other_Escape;
-    private readonly InputAction m_Other_Spell;
-    public struct OtherActions
+    // Combat
+    private readonly InputActionMap m_Combat;
+    private List<ICombatActions> m_CombatActionsCallbackInterfaces = new List<ICombatActions>();
+    private readonly InputAction m_Combat_BasicAttack;
+    private readonly InputAction m_Combat_Spell;
+    private readonly InputAction m_Combat_PickUp;
+    private readonly InputAction m_Combat_SwitchForms;
+    public struct CombatActions
     {
         private @PlayerInputActions m_Wrapper;
-        public OtherActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
-        public InputAction @PickUp => m_Wrapper.m_Other_PickUp;
-        public InputAction @SwitchForms => m_Wrapper.m_Other_SwitchForms;
-        public InputAction @BasicAttack => m_Wrapper.m_Other_BasicAttack;
-        public InputAction @Escape => m_Wrapper.m_Other_Escape;
-        public InputAction @Spell => m_Wrapper.m_Other_Spell;
-        public InputActionMap Get() { return m_Wrapper.m_Other; }
+        public CombatActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @BasicAttack => m_Wrapper.m_Combat_BasicAttack;
+        public InputAction @Spell => m_Wrapper.m_Combat_Spell;
+        public InputAction @PickUp => m_Wrapper.m_Combat_PickUp;
+        public InputAction @SwitchForms => m_Wrapper.m_Combat_SwitchForms;
+        public InputActionMap Get() { return m_Wrapper.m_Combat; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(OtherActions set) { return set.Get(); }
-        public void AddCallbacks(IOtherActions instance)
+        public static implicit operator InputActionMap(CombatActions set) { return set.Get(); }
+        public void AddCallbacks(ICombatActions instance)
         {
-            if (instance == null || m_Wrapper.m_OtherActionsCallbackInterfaces.Contains(instance)) return;
-            m_Wrapper.m_OtherActionsCallbackInterfaces.Add(instance);
+            if (instance == null || m_Wrapper.m_CombatActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_CombatActionsCallbackInterfaces.Add(instance);
+            @BasicAttack.started += instance.OnBasicAttack;
+            @BasicAttack.performed += instance.OnBasicAttack;
+            @BasicAttack.canceled += instance.OnBasicAttack;
+            @Spell.started += instance.OnSpell;
+            @Spell.performed += instance.OnSpell;
+            @Spell.canceled += instance.OnSpell;
             @PickUp.started += instance.OnPickUp;
             @PickUp.performed += instance.OnPickUp;
             @PickUp.canceled += instance.OnPickUp;
             @SwitchForms.started += instance.OnSwitchForms;
             @SwitchForms.performed += instance.OnSwitchForms;
             @SwitchForms.canceled += instance.OnSwitchForms;
-            @BasicAttack.started += instance.OnBasicAttack;
-            @BasicAttack.performed += instance.OnBasicAttack;
-            @BasicAttack.canceled += instance.OnBasicAttack;
-            @Escape.started += instance.OnEscape;
-            @Escape.performed += instance.OnEscape;
-            @Escape.canceled += instance.OnEscape;
-            @Spell.started += instance.OnSpell;
-            @Spell.performed += instance.OnSpell;
-            @Spell.canceled += instance.OnSpell;
         }
 
-        private void UnregisterCallbacks(IOtherActions instance)
+        private void UnregisterCallbacks(ICombatActions instance)
         {
+            @BasicAttack.started -= instance.OnBasicAttack;
+            @BasicAttack.performed -= instance.OnBasicAttack;
+            @BasicAttack.canceled -= instance.OnBasicAttack;
+            @Spell.started -= instance.OnSpell;
+            @Spell.performed -= instance.OnSpell;
+            @Spell.canceled -= instance.OnSpell;
             @PickUp.started -= instance.OnPickUp;
             @PickUp.performed -= instance.OnPickUp;
             @PickUp.canceled -= instance.OnPickUp;
             @SwitchForms.started -= instance.OnSwitchForms;
             @SwitchForms.performed -= instance.OnSwitchForms;
             @SwitchForms.canceled -= instance.OnSwitchForms;
-            @BasicAttack.started -= instance.OnBasicAttack;
-            @BasicAttack.performed -= instance.OnBasicAttack;
-            @BasicAttack.canceled -= instance.OnBasicAttack;
-            @Escape.started -= instance.OnEscape;
-            @Escape.performed -= instance.OnEscape;
-            @Escape.canceled -= instance.OnEscape;
-            @Spell.started -= instance.OnSpell;
-            @Spell.performed -= instance.OnSpell;
-            @Spell.canceled -= instance.OnSpell;
         }
 
-        public void RemoveCallbacks(IOtherActions instance)
+        public void RemoveCallbacks(ICombatActions instance)
         {
-            if (m_Wrapper.m_OtherActionsCallbackInterfaces.Remove(instance))
+            if (m_Wrapper.m_CombatActionsCallbackInterfaces.Remove(instance))
                 UnregisterCallbacks(instance);
         }
 
-        public void SetCallbacks(IOtherActions instance)
+        public void SetCallbacks(ICombatActions instance)
         {
-            foreach (var item in m_Wrapper.m_OtherActionsCallbackInterfaces)
+            foreach (var item in m_Wrapper.m_CombatActionsCallbackInterfaces)
                 UnregisterCallbacks(item);
-            m_Wrapper.m_OtherActionsCallbackInterfaces.Clear();
+            m_Wrapper.m_CombatActionsCallbackInterfaces.Clear();
             AddCallbacks(instance);
         }
     }
-    public OtherActions @Other => new OtherActions(this);
+    public CombatActions @Combat => new CombatActions(this);
+
+    // UI
+    private readonly InputActionMap m_UI;
+    private List<IUIActions> m_UIActionsCallbackInterfaces = new List<IUIActions>();
+    private readonly InputAction m_UI_Escape;
+    public struct UIActions
+    {
+        private @PlayerInputActions m_Wrapper;
+        public UIActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Escape => m_Wrapper.m_UI_Escape;
+        public InputActionMap Get() { return m_Wrapper.m_UI; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(UIActions set) { return set.Get(); }
+        public void AddCallbacks(IUIActions instance)
+        {
+            if (instance == null || m_Wrapper.m_UIActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_UIActionsCallbackInterfaces.Add(instance);
+            @Escape.started += instance.OnEscape;
+            @Escape.performed += instance.OnEscape;
+            @Escape.canceled += instance.OnEscape;
+        }
+
+        private void UnregisterCallbacks(IUIActions instance)
+        {
+            @Escape.started -= instance.OnEscape;
+            @Escape.performed -= instance.OnEscape;
+            @Escape.canceled -= instance.OnEscape;
+        }
+
+        public void RemoveCallbacks(IUIActions instance)
+        {
+            if (m_Wrapper.m_UIActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IUIActions instance)
+        {
+            foreach (var item in m_Wrapper.m_UIActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_UIActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public UIActions @UI => new UIActions(this);
     public interface IMovementActions
     {
         void OnDirection(InputAction.CallbackContext context);
         void OnPressed(InputAction.CallbackContext context);
     }
-    public interface IOtherActions
+    public interface ICombatActions
     {
+        void OnBasicAttack(InputAction.CallbackContext context);
+        void OnSpell(InputAction.CallbackContext context);
         void OnPickUp(InputAction.CallbackContext context);
         void OnSwitchForms(InputAction.CallbackContext context);
-        void OnBasicAttack(InputAction.CallbackContext context);
+    }
+    public interface IUIActions
+    {
         void OnEscape(InputAction.CallbackContext context);
-        void OnSpell(InputAction.CallbackContext context);
     }
 }

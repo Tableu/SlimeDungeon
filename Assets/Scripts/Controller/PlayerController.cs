@@ -88,7 +88,7 @@ public class PlayerController : MonoBehaviour, ICharacterInfo, IDamageable
             walkingSmokeParticleSystem.Stop();
         };
         
-        PlayerInputActions.Other.PickUp.started += delegate(InputAction.CallbackContext context)
+        PlayerInputActions.Combat.PickUp.started += delegate(InputAction.CallbackContext context)
         {
             if (_highlightedItem != null)
             {
@@ -98,7 +98,7 @@ public class PlayerController : MonoBehaviour, ICharacterInfo, IDamageable
             }
         };
         
-        PlayerInputActions.Other.BasicAttack.started += delegate(InputAction.CallbackContext context)
+        PlayerInputActions.Combat.BasicAttack.started += delegate(InputAction.CallbackContext context)
         {
             if (_currentCharacter != null && !_isMouseOverUI)
             {
@@ -107,14 +107,14 @@ public class PlayerController : MonoBehaviour, ICharacterInfo, IDamageable
             }
         };
         
-        PlayerInputActions.Other.BasicAttack.canceled += delegate(InputAction.CallbackContext context)
+        PlayerInputActions.Combat.BasicAttack.canceled += delegate(InputAction.CallbackContext context)
         {
             _basicAttackHeld = false;
             if(_currentCharacter != null)
                 _currentCharacter.BasicAttack.End();
         };
         
-        PlayerInputActions.Other.Spell.started += delegate(InputAction.CallbackContext context)
+        PlayerInputActions.Combat.Spell.started += delegate(InputAction.CallbackContext context)
         {
             if (_currentCharacter != null && !_isMouseOverUI)
             {
@@ -203,13 +203,15 @@ public class PlayerController : MonoBehaviour, ICharacterInfo, IDamageable
 
     private void OnEnable()
     {
-        _playerInputActions.Enable();
+        _playerInputActions.Combat.Enable();
+        _playerInputActions.Movement.Enable();
         _disableRotation = false;
     }
 
     private void OnDisable()
     {
-        _playerInputActions.Disable();
+        _playerInputActions.Combat.Disable();
+        _playerInputActions.Movement.Disable();
         _disableRotation = true;
     }
 

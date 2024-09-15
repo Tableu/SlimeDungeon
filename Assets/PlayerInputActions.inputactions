@@ -127,40 +127,13 @@
             ]
         },
         {
-            "name": "Other",
+            "name": "Combat",
             "id": "5e746e8f-7fd5-4af1-9446-61422db47d0d",
             "actions": [
-                {
-                    "name": "Pick Up",
-                    "type": "Button",
-                    "id": "454766d4-066d-4d95-a041-f13828a8f79e",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "SwitchForms",
-                    "type": "Value",
-                    "id": "1b378a4c-613f-417f-9fc7-0ab326de32f8",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
-                },
                 {
                     "name": "Basic Attack",
                     "type": "Button",
                     "id": "3f10eca8-ad2a-4b16-85e5-cd44e4dba28a",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Escape",
-                    "type": "Button",
-                    "id": "5c355708-969d-4716-a2a9-70048083e4f4",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -174,53 +147,27 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Pick Up",
+                    "type": "Button",
+                    "id": "d4afaa9c-fc30-4e4d-acb1-016996c3d457",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SwitchForms",
+                    "type": "Value",
+                    "id": "a991fb1a-8f49-4e10-8ae3-b09557ad50c6",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
-                {
-                    "name": "",
-                    "id": "5910b4f4-a47e-4ff5-a2ec-98b1edd9dad8",
-                    "path": "<Keyboard>/space",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Pick Up",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "1D Axis",
-                    "id": "52f0de9a-9ba7-4af6-a7d4-a96991681fc1",
-                    "path": "1DAxis",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "SwitchForms",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "negative",
-                    "id": "74989b14-f043-420c-a3b3-3c4f0cbca633",
-                    "path": "<Keyboard>/q",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "SwitchForms",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "positive",
-                    "id": "7b3d31d8-50b5-46fd-a649-d701241385e1",
-                    "path": "<Keyboard>/e",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "SwitchForms",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
                 {
                     "name": "",
                     "id": "85029ef0-903b-41f6-95a4-ea3aac00ddda",
@@ -234,23 +181,84 @@
                 },
                 {
                     "name": "",
-                    "id": "96965549-91aa-474a-9080-d6bd48463ba9",
-                    "path": "<Keyboard>/escape",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Escape",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "669a8357-7224-4174-a352-4dd3e92ba259",
                     "path": "<Mouse>/rightButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Spell",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e1946b3d-4478-474f-8581-e220d341a962",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Pick Up",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "1D Axis",
+                    "id": "73202173-2ca4-4196-9cd3-5826b1a2ba7a",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SwitchForms",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "5defb4d7-b6db-4ba2-9a61-bf77d749ebab",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SwitchForms",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "5664b060-af1d-46e0-8055-9db33e0fab8c",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SwitchForms",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                }
+            ]
+        },
+        {
+            "name": "UI",
+            "id": "ee0f7826-dc85-4959-a2cf-64a91473e015",
+            "actions": [
+                {
+                    "name": "Escape",
+                    "type": "Button",
+                    "id": "d02cf392-4342-4aab-b143-1df302f24d7b",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "144f981d-8d36-4969-ba6c-6a2b2158d6c7",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Escape",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
