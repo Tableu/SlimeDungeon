@@ -6,6 +6,13 @@ public class WindowButton : MonoBehaviour
 
     public void OnClick()
     {
-        window.SetActive(!window.activeSelf);
+        if (window.activeSelf)
+        {
+            WindowManager.Instance.CloseWindow();
+        }
+        else
+        {
+            WindowManager.Instance.OpenWindow(window);
+        }
     }
 }

@@ -28738,7 +28738,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7816648642885973627, guid: 67b59140af0d1354f87498e196d00318, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7816648643204931613, guid: 67b59140af0d1354f87498e196d00318, type: 3}
       propertyPath: m_SizeDelta.x
@@ -28751,6 +28751,10 @@ PrefabInstance:
     - target: {fileID: 7816648643391046541, guid: 67b59140af0d1354f87498e196d00318, type: 3}
       propertyPath: m_Name
       value: PauseMenu
+      objectReference: {fileID: 0}
+    - target: {fileID: 7816648643391046541, guid: 67b59140af0d1354f87498e196d00318, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7816648643391046542, guid: 67b59140af0d1354f87498e196d00318, type: 3}
       propertyPath: m_RootOrder
@@ -28826,6 +28830,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 67b59140af0d1354f87498e196d00318, type: 3}
+--- !u!1 &7816648642331894465 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7816648643391046541, guid: 67b59140af0d1354f87498e196d00318, type: 3}
+  m_PrefabInstance: {fileID: 7816648642331894464}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &9079622437039393503
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -28837,6 +28846,10 @@ PrefabInstance:
       propertyPath: cursor
       value: 
       objectReference: {fileID: 1194764807}
+    - target: {fileID: 1312345472154121692, guid: e3763016f499a9146870dc8609f56fc5, type: 3}
+      propertyPath: pauseMenu
+      value: 
+      objectReference: {fileID: 7816648642331894465}
     - target: {fileID: 1312345472154121692, guid: e3763016f499a9146870dc8609f56fc5, type: 3}
       propertyPath: popupBlocker
       value: 

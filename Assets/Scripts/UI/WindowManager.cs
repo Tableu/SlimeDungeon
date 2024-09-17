@@ -1,5 +1,5 @@
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class WindowManager : MonoBehaviour
 {
@@ -9,8 +9,9 @@ public class WindowManager : MonoBehaviour
     [SerializeField] private PlayerCursor cursor;
     [SerializeField] private PlayerController playerController;
     [SerializeField] private GameObject popupBlocker;
+    [SerializeField] private GameObject pauseMenu;
 
-    private List<GameObject> _windows = new List<GameObject>();
+    private GameObject _window;
     private void Awake()
     {
         if (_instance != null && _instance != this)
@@ -23,54 +24,51 @@ public class WindowManager : MonoBehaviour
         }
     }
 
-    public void OnWindowChanged()
+    private void Start()
     {
-        foreach (GameObject window in _windows)
-        {
-            if (window.activeSelf)
-            {
-                cursor.SwitchToCursor();
-                if(playerController != null)
-                    playerController.enabled = false;
-                return;
-            }
-        }
+        if(playerController != null)
+            playerController.PlayerInputActions.UI.Escape.started += OnEscape;
+    }
+
+    private void OnDestroy()
+    {
+        if(playerController != null)
+            playerController.PlayerInputActions.UI.Escape.started -= OnEscape;
+    }
+
+    public void OpenWindow(GameObject window, bool popup = false)
+    {
+        _window = window;
+        _window.SetActive(true);
+        cursor.SwitchToCursor();
+        if(playerController != null)
+            playerController.enabled = false;
+        Time.timeScale = popup ? 0 : 1;
+        popupBlocker.SetActive(popup);
+    }
+
+    public void CloseWindow()
+    {
+        if (_window == null)
+            return;
+        _window.SetActive(false);
+        _window = null;
         cursor.SwitchToCrossHair();
         if(playerController != null)
             playerController.enabled = true;
-    }
-
-    public void OnPopupOpened()
-    {
-        cursor.SwitchToCursor();
-        Time.timeScale = 0;
-        if(playerController != null)
-            playerController.enabled = false;
-        popupBlocker.SetActive(true);
-    }
-
-    public void OnPopupClosed()
-    {
         Time.timeScale = 1;
-        OnWindowChanged();
         popupBlocker.SetActive(false);
     }
 
-    public void RegisterWindow(GameObject window)
+    private void OnEscape(InputAction.CallbackContext callbackContext)
     {
-        _windows.Add(window);
-    }
-
-    public void UnRegisterWindow(GameObject window)
-    {
-        _windows.Remove(window);
-    }
-
-    public void CloseAllWindows()
-    {
-        foreach (GameObject window in _windows)
+        if (_window != null)
         {
-            window.SetActive(false);
+            CloseWindow();
+        }
+        else
+        {
+            OpenWindow(pauseMenu, true);
         }
     }
 }

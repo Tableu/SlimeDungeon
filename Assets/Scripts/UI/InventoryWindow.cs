@@ -1,4 +1,3 @@
-using System;
 using Controller.Player;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,12 +10,6 @@ public class InventoryWindow : MonoBehaviour
     [SerializeField] private RawImage image;
     private UIRenderTexture _renderTexture;
     private InventoryController.ItemType _currentItemType;
-
-    private void Awake()
-    {
-        if(WindowManager.Instance != null)
-            WindowManager.Instance.RegisterWindow(gameObject);
-    }
 
     private void Start()
     {
@@ -92,20 +85,8 @@ public class InventoryWindow : MonoBehaviour
         }
     }
 
-    private void OnEnable()
-    {
-        WindowManager.Instance.OnWindowChanged();
-    }
-
-    private void OnDisable()
-    {
-        WindowManager.Instance.OnWindowChanged();
-    }
-
     private void OnDestroy()
     {
-        if(WindowManager.Instance != null)
-            WindowManager.Instance.UnRegisterWindow(gameObject);
         if(partyController != null)
             partyController.OnEquipmentAdded -= RefreshHat;
     }
