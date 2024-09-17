@@ -26,7 +26,7 @@ public class PlayerCursor : MonoBehaviour
     }
     private void Update()
     {
-        transform.position = Mouse.current.position.ReadValue();
+        transform.position = Input.mousePosition;
         if (Mouse.current.leftButton.wasPressedThisFrame)
         {
             StopCoroutine(ClickAnimation());
