@@ -27,6 +27,11 @@ public class PlayerCursor : MonoBehaviour
     private void Update()
     {
         transform.position = Mouse.current.position.ReadValue();
+        if (Mouse.current.leftButton.wasPressedThisFrame)
+        {
+            StopCoroutine(ClickAnimation());
+            StartCoroutine(ClickAnimation());
+        }
     }
 
     private void OnCooldown(float duration)
@@ -44,6 +49,13 @@ public class PlayerCursor : MonoBehaviour
             time += Time.fixedDeltaTime;
         }
         reloadIcon.fillAmount = 1;
+    }
+
+    private IEnumerator ClickAnimation()
+    {
+        cursorIcon.transform.localScale = Vector3.one * 0.9f;
+        yield return new WaitForSeconds(0.2f);
+        cursorIcon.transform.localScale = Vector3.one;
     }
 
     public void SwitchToCrossHair()

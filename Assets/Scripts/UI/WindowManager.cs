@@ -30,19 +30,22 @@ public class WindowManager : MonoBehaviour
             if (window.activeSelf)
             {
                 cursor.SwitchToCursor();
-                playerController.enabled = false;
+                if(playerController != null)
+                    playerController.enabled = false;
                 return;
             }
         }
         cursor.SwitchToCrossHair();
-        playerController.enabled = true;
+        if(playerController != null)
+            playerController.enabled = true;
     }
 
     public void OnPopupOpened()
     {
         cursor.SwitchToCursor();
         Time.timeScale = 0;
-        playerController.enabled = false;
+        if(playerController != null)
+            playerController.enabled = false;
         popupBlocker.SetActive(true);
     }
 
