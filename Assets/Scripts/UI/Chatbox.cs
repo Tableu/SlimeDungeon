@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 
@@ -22,6 +23,11 @@ public class Chatbox : MonoBehaviour
         {
             transform.position = _offset + _camera.WorldToScreenPoint(_character.position);
         }
+    }
+
+    private void OnEnable()
+    {
+        Update();
     }
 
     public void SetMessage(string message)

@@ -149,9 +149,9 @@ public class PartyController : MonoBehaviour, ISavable
             return null;
         
         EquipmentData oldEquipment = _characters[index].AddEquipment(data);
-        OnEquipmentAdded?.Invoke(data);
         if (oldEquipment != null)
             OnEquipmentRemoved?.Invoke(oldEquipment);
+        OnEquipmentAdded?.Invoke(data);
         return oldEquipment;
     }
 
