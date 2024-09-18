@@ -629,7 +629,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_FirstSelected: {fileID: 0}
+  m_FirstSelected: {fileID: 577347237}
   m_sendNavigationEvents: 1
   m_DragThreshold: 10
 --- !u!4 &122189749
@@ -1054,6 +1054,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 2030186556}
   button: {fileID: 236567599}
+  defaultColor: {r: 1, g: 1, b: 1, a: 1}
+  highlightColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
 --- !u!1 &272264890
 GameObject:
   m_ObjectHideFlags: 0
@@ -2142,6 +2144,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 1600579535}
   button: {fileID: 527142460}
+  defaultColor: {r: 1, g: 1, b: 1, a: 1}
+  highlightColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
 --- !u!1 &567057647
 GameObject:
   m_ObjectHideFlags: 0
@@ -2321,6 +2325,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 61188308}
   button: {fileID: 577347241}
+  defaultColor: {r: 1, g: 1, b: 1, a: 1}
+  highlightColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
 --- !u!222 &577347240
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2535,6 +2541,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 1468730431}
   button: {fileID: 606652437}
+  defaultColor: {r: 1, g: 1, b: 1, a: 1}
+  highlightColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
 --- !u!1 &618022851
 GameObject:
   m_ObjectHideFlags: 0
@@ -3219,6 +3227,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 11486228}
   button: {fileID: 752701224}
+  defaultColor: {r: 1, g: 1, b: 1, a: 1}
+  highlightColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
 --- !u!1 &782056457
 GameObject:
   m_ObjectHideFlags: 0
@@ -3414,6 +3424,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 2135613868}
   button: {fileID: 792052370}
+  defaultColor: {r: 1, g: 1, b: 1, a: 1}
+  highlightColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
 --- !u!1001 &800911287
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3687,6 +3699,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 1933292780}
   button: {fileID: 877893672}
+  defaultColor: {r: 1, g: 1, b: 1, a: 1}
+  highlightColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
 --- !u!1 &878734822
 GameObject:
   m_ObjectHideFlags: 0
@@ -3720,6 +3734,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 1548792113}
   button: {fileID: 878734824}
+  defaultColor: {r: 1, g: 1, b: 1, a: 1}
+  highlightColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
 --- !u!114 &878734824
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4067,6 +4083,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 282967273}
   button: {fileID: 927779929}
+  defaultColor: {r: 1, g: 1, b: 1, a: 1}
+  highlightColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
 --- !u!1 &958934486
 GameObject:
   m_ObjectHideFlags: 0
@@ -4186,6 +4204,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 82276405}
   button: {fileID: 958934488}
+  defaultColor: {r: 1, g: 1, b: 1, a: 1}
+  highlightColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
 --- !u!1 &971212477
 GameObject:
   m_ObjectHideFlags: 0
@@ -6226,6 +6246,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 1964042020}
   button: {fileID: 1599959726}
+  defaultColor: {r: 1, g: 1, b: 1, a: 1}
+  highlightColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
 --- !u!1 &1600579533
 GameObject:
   m_ObjectHideFlags: 0
@@ -7114,8 +7136,8 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_HighlightedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_PressedColor: {r: 1, g: 1, b: 1, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
@@ -7168,7 +7190,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 99bf1dc7680e0064d9dbcf8e8679406d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 84adcb985b6da6d4f90507f65f781c3e, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -7801,6 +7823,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 621326150}
   button: {fileID: 1926728448}
+  defaultColor: {r: 1, g: 1, b: 1, a: 1}
+  highlightColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
 --- !u!1 &1933292778
 GameObject:
   m_ObjectHideFlags: 0
