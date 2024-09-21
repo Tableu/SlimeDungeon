@@ -9,11 +9,11 @@ public class EggRainAttack : Attack
     {
         if (CheckCooldown())
         {
-            RoomController roomController = CharacterInfo.Transform.GetComponentInParent<RoomController>();
+            RoomController roomController = Transform.GetComponentInParent<RoomController>();
             if (roomController == null)
             {
-                if(CharacterInfo.Transform.parent != null)
-                    roomController = CharacterInfo.Transform.parent.GetComponentInParent<RoomController>();
+                if(Transform.parent != null)
+                    roomController = Transform.parent.GetComponentInParent<RoomController>();
             }
 
             for (int i = 0; i < _data.EggCount; i++)
@@ -55,7 +55,7 @@ public class EggRainAttack : Attack
         }
     }
     
-    public EggRainAttack(ICharacterInfo characterInfo, EggRainAttackData data) : base(characterInfo, data)
+    public EggRainAttack(ICharacterInfo characterInfo, EggRainAttackData data, Transform transform) : base(characterInfo, data, transform)
     {
         _data = data;
     }

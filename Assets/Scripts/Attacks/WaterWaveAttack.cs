@@ -8,18 +8,17 @@ public class WaterWaveAttack : Attack
     {
         if (CheckCooldown())
         {
-            Transform transform = CharacterInfo.Transform;
-            GameObject wave = SpawnProjectile(transform);
+            GameObject wave = SpawnProjectile(Transform);
             wave.transform.rotation = Quaternion.Euler(
                 Data.Prefab.transform.rotation.eulerAngles.x, 
-                Data.Prefab.transform.rotation.eulerAngles.y+transform.rotation.eulerAngles.y, 
+                Data.Prefab.transform.rotation.eulerAngles.y+Transform.rotation.eulerAngles.y, 
                 Data.Prefab.transform.rotation.eulerAngles.z);
             wave.layer = LayerMask.NameToLayer("TriggerColliderAttacks");
             var script = wave.GetComponent<WaterWave>();
             if (script == null)
                 return false;
             script.Initialize(Data.Damage*CharacterInfo.Damage, Data.Knockback, Data.HitStun,
-                transform.forward*Data.Speed, Data.ElementType, CharacterInfo.EnemyMask);
+                Transform.forward*Data.Speed, Data.ElementType, CharacterInfo.EnemyMask);
             Cooldown(Data.Cooldown);
             return true;
         }
@@ -47,7 +46,7 @@ public class WaterWaveAttack : Attack
         }
     }
     
-    public WaterWaveAttack(ICharacterInfo characterInfo, AttackData data) : base(characterInfo, data)
+    public WaterWaveAttack(ICharacterInfo characterInfo, AttackData data, Transform transform) : base(characterInfo, data, transform)
     {
     }
 }

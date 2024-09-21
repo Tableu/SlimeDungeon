@@ -9,15 +9,14 @@ public class BouncingFireballAttack : Attack
     {
         if (CheckCooldown())
         {
-            Transform transform = CharacterInfo.Transform;
-            GameObject fireball = SpawnProjectile(transform);
+            GameObject fireball = SpawnProjectile(Transform);
             SetLayer(fireball);
             BouncingFireball script = fireball.GetComponent<BouncingFireball>();
             if (script == null)
                 return false;
             
             int maxBounces = 0;
-            Vector3 launchAngle = transform.forward;
+            Vector3 launchAngle = Transform.forward;
             
             maxBounces = _data.MaxBounceCount;
             launchAngle = new Vector3(launchAngle.x*_data.LaunchAngle.x, _data.LaunchAngle.y, launchAngle.z*_data.LaunchAngle.x);
@@ -51,7 +50,7 @@ public class BouncingFireballAttack : Attack
         }
     }
 
-    public BouncingFireballAttack(ICharacterInfo characterInfo, BouncingFireballAttackData data) : base(characterInfo, data)
+    public BouncingFireballAttack(ICharacterInfo characterInfo, BouncingFireballAttackData data, Transform transform) : base(characterInfo, data, transform)
     {
         _data = data;
     }

@@ -48,7 +48,7 @@ public class LeafStormAttack : Attack
         }
     }
     
-    public LeafStormAttack(ICharacterInfo characterInfo, LeafStormAttackData data) : base(characterInfo, data)
+    public LeafStormAttack(ICharacterInfo characterInfo, LeafStormAttackData data, Transform transform) : base(characterInfo, data, transform)
     {
         _data = data;
     }

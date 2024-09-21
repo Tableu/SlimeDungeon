@@ -84,7 +84,7 @@ public abstract class EnemyController : MonoBehaviour, ICharacterInfo, IDamageab
         Health = enemyData.Health;
         foreach (AttackData attackData in enemyData.Attacks)
         {
-            var attack = attackData.CreateInstance(this);
+            var attack = attackData.CreateInstance(this, transform);
             Attacks.Add(attack);
         }
 

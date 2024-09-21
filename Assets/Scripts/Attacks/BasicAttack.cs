@@ -13,14 +13,13 @@ public class BasicAttack<T> : Attack where T : BasicProjectile
     {
         if (CheckCooldown())
         {
-            Transform transform = CharacterInfo.Transform;
-            GameObject projectile = SpawnProjectile(transform);
+            GameObject projectile = SpawnProjectile(Transform);
             SetLayer(projectile);
             var script = projectile.GetComponent<T>();
             if (script == null)
                 return false;
             script.Initialize(Data.Damage*CharacterInfo.Damage, Data.Knockback, Data.HitStun,
-                transform.forward * Data.Speed, Data.ElementType);
+                Transform.forward * Data.Speed, Data.ElementType);
             Cooldown(Data.Cooldown);
             return true;
         }
@@ -47,7 +46,7 @@ public class BasicAttack<T> : Attack where T : BasicProjectile
         }
     }
     
-    public BasicAttack(ICharacterInfo characterInfo, AttackData data) : base(characterInfo, data)
+    public BasicAttack(ICharacterInfo characterInfo, AttackData data, Transform transform) : base(characterInfo, data, transform)
     {
     }
 }

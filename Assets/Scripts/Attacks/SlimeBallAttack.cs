@@ -10,14 +10,13 @@ public class SlimeBallAttack : Attack
     {
         if (CheckCooldown())
         {
-            Transform transform = CharacterInfo.Transform;
-            GameObject slimeball = SpawnProjectile(transform);
+            GameObject slimeball = SpawnProjectile(Transform);
             SetLayer(slimeball);
             var script = slimeball.GetComponent<SlimeBall>();
             if (script == null)
                 return false;
             script.Initialize(_data.DamagePerTick*CharacterInfo.Damage, _data.Knockback, _data.HitStun, 
-                transform.forward * _data.Speed, _data.ElementType, _data.SlimeArea, _data.Slow, _data.Duration);
+                Transform.forward * _data.Speed, _data.ElementType, _data.SlimeArea, _data.Slow, _data.Duration);
             Cooldown(_data.Cooldown);
             return true;
         }
@@ -45,7 +44,7 @@ public class SlimeBallAttack : Attack
         }
     }
     
-    public SlimeBallAttack(ICharacterInfo characterInfo, SlimeBallAttackData data) : base(characterInfo, data)
+    public SlimeBallAttack(ICharacterInfo characterInfo, SlimeBallAttackData data, Transform transform) : base(characterInfo, data, transform)
     {
         _data = data;
     }

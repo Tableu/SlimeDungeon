@@ -15,15 +15,14 @@ public class FlamethrowerAttack : Attack
     {
         if (isActive)
             return false;
-        Transform transform = CharacterInfo.Transform;
         Vector3 offset = CharacterInfo.SpellOffset + Data.SpawnOffset;
-        _flamethrower = GameObject.Instantiate(Data.Prefab, transform.position + new Vector3(offset.x*transform.forward.x, 
-            offset.y, offset.z*transform.forward.z), Quaternion.identity,transform);
-        _flamethrower.transform.rotation = Quaternion.Euler(_flamethrower.transform.rotation.x, CharacterInfo.Transform.rotation.eulerAngles.y-90, _flamethrower.transform.rotation.z);
+        _flamethrower = GameObject.Instantiate(Data.Prefab, Transform.position + new Vector3(offset.x*Transform.forward.x, 
+            offset.y, offset.z*Transform.forward.z), Quaternion.identity,Transform);
+        _flamethrower.transform.rotation = Quaternion.Euler(_flamethrower.transform.rotation.x, Transform.rotation.eulerAngles.y-90, _flamethrower.transform.rotation.z);
         SetLayer(_flamethrower);
         var script = _flamethrower.GetComponent<Flamethrower>();
         script.Initialize(Data.Damage*CharacterInfo.Damage, Data.Knockback, Data.HitStun,
-            transform.forward * Data.Speed, Data.ElementType);
+            Transform.forward * Data.Speed, Data.ElementType);
 
         CharacterInfo.Speed.MultiplicativeModifer -= 0.5f;
         isActive = true;
@@ -83,7 +82,7 @@ public class FlamethrowerAttack : Attack
         });
     }
 
-    public FlamethrowerAttack(ICharacterInfo characterInfo, AttackData data) : base(characterInfo, data)
+    public FlamethrowerAttack(ICharacterInfo characterInfo, AttackData data, Transform transform) : base(characterInfo, data, transform)
     {
     }
 }

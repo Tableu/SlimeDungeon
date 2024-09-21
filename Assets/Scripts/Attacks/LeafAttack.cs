@@ -9,8 +9,7 @@ public class LeafAttack : Attack
     {
         if (CheckCooldown())
         {
-            Transform transform = CharacterInfo.Transform;
-            GameObject leaf = GameObject.Instantiate(Data.Prefab,RandomPosition(transform),Quaternion.identity);
+            GameObject leaf = GameObject.Instantiate(Data.Prefab,RandomPosition(Transform),Quaternion.identity);
             leaf.transform.rotation = Quaternion.Euler(0, Random.Range(-180,180),0);
             SetLayer(leaf);
             var script = leaf.GetComponent<Leaf>();
@@ -18,7 +17,7 @@ public class LeafAttack : Attack
                 return false;
             Quaternion angleAxis = Quaternion.AngleAxis(Random.Range(-_data.RandomAngle,_data.RandomAngle), Vector3.up);
             script.Initialize(Data.Damage*CharacterInfo.Damage, Data.Knockback, Data.HitStun,
-                angleAxis*transform.forward * Data.Speed, Data.ElementType);
+                angleAxis*Transform.forward * Data.Speed, Data.ElementType);
             Cooldown(Data.Cooldown);
             return true;
         }
@@ -54,7 +53,7 @@ public class LeafAttack : Attack
             (offset.z+randomVector.z) * transform.forward.z);
     }
 
-    public LeafAttack(ICharacterInfo characterInfo, LeafAttackData data) : base(characterInfo, data)
+    public LeafAttack(ICharacterInfo characterInfo, LeafAttackData data, Transform transform) : base(characterInfo, data, transform)
     {
         _data = data;
     }

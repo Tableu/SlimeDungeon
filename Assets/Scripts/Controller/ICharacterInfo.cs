@@ -37,10 +37,5 @@ namespace Controller
         {
             get;
         }
-
-        public Transform Transform
-        {
-            get;
-        }
     }
 }

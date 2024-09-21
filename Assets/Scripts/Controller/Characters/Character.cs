@@ -18,6 +18,7 @@ namespace Controller.Player
         private Attack _spell;
         private ICharacterInfo _characterInfo;
         private EquipmentData _equipment;
+        private Transform _transform;
         public CharacterData Data => _data;
         public float Health { get; private set; }
         public ModifiableStat Speed { get; }
@@ -30,8 +31,9 @@ namespace Controller.Player
         public Attack Spell => _spell;
         public EquipmentData Equipment => _equipment;
 
-        public Character(CharacterData data, ICharacterInfo characterInfo)
+        public Character(CharacterData data, ICharacterInfo characterInfo, Transform transform)
         {
+            _transform = transform;
             _data = data;
             Health = data.Health;
             Speed = new ModifiableStat(data.Speed);
@@ -40,11 +42,12 @@ namespace Controller.Player
             _maxVelocity = data.MaxVelocity;
             _elementType = data.ElementType;
             _characterInfo = characterInfo;
-            _basicAttack = _data.BasicAttack.CreateInstance(characterInfo);
+            _basicAttack = _data.BasicAttack.CreateInstance(characterInfo, transform);
         }
 
-        public Character(CharacterData data, ICharacterInfo characterInfo, float health, AttackData spell)
+        public Character(CharacterData data, ICharacterInfo characterInfo, float health, AttackData spell, Transform transform)
         {
+            _transform = transform;
             _data = data;
             Health = health;
             Speed = new ModifiableStat(data.Speed);
@@ -53,9 +56,9 @@ namespace Controller.Player
             _maxVelocity = data.MaxVelocity;
             _elementType = data.ElementType;
             _characterInfo = characterInfo;
-            _basicAttack = _data.BasicAttack.CreateInstance(characterInfo);
+            _basicAttack = _data.BasicAttack.CreateInstance(characterInfo, transform);
             if(spell != null)
-                _spell = spell.CreateInstance(characterInfo);
+                _spell = spell.CreateInstance(characterInfo, transform);
         }
 
         ~Character()
@@ -123,7 +126,7 @@ namespace Controller.Player
             if (hasSpell)
                 oldSpell = UnEquipSpell();
 
-            _spell = attackData.CreateInstance(_characterInfo);
+            _spell = attackData.CreateInstance(_characterInfo, _transform);
             return oldSpell;
         }
         

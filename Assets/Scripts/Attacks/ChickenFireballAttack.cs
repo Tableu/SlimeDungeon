@@ -22,19 +22,18 @@ public class ChickenFireballAttack : Attack
 
     private void SpawnFireball(float angle)
     {
-        Transform transform = CharacterInfo.Transform;
-        GameObject fireball = SpawnProjectile(transform);
+        GameObject fireball = SpawnProjectile(Transform);
         SetLayer(fireball);
         ChickenFireball script = fireball.GetComponent<ChickenFireball>();
         if (script == null)
             return;
             
-        transform.Rotate(0,angle,0);
-        Vector3 launchAngle = transform.forward;
+        Transform.Rotate(0,angle,0);
+        Vector3 launchAngle = Transform.forward;
         
         launchAngle = new Vector3(launchAngle.x*_data.LaunchAngle.x, _data.LaunchAngle.y, launchAngle.z*_data.LaunchAngle.x);
         script.Initialize(Data.Damage*CharacterInfo.Damage, Data.Knockback, Data.HitStun, launchAngle*Data.Speed, Data.ElementType, CharacterInfo.EnemyMask);
-        transform.Rotate(0,-angle,0);
+        Transform.Rotate(0,-angle,0);
     }
 
     public override void End()
@@ -57,7 +56,7 @@ public class ChickenFireballAttack : Attack
         }
     }
 
-    public ChickenFireballAttack(ICharacterInfo characterInfo, ChickenFireballAttackData data) : base(characterInfo, data)
+    public ChickenFireballAttack(ICharacterInfo characterInfo, ChickenFireballAttackData data, Transform transform) : base(characterInfo, data, transform)
     {
         _data = data;
     }

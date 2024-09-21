@@ -42,7 +42,7 @@ public class PartyController : MonoBehaviour, ISavable
         string initialForm = PlayerPrefs.GetString("Initial Form");
         if (_characters.Count == 0)
         {
-            Character character = new Character(characterDictionary.Dictionary[initialForm], playerController);
+            Character character = new Character(characterDictionary.Dictionary[initialForm], playerController, playerController.transform);
             character.EquipSpell(character.Data.StartingSpells[0]);
             _characters.Add(character);
             OnPartyMemberAdded?.Invoke(character, 0);
@@ -231,7 +231,8 @@ public class PartyController : MonoBehaviour, ISavable
             _characters.Add(new Character(
                 characterDictionary.Dictionary[data.Character], 
                 playerController, data.Health,
-                attackData));
+                attackData,
+                playerController.transform));
         }
 
         ChangeCharacter(_characters[_currentPartyMemberIndex], _currentPartyMemberIndex);

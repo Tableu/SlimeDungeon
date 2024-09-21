@@ -6,8 +6,8 @@ public class FlamethrowerAttackData : AttackData
 {
     [SerializeField] private float initialManaCost;
     public float InitialManaCost => initialManaCost;
-    public override Attack CreateInstance(ICharacterInfo characterInfo)
+    public override Attack CreateInstance(ICharacterInfo characterInfo, Transform transform)
     {
-        return new FlamethrowerAttack(characterInfo, this);
+        return new FlamethrowerAttack(characterInfo, this, transform);
     }
 }

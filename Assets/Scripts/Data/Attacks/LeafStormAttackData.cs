@@ -7,8 +7,8 @@ public class LeafStormAttackData : AttackData
     [SerializeField] private float duration;
 
     public float Duration => duration;
-    public override Attack CreateInstance(ICharacterInfo characterInfo)
+    public override Attack CreateInstance(ICharacterInfo characterInfo, Transform transform)
     {
-        return new LeafStormAttack(characterInfo, this);
+        return new LeafStormAttack(characterInfo, this, transform);
     }
 }

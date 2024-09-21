@@ -7,8 +7,8 @@ public class LeafAttackData : AttackData
     [SerializeField] private float randomAngle;
 
     public float RandomAngle => randomAngle;
-    public override Attack CreateInstance(ICharacterInfo characterInfo)
+    public override Attack CreateInstance(ICharacterInfo characterInfo, Transform transform)
     {
-        return new LeafAttack(characterInfo, this);
+        return new LeafAttack(characterInfo, this, transform);
     }
 }

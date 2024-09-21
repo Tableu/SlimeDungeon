@@ -51,7 +51,7 @@ public class ChickenBossController : EnemyController
         Speed = new ModifiableStat(enemyData.Speed);
         foreach (AttackData attackData in enemyData.Attacks)
         {
-            var attack = attackData.CreateInstance(this);
+            var attack = attackData.CreateInstance(this, transform);
             Attacks.Add(attack);
         }
         agent.speed = Speed;

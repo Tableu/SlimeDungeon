@@ -10,6 +10,7 @@ namespace Controller
     public abstract class Attack
     {
         protected ICharacterInfo CharacterInfo;
+        protected Transform Transform;
 
         public AttackData Data
         {
@@ -25,10 +26,11 @@ namespace Controller
             private set;
         }
 
-        protected Attack(ICharacterInfo characterInfo, AttackData data)
+        protected Attack(ICharacterInfo characterInfo, AttackData data, Transform transform)
         {
             this.CharacterInfo = characterInfo;
             Data = data;
+            Transform = transform;
         }
 
         public abstract bool Begin();
