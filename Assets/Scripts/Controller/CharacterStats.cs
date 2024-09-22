@@ -40,7 +40,7 @@ namespace Controller
             get;
         }
         //New Player Character
-        public CharacterStats(CharacterData data)
+        public CharacterStats(PlayerCharacterData data)
         {
             Health = data.Health;
             Speed = new ModifiableStat(data.Speed);
@@ -51,7 +51,7 @@ namespace Controller
             EnemyMask = LayerMask.GetMask("Enemy");
         }
         //Saved Player Character
-        public CharacterStats(CharacterData data, float health)
+        public CharacterStats(PlayerCharacterData data, float health)
         {
             Health = health;
             Speed = new ModifiableStat(data.Speed);

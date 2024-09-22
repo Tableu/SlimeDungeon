@@ -23,14 +23,14 @@ public class PlayerController : MonoBehaviour, IDamageable
     private bool _isMouseOverUI;
     private bool _basicAttackHeld;
 
-    private Character _currentCharacter;
+    private PlayerCharacter _currentPlayerCharacter;
     private bool _disableRotation = false;
     private PlayerInputActions _playerInputActions;
     private IItem _highlightedItem;
 
-    public Vector2 MaxVelocity => _currentCharacter.MaxVelocity;
+    public Vector2 MaxVelocity => _currentPlayerCharacter.MaxVelocity;
     public IItem HighlightedItem => _highlightedItem;
-    public CharacterStats Stats => _currentCharacter.Stats;
+    public CharacterStats Stats => _currentPlayerCharacter.Stats;
     
     public PlayerInputActions PlayerInputActions => _playerInputActions;
     #region Unity Event Functions
@@ -82,9 +82,9 @@ public class PlayerController : MonoBehaviour, IDamageable
         
         PlayerInputActions.Combat.BasicAttack.started += delegate(InputAction.CallbackContext context)
         {
-            if (_currentCharacter != null && !_isMouseOverUI)
+            if (_currentPlayerCharacter != null && !_isMouseOverUI)
             {
-                _currentCharacter.CastBasicAttack();
+                _currentPlayerCharacter.CastBasicAttack();
                 _basicAttackHeld = true;
             }
         };
@@ -92,15 +92,15 @@ public class PlayerController : MonoBehaviour, IDamageable
         PlayerInputActions.Combat.BasicAttack.canceled += delegate(InputAction.CallbackContext context)
         {
             _basicAttackHeld = false;
-            if(_currentCharacter != null)
-                _currentCharacter.BasicAttack.End();
+            if(_currentPlayerCharacter != null)
+                _currentPlayerCharacter.BasicAttack.End();
         };
         
         PlayerInputActions.Combat.Spell.started += delegate(InputAction.CallbackContext context)
         {
-            if (_currentCharacter != null && !_isMouseOverUI)
+            if (_currentPlayerCharacter != null && !_isMouseOverUI)
             {
-                _currentCharacter.CastSpell();
+                _currentPlayerCharacter.CastSpell();
             }
         };
     }
@@ -177,9 +177,9 @@ public class PlayerController : MonoBehaviour, IDamageable
             rigidbody.velocity = Vector3.zero;
         }
         
-        if (_currentCharacter != null && _basicAttackHeld)
+        if (_currentPlayerCharacter != null && _basicAttackHeld)
         {
-            _currentCharacter.CastBasicAttack();
+            _currentPlayerCharacter.CastBasicAttack();
         }
     }
 
@@ -207,7 +207,7 @@ public class PlayerController : MonoBehaviour, IDamageable
     {
         if (!_inKnockback)
         {
-            _currentCharacter.ApplyDamage(damage, attackType);
+            _currentPlayerCharacter.ApplyDamage(damage, attackType);
             if (Stats.Health <= 0)
             {
                 HandleDeath();
@@ -242,15 +242,15 @@ public class PlayerController : MonoBehaviour, IDamageable
     }
 
     #region Event Functions
-    private void OnCharacterChanged(Character character)
+    private void OnCharacterChanged(PlayerCharacter playerCharacter)
     {
-        _currentCharacter = character;
+        _currentPlayerCharacter = playerCharacter;
         switchFormParticleSystem.Play();
         model.SetActive(false);
         Destroy(model);
-        model = Instantiate(character.Data.Model, transform);
+        model = Instantiate(playerCharacter.Data.Model, transform);
         model.layer = gameObject.layer;
-        _currentCharacter.Equip(model, _playerInputActions);
+        _currentPlayerCharacter.Equip(model, _playerInputActions);
     }
     #endregion
 }

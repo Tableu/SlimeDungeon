@@ -16,22 +16,22 @@ public class PartyController : MonoBehaviour, ISavable
     
     private int _currentPartyMemberIndex = 0;
     private int _maxPartyCount;
-    private Character _currentCharacter;
+    private PlayerCharacter _currentPlayerCharacter;
     private PlayerInputActions _playerInputActions;
-    private List<Character> _characters = new List<Character>();
+    private List<PlayerCharacter> _characters = new List<PlayerCharacter>();
     
-    public List<Character> Characters => _characters;
+    public List<PlayerCharacter> Characters => _characters;
     public int MaxPartyCount => _maxPartyCount;
-    public Character CurrentCharacter => _currentCharacter;
+    public PlayerCharacter CurrentPlayerCharacter => _currentPlayerCharacter;
     public string id { get; } = "PartyController";
     
-    public Action<Character> OnCharacterChanged;
+    public Action<PlayerCharacter> OnCharacterChanged;
     public Action<AttackData> OnSpellEquipped;
     public Action<AttackData> OnSpellUnEquipped;
     public Action<EquipmentData> OnEquipmentAdded;
     public Action<EquipmentData> OnEquipmentRemoved;
-    public Action<Character, int> OnPartyMemberAdded;
-    public Action<Character> OnPartyMemberRemoved;
+    public Action<PlayerCharacter, int> OnPartyMemberAdded;
+    public Action<PlayerCharacter> OnPartyMemberRemoved;
 
     public void Initialize(PlayerInputActions inputActions)
     {
@@ -42,47 +42,47 @@ public class PartyController : MonoBehaviour, ISavable
         string initialForm = PlayerPrefs.GetString("Initial Form");
         if (_characters.Count == 0)
         {
-            Character character = new Character(characterDictionary.Dictionary[initialForm], playerController.transform);
-            character.EquipSpell(character.Data.StartingSpells[0]);
-            _characters.Add(character);
-            OnPartyMemberAdded?.Invoke(character, 0);
+            PlayerCharacter playerCharacter = new PlayerCharacter(characterDictionary.Dictionary[initialForm], playerController.transform);
+            playerCharacter.EquipSpell(playerCharacter.Data.StartingSpells[0]);
+            _characters.Add(playerCharacter);
+            OnPartyMemberAdded?.Invoke(playerCharacter, 0);
             ChangeCharacter(_characters[_currentPartyMemberIndex], _currentPartyMemberIndex);
         }
     }
     
-    public Character AddPartyMember(Character character)
+    public PlayerCharacter AddPartyMember(PlayerCharacter playerCharacter)
     {
-        Character oldCharacter = null;
+        PlayerCharacter oldPlayerCharacter = null;
         if (_characters.Count >= _maxPartyCount)
         {
             int partyMemberIndex = _currentPartyMemberIndex;
             if (_characters.Count > 0)
             {
-                oldCharacter = _currentCharacter;
+                oldPlayerCharacter = _currentPlayerCharacter;
 
                 for (int i = 0; i < _characters.Count; i++)
                 {
-                    Character partyMember = _characters[i];
+                    PlayerCharacter partyMember = _characters[i];
                     if (partyMember.Stats.Health <= 0)
                     {
-                        oldCharacter = null;
+                        oldPlayerCharacter = null;
                         partyMemberIndex = i;
                     }
                 }
 
-                OnPartyMemberRemoved?.Invoke(oldCharacter);
+                OnPartyMemberRemoved?.Invoke(oldPlayerCharacter);
             }
-            ChangeCharacter(character, partyMemberIndex);
-            _characters[partyMemberIndex] = character;
-            OnPartyMemberAdded?.Invoke(character, partyMemberIndex);
+            ChangeCharacter(playerCharacter, partyMemberIndex);
+            _characters[partyMemberIndex] = playerCharacter;
+            OnPartyMemberAdded?.Invoke(playerCharacter, partyMemberIndex);
         }
         else
         {
-            _characters.Add(character);
-            OnPartyMemberAdded?.Invoke(character, _characters.Count-1);
+            _characters.Add(playerCharacter);
+            OnPartyMemberAdded?.Invoke(playerCharacter, _characters.Count-1);
         }
 
-        return oldCharacter;
+        return oldPlayerCharacter;
     }
     
     private void SwitchCharacters(InputAction.CallbackContext context)
@@ -168,7 +168,7 @@ public class PartyController : MonoBehaviour, ISavable
     public bool IsPartyAllFainted()
     {
         int index = 0;
-        foreach (Character form in _characters)
+        foreach (PlayerCharacter form in _characters)
         {
             if (form.Stats.Health > 0)
             {
@@ -181,23 +181,23 @@ public class PartyController : MonoBehaviour, ISavable
         return true;
     }
     
-    private void ChangeCharacter(Character newCharacter, int newIndex)
+    private void ChangeCharacter(PlayerCharacter newPlayerCharacter, int newIndex)
     {
-        if(_currentCharacter is not null)
-            _currentCharacter.Drop();
-        _currentCharacter = newCharacter;
+        if(_currentPlayerCharacter is not null)
+            _currentPlayerCharacter.Drop();
+        _currentPlayerCharacter = newPlayerCharacter;
         _currentPartyMemberIndex = newIndex;
-        OnCharacterChanged?.Invoke(newCharacter);
+        OnCharacterChanged?.Invoke(newPlayerCharacter);
     }
 
     #region Save Methods
     
     public object SaveState()
     {
-        List<Character.SaveData> saveData = new List<Character.SaveData>();
-        foreach (Character character in _characters)
+        List<PlayerCharacter.SaveData> saveData = new List<PlayerCharacter.SaveData>();
+        foreach (PlayerCharacter character in _characters)
         {
-            saveData.Add(new Character.SaveData(
+            saveData.Add(new PlayerCharacter.SaveData(
                 characterDictionary.Dictionary.First(i => i.Value == character.Data).Key, 
                 character.Stats.Health, character.Spell?.Data.Name));
         }
@@ -214,7 +214,7 @@ public class PartyController : MonoBehaviour, ISavable
         var saveData = state.ToObject<SaveData>();
         _currentPartyMemberIndex = saveData.CurrentCharacterIndex;
         _characters.Clear();
-        foreach (Character.SaveData data in saveData.Characters)
+        foreach (PlayerCharacter.SaveData data in saveData.Characters)
         {
             AttackData attackData;
             if (data.Spell == null)
@@ -228,7 +228,7 @@ public class PartyController : MonoBehaviour, ISavable
                     : null;
             }
             
-            _characters.Add(new Character(
+            _characters.Add(new PlayerCharacter(
                 characterDictionary.Dictionary[data.Character], 
                 data.Health,
                 attackData,
@@ -241,7 +241,7 @@ public class PartyController : MonoBehaviour, ISavable
     [Serializable]
     public struct SaveData
     {
-        public List<Character.SaveData> Characters;
+        public List<PlayerCharacter.SaveData> Characters;
         public int CurrentCharacterIndex;
     }
     #endregion

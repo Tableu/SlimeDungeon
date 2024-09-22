@@ -21,7 +21,7 @@ public class HubManager : MonoBehaviour
     [SerializeField] private List<HatItem> hatItems;
     [SerializeField] private SaveManager saveManager;
     [SerializeField] private MainHubData mainHubData;
-    private List<CharacterData> _initialCharacterDatas;
+    private List<PlayerCharacterData> _initialCharacterDatas;
 
     private void Awake()
     {
@@ -57,7 +57,7 @@ public class HubManager : MonoBehaviour
     {
         while (true)
         {
-            CharacterData data = randomCharacterData.GetRandomElement();
+            PlayerCharacterData data = randomCharacterData.GetRandomElement();
             if (!_initialCharacterDatas.Contains(data))
             {
                 characterItem.gameObject.SetActive(true);

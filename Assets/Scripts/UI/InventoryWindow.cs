@@ -25,9 +25,9 @@ public class InventoryWindow : MonoBehaviour
             Refresh();
         };
         _renderTexture = UIRenderTextureManager.Instance.SpawnRenderTexture(false);
-        _renderTexture.ChangeModel(inventoryController.SelectedCharacter.Data.Model);
+        _renderTexture.ChangeModel(inventoryController.SelectedPlayerCharacter.Data.Model);
         _renderTexture.AdjustCamera(new Vector3(0,0,-0.5f));
-        RefreshHat(inventoryController.SelectedCharacter.Equipment);
+        RefreshHat(inventoryController.SelectedPlayerCharacter.Equipment);
         image.texture = _renderTexture.RenderTexture;
         Refresh();
     }
@@ -35,10 +35,10 @@ public class InventoryWindow : MonoBehaviour
     public void Next()
     {
         inventoryController.ChangeCharacter(1);
-        if (inventoryController.SelectedCharacter != null)
+        if (inventoryController.SelectedPlayerCharacter != null)
         {
-            _renderTexture.ChangeModel(inventoryController.SelectedCharacter.Data.Model);
-            RefreshHat(inventoryController.SelectedCharacter.Equipment);
+            _renderTexture.ChangeModel(inventoryController.SelectedPlayerCharacter.Data.Model);
+            RefreshHat(inventoryController.SelectedPlayerCharacter.Equipment);
             Refresh();
         }
     }
@@ -46,10 +46,10 @@ public class InventoryWindow : MonoBehaviour
     public void Previous()
     {
         inventoryController.ChangeCharacter(-1);
-        if (inventoryController.SelectedCharacter != null)
+        if (inventoryController.SelectedPlayerCharacter != null)
         {
-            _renderTexture.ChangeModel(inventoryController.SelectedCharacter.Data.Model);
-            RefreshHat(inventoryController.SelectedCharacter.Equipment);
+            _renderTexture.ChangeModel(inventoryController.SelectedPlayerCharacter.Data.Model);
+            RefreshHat(inventoryController.SelectedPlayerCharacter.Equipment);
             Refresh();
         }
     }
@@ -77,7 +77,7 @@ public class InventoryWindow : MonoBehaviour
     {
         if (_renderTexture != null && _renderTexture.Model != null)
         {
-            CharacterAnimator animator = _renderTexture.Model.GetComponentInChildren<CharacterAnimator>();
+            PlayerCharacterAnimator animator = _renderTexture.Model.GetComponentInChildren<PlayerCharacterAnimator>();
             if (animator != null)
             {
                 animator.RefreshHat(data);

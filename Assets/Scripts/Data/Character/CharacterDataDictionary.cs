@@ -6,7 +6,7 @@ using UnityEngine;
 [Serializable]
 public class CharacterDataDictionary : ScriptableObject
 {
-    [SerializeField] private SerializableDictionary<string, CharacterData> dataObjects;
+    [SerializeField] private SerializableDictionary<string, PlayerCharacterData> dataObjects;
 
-    public SerializableDictionary<string, CharacterData> Dictionary => dataObjects;
+    public SerializableDictionary<string, PlayerCharacterData> Dictionary => dataObjects;
 }

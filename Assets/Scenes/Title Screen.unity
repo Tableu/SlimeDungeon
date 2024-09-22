@@ -2405,7 +2405,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58f1e15115f966f48b1c0a8707c471f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  button: {fileID: 714613619}
   text: {fileID: 640078302}
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   highlightColor: {r: 0, g: 0, b: 0, a: 1}
@@ -3442,7 +3441,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58f1e15115f966f48b1c0a8707c471f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  button: {fileID: 1111481420}
   text: {fileID: 1749713863}
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   highlightColor: {r: 0, g: 0, b: 0, a: 1}
@@ -4335,7 +4333,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58f1e15115f966f48b1c0a8707c471f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  button: {fileID: 1263007019}
   text: {fileID: 1132109890}
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   highlightColor: {r: 0, g: 0, b: 0, a: 1}

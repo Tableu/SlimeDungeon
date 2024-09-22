@@ -15,12 +15,12 @@ public class PlayerCursor : MonoBehaviour
         Cursor.visible = false;
         if (controller != null)
         {
-            controller.CurrentCharacter.BasicAttack.OnCooldownEvent += OnCooldown;
+            controller.CurrentPlayerCharacter.BasicAttack.OnCooldownEvent += OnCooldown;
             controller.OnCharacterChanged += delegate
             {
                 //We don't need to unsubscribe since the basic attack will be destroyed before we are able to do so
                 StopCoroutine(Cooldown(0));
-                controller.CurrentCharacter.BasicAttack.OnCooldownEvent += OnCooldown;
+                controller.CurrentPlayerCharacter.BasicAttack.OnCooldownEvent += OnCooldown;
             };
         }
     }

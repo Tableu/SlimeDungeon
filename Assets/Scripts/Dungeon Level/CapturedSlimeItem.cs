@@ -20,7 +20,7 @@ public class CapturedSlimeItem : MonoBehaviour, IItem
 
     public void Initialize(RandomCharacterData randomCharacterData)
     {
-        CharacterData data = randomCharacterData.GetRandomElement();
+        PlayerCharacterData data = randomCharacterData.GetRandomElement();
         _outlineScripts = new List<Outline>();
         _model = Instantiate(data.Model, modelRoot.transform);
         _model.layer = LayerMask.NameToLayer("Items");

@@ -9,20 +9,20 @@ public class PlayerHealthBar : MonoBehaviour
 
     private void Start()
     {
-        slider.maxValue = partyController.CurrentCharacter.Data.Health;
-        slider.value = partyController.CurrentCharacter.Stats.Health;
+        slider.maxValue = partyController.CurrentPlayerCharacter.Data.Health;
+        slider.value = partyController.CurrentPlayerCharacter.Stats.Health;
         partyController.OnCharacterChanged += OnFormChange;
     }
 
     private void FixedUpdate()
     {
-        slider.value = partyController.CurrentCharacter.Stats.Health;;
+        slider.value = partyController.CurrentPlayerCharacter.Stats.Health;;
     }
 
-    private void OnFormChange(Character character)
+    private void OnFormChange(PlayerCharacter playerCharacter)
     {
-        slider.maxValue = character.Data.Health;
-        slider.value = character.Stats.Health;
+        slider.maxValue = playerCharacter.Data.Health;
+        slider.value = playerCharacter.Stats.Health;
     }
 
     private void OnDestroy()

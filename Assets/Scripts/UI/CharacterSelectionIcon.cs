@@ -11,21 +11,21 @@ public class CharacterSelectionIcon : MonoBehaviour, IPointerEnterHandler, IPoin
     [SerializeField] private Color highlightColor;
     private UIRenderTexture _renderTexture;
     private CharacterSelectionScreen _selectionScreen;
-    private CharacterData _characterData;
+    private PlayerCharacterData _playerCharacterData;
     
-    public void Initialize(CharacterSelectionScreen selectionScreen, CharacterData characterData)
+    public void Initialize(CharacterSelectionScreen selectionScreen, PlayerCharacterData playerCharacterData)
     {
         _renderTexture = UIRenderTextureManager.Instance.SpawnRenderTexture();
-        _renderTexture.ChangeModel(characterData.Model);
+        _renderTexture.ChangeModel(playerCharacterData.Model);
         image.texture = _renderTexture.RenderTexture;
-        _characterData = characterData;
+        _playerCharacterData = playerCharacterData;
         _selectionScreen = selectionScreen;
         button.enabled = true;
     }
 
     public void OnClick()
     {
-        _selectionScreen.OnIconClick(_characterData);    
+        _selectionScreen.OnIconClick(_playerCharacterData);    
     }
 
     public void OnPointerEnter(PointerEventData eventData)

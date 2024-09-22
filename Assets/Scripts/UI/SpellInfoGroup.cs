@@ -7,7 +7,7 @@ public class SpellInfoGroup : MonoBehaviour
     [SerializeField] private GameObject verticalGroup;
     [SerializeField] private GameObject spellInfo;
     private List<GameObject> _spellInfos = new List<GameObject>();
-    public void SetCharacter(CharacterData data)
+    public void SetCharacter(PlayerCharacterData data)
     {
         if (_spellInfos.Count > 0)
         {

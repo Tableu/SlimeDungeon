@@ -10,14 +10,14 @@ public class CharacterSelectionScreen : MonoBehaviour
     [FormerlySerializedAs("formDictionary")] [SerializeField] private CharacterDataDictionary characterDictionary;
     [SerializeField] private List<CharacterSelectionIcon> icons;
     [SerializeField] private SpellInfoGroup spellInfoGroup;
-    [SerializeField] private List<CharacterData> characterDatas;
+    [SerializeField] private List<PlayerCharacterData> characterDatas;
     [SerializeField] private GameObject startButton;
     [SerializeField] private GameObject characterModel;
     [SerializeField] private LoadingScreen loadingScreen;
-    private CharacterData _selectedData;
+    private PlayerCharacterData _selectedData;
     private void Start()
     {
-        List<CharacterData>.Enumerator characterEnumerator = characterDatas.GetEnumerator();
+        List<PlayerCharacterData>.Enumerator characterEnumerator = characterDatas.GetEnumerator();
         foreach (CharacterSelectionIcon icon in icons)
         {
             characterEnumerator.MoveNext();
@@ -58,12 +58,12 @@ public class CharacterSelectionScreen : MonoBehaviour
         }
     }
 
-    public void OnIconClick(CharacterData characterData)
+    public void OnIconClick(PlayerCharacterData playerCharacterData)
     {
-        if (characterData == _selectedData)
+        if (playerCharacterData == _selectedData)
             return;
-        _selectedData = characterData;
-        spellInfoGroup.SetCharacter(characterData);
+        _selectedData = playerCharacterData;
+        spellInfoGroup.SetCharacter(playerCharacterData);
         startButton.SetActive(true);
 
         if (characterModel.transform.childCount > 0)
@@ -71,6 +71,6 @@ public class CharacterSelectionScreen : MonoBehaviour
             Destroy(characterModel.transform.GetChild(0).gameObject);
         }
 
-        Instantiate(characterData.Model, characterModel.transform);
+        Instantiate(playerCharacterData.Model, characterModel.transform);
     }
 }

@@ -5,9 +5,9 @@ using UnityEngine.Serialization;
 
 namespace Controller.Player
 {
-    [CreateAssetMenu(fileName = "CharacterData", menuName = "Data/CharacterData")]
+    [CreateAssetMenu(fileName = "PlayerCharacterData", menuName = "Data/PlayerCharacterData")]
     [Serializable]
-    public class CharacterData : ScriptableObject
+    public class PlayerCharacterData : ScriptableObject
     {
         [Header("Stats")]
         [SerializeField] private float health;

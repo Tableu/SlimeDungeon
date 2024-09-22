@@ -6,17 +6,17 @@ using Type = Elements.Type;
 
 namespace Controller.Player
 {
-    public class Character
+    public class PlayerCharacter
     {
-        private CharacterData _data;
+        private PlayerCharacterData _data;
 
         private Vector2 _maxVelocity;
-        private CharacterAnimator _characterAnimator;
+        private PlayerCharacterAnimator _playerCharacterAnimator;
         private Attack _basicAttack;
         private Attack _spell;
         private EquipmentData _equipment;
         private Transform _transform;
-        public CharacterData Data => _data;
+        public PlayerCharacterData Data => _data;
 
         public CharacterStats Stats
         {
@@ -28,7 +28,7 @@ namespace Controller.Player
         public Attack Spell => _spell;
         public EquipmentData Equipment => _equipment;
 
-        public Character(CharacterData data, Transform transform)
+        public PlayerCharacter(PlayerCharacterData data, Transform transform)
         {
             _transform = transform;
             _data = data;
@@ -38,7 +38,7 @@ namespace Controller.Player
             _basicAttack = _data.BasicAttack.CreateInstance(Stats, transform);
         }
 
-        public Character(CharacterData data, float health, AttackData spell, Transform transform)
+        public PlayerCharacter(PlayerCharacterData data, float health, AttackData spell, Transform transform)
         {
             _transform = transform;
             _data = data;
@@ -49,7 +49,7 @@ namespace Controller.Player
                 _spell = spell.CreateInstance(Stats, transform);
         }
 
-        ~Character()
+        ~PlayerCharacter()
         {
             _basicAttack?.CleanUp();
             _spell?.CleanUp();
@@ -72,17 +72,17 @@ namespace Controller.Player
 
         public void Equip(GameObject model, PlayerInputActions playerInputActions)
         {
-            _characterAnimator = model.GetComponent<CharacterAnimator>();
-            _characterAnimator.Initialize(this, playerInputActions);
+            _playerCharacterAnimator = model.GetComponent<PlayerCharacterAnimator>();
+            _playerCharacterAnimator.Initialize(this, playerInputActions);
             if(_equipment != null)
-                _characterAnimator.RefreshHat(_equipment);
+                _playerCharacterAnimator.RefreshHat(_equipment);
         }
 
         public void Drop()
         {
-            if (_characterAnimator != null)
+            if (_playerCharacterAnimator != null)
             {
-                Object.Destroy(_characterAnimator);
+                Object.Destroy(_playerCharacterAnimator);
             }
         }
 
@@ -133,8 +133,8 @@ namespace Controller.Player
             
             _equipment = equipmentData;
             equipmentData.Equip(this);
-            if(_characterAnimator != null)
-                _characterAnimator.RefreshHat(_equipment);
+            if(_playerCharacterAnimator != null)
+                _playerCharacterAnimator.RefreshHat(_equipment);
             return oldEquipment;
         }
 
@@ -145,8 +145,8 @@ namespace Controller.Player
             EquipmentData oldEquipment = _equipment;
             _equipment.Drop(this);
             _equipment = null;
-            if(_characterAnimator != null)
-                _characterAnimator.RefreshHat(_equipment);
+            if(_playerCharacterAnimator != null)
+                _playerCharacterAnimator.RefreshHat(_equipment);
             return oldEquipment;
         }
         

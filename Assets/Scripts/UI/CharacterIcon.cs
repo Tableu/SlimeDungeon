@@ -12,13 +12,13 @@ public class CharacterIcon : MonoBehaviour
     {
         partyController.OnCharacterChanged += OnPartyMemberChange;
         _renderTexture = UIRenderTextureManager.Instance.SpawnRenderTexture();
-        _renderTexture.ChangeModel(partyController.CurrentCharacter.Data.Model);
+        _renderTexture.ChangeModel(partyController.CurrentPlayerCharacter.Data.Model);
         image.texture = _renderTexture.RenderTexture;
     }
 
-    private void OnPartyMemberChange(Character character)
+    private void OnPartyMemberChange(PlayerCharacter playerCharacter)
     {
-        _renderTexture.ChangeModel(character.Data.Model);
+        _renderTexture.ChangeModel(playerCharacter.Data.Model);
     }
 
     private void OnDestroy()

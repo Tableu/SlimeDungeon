@@ -12,15 +12,15 @@ public class CharacterItem : MonoBehaviour, IItem
     private List<Outline> _outlineScripts;
     private Chatbox _chatBox;
     private RoomController _roomController;
-    private CharacterData _initialCharacterData;
-    private Character _oldPartyMember;
+    private PlayerCharacterData _initialPlayerCharacterData;
+    private PlayerCharacter _oldPartyMember;
     private GameObject _model;
     private bool _isFree;
 
-    public void Initialize(CharacterData data)
+    public void Initialize(PlayerCharacterData data)
     {
         _outlineScripts = new List<Outline>();
-        _initialCharacterData = data;
+        _initialPlayerCharacterData = data;
         _model = Instantiate(data.Model, modelRoot.transform);
         _model.layer = LayerMask.NameToLayer("Items");
         List<Renderer> modelRenderers = gameObject.GetComponentsInChildren<Renderer>().ToList();
@@ -34,7 +34,7 @@ public class CharacterItem : MonoBehaviour, IItem
         if (!bought)
         {
             _chatBox = ChatBoxManager.Instance.SpawnChatBox(transform);
-            _chatBox.SetMessage("<sprite name=\"UI_117\"> " + _initialCharacterData.Cost.ToString());
+            _chatBox.SetMessage("<sprite name=\"UI_117\"> " + _initialPlayerCharacterData.Cost.ToString());
             _chatBox.gameObject.SetActive(false);
         }
     }
@@ -48,8 +48,8 @@ public class CharacterItem : MonoBehaviour, IItem
     public void PickUp(PlayerController character, InventoryController inventory, PartyController partyController)
     {
         if (!bought)
-            ResourceManager.Instance.Coins.Remove(_initialCharacterData.Cost);
-        Character partyMember = _oldPartyMember ?? new Character(_initialCharacterData, character.transform);
+            ResourceManager.Instance.Coins.Remove(_initialPlayerCharacterData.Cost);
+        PlayerCharacter partyMember = _oldPartyMember ?? new PlayerCharacter(_initialPlayerCharacterData, character.transform);
         _oldPartyMember = partyController.AddPartyMember(partyMember);
         if (_oldPartyMember != null)
         {
@@ -64,7 +64,7 @@ public class CharacterItem : MonoBehaviour, IItem
 
     public bool CanPickup()
     {
-        return bought || ResourceManager.Instance.Coins.Value >= _initialCharacterData.Cost;
+        return bought || ResourceManager.Instance.Coins.Value >= _initialPlayerCharacterData.Cost;
     }
 
     public void Highlight(bool enable)
@@ -79,7 +79,7 @@ public class CharacterItem : MonoBehaviour, IItem
             _chatBox.gameObject.SetActive(enable);
     }
 
-    private void SwitchCharacter(CharacterData data)
+    private void SwitchCharacter(PlayerCharacterData data)
     {
         if (data != null)
         {

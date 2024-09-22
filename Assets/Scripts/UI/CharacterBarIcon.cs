@@ -9,7 +9,7 @@ public class CharacterBarIcon : MonoBehaviour
     [SerializeField] private Slider slider;
     [SerializeField] private TextMeshProUGUI text;
     [SerializeField] private Image selectedIcon;
-    private Character _characterInstance;
+    private PlayerCharacter _playerCharacterInstance;
     private UIRenderTexture _renderTexture;
     private void Awake()
     {
@@ -21,26 +21,26 @@ public class CharacterBarIcon : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (_characterInstance != null)
+        if (_playerCharacterInstance != null)
         {
-            slider.value = _characterInstance.Stats.Health;
+            slider.value = _playerCharacterInstance.Stats.Health;
         }
     }
 
-    public void SetIcon(Character characterInstance)
+    public void SetIcon(PlayerCharacter playerCharacterInstance)
     {
         gameObject.SetActive(true);
         icon.enabled = true;
         icon.texture = _renderTexture.RenderTexture; 
-        _characterInstance = characterInstance;
-        _renderTexture.ChangeModel(_characterInstance.Data.Model);
-        slider.maxValue = _characterInstance.Data.Health;
+        _playerCharacterInstance = playerCharacterInstance;
+        _renderTexture.ChangeModel(_playerCharacterInstance.Data.Model);
+        slider.maxValue = _playerCharacterInstance.Data.Health;
         slider.gameObject.SetActive(true);
-        text.text = characterInstance.Data.Name;
+        text.text = playerCharacterInstance.Data.Name;
     }
 
-    public void SetSelected(Character character)
+    public void SetSelected(PlayerCharacter playerCharacter)
     {
-        selectedIcon.enabled = _characterInstance == character;
+        selectedIcon.enabled = _playerCharacterInstance == playerCharacter;
     }
 }

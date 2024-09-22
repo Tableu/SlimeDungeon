@@ -41,39 +41,39 @@ public class EquipmentData : ScriptableObject
     public string Name => name;
     public int Cost => cost;
 
-    public void Equip(Character character)
+    public void Equip(PlayerCharacter playerCharacter)
     {
         foreach (Effect buff in buffs)
         {
             switch (buff.Type)
             {
                 case EffectType.Armor:
-                    character.Stats.Armor.BaseModifier += buff.Value;
+                    playerCharacter.Stats.Armor.BaseModifier += buff.Value;
                     break;
                 case EffectType.Damage:
-                    character.Stats.Damage.BaseModifier += buff.Value;
+                    playerCharacter.Stats.Damage.BaseModifier += buff.Value;
                     break;
                 case EffectType.Speed:
-                    character.Stats.Speed.BaseModifier += buff.Value;
+                    playerCharacter.Stats.Speed.BaseModifier += buff.Value;
                     break;
             }
         }
     }
 
-    public void Drop(Character character)
+    public void Drop(PlayerCharacter playerCharacter)
     {
         foreach (Effect buff in buffs)
         {
             switch (buff.Type)
             {
                 case EffectType.Armor:
-                    character.Stats.Armor.BaseModifier -= buff.Value;
+                    playerCharacter.Stats.Armor.BaseModifier -= buff.Value;
                     break;
                 case EffectType.Damage:
-                    character.Stats.Damage.BaseModifier -= buff.Value;
+                    playerCharacter.Stats.Damage.BaseModifier -= buff.Value;
                     break;
                 case EffectType.Speed:
-                    character.Stats.Speed.BaseModifier -= buff.Value;
+                    playerCharacter.Stats.Speed.BaseModifier -= buff.Value;
                     break;
             }
         }

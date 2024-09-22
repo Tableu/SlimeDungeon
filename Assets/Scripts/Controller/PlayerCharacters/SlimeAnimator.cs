@@ -3,12 +3,12 @@ using UnityEngine.InputSystem;
 
 namespace Controller.Player
 {
-    public class SlimeAnimator : CharacterAnimator
+    public class SlimeAnimator : PlayerCharacterAnimator
     {
         private bool _movementEnabledLastFrame;
-        public override void Initialize(Player.Character character, PlayerInputActions inputActions)
+        public override void Initialize(Player.PlayerCharacter playerCharacter, PlayerInputActions inputActions)
         {
-            this.Character = character;
+            this.PlayerCharacter = playerCharacter;
             this.inputActions = inputActions;
             animator = GetComponent<Animator>();
             
@@ -16,7 +16,7 @@ namespace Controller.Player
             {
                 if (animator != null)
                 {
-                    animator.SetFloat("Speed", character.Stats.Speed);
+                    animator.SetFloat("Speed", playerCharacter.Stats.Speed);
                 }
             }
             
@@ -33,7 +33,7 @@ namespace Controller.Player
             {
                 if (animator != null)
                 {
-                    animator.SetFloat("Speed", Character.Stats.Speed);
+                    animator.SetFloat("Speed", PlayerCharacter.Stats.Speed);
                 }
             }
             _movementEnabledLastFrame = inputActions.Movement.Pressed.enabled;
@@ -64,7 +64,7 @@ namespace Controller.Player
         {
             if (animator != null)
             {
-                animator.SetFloat("Speed", Character.Stats.Speed);
+                animator.SetFloat("Speed", PlayerCharacter.Stats.Speed);
             }
         }
     }

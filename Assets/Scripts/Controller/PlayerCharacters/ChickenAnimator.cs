@@ -2,13 +2,13 @@ using Controller.Player;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class ChickenAnimator : CharacterAnimator
+public class ChickenAnimator : PlayerCharacterAnimator
 {
     private bool _movementEnabledLastFrame;
-    public override void Initialize(Character character, PlayerInputActions inputActions)
+    public override void Initialize(PlayerCharacter playerCharacter, PlayerInputActions inputActions)
     {
         animator = GetComponent<Animator>();
-        this.Character = character;
+        this.PlayerCharacter = playerCharacter;
         this.inputActions = inputActions;
         if (inputActions.Movement.Pressed.inProgress)
         {

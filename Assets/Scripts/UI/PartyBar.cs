@@ -23,25 +23,25 @@ public class PartyBar : MonoBehaviour
                     script.SetIcon(partyController.Characters[i]);
             }
         }
-        if(partyController.CurrentCharacter != null)
-            OnCharacterChanged(partyController.CurrentCharacter);
+        if(partyController.CurrentPlayerCharacter != null)
+            OnCharacterChanged(partyController.CurrentPlayerCharacter);
         partyController.OnCharacterChanged += OnCharacterChanged;
         partyController.OnPartyMemberAdded += OnPartyMemberAdd;
     }
 
-    private void OnPartyMemberAdd(Character characterInstance, int index)
+    private void OnPartyMemberAdd(PlayerCharacter playerCharacterInstance, int index)
     {
-        _characterIcons[index].SetIcon(characterInstance);
-        _characterIcons[index].SetSelected(partyController.CurrentCharacter);
+        _characterIcons[index].SetIcon(playerCharacterInstance);
+        _characterIcons[index].SetSelected(partyController.CurrentPlayerCharacter);
     }
 
-    private void OnCharacterChanged(Character character)
+    private void OnCharacterChanged(PlayerCharacter playerCharacter)
     {
         if (_characterIcons == null || _characterIcons.Count <= 0)
             return;
         foreach (CharacterBarIcon characterBarIcon in _characterIcons)
         {
-            characterBarIcon.SetSelected(character);
+            characterBarIcon.SetSelected(playerCharacter);
         }
     }
 

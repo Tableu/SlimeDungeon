@@ -2,14 +2,14 @@ using UnityEngine;
 
 namespace Controller.Player
 {
-    public abstract class CharacterAnimator : MonoBehaviour
+    public abstract class PlayerCharacterAnimator : MonoBehaviour
     {
         [SerializeField] private Transform hatRoot;
-        protected Character Character;
+        protected PlayerCharacter PlayerCharacter;
         protected Animator animator;
         protected PlayerInputActions inputActions;
         private GameObject _hat;
-        public abstract void Initialize(Character character, PlayerInputActions inputActions);
+        public abstract void Initialize(PlayerCharacter playerCharacter, PlayerInputActions inputActions);
 
         public virtual void RefreshHat(EquipmentData equipmentData)
         {

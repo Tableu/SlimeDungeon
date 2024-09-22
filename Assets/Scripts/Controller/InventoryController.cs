@@ -20,7 +20,7 @@ public class InventoryController : MonoBehaviour, ISavable
         public bool Equipped { get; private set; }
         public string ID { get; }
         public object Data { get; }
-        public Character Holder { get; private set; }
+        public PlayerCharacter Holder { get; private set; }
 
         public Item(string id, object data, ItemType itemType)
         {
@@ -30,7 +30,7 @@ public class InventoryController : MonoBehaviour, ISavable
             Equipped = false;
         }
 
-        public void Equip(Character holder)
+        public void Equip(PlayerCharacter holder)
         {
             Holder = holder;
             Equipped = true;
@@ -52,7 +52,7 @@ public class InventoryController : MonoBehaviour, ISavable
     private List<Item> _spells = new List<Item>();
     private List<Item> _hats = new List<Item>();
     private List<string> _itemIDs = new List<string>();
-    public Character SelectedCharacter => partyController.Characters.Count != 0 ? 
+    public PlayerCharacter SelectedPlayerCharacter => partyController.Characters.Count != 0 ? 
         partyController.Characters[_selectedCharacterIndex] : null;
     public string id { get; } = "InventoryController";
 
@@ -61,15 +61,15 @@ public class InventoryController : MonoBehaviour, ISavable
         if (!_loaded)
         {
             foreach (AttackData attackData in
-                partyController.CurrentCharacter.Data.StartingSpells)
+                partyController.CurrentPlayerCharacter.Data.StartingSpells)
             {
                 Add(attackData.Name, attackData, ItemType.Spells);
-                Equip(attackData.Name, partyController.CurrentCharacter, ItemType.Spells);
+                Equip(attackData.Name, partyController.CurrentPlayerCharacter, ItemType.Spells);
             }
             inventoryWindow.Refresh();
         }
         
-        foreach (Character character in partyController.Characters)
+        foreach (PlayerCharacter character in partyController.Characters)
         {
             if (character.Equipment != null)
             {
@@ -131,8 +131,8 @@ public class InventoryController : MonoBehaviour, ISavable
         {
             iconInfos.Add(new InventoryWidget.IconInfo(
                 inventoryIconDictionary.Dictionary[item.ID],
-                SelectedCharacter == item.Holder,
-                item.Equipped && SelectedCharacter != item.Holder));
+                SelectedPlayerCharacter == item.Holder,
+                item.Equipped && SelectedPlayerCharacter != item.Holder));
         }
         return iconInfos;
     }
@@ -159,7 +159,7 @@ public class InventoryController : MonoBehaviour, ISavable
         }
         else
         {
-            clickedItem.Equip(SelectedCharacter);
+            clickedItem.Equip(SelectedPlayerCharacter);
             switch (itemType)
             {
                 case ItemType.Spells:
@@ -204,7 +204,7 @@ public class InventoryController : MonoBehaviour, ISavable
         }
     }
 
-    public void Equip(string itemID, Character character, ItemType itemType)
+    public void Equip(string itemID, PlayerCharacter playerCharacter, ItemType itemType)
     {
         List<Item> items = GetItems(itemType);
         if (items == null)
@@ -213,7 +213,7 @@ public class InventoryController : MonoBehaviour, ISavable
         {
             if (item.ID == itemID)
             {
-                item.Equip(character);
+                item.Equip(playerCharacter);
                 break;
             }
         }
