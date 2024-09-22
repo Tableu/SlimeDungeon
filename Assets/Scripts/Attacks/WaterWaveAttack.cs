@@ -17,8 +17,8 @@ public class WaterWaveAttack : Attack
             var script = wave.GetComponent<WaterWave>();
             if (script == null)
                 return false;
-            script.Initialize(Data.Damage*CharacterInfo.Damage, Data.Knockback, Data.HitStun,
-                Transform.forward*Data.Speed, Data.ElementType, CharacterInfo.EnemyMask);
+            script.Initialize(Data.Damage*CharacterStats.Damage, Data.Knockback, Data.HitStun,
+                Transform.forward*Data.Speed, Data.ElementType, CharacterStats.EnemyMask);
             Cooldown(Data.Cooldown);
             return true;
         }
@@ -46,7 +46,7 @@ public class WaterWaveAttack : Attack
         }
     }
     
-    public WaterWaveAttack(ICharacterInfo characterInfo, AttackData data, Transform transform) : base(characterInfo, data, transform)
+    public WaterWaveAttack(CharacterStats characterStats, AttackData data, Transform transform) : base(characterStats, data, transform)
     {
     }
 }

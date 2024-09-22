@@ -26,7 +26,7 @@ public class EggRainAttack : Attack
                 Egg script = projectile.GetComponent<Egg>();
                 if (script == null)
                     continue;
-                script.Initialize(Data.Damage*CharacterInfo.Damage, Data.Knockback, Data.HitStun, Vector3.down*Data.Speed, Data.ElementType,
+                script.Initialize(Data.Damage*CharacterStats.Damage, Data.Knockback, Data.HitStun, Vector3.down*Data.Speed, Data.ElementType,
                     _data.EnemyPrefab, roomController);
             }
             Cooldown(Data.Cooldown);
@@ -55,7 +55,7 @@ public class EggRainAttack : Attack
         }
     }
     
-    public EggRainAttack(ICharacterInfo characterInfo, EggRainAttackData data, Transform transform) : base(characterInfo, data, transform)
+    public EggRainAttack(CharacterStats characterStats, EggRainAttackData data, Transform transform) : base(characterStats, data, transform)
     {
         _data = data;
     }

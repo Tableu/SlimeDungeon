@@ -49,7 +49,7 @@ public class CharacterItem : MonoBehaviour, IItem
     {
         if (!bought)
             ResourceManager.Instance.Coins.Remove(_initialCharacterData.Cost);
-        Character partyMember = _oldPartyMember ?? new Character(_initialCharacterData, character, character.transform);
+        Character partyMember = _oldPartyMember ?? new Character(_initialCharacterData, character.transform);
         _oldPartyMember = partyController.AddPartyMember(partyMember);
         if (_oldPartyMember != null)
         {

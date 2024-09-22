@@ -2,13 +2,11 @@ using System.Collections;
 using System.Linq;
 using Controller;
 using Controller.Player;
-using Systems.Modifiers;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
-using Type = Elements.Type;
 
-public class PlayerController : MonoBehaviour, ICharacterInfo, IDamageable
+public class PlayerController : MonoBehaviour, IDamageable
 {
     [SerializeField] private GameObject model;
     [SerializeField] private ParticleSystem walkingSmokeParticleSystem;
@@ -32,21 +30,8 @@ public class PlayerController : MonoBehaviour, ICharacterInfo, IDamageable
 
     public Vector2 MaxVelocity => _currentCharacter.MaxVelocity;
     public IItem HighlightedItem => _highlightedItem;
-    public float Health => _currentCharacter.Health;
-
-    public ModifiableStat Speed => _currentCharacter.Speed;
-    public ModifiableStat Damage => _currentCharacter.Damage;
-    public ModifiableStat Armor => _currentCharacter.Armor;
-
-    public LayerMask EnemyMask
-    {
-        get;
-        private set;
-    }
+    public CharacterStats Stats => _currentCharacter.Stats;
     
-    public Transform Transform => transform;
-    public Type ElementType => _currentCharacter.ElementType;
-    public Vector3 SpellOffset => _currentCharacter.Data.SpellOffset;
     public PlayerInputActions PlayerInputActions => _playerInputActions;
     #region Unity Event Functions
 
@@ -60,8 +45,7 @@ public class PlayerController : MonoBehaviour, ICharacterInfo, IDamageable
             _playerInputActions = new PlayerInputActions();
             _playerInputActions.Enable();
         }
-        
-        EnemyMask = LayerMask.GetMask("Enemy");
+
         partyController.OnCharacterChanged += OnCharacterChanged;
     }
     
@@ -173,7 +157,7 @@ public class PlayerController : MonoBehaviour, ICharacterInfo, IDamageable
                 rigidbody.velocity = Vector3.zero;
             }
             
-            rigidbody.AddForce(new Vector3(_direction.x*Speed, 0, _direction.y*Speed), ForceMode.Impulse);
+            rigidbody.AddForce(new Vector3(_direction.x*Stats.Speed, 0, _direction.y*Stats.Speed), ForceMode.Impulse);
             if (Mathf.Abs(rigidbody.velocity.x) > MaxVelocity.x)
             {
                 rigidbody.velocity = new Vector3(Mathf.Sign(rigidbody.velocity.x) * MaxVelocity.x, 0,
@@ -224,7 +208,7 @@ public class PlayerController : MonoBehaviour, ICharacterInfo, IDamageable
         if (!_inKnockback)
         {
             _currentCharacter.ApplyDamage(damage, attackType);
-            if (Health <= 0)
+            if (Stats.Health <= 0)
             {
                 HandleDeath();
                 return;

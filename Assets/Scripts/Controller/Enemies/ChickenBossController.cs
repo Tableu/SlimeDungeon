@@ -29,7 +29,7 @@ public class ChickenBossController : EnemyController
     protected new void FixedUpdate()
     {
         base.FixedUpdate();
-        if(Health <= secondPhaseData.Health && !_inSecondPhase)
+        if(Stats.Health <= secondPhaseData.Health && !_inSecondPhase)
             StartSecondPhase();
         if (!_detectedPlayer && PlayerVisible)
         {
@@ -48,13 +48,13 @@ public class ChickenBossController : EnemyController
             attack.End();
         }
         Attacks.Clear();
-        Speed = new ModifiableStat(enemyData.Speed);
+        Stats.Speed.UpdateBaseValue(enemyData.Speed);
         foreach (AttackData attackData in enemyData.Attacks)
         {
-            var attack = attackData.CreateInstance(this, transform);
+            var attack = attackData.CreateInstance(Stats, transform);
             Attacks.Add(attack);
         }
-        agent.speed = Speed;
+        agent.speed = Stats.Speed;
         _inSecondPhase = true;
         chickenBossAnimator.SwitchToSecondPhase();
     }

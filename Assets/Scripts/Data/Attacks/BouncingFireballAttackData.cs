@@ -10,8 +10,8 @@ public class BouncingFireballAttackData : AttackData
     public int MaxBounceCount => maxBounceCount;
     public Vector2 LaunchAngle => launchAngle;
     public float ExplosionDamageRadius => explosionDamageRadius;
-    public override Attack CreateInstance(ICharacterInfo characterInfo, Transform transform)
+    public override Attack CreateInstance(CharacterStats characterStats, Transform transform)
     {
-        return new BouncingFireballAttack(characterInfo, this, transform);
+        return new BouncingFireballAttack(characterStats, this, transform);
     }
 }

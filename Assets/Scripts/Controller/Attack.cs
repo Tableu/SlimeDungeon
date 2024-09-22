@@ -9,7 +9,7 @@ namespace Controller
     [Serializable]
     public abstract class Attack
     {
-        protected ICharacterInfo CharacterInfo;
+        protected CharacterStats CharacterStats;
         protected Transform Transform;
 
         public AttackData Data
@@ -26,9 +26,9 @@ namespace Controller
             private set;
         }
 
-        protected Attack(ICharacterInfo characterInfo, AttackData data, Transform transform)
+        protected Attack(CharacterStats characterStats, AttackData data, Transform transform)
         {
-            this.CharacterInfo = characterInfo;
+            this.CharacterStats = characterStats;
             Data = data;
             Transform = transform;
         }
@@ -79,7 +79,7 @@ namespace Controller
 
         protected GameObject SpawnProjectile(Transform transform)
         {
-            Vector3 offset = CharacterInfo.SpellOffset + Data.SpawnOffset;
+            Vector3 offset = CharacterStats.SpellOffset + Data.SpawnOffset;
             GameObject projectile = GameObject.Instantiate(Data.Prefab,
                 transform.position + new Vector3(offset.x*transform.forward.x, offset.y, offset.z*transform.forward.z), Quaternion.identity);
             return projectile;
@@ -87,7 +87,7 @@ namespace Controller
 
         protected void SetLayer(GameObject gameObject)
         {
-            gameObject.layer = CharacterInfo is PlayerController
+            gameObject.layer = CharacterStats.EnemyMask == (CharacterStats.EnemyMask | (1 << LayerMask.NameToLayer("Enemy")))
                 ? LayerMask.NameToLayer("PlayerAttacks")
                 : LayerMask.NameToLayer("EnemyAttacks");
         }

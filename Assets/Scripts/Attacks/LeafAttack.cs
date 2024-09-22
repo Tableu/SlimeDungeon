@@ -16,7 +16,7 @@ public class LeafAttack : Attack
             if (script == null)
                 return false;
             Quaternion angleAxis = Quaternion.AngleAxis(Random.Range(-_data.RandomAngle,_data.RandomAngle), Vector3.up);
-            script.Initialize(Data.Damage*CharacterInfo.Damage, Data.Knockback, Data.HitStun,
+            script.Initialize(Data.Damage*CharacterStats.Damage, Data.Knockback, Data.HitStun,
                 angleAxis*Transform.forward * Data.Speed, Data.ElementType);
             Cooldown(Data.Cooldown);
             return true;
@@ -47,13 +47,13 @@ public class LeafAttack : Attack
     private Vector3 RandomPosition(Transform transform)
     {
         Vector3 randomVector = new Vector3(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
-        Vector3 offset = CharacterInfo.SpellOffset + Data.SpawnOffset;
+        Vector3 offset = CharacterStats.SpellOffset + Data.SpawnOffset;
         return transform.position + new Vector3((offset.x+randomVector.x) * transform.forward.x, 
             offset.y+randomVector.y,
             (offset.z+randomVector.z) * transform.forward.z);
     }
 
-    public LeafAttack(ICharacterInfo characterInfo, LeafAttackData data, Transform transform) : base(characterInfo, data, transform)
+    public LeafAttack(CharacterStats characterStats, LeafAttackData data, Transform transform) : base(characterStats, data, transform)
     {
         _data = data;
     }

@@ -42,7 +42,7 @@ public class PartyController : MonoBehaviour, ISavable
         string initialForm = PlayerPrefs.GetString("Initial Form");
         if (_characters.Count == 0)
         {
-            Character character = new Character(characterDictionary.Dictionary[initialForm], playerController, playerController.transform);
+            Character character = new Character(characterDictionary.Dictionary[initialForm], playerController.transform);
             character.EquipSpell(character.Data.StartingSpells[0]);
             _characters.Add(character);
             OnPartyMemberAdded?.Invoke(character, 0);
@@ -63,7 +63,7 @@ public class PartyController : MonoBehaviour, ISavable
                 for (int i = 0; i < _characters.Count; i++)
                 {
                     Character partyMember = _characters[i];
-                    if (partyMember.Health <= 0)
+                    if (partyMember.Stats.Health <= 0)
                     {
                         oldCharacter = null;
                         partyMemberIndex = i;
@@ -102,7 +102,7 @@ public class PartyController : MonoBehaviour, ISavable
         
         while (formIndex != oldIndex)
         {
-            if (_characters[formIndex].Health > 0)
+            if (_characters[formIndex].Stats.Health > 0)
             {
                 ChangeCharacter(_characters[formIndex],formIndex);
                 return;
@@ -170,7 +170,7 @@ public class PartyController : MonoBehaviour, ISavable
         int index = 0;
         foreach (Character form in _characters)
         {
-            if (form.Health > 0)
+            if (form.Stats.Health > 0)
             {
                 ChangeCharacter(form, index);
                 return false;
@@ -199,7 +199,7 @@ public class PartyController : MonoBehaviour, ISavable
         {
             saveData.Add(new Character.SaveData(
                 characterDictionary.Dictionary.First(i => i.Value == character.Data).Key, 
-                character.Health, character.Spell?.Data.Name));
+                character.Stats.Health, character.Spell?.Data.Name));
         }
         
         return new SaveData()
@@ -230,7 +230,7 @@ public class PartyController : MonoBehaviour, ISavable
             
             _characters.Add(new Character(
                 characterDictionary.Dictionary[data.Character], 
-                playerController, data.Health,
+                data.Health,
                 attackData,
                 playerController.transform));
         }

@@ -16,7 +16,7 @@ namespace Controller.Player
             {
                 if (animator != null)
                 {
-                    animator.SetFloat("Speed", character.Speed);
+                    animator.SetFloat("Speed", character.Stats.Speed);
                 }
             }
             
@@ -33,7 +33,7 @@ namespace Controller.Player
             {
                 if (animator != null)
                 {
-                    animator.SetFloat("Speed", Character.Speed);
+                    animator.SetFloat("Speed", Character.Stats.Speed);
                 }
             }
             _movementEnabledLastFrame = inputActions.Movement.Pressed.enabled;
@@ -64,7 +64,7 @@ namespace Controller.Player
         {
             if (animator != null)
             {
-                animator.SetFloat("Speed", Character.Speed);
+                animator.SetFloat("Speed", Character.Stats.Speed);
             }
         }
     }

@@ -1,5 +1,4 @@
 using System;
-using Systems.Modifiers;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Object = UnityEngine.Object;
@@ -12,71 +11,53 @@ namespace Controller.Player
         private CharacterData _data;
 
         private Vector2 _maxVelocity;
-        private Type _elementType;
         private CharacterAnimator _characterAnimator;
         private Attack _basicAttack;
         private Attack _spell;
-        private ICharacterInfo _characterInfo;
         private EquipmentData _equipment;
         private Transform _transform;
         public CharacterData Data => _data;
-        public float Health { get; private set; }
-        public ModifiableStat Speed { get; }
-        public ModifiableStat Armor { get; }
-        public ModifiableStat Damage { get; }
+
+        public CharacterStats Stats
+        {
+            get;
+        }
 
         public Vector2 MaxVelocity => _maxVelocity;
-        public Type ElementType => _elementType;
         public Attack BasicAttack => _basicAttack;
         public Attack Spell => _spell;
         public EquipmentData Equipment => _equipment;
 
-        public Character(CharacterData data, ICharacterInfo characterInfo, Transform transform)
+        public Character(CharacterData data, Transform transform)
         {
             _transform = transform;
             _data = data;
-            Health = data.Health;
-            Speed = new ModifiableStat(data.Speed);
-            Damage = new ModifiableStat(1.0f);
-            Armor = new ModifiableStat(0);
+            
             _maxVelocity = data.MaxVelocity;
-            _elementType = data.ElementType;
-            _characterInfo = characterInfo;
-            _basicAttack = _data.BasicAttack.CreateInstance(characterInfo, transform);
+            Stats = new CharacterStats(_data);
+            _basicAttack = _data.BasicAttack.CreateInstance(Stats, transform);
         }
 
-        public Character(CharacterData data, ICharacterInfo characterInfo, float health, AttackData spell, Transform transform)
+        public Character(CharacterData data, float health, AttackData spell, Transform transform)
         {
             _transform = transform;
             _data = data;
-            Health = health;
-            Speed = new ModifiableStat(data.Speed);
-            Damage = new ModifiableStat(1.0f);
-            Armor = new ModifiableStat(0);
+            Stats = new CharacterStats(_data, health);
             _maxVelocity = data.MaxVelocity;
-            _elementType = data.ElementType;
-            _characterInfo = characterInfo;
-            _basicAttack = _data.BasicAttack.CreateInstance(characterInfo, transform);
+            _basicAttack = _data.BasicAttack.CreateInstance(Stats, transform);
             if(spell != null)
-                _spell = spell.CreateInstance(characterInfo, transform);
+                _spell = spell.CreateInstance(Stats, transform);
         }
 
         ~Character()
         {
-            if (_basicAttack != null)
-            {
-                _basicAttack.CleanUp();
-            }
-
-            if (_spell != null)
-            {
-                _spell.CleanUp();
-            }
+            _basicAttack?.CleanUp();
+            _spell?.CleanUp();
         }
 
         public void ApplyDamage(float damage, Type attackType)
         {
-            float typeMultiplier = GlobalReferences.Instance.TypeManager.GetTypeMultiplier(ElementType, attackType);
+            float typeMultiplier = GlobalReferences.Instance.TypeManager.GetTypeMultiplier(Stats.ElementType, attackType);
             if (_equipment != null)
             {
                 foreach (EquipmentData.Effect buff in _equipment.Buffs)
@@ -86,7 +67,7 @@ namespace Controller.Player
                 }
             }
 
-            Health -= damage*typeMultiplier;
+            Stats.ApplyDamage(damage*typeMultiplier);
         }
 
         public void Equip(GameObject model, PlayerInputActions playerInputActions)
@@ -126,7 +107,7 @@ namespace Controller.Player
             if (hasSpell)
                 oldSpell = UnEquipSpell();
 
-            _spell = attackData.CreateInstance(_characterInfo, _transform);
+            _spell = attackData.CreateInstance(Stats, _transform);
             return oldSpell;
         }
         

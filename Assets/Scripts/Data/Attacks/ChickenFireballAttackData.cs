@@ -8,8 +8,8 @@ public class ChickenFireballAttackData : AttackData
     [SerializeField] private int fireballCount;
     public Vector2 LaunchAngle => launchAngle;
     public int FireballCount => fireballCount;
-    public override Attack CreateInstance(ICharacterInfo characterInfo, Transform transform)
+    public override Attack CreateInstance(CharacterStats characterStats, Transform transform)
     {
-        return new ChickenFireballAttack(characterInfo, this, transform);
+        return new ChickenFireballAttack(characterStats, this, transform);
     }
 }

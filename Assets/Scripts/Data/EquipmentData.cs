@@ -48,13 +48,13 @@ public class EquipmentData : ScriptableObject
             switch (buff.Type)
             {
                 case EffectType.Armor:
-                    character.Armor.BaseModifier += buff.Value;
+                    character.Stats.Armor.BaseModifier += buff.Value;
                     break;
                 case EffectType.Damage:
-                    character.Damage.BaseModifier += buff.Value;
+                    character.Stats.Damage.BaseModifier += buff.Value;
                     break;
                 case EffectType.Speed:
-                    character.Speed.BaseModifier += buff.Value;
+                    character.Stats.Speed.BaseModifier += buff.Value;
                     break;
             }
         }
@@ -67,13 +67,13 @@ public class EquipmentData : ScriptableObject
             switch (buff.Type)
             {
                 case EffectType.Armor:
-                    character.Armor.BaseModifier -= buff.Value;
+                    character.Stats.Armor.BaseModifier -= buff.Value;
                     break;
                 case EffectType.Damage:
-                    character.Damage.BaseModifier -= buff.Value;
+                    character.Stats.Damage.BaseModifier -= buff.Value;
                     break;
                 case EffectType.Speed:
-                    character.Speed.BaseModifier -= buff.Value;
+                    character.Stats.Speed.BaseModifier -= buff.Value;
                     break;
             }
         }

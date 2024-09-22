@@ -15,7 +15,7 @@ public class SlimeBallAttack : Attack
             var script = slimeball.GetComponent<SlimeBall>();
             if (script == null)
                 return false;
-            script.Initialize(_data.DamagePerTick*CharacterInfo.Damage, _data.Knockback, _data.HitStun, 
+            script.Initialize(_data.DamagePerTick*CharacterStats.Damage, _data.Knockback, _data.HitStun, 
                 Transform.forward * _data.Speed, _data.ElementType, _data.SlimeArea, _data.Slow, _data.Duration);
             Cooldown(_data.Cooldown);
             return true;
@@ -44,7 +44,7 @@ public class SlimeBallAttack : Attack
         }
     }
     
-    public SlimeBallAttack(ICharacterInfo characterInfo, SlimeBallAttackData data, Transform transform) : base(characterInfo, data, transform)
+    public SlimeBallAttack(CharacterStats characterStats, SlimeBallAttackData data, Transform transform) : base(characterStats, data, transform)
     {
         _data = data;
     }

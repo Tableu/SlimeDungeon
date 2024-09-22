@@ -33,7 +33,7 @@ public class EnemyHealthBar : MonoBehaviour
     {
         if (_controller != null && slider.gameObject.activeSelf)
         {
-            slider.value = _controller.Health;
+            slider.value = _controller.Stats.Health;
         }
     }
 
@@ -52,7 +52,7 @@ public class EnemyHealthBar : MonoBehaviour
 
     private void OnDeath()
     {
-        slider.value = _controller.Health;
+        slider.value = _controller.Stats.Health;
         _controller.OnDeath -= OnDeath;
         StopAllCoroutines();
         Destroy(gameObject);

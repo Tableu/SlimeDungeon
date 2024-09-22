@@ -18,7 +18,7 @@ public class BasicAttack<T> : Attack where T : BasicProjectile
             var script = projectile.GetComponent<T>();
             if (script == null)
                 return false;
-            script.Initialize(Data.Damage*CharacterInfo.Damage, Data.Knockback, Data.HitStun,
+            script.Initialize(Data.Damage*CharacterStats.Damage, Data.Knockback, Data.HitStun,
                 Transform.forward * Data.Speed, Data.ElementType);
             Cooldown(Data.Cooldown);
             return true;
@@ -46,7 +46,7 @@ public class BasicAttack<T> : Attack where T : BasicProjectile
         }
     }
     
-    public BasicAttack(ICharacterInfo characterInfo, AttackData data, Transform transform) : base(characterInfo, data, transform)
+    public BasicAttack(CharacterStats characterStats, AttackData data, Transform transform) : base(characterStats, data, transform)
     {
     }
 }

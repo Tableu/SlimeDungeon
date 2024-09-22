@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using Controller;
 using FischlWorks_FogWar;
-using Systems.Modifiers;
 using UnityEngine;
 using UnityEngine.AI;
 using Type = Elements.Type;
@@ -13,7 +12,7 @@ public enum EnemyControllerState
     Idle,Walk,Attack,Stunned
 }
 
-public abstract class EnemyController : MonoBehaviour, ICharacterInfo, IDamageable
+public abstract class EnemyController : MonoBehaviour, IDamageable
 {
     [SerializeField] protected NavMeshAgent agent;
     [SerializeField] protected EnemyAnimator animator;
@@ -25,6 +24,12 @@ public abstract class EnemyController : MonoBehaviour, ICharacterInfo, IDamageab
     [SerializeField] private bool spawnHealthBar = true;
     [SerializeField] private Vector3 statBarOffset = new Vector3(0,20,0);
 
+    public CharacterStats Stats
+    {
+        get;
+        private set;
+    }
+    
     protected FSM StateMachine;
     protected List<Attack> Attacks;
     private Transform _target = null;
@@ -32,39 +37,11 @@ public abstract class EnemyController : MonoBehaviour, ICharacterInfo, IDamageab
     protected bool Stunned;
     private bool _dead;
 
-    public ModifiableStat Speed
-    {
-        get;
-        protected set;
-    }
-    public ModifiableStat Armor
-    {
-        get;
-        protected set;
-    }
-    public ModifiableStat Damage
-    {
-        get;
-        protected set;
-    }
-    public float Health
-    {
-        get;
-        private set;
-    }
-    public LayerMask EnemyMask
-    {
-        get;
-        private set;
-    }
-
     public bool PlayerVisible
     {
         get;
         private set;
     }
-    public Type ElementType => enemyData.ElementType;
-    public Vector3 SpellOffset => enemyData.SpellOffset;
     public Transform Transform => transform;
     public EnemyData EnemyData => enemyData;
     public List<Transform> Waypoints => waypoints;
@@ -78,21 +55,17 @@ public abstract class EnemyController : MonoBehaviour, ICharacterInfo, IDamageab
     protected void Start()
     {
         Attacks = new List<Attack>();
-        Speed = new ModifiableStat(enemyData.Speed);
-        Armor = new ModifiableStat(0);
-        Damage = new ModifiableStat(1f);
-        Health = enemyData.Health;
+        Stats = new CharacterStats(enemyData);
         foreach (AttackData attackData in enemyData.Attacks)
         {
-            var attack = attackData.CreateInstance(this, transform);
+            var attack = attackData.CreateInstance(Stats, transform);
             Attacks.Add(attack);
         }
 
         StateMachine = new FSM(); 
         if(spawnHealthBar)
             EnemyHealthBars.Instance.SpawnHealthBar(transform, this, statBarOffset);
-        agent.speed = Speed;
-        EnemyMask = LayerMask.GetMask("Player");
+        agent.speed = Stats.Speed;
     }
 
     protected void FixedUpdate()
@@ -104,7 +77,7 @@ public abstract class EnemyController : MonoBehaviour, ICharacterInfo, IDamageab
                 PlayerVisible = IsPlayerVisible();
         }
 
-        agent.speed = Speed;
+        agent.speed = Stats.Speed;
         StateMachine.Tick();
     }
 
@@ -116,10 +89,10 @@ public abstract class EnemyController : MonoBehaviour, ICharacterInfo, IDamageab
 
     public void TakeDamage(float damage, Vector3 knockback, float hitStun, Type attackType)
     {
-        float typeMultiplier = GlobalReferences.Instance.TypeManager.GetTypeMultiplier(ElementType, attackType);
-        Health -= damage*typeMultiplier;
+        float typeMultiplier = GlobalReferences.Instance.TypeManager.GetTypeMultiplier(Stats.ElementType, attackType);
+        Stats.ApplyDamage(damage*typeMultiplier);
         OnDamage?.Invoke();
-        if (Health <= 0)
+        if (Stats.Health <= 0)
         {
             HandleDeath();
             return;

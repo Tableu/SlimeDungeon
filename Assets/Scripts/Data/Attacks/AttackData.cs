@@ -30,5 +30,5 @@ public abstract class AttackData : ScriptableObject
     public Vector3 SpawnOffset => spawnOffset;
     public int Cost => cost;
         
-    public abstract Attack CreateInstance(ICharacterInfo characterInfo, Transform transform);
+    public abstract Attack CreateInstance(CharacterStats characterStats, Transform transform);
 }

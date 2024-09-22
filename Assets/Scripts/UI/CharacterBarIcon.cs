@@ -23,7 +23,7 @@ public class CharacterBarIcon : MonoBehaviour
     {
         if (_characterInstance != null)
         {
-            slider.value = _characterInstance.Health;
+            slider.value = _characterInstance.Stats.Health;
         }
     }
 

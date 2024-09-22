@@ -15,16 +15,16 @@ public class FlamethrowerAttack : Attack
     {
         if (isActive)
             return false;
-        Vector3 offset = CharacterInfo.SpellOffset + Data.SpawnOffset;
+        Vector3 offset = CharacterStats.SpellOffset + Data.SpawnOffset;
         _flamethrower = GameObject.Instantiate(Data.Prefab, Transform.position + new Vector3(offset.x*Transform.forward.x, 
             offset.y, offset.z*Transform.forward.z), Quaternion.identity,Transform);
         _flamethrower.transform.rotation = Quaternion.Euler(_flamethrower.transform.rotation.x, Transform.rotation.eulerAngles.y-90, _flamethrower.transform.rotation.z);
         SetLayer(_flamethrower);
         var script = _flamethrower.GetComponent<Flamethrower>();
-        script.Initialize(Data.Damage*CharacterInfo.Damage, Data.Knockback, Data.HitStun,
+        script.Initialize(Data.Damage*CharacterStats.Damage, Data.Knockback, Data.HitStun,
             Transform.forward * Data.Speed, Data.ElementType);
 
-        CharacterInfo.Speed.MultiplicativeModifer -= 0.5f;
+        CharacterStats.Speed.MultiplicativeModifer -= 0.5f;
         isActive = true;
         ApplyManaCost(Time.fixedDeltaTime);
         return true;
@@ -35,7 +35,7 @@ public class FlamethrowerAttack : Attack
         if (!isActive)
             return; 
         
-        CharacterInfo.Speed.MultiplicativeModifer += 0.5f;
+        CharacterStats.Speed.MultiplicativeModifer += 0.5f;
         _flamethrower.GetComponent<ParticleSystem>().Stop();
         _flamethrower.transform.SetParent(null, true);
         isActive = false;
@@ -82,7 +82,7 @@ public class FlamethrowerAttack : Attack
         });
     }
 
-    public FlamethrowerAttack(ICharacterInfo characterInfo, AttackData data, Transform transform) : base(characterInfo, data, transform)
+    public FlamethrowerAttack(CharacterStats characterStats, AttackData data, Transform transform) : base(characterStats, data, transform)
     {
     }
 }

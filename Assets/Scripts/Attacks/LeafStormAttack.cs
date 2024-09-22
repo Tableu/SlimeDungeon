@@ -19,7 +19,7 @@ public class LeafStormAttack : Attack
                 if (script == null)
                     return false;
 
-                script.Initialize(Data.Damage*CharacterInfo.Damage, _data.Duration, Data.ElementType);
+                script.Initialize(Data.Damage*CharacterStats.Damage, _data.Duration, Data.ElementType);
                 Cooldown(Data.Cooldown);
                 return true;
             }
@@ -48,7 +48,7 @@ public class LeafStormAttack : Attack
         }
     }
     
-    public LeafStormAttack(ICharacterInfo characterInfo, LeafStormAttackData data, Transform transform) : base(characterInfo, data, transform)
+    public LeafStormAttack(CharacterStats characterStats, LeafStormAttackData data, Transform transform) : base(characterStats, data, transform)
     {
         _data = data;
     }

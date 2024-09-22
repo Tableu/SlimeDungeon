@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 
 public class WaterBoltAttack : Attack
 {
-    public WaterBoltAttack(ICharacterInfo characterInfo, AttackData data, Transform transform) : base(characterInfo, data, transform)
+    public WaterBoltAttack(CharacterStats characterStats, AttackData data, Transform transform) : base(characterStats, data, transform)
     {
     }
 
@@ -17,7 +17,7 @@ public class WaterBoltAttack : Attack
             var script = waterbolt.GetComponent<WaterBolt>();
             if (script == null)
                 return false;
-            script.Initialize(Data.Damage*CharacterInfo.Damage, Data.Knockback, Data.HitStun,
+            script.Initialize(Data.Damage*CharacterStats.Damage, Data.Knockback, Data.HitStun,
                 Transform.forward * Data.Speed, Data.ElementType,3);
             
             Cooldown(Data.Cooldown);

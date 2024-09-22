@@ -13,8 +13,8 @@ public class EggRainAttackData : AttackData
     public Vector2 SpawnHeight => spawnHeight;
     public float SpawnInterval => spawnInterval;
     public GameObject EnemyPrefab => enemyPrefab;
-    public override Attack CreateInstance(ICharacterInfo characterInfo, Transform transform)
+    public override Attack CreateInstance(CharacterStats characterStats, Transform transform)
     {
-        return new EggRainAttack(characterInfo, this, transform);
+        return new EggRainAttack(characterStats, this, transform);
     }
 }

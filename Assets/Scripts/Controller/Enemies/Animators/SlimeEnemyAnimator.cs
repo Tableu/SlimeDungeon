@@ -32,7 +32,7 @@ public class SlimeEnemyAnimator : EnemyAnimator
                 break;
             case EnemyControllerState.Walk:
                 SetFace(faces.WalkFace);
-                animator.SetFloat("Speed", controller.Speed);
+                animator.SetFloat("Speed", controller.Stats.Speed);
                 break;
             case EnemyControllerState.Attack:
                 SetFace(faces.attackFace);

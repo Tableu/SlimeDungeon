@@ -21,8 +21,8 @@ public class BouncingFireballAttack : Attack
             maxBounces = _data.MaxBounceCount;
             launchAngle = new Vector3(launchAngle.x*_data.LaunchAngle.x, _data.LaunchAngle.y, launchAngle.z*_data.LaunchAngle.x);
             
-            script.Initialize(Data.Damage*CharacterInfo.Damage, Data.Knockback, Data.HitStun, launchAngle*Data.Speed, maxBounces, 
-                _data.ExplosionDamageRadius, Data.ElementType, CharacterInfo.EnemyMask);
+            script.Initialize(Data.Damage*CharacterStats.Damage, Data.Knockback, Data.HitStun, launchAngle*Data.Speed, maxBounces, 
+                _data.ExplosionDamageRadius, Data.ElementType, CharacterStats.EnemyMask);
             Cooldown(Data.Cooldown);
             return true;
         }
@@ -50,7 +50,7 @@ public class BouncingFireballAttack : Attack
         }
     }
 
-    public BouncingFireballAttack(ICharacterInfo characterInfo, BouncingFireballAttackData data, Transform transform) : base(characterInfo, data, transform)
+    public BouncingFireballAttack(CharacterStats characterStats, BouncingFireballAttackData data, Transform transform) : base(characterStats, data, transform)
     {
         _data = data;
     }

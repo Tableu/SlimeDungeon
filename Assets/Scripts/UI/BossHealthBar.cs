@@ -26,7 +26,7 @@ public class BossHealthBar : MonoBehaviour
         {
             foreach (Slider slider in sliders)
             {
-                slider.value = _controller.Health;
+                slider.value = _controller.Stats.Health;
             }
         }
     }
@@ -35,7 +35,7 @@ public class BossHealthBar : MonoBehaviour
     {
         foreach (Slider slider in sliders)
         {
-            slider.value = _controller.Health;
+            slider.value = _controller.Stats.Health;
         }
         _controller.OnDeath -= OnDeath;
         Destroy(gameObject);
