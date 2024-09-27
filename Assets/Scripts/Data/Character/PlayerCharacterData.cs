@@ -7,7 +7,7 @@ namespace Controller.Player
 {
     [CreateAssetMenu(fileName = "PlayerCharacterData", menuName = "Data/PlayerCharacterData")]
     [Serializable]
-    public class PlayerCharacterData : ScriptableObject
+    public class PlayerCharacterData : ScriptableObject, ILevelData
     {
         [Header("Stats")]
         [SerializeField] private float health;
@@ -17,6 +17,9 @@ namespace Controller.Player
         [SerializeField] private Vector3 spellOffset;
         [SerializeField] private Vector2 maxVelocity;
         [SerializeField] private new string name;
+
+        [Header("Level Experience Requirements")] 
+        [SerializeField] private List<int> experienceLevels;
         
         [Header("References")]
         [SerializeField] private GameObject model;
@@ -33,5 +36,14 @@ namespace Controller.Player
         public Elements.Type ElementType => elementType;
         public Vector3 SpellOffset => spellOffset;
         public int Cost => cost;
+
+        public int GetExperienceRequirement(int level)
+        {
+            if (experienceLevels == null || experienceLevels.Count >= level)
+            {
+                return 0;
+            }
+            return experienceLevels[level];
+        }
     }
 }

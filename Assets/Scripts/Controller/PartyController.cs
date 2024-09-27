@@ -165,6 +165,14 @@ public class PartyController : MonoBehaviour, ISavable
         return oldEquipment;
     }
 
+    public void AddExperience(int experience)
+    {
+        foreach (PlayerCharacter character in _characters)
+        {
+            character.ExperienceSystem.AddExperience(experience);
+        }        
+    }
+
     public bool IsPartyAllFainted()
     {
         int index = 0;
@@ -199,7 +207,7 @@ public class PartyController : MonoBehaviour, ISavable
         {
             saveData.Add(new PlayerCharacter.SaveData(
                 characterDictionary.Dictionary.First(i => i.Value == character.Data).Key, 
-                character.Stats.Health, character.Spell?.Data.Name));
+                character.Stats.Health, character.Spell?.Data.Name, character.ExperienceSystem.Level));
         }
         
         return new SaveData()
@@ -227,11 +235,12 @@ public class PartyController : MonoBehaviour, ISavable
                     ? attackDictionary.Dictionary[data.Spell]
                     : null;
             }
-            
+
             _characters.Add(new PlayerCharacter(
-                characterDictionary.Dictionary[data.Character], 
+                characterDictionary.Dictionary[data.Character],
                 data.Health,
                 attackData,
+                data.Level,
                 playerController.transform));
         }
 

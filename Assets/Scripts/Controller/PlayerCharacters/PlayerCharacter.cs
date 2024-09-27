@@ -8,59 +8,51 @@ namespace Controller.Player
 {
     public class PlayerCharacter
     {
-        private PlayerCharacterData _data;
-
-        private Vector2 _maxVelocity;
         private PlayerCharacterAnimator _playerCharacterAnimator;
-        private Attack _basicAttack;
-        private Attack _spell;
-        private EquipmentData _equipment;
         private Transform _transform;
-        public PlayerCharacterData Data => _data;
-
-        public CharacterStats Stats
-        {
-            get;
-        }
-
-        public Vector2 MaxVelocity => _maxVelocity;
-        public Attack BasicAttack => _basicAttack;
-        public Attack Spell => _spell;
-        public EquipmentData Equipment => _equipment;
+        
+        public PlayerCharacterData Data { get; }
+        public CharacterStats Stats { get; }
+        public Vector2 MaxVelocity { get; }
+        public Attack BasicAttack { get; }
+        public Attack Spell { get; private set; }
+        public EquipmentData Equipment { get; private set; }
+        public ExperienceSystem ExperienceSystem { get; }
 
         public PlayerCharacter(PlayerCharacterData data, Transform transform)
         {
             _transform = transform;
-            _data = data;
-            
-            _maxVelocity = data.MaxVelocity;
-            Stats = new CharacterStats(_data);
-            _basicAttack = _data.BasicAttack.CreateInstance(Stats, transform);
+            Data = data;
+            MaxVelocity = data.MaxVelocity;
+            Stats = new CharacterStats(Data);
+            BasicAttack = Data.BasicAttack.CreateInstance(Stats, transform);
+            ExperienceSystem = new ExperienceSystem(0, data);
         }
 
-        public PlayerCharacter(PlayerCharacterData data, float health, AttackData spell, Transform transform)
+        public PlayerCharacter(PlayerCharacterData data, float health, AttackData spell, int level, Transform transform)
         {
             _transform = transform;
-            _data = data;
-            Stats = new CharacterStats(_data, health);
-            _maxVelocity = data.MaxVelocity;
-            _basicAttack = _data.BasicAttack.CreateInstance(Stats, transform);
+            Data = data;
+            Stats = new CharacterStats(Data, health);
+            MaxVelocity = data.MaxVelocity;
+            BasicAttack = Data.BasicAttack.CreateInstance(Stats, transform);
             if(spell != null)
-                _spell = spell.CreateInstance(Stats, transform);
+                Spell = spell.CreateInstance(Stats, transform);
+            ExperienceSystem = new ExperienceSystem(level, data);
         }
 
         ~PlayerCharacter()
         {
-            _basicAttack?.CleanUp();
-            _spell?.CleanUp();
+            BasicAttack?.CleanUp();
+            Spell?.CleanUp();
         }
 
         public void ApplyDamage(float damage, Type attackType)
         {
             float typeMultiplier = GlobalReferences.Instance.TypeManager.GetTypeMultiplier(Stats.ElementType, attackType);
-            if (_equipment != null)
+            if (Equipment != null)
             {
-                foreach (EquipmentData.Effect buff in _equipment.Buffs)
+                foreach (EquipmentData.Effect buff in Equipment.Buffs)
                 {
                     if (buff.Element.HasFlag(attackType) && buff.Type == EquipmentData.EffectType.Armor)
                         damage -= buff.Value;
@@ -74,8 +66,8 @@ namespace Controller.Player
         {
             _playerCharacterAnimator = model.GetComponent<PlayerCharacterAnimator>();
             _playerCharacterAnimator.Initialize(this, playerInputActions);
-            if(_equipment != null)
-                _playerCharacterAnimator.RefreshHat(_equipment);
+            if(Equipment != null)
+                _playerCharacterAnimator.RefreshHat(Equipment);
         }
 
         public void Drop()
@@ -88,12 +80,12 @@ namespace Controller.Player
 
         public void CastBasicAttack()
         {
-            _basicAttack?.Begin();
+            BasicAttack?.Begin();
         }
 
         public void CastSpell()
         {
-            _spell?.Begin();
+            Spell?.Begin();
         }
         
         public AttackData EquipSpell(AttackData attackData)
@@ -101,24 +93,24 @@ namespace Controller.Player
             AttackData oldSpell = null;
             if (attackData == null)
                 return null;
-            bool hasSpell = _spell != null;
-            if (hasSpell && _spell.OnCooldown)
+            bool hasSpell = Spell != null;
+            if (hasSpell && Spell.OnCooldown)
                 return null;
             if (hasSpell)
                 oldSpell = UnEquipSpell();
 
-            _spell = attackData.CreateInstance(Stats, _transform);
+            Spell = attackData.CreateInstance(Stats, _transform);
             return oldSpell;
         }
         
         public AttackData UnEquipSpell()
         {
-            if (_spell == null)
+            if (Spell == null)
                 return null;
-            AttackData oldSpell = _spell.Data;
-            _spell.UnlinkInput();
-            _spell.CleanUp();
-            _spell = null;
+            AttackData oldSpell = Spell.Data;
+            Spell.UnlinkInput();
+            Spell.CleanUp();
+            Spell = null;
             return oldSpell;
         }
 
@@ -127,41 +119,96 @@ namespace Controller.Player
             EquipmentData oldEquipment = null;
             if (equipmentData == null)
                 return null;
-            bool hasEquipment = _equipment != null;
+            bool hasEquipment = Equipment != null;
             if (hasEquipment)
                 oldEquipment = RemoveEquipment();
             
-            _equipment = equipmentData;
+            Equipment = equipmentData;
             equipmentData.Equip(this);
             if(_playerCharacterAnimator != null)
-                _playerCharacterAnimator.RefreshHat(_equipment);
+                _playerCharacterAnimator.RefreshHat(Equipment);
             return oldEquipment;
         }
 
         public EquipmentData RemoveEquipment()
         {
-            if (_equipment == null)
+            if (Equipment == null)
                 return null;
-            EquipmentData oldEquipment = _equipment;
-            _equipment.Drop(this);
-            _equipment = null;
+            EquipmentData oldEquipment = Equipment;
+            Equipment.Drop(this);
+            Equipment = null;
             if(_playerCharacterAnimator != null)
-                _playerCharacterAnimator.RefreshHat(_equipment);
+                _playerCharacterAnimator.RefreshHat(Equipment);
             return oldEquipment;
         }
         
         [Serializable]
         public struct SaveData
         {
-            public SaveData(string character, float health, string spell)
+            public SaveData(string character, float health, string spell, int level)
             {
                 Character = character;
                 Health = health;
                 Spell = spell;
+                Level = level;
             }
             public float Health;
             public string Spell;
+            public int Level;
             [FormerlySerializedAs("Form")] public string Character;
         }
+    }
+    /// <summary>
+    /// A class that manages a level system abstractly defined exp formulas.
+    /// It does not control the formula which calculates the required exp for each level.
+    /// </summary>
+    /// <remarks>
+    /// The level argument starts at zero.
+    /// An experience requirement of zero indicates the max level. 
+    /// </remarks>
+    public class ExperienceSystem
+    {
+        public int Level
+        {
+            get;
+            private set;
+        }
+
+        public float ExperiencePercentage => _experience / _data?.GetExperienceRequirement(Level) ?? 0;
+        public Action OnLevelUp;
+
+        private ILevelData _data;
+        private int _experience;
+
+        public ExperienceSystem(int level, ILevelData data)
+        {
+            _data = data;
+            Level = level;
+        }
+
+        public void AddExperience(int exp)
+        {
+            int requiredExperience = _data.GetExperienceRequirement(Level);
+            _experience += exp;
+            if (requiredExperience == 0)
+                return;
+            if (_experience >= requiredExperience)
+            {
+                Level++;
+                _experience -= requiredExperience;
+                OnLevelUp?.Invoke();
+            }
+        }
+    }
+    /// <summary>
+    /// An interface that ExperienceSystem uses to access the experience requirement for each level.
+    /// </summary>
+    /// <remarks>
+    /// The level argument starts at zero.
+    /// GetExperienceRequirement should return zero if the max level has been reached.
+    /// </remarks>
+    public interface ILevelData
+    {
+        public int GetExperienceRequirement(int level);
     }
 }
