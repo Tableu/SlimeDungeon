@@ -14,6 +14,7 @@ public class PartyController : MonoBehaviour, ISavable
     [SerializeField] private PlayerController playerController;
     [SerializeField] private CharacterDataDictionary characterDictionary;
     [SerializeField] private AttackDataDictionary attackDictionary;
+    [SerializeField] private EquipmentDataDictionary equipmentDictionary;
     
     private int _currentPartyMemberIndex = 0;
     private int _maxPartyCount;
@@ -208,7 +209,8 @@ public class PartyController : MonoBehaviour, ISavable
         {
             saveData.Add(new PlayerCharacter.SaveData(
                 characterDictionary.Dictionary.First(i => i.Value == character.Data).Key, 
-                character.Stats, character.Spell?.Data.Name, character.ExperienceSystem.Level));
+                character.Stats, character.Equipment != null ? character.Equipment.Name : null, 
+                character.Spell?.Data.Name,character.ExperienceSystem.Level));
         }
         
         return new SaveData()
@@ -240,9 +242,22 @@ public class PartyController : MonoBehaviour, ISavable
                     : null;
             }
 
+            EquipmentData equipmentData;
+            if (data.Equipment == null)
+            {
+                equipmentData = null;
+            }
+            else
+            {
+                equipmentData = equipmentDictionary.Dictionary.ContainsKey(data.Equipment)
+                    ? equipmentDictionary.Dictionary[data.Equipment]
+                    : null;
+            }
+
             _characters.Add(new PlayerCharacter(
                 characterDictionary.Dictionary[data.Character],
                 data.Stats,
+                equipmentData,
                 attackData,
                 data.Level,
                 playerController.transform));

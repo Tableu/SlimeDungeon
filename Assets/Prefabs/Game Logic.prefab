@@ -46,6 +46,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cursor: {fileID: 0}
   playerController: {fileID: 0}
+  popupBlocker: {fileID: 0}
+  pauseMenu: {fileID: 0}
 --- !u!1 &9079622436465797642
 GameObject:
   m_ObjectHideFlags: 0
@@ -95,6 +97,7 @@ MonoBehaviour:
   playerController: {fileID: 0}
   characterDictionary: {fileID: 11400000, guid: b43cbbdadab028343a4c346542c1b8bc, type: 2}
   attackDictionary: {fileID: 11400000, guid: ad056721a83fb6d4f8fb8f8c8913f870, type: 2}
+  equipmentDictionary: {fileID: 11400000, guid: 8dd114946ade3c04196cabd3f0ae78ff, type: 2}
 --- !u!114 &7642588116832403661
 MonoBehaviour:
   m_ObjectHideFlags: 0

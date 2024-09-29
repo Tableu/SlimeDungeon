@@ -29,13 +29,14 @@ namespace Controller.Player
             ExperienceSystem = new ExperienceSystem(0, data);
         }
         //Constructor for loading player
-        public PlayerCharacter(PlayerCharacterData data, CharacterStats stats, AttackData spell, int level, Transform transform)
+        public PlayerCharacter(PlayerCharacterData data, CharacterStats stats, EquipmentData equipment, AttackData spell, int level, Transform transform)
         {
             _transform = transform;
             Data = data;
             Stats = stats;
             MaxVelocity = data.MaxVelocity;
             BasicAttack = Data.BasicAttack.CreateInstance(Stats, transform);
+            Equipment = equipment;
             if(spell != null)
                 Spell = spell.CreateInstance(Stats, transform);
             ExperienceSystem = new ExperienceSystem(level, data);
@@ -145,17 +146,19 @@ namespace Controller.Player
         [Serializable]
         public struct SaveData
         {
-            public SaveData(string character, CharacterStats characterStats, string spell, int level)
+            public SaveData(string character, CharacterStats characterStats, string equipment, string spell, int level)
             {
                 Character = character;
                 Stats = characterStats;
                 Spell = spell;
                 Level = level;
+                Equipment = equipment;
             }
 
             public CharacterStats Stats;
             public string Spell;
             public int Level;
+            public string Equipment;
             [FormerlySerializedAs("Form")] public string Character;
         }
     }
