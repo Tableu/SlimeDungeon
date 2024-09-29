@@ -1,10 +1,13 @@
+using System;
 using Controller.Player;
+using Newtonsoft.Json;
 using Systems.Modifiers;
 using UnityEngine;
 using Type = Elements.Type;
 
 namespace Controller
 {
+    [Serializable]
     public class CharacterStats
     {
         public ModifiableStat Speed
@@ -39,21 +42,23 @@ namespace Controller
         {
             get;
         }
+        //For saving with JSON
+        [JsonConstructor]
+        private CharacterStats(ModifiableStat speed, ModifiableStat armor, ModifiableStat damage, 
+            float health, Type elementType, Vector3 spellOffset, int enemyMask)
+        {
+            Speed = speed;
+            Armor = armor;
+            Damage = damage;
+            Health = health;
+            ElementType = elementType;
+            SpellOffset = spellOffset;
+            EnemyMask = enemyMask;
+        }
         //New Player Character
         public CharacterStats(PlayerCharacterData data)
         {
             Health = data.Health;
-            Speed = new ModifiableStat(data.Speed);
-            Damage = new ModifiableStat(1.0f);
-            Armor = new ModifiableStat(0);
-            ElementType = data.ElementType;
-            SpellOffset = data.SpellOffset;
-            EnemyMask = LayerMask.GetMask("Enemy");
-        }
-        //Saved Player Character
-        public CharacterStats(PlayerCharacterData data, float health)
-        {
-            Health = health;
             Speed = new ModifiableStat(data.Speed);
             Damage = new ModifiableStat(1.0f);
             Armor = new ModifiableStat(0);

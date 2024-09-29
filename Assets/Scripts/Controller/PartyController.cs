@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Controller.Player;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Systems.Save;
 using UnityEngine;
@@ -207,7 +208,7 @@ public class PartyController : MonoBehaviour, ISavable
         {
             saveData.Add(new PlayerCharacter.SaveData(
                 characterDictionary.Dictionary.First(i => i.Value == character.Data).Key, 
-                character.Stats.Health, character.Spell?.Data.Name, character.ExperienceSystem.Level));
+                character.Stats, character.Spell?.Data.Name, character.ExperienceSystem.Level));
         }
         
         return new SaveData()
@@ -219,7 +220,10 @@ public class PartyController : MonoBehaviour, ISavable
 
     public void LoadState(JObject state)
     {
-        var saveData = state.ToObject<SaveData>();
+        var saveData = state.ToObject<SaveData>(new JsonSerializer()
+        {
+            ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor
+        });
         _currentPartyMemberIndex = saveData.CurrentCharacterIndex;
         _characters.Clear();
         foreach (PlayerCharacter.SaveData data in saveData.Characters)
@@ -238,7 +242,7 @@ public class PartyController : MonoBehaviour, ISavable
 
             _characters.Add(new PlayerCharacter(
                 characterDictionary.Dictionary[data.Character],
-                data.Health,
+                data.Stats,
                 attackData,
                 data.Level,
                 playerController.transform));

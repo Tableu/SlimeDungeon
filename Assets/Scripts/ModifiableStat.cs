@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Systems.Modifiers
 {
@@ -9,6 +10,7 @@ namespace Systems.Modifiers
     ///  The stat value is constrained to be a non-negative.
     ///  Implicitly casts to a floating point number repressing the current stat value.
     /// </remarks>
+    [Serializable]
     public class ModifiableStat
     {
         public ModifiableStat(float baseValue)
