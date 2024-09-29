@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 1062181426651133041}
   - component: {fileID: 6472144971781621928}
   - component: {fileID: 3553313987700367861}
+  - component: {fileID: 4598828420686192772}
   m_Layer: 9
   m_Name: Normal Slime
   m_TagString: Untagged
@@ -171,6 +172,19 @@ MonoBehaviour:
   faceMaterial: {fileID: 2100000, guid: f5c4e8744f97ef4468f92d8b6072bc15, type: 2}
   controller: {fileID: 1062181426651133041}
   meleeAttack: 0
+--- !u!114 &4598828420686192772
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1068915873035841302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b622145eab0b3724ca874c4abe1d5f5f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: 7485b088993b77e4ab2f3f3c3ef81afe, type: 2}
 --- !u!1001 &1395471156194845875
 PrefabInstance:
   m_ObjectHideFlags: 0

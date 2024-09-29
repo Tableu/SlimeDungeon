@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 1062181426651133041}
   - component: {fileID: 6472144971781621928}
   - component: {fileID: 8889467054495313468}
+  - component: {fileID: 3198583132941232538}
   m_Layer: 9
   m_Name: Grass Spirit
   m_TagString: Untagged
@@ -145,6 +146,19 @@ MonoBehaviour:
   stunEffect: {fileID: 9092857177499490824}
   stunAura: {fileID: 6761136828445309366}
   chargeEffect: {fileID: 0}
+--- !u!114 &3198583132941232538
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1068915873035841302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b622145eab0b3724ca874c4abe1d5f5f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: a7f6337a63725194eb759ae6aaa046fa, type: 2}
 --- !u!1001 &1395471156194845875
 PrefabInstance:
   m_ObjectHideFlags: 0

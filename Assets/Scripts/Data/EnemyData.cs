@@ -10,6 +10,7 @@ public class EnemyData : ScriptableObject
     [SerializeField] private float speed;
     [SerializeField] private Elements.Type elementType;
     [SerializeField] private Vector3 spellOffset;
+    [SerializeField] private int experience;
     [HeaderAttribute("References")] 
     [SerializeField] private List<AttackData> attacks;
     [HeaderAttribute("Enemy")] 
@@ -35,6 +36,7 @@ public class EnemyData : ScriptableObject
     public int CoinsOnDeath => coinsOnDeath;
     public Vector2 IdleTimeRange => idleTimeRange;
     public bool MoveAndAttack => moveAndAttack;
+    public int Experience => experience;
 }
 
 [Serializable]

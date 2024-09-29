@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 9156532417752548872}
   - component: {fileID: 7567083205706074814}
   - component: {fileID: 6130159507144060821}
+  - component: {fileID: 6425570557808167414}
   m_Layer: 9
   m_Name: Chicken
   m_TagString: Untagged
@@ -167,6 +168,19 @@ MonoBehaviour:
   stunEffect: {fileID: 1294409137733998528}
   stunAura: {fileID: 6350538473073523532}
   chargeEffect: {fileID: 0}
+--- !u!114 &6425570557808167414
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1068915873035841302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b622145eab0b3724ca874c4abe1d5f5f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: 0c5b67fae6f96a745b70a5da2cfc077e, type: 2}
 --- !u!1001 &1632680865806460489
 PrefabInstance:
   m_ObjectHideFlags: 0
