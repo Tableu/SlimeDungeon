@@ -28788,6 +28788,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1870461747}
     m_Modifications:
+    - target: {fileID: 746118638367481990, guid: 3894e0e93e721bf4f84565027120613e, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 746118638367481990, guid: 3894e0e93e721bf4f84565027120613e, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4884546901154586357, guid: 3894e0e93e721bf4f84565027120613e, type: 3}
       propertyPath: controller
       value: 
@@ -28892,6 +28900,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8380622521104416374, guid: 3894e0e93e721bf4f84565027120613e, type: 3}
+      propertyPath: partyController
+      value: 
+      objectReference: {fileID: 575906007}
     - target: {fileID: 8929801584066912825, guid: 3894e0e93e721bf4f84565027120613e, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.size
       value: 0

@@ -11,7 +11,7 @@ public class PlayerHealthBar : MonoBehaviour
     {
         slider.maxValue = partyController.CurrentPlayerCharacter.Data.Health;
         slider.value = partyController.CurrentPlayerCharacter.Stats.Health;
-        partyController.OnCharacterChanged += OnFormChange;
+        partyController.OnCharacterChanged += OnCharacterChanged;
     }
 
     private void FixedUpdate()
@@ -19,7 +19,7 @@ public class PlayerHealthBar : MonoBehaviour
         slider.value = partyController.CurrentPlayerCharacter.Stats.Health;;
     }
 
-    private void OnFormChange(PlayerCharacter playerCharacter)
+    private void OnCharacterChanged(PlayerCharacter playerCharacter)
     {
         slider.maxValue = playerCharacter.Data.Health;
         slider.value = playerCharacter.Stats.Health;
@@ -29,7 +29,7 @@ public class PlayerHealthBar : MonoBehaviour
     {
         if (partyController != null)
         {
-            partyController.OnCharacterChanged -= OnFormChange;
+            partyController.OnCharacterChanged -= OnCharacterChanged;
         }
     }
 }
