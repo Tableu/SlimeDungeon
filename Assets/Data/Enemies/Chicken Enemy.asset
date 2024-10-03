@@ -16,6 +16,7 @@ MonoBehaviour:
   speed: 6
   elementType: 1
   spellOffset: {x: 0.3, y: 0.5, z: 0.3}
+  experience: 20
   attacks:
   - {fileID: 11400000, guid: c5d2a1463d32f91459e236f8fea813c9, type: 2}
   attackRange: 4

@@ -19,6 +19,7 @@ MonoBehaviour:
   spellOffset: {x: 0.3, y: 0.5, z: 0.3}
   maxVelocity: {x: 5, y: 5}
   name: Chicken
+  experienceLevels: 6400000096000000c8000000fa0000002c010000
   model: {fileID: 3527308240469450562, guid: 7e402e6032504644092d8f6a4e97b80c, type: 3}
   basicAttack: {fileID: 11400000, guid: 730208c8c64576b49840119cffa8b51a, type: 2}
   startingSpells:
