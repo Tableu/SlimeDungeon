@@ -27,6 +27,7 @@ namespace Controller.Player
             Stats = new CharacterStats(Data);
             BasicAttack = Data.BasicAttack.CreateInstance(Stats, transform);
             ExperienceSystem = new ExperienceSystem(0, data);
+            ExperienceSystem.OnLevelUp += OnLevelUp;
         }
         //Constructor for loading player
         public PlayerCharacter(PlayerCharacterData data, CharacterStats stats, EquipmentData equipment, AttackData spell, int level, Transform transform)
@@ -40,12 +41,15 @@ namespace Controller.Player
             if(spell != null)
                 Spell = spell.CreateInstance(Stats, transform);
             ExperienceSystem = new ExperienceSystem(level, data);
+            ExperienceSystem.OnLevelUp += OnLevelUp;
         }
 
         ~PlayerCharacter()
         {
             BasicAttack?.CleanUp();
             Spell?.CleanUp();
+            if(ExperienceSystem != null)
+                ExperienceSystem.OnLevelUp -= OnLevelUp;
         }
 
         public void ApplyDamage(float damage, Type attackType)
@@ -141,6 +145,12 @@ namespace Controller.Player
             if(_playerCharacterAnimator != null)
                 _playerCharacterAnimator.RefreshHat(Equipment);
             return oldEquipment;
+        }
+
+        private void OnLevelUp()
+        {
+            Stats.MaxHealth.BaseModifier += 10;
+            Stats.Heal(10);
         }
         
         [Serializable]

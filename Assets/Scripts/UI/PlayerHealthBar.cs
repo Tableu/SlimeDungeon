@@ -16,12 +16,13 @@ public class PlayerHealthBar : MonoBehaviour
 
     private void FixedUpdate()
     {
-        slider.value = partyController.CurrentPlayerCharacter.Stats.Health;;
+        slider.value = partyController.CurrentPlayerCharacter.Stats.Health;
+        slider.maxValue = partyController.CurrentPlayerCharacter.Stats.MaxHealth;
     }
 
     private void OnCharacterChanged(PlayerCharacter playerCharacter)
     {
-        slider.maxValue = playerCharacter.Data.Health;
+        slider.maxValue = partyController.CurrentPlayerCharacter.Stats.MaxHealth;
         slider.value = playerCharacter.Stats.Health;
     }
 

@@ -27,6 +27,7 @@ public class CharacterBarIcon : MonoBehaviour
     {
         if (_playerCharacterInstance != null)
         {
+            healthSlider.maxValue = _playerCharacterInstance.Stats.MaxHealth;
             healthSlider.value = _playerCharacterInstance.Stats.Health;
             levelText.text = (_playerCharacterInstance.ExperienceSystem.Level + 1).ToString();
             expSlider.value = _playerCharacterInstance.ExperienceSystem.ExperiencePercentage;
@@ -40,7 +41,7 @@ public class CharacterBarIcon : MonoBehaviour
         icon.texture = _renderTexture.RenderTexture; 
         _playerCharacterInstance = playerCharacterInstance;
         _renderTexture.ChangeModel(_playerCharacterInstance.Data.Model);
-        healthSlider.maxValue = _playerCharacterInstance.Data.Health;
+        healthSlider.maxValue = _playerCharacterInstance.Stats.MaxHealth;
         healthSlider.gameObject.SetActive(true);
         nameText.text = playerCharacterInstance.Data.Name;
     }
