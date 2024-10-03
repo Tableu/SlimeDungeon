@@ -178,7 +178,18 @@ namespace Controller.Player
             private set;
         }
 
-        public float ExperiencePercentage => _experience / _data?.GetExperienceRequirement(Level) ?? 0;
+        public float ExperiencePercentage
+        {
+            get
+            {
+                if (_data == null)
+                    return 0;
+                if (_data.GetExperienceRequirement(Level) == 0)
+                    return 0;
+                return _experience / (float)_data.GetExperienceRequirement(Level);
+            }
+        }
+
         public Action OnLevelUp;
 
         private ILevelData _data;

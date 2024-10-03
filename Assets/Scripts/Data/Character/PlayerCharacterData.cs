@@ -39,7 +39,7 @@ namespace Controller.Player
 
         public int GetExperienceRequirement(int level)
         {
-            if (experienceLevels == null || experienceLevels.Count >= level)
+            if (experienceLevels == null || level > experienceLevels.Count)
             {
                 return 0;
             }
