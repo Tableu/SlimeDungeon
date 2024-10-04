@@ -1,4 +1,5 @@
 using Controller.Player;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,6 +8,7 @@ public class InventoryWindow : MonoBehaviour
     [SerializeField] private InventoryController inventoryController;
     [SerializeField] private PartyController partyController;
     [SerializeField] private InventoryWidget inventoryWidget;
+    [SerializeField] private CharacterStatsWidget characterStatsWidget;
     [SerializeField] private RawImage image;
     private UIRenderTexture _renderTexture;
     private InventoryController.ItemType _currentItemType;
@@ -38,6 +40,7 @@ public class InventoryWindow : MonoBehaviour
         if (inventoryController.SelectedPlayerCharacter != null)
         {
             _renderTexture.ChangeModel(inventoryController.SelectedPlayerCharacter.Data.Model);
+            characterStatsWidget.Refresh(inventoryController.SelectedPlayerCharacter);
             RefreshHat(inventoryController.SelectedPlayerCharacter.Equipment);
             Refresh();
         }
@@ -49,6 +52,7 @@ public class InventoryWindow : MonoBehaviour
         if (inventoryController.SelectedPlayerCharacter != null)
         {
             _renderTexture.ChangeModel(inventoryController.SelectedPlayerCharacter.Data.Model);
+            characterStatsWidget.Refresh(inventoryController.SelectedPlayerCharacter);
             RefreshHat(inventoryController.SelectedPlayerCharacter.Equipment);
             Refresh();
         }
