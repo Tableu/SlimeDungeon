@@ -214,7 +214,7 @@ MonoBehaviour:
   inventoryController: {fileID: 0}
   partyController: {fileID: 0}
   inventoryWidget: {fileID: 1386544551238132890}
-  characterStatsWidget: {fileID: 0}
+  characterStatsWidget: {fileID: 4465153580404984747}
   image: {fileID: 6150740232597505375}
 --- !u!1 &1714382666506744467
 GameObject:
@@ -2862,6 +2862,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 7614027921210683299, guid: cf8ae934509fe71469368c89ad48e8f9, type: 3}
   m_PrefabInstance: {fileID: 4782569751306400796}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &4465153580404984747 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9198725795042770871, guid: cf8ae934509fe71469368c89ad48e8f9, type: 3}
+  m_PrefabInstance: {fileID: 4782569751306400796}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac93356915c13774fa3ceaac9495c75f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &4989873985973344941
 PrefabInstance:
   m_ObjectHideFlags: 0

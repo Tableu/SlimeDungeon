@@ -1,7 +1,9 @@
+using System;
+using System.Collections.Generic;
 using Controller.Player;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using Attribute = Controller.Attribute;
 
 public class InventoryWindow : MonoBehaviour
 {
@@ -26,6 +28,14 @@ public class InventoryWindow : MonoBehaviour
             inventoryController.ItemClicked(i, b, _currentItemType);
             Refresh();
         };
+        characterStatsWidget.OnUpgradeIconClicked += delegate(Attribute attribute)
+        {
+            if (inventoryController.SelectedPlayerCharacter != null)
+            {
+                inventoryController.SelectedPlayerCharacter.Stats.UpgradeAttribute(attribute);
+                Refresh();
+            }
+        };
         _renderTexture = UIRenderTextureManager.Instance.SpawnRenderTexture(false);
         _renderTexture.ChangeModel(inventoryController.SelectedPlayerCharacter.Data.Model);
         _renderTexture.AdjustCamera(new Vector3(0,0,-0.5f));
@@ -40,7 +50,6 @@ public class InventoryWindow : MonoBehaviour
         if (inventoryController.SelectedPlayerCharacter != null)
         {
             _renderTexture.ChangeModel(inventoryController.SelectedPlayerCharacter.Data.Model);
-            characterStatsWidget.Refresh(inventoryController.SelectedPlayerCharacter);
             RefreshHat(inventoryController.SelectedPlayerCharacter.Equipment);
             Refresh();
         }
@@ -52,7 +61,6 @@ public class InventoryWindow : MonoBehaviour
         if (inventoryController.SelectedPlayerCharacter != null)
         {
             _renderTexture.ChangeModel(inventoryController.SelectedPlayerCharacter.Data.Model);
-            characterStatsWidget.Refresh(inventoryController.SelectedPlayerCharacter);
             RefreshHat(inventoryController.SelectedPlayerCharacter.Equipment);
             Refresh();
         }
@@ -61,6 +69,16 @@ public class InventoryWindow : MonoBehaviour
     public void Refresh()
     {
         inventoryWidget.Refresh(inventoryController.GetIcons(_currentItemType));
+        if (inventoryController.SelectedPlayerCharacter != null)
+        {
+            characterStatsWidget.Refresh(new List<float>()
+            {
+                inventoryController.SelectedPlayerCharacter.Stats.Health,
+                inventoryController.SelectedPlayerCharacter.Stats.Damage,
+                inventoryController.SelectedPlayerCharacter.Stats.Armor
+            });
+            characterStatsWidget.ToggleUpgrade(inventoryController.SelectedPlayerCharacter.Stats.SkillPoints > 0);
+        }
     }
     
     public void ChangeItemType(string itemType)
@@ -87,6 +105,11 @@ public class InventoryWindow : MonoBehaviour
                 animator.RefreshHat(data);
             }
         }
+    }
+
+    private void OnEnable()
+    {
+        Refresh();
     }
 
     private void OnDestroy()
