@@ -149,8 +149,7 @@ namespace Controller.Player
 
         private void OnLevelUp()
         {
-            Stats.MaxHealth.BaseModifier += 10;
-            Stats.Heal(10);
+            Stats.AddSkillPoint();
         }
         
         [Serializable]
