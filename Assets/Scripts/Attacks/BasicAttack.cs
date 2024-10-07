@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 
 public interface BasicProjectile
 {
-    public void Initialize(float damage, float knockback,float hitStun, Vector3 force, Elements.Type type);
+    public void Initialize(float damage, float attackStat, float knockback,float hitStun, Vector3 force, Elements.Type type);
 }
 
 public class BasicAttack<T> : Attack where T : BasicProjectile
@@ -18,7 +18,7 @@ public class BasicAttack<T> : Attack where T : BasicProjectile
             var script = projectile.GetComponent<T>();
             if (script == null)
                 return false;
-            script.Initialize(Data.Damage*CharacterStats.Attack, Data.Knockback, Data.HitStun,
+            script.Initialize(Data.Damage, CharacterStats.Attack, Data.Knockback, Data.HitStun,
                 Transform.forward * Data.Speed, Data.ElementType);
             Cooldown(Data.Cooldown);
             return true;

@@ -56,7 +56,7 @@ namespace Controller.Player
         public void ApplyDamage(float damage, float attackStat, Type attackType)
         {
             float typeMultiplier = GlobalReferences.Instance.TypeManager.GetTypeMultiplier(Stats.ElementType, attackType);
-            float statMultiplier = attackStat / Stats.Defense;
+            float statMultiplier = Stats.Defense > 0 ? attackStat / Stats.Defense : 1f;
             if (Equipment != null)
             {
                 foreach (EquipmentData.Effect buff in Equipment.Buffs)

@@ -203,11 +203,11 @@ public class PlayerController : MonoBehaviour, IDamageable
         PlayerInputActions.Dispose();
     }
     #endregion
-    public void TakeDamage(float damage, Vector3 knockback, float hitStun, Elements.Type attackType)
+    public void TakeDamage(float damage, float attackStat, Vector3 knockback, float hitStun, Elements.Type attackType)
     {
         if (!_inKnockback)
         {
-            _currentPlayerCharacter.ApplyDamage(damage, attackType);
+            _currentPlayerCharacter.ApplyDamage(damage, attackStat, attackType);
             if (Stats.Health <= 0)
             {
                 HandleDeath();

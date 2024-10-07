@@ -7,16 +7,18 @@ public class LeafOrb : MonoBehaviour, BasicProjectile
     [SerializeField] private LeafAttackData leafAttackData;
     [SerializeField] private float leafFragmentCount;
     private float _damage;
+    private float _attackStat;
     private float _knockback;
     private float _hitStun;
     private Vector3 _force;
     private Elements.Type _type;
     private int _mask;
 
-    public void Initialize(float damage, float knockback, float hitStun, Vector3 force, Type type)
+    public void Initialize(float damage, float attackStat, float knockback, float hitStun, Vector3 force, Type type)
     {
         _hitStun = hitStun;
         _damage = damage;
+        _attackStat = attackStat;
         _knockback = knockback;
         _force = force;
         _type = type;
@@ -44,7 +46,7 @@ public class LeafOrb : MonoBehaviour, BasicProjectile
                 leaf.layer = gameObject.layer;
                 Leaf script = leaf.GetComponent<Leaf>();
                 if(script != null)
-                    script.Initialize(_damage, _knockback, _hitStun,
+                    script.Initialize(_damage, _attackStat,_knockback, _hitStun,
                         angleAxis*Vector3.right*leafAttackData.Speed, leafAttackData.ElementType);
                 angle += increment;
             }

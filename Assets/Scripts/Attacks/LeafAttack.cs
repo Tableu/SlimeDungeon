@@ -16,7 +16,7 @@ public class LeafAttack : Attack
             if (script == null)
                 return false;
             Quaternion angleAxis = Quaternion.AngleAxis(Random.Range(-_data.RandomAngle,_data.RandomAngle), Vector3.up);
-            script.Initialize(Data.Damage*CharacterStats.Attack, Data.Knockback, Data.HitStun,
+            script.Initialize(Data.Damage,CharacterStats.Attack, Data.Knockback, Data.HitStun,
                 angleAxis*Transform.forward * Data.Speed, Data.ElementType);
             Cooldown(Data.Cooldown);
             return true;

@@ -6,6 +6,7 @@ public class BouncingFireball : MonoBehaviour
     [SerializeField] private ParticleSystem fireball;
     [SerializeField] private GameObject explosion;
     private float _damage;
+    private float _attackStat;
     private float _knockback;
     private float _hitStun;
     private Vector3 _force;
@@ -16,9 +17,10 @@ public class BouncingFireball : MonoBehaviour
     private LayerMask _enemyMask;
     private float _explosionDamageRadius;
 
-    public void Initialize(float damage, float knockback, float hitStun, Vector3 force, int maxBounces, float explosionDamageRadius, Elements.Type type, LayerMask enemyMask)
+    public void Initialize(float damage, float attackStat, float knockback, float hitStun, Vector3 force, int maxBounces, float explosionDamageRadius, Elements.Type type, LayerMask enemyMask)
     {
         _hitStun = hitStun;
+        _attackStat = attackStat;
         _damage = damage;
         _knockback = knockback;
         _force = force;
@@ -73,7 +75,7 @@ public class BouncingFireball : MonoBehaviour
             IDamageable dmg = col.attachedRigidbody != null ? 
                 col.attachedRigidbody.gameObject.GetComponent<IDamageable>() 
                 : col.GetComponent<IDamageable>();
-            dmg?.TakeDamage(_damage, _knockback*_force.normalized, _hitStun, _type);
+            dmg?.TakeDamage(_damage, _attackStat,_knockback*_force.normalized, _hitStun, _type);
         }
     }
 }

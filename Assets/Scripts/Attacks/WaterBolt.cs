@@ -4,6 +4,7 @@ using UnityEngine;
 public class WaterBolt : MonoBehaviour
 {
     private float _damage;
+    private float _attackStat;
     private float _knockback;
     private float _hitStun;
     private Vector3 _force;
@@ -12,8 +13,9 @@ public class WaterBolt : MonoBehaviour
     private int _bounceCount = 0;
     private float _lastBounceTimestamp;
 
-    public void Initialize(float damage, float knockback,float hitStun, Vector3 force, Elements.Type type, int maxBounces)
+    public void Initialize(float damage, float attackStat, float knockback,float hitStun, Vector3 force, Elements.Type type, int maxBounces)
     {
+        _attackStat = attackStat;
         _hitStun = hitStun;
         _damage = damage;
         _knockback = knockback;
@@ -32,7 +34,7 @@ public class WaterBolt : MonoBehaviour
         IDamageable damage = other.gameObject.GetComponent<IDamageable>();
         if (damage != null)
         {
-            damage.TakeDamage(_damage,_knockback*_force.normalized, _hitStun, _type);
+            damage.TakeDamage(_damage, _attackStat,_knockback*_force.normalized, _hitStun, _type);
             Destroy(gameObject);
         }
 

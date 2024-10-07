@@ -8,14 +8,16 @@ public class SlimeArea : MonoBehaviour
     [SerializeField] private new ParticleSystem particleSystem;
     private float _damage;
     private float _duration;
+    private float _attackStat;
     private float _slow;
     private Type _type;
     private List<CharacterStats> slowedEnemies;
     
-    public void Initialize(float damage, float duration, float slow, Type type)
+    public void Initialize(float damage, float attackStat, float duration, float slow, Type type)
     {
         _damage = damage;
         _duration = duration;
+        _attackStat = attackStat;
         _type = type;
         _slow = slow;
         particleSystem.Stop();
@@ -65,7 +67,7 @@ public class SlimeArea : MonoBehaviour
         IDamageable damageable = enemy.attachedRigidbody != null ? 
             enemy.attachedRigidbody.gameObject.GetComponent<IDamageable>() 
             : enemy.GetComponent<IDamageable>();
-        damageable?.TakeDamage(_damage, Vector3.zero, 0, _type);
+        damageable?.TakeDamage(_damage, _attackStat,Vector3.zero, 0, _type);
     }
 
     private void ApplySlow(Collider enemy)

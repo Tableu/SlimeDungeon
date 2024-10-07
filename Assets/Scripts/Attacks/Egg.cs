@@ -4,6 +4,7 @@ public class Egg : MonoBehaviour
 {
     [SerializeField] private new Rigidbody rigidbody;
     private float _damage;
+    private float _attackStat;
     private float _knockback;
     private float _hitStun;
     private Vector3 _force;
@@ -12,9 +13,10 @@ public class Egg : MonoBehaviour
     private RoomController _roomController;
     private int _collisionCount = 0;
 
-    public void Initialize(float damage, float knockback,float hitStun, Vector3 force, Elements.Type type, GameObject enemyPrefab,
+    public void Initialize(float damage, float attackStat, float knockback,float hitStun, Vector3 force, Elements.Type type, GameObject enemyPrefab,
         RoomController roomController)
     {
+        _attackStat = attackStat;
         _hitStun = hitStun;
         _damage = damage;
         _knockback = knockback;
@@ -32,7 +34,7 @@ public class Egg : MonoBehaviour
             IDamageable damage = other.attachedRigidbody.gameObject.GetComponent<IDamageable>();
             if (damage != null)
             {
-                damage.TakeDamage(_damage, _knockback * _force.normalized, _hitStun, _type);
+                damage.TakeDamage(_damage, _attackStat,_knockback * _force.normalized, _hitStun, _type);
             }
         }
 

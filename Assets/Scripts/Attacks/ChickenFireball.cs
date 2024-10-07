@@ -6,14 +6,16 @@ public class ChickenFireball : MonoBehaviour
     [SerializeField] private ParticleSystem fireball;
     [SerializeField] private GameObject explosion;
     private float _damage;
+    private float _attackStat;
     private float _knockback;
     private float _hitStun;
     private Vector3 _force;
     private Elements.Type _type;
     private LayerMask _enemyMask;
 
-    public void Initialize(float damage, float knockback, float hitStun, Vector3 force, Elements.Type type, LayerMask enemyMask)
+    public void Initialize(float damage, float attackStat, float knockback, float hitStun, Vector3 force, Elements.Type type, LayerMask enemyMask)
     {
+        _attackStat = attackStat;
         _hitStun = hitStun;
         _damage = damage;
         _knockback = knockback;
@@ -48,7 +50,7 @@ public class ChickenFireball : MonoBehaviour
             IDamageable dmg = other.attachedRigidbody != null ? 
                 other.attachedRigidbody.gameObject.GetComponent<IDamageable>() 
                 : other.GetComponent<IDamageable>();
-            dmg?.TakeDamage(_damage, _knockback*_force.normalized, _hitStun, _type);
+            dmg?.TakeDamage(_damage, _attackStat, _knockback*_force.normalized, _hitStun, _type);
             SpawnExplosion();
             Destroy(gameObject);
         }

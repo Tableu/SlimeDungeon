@@ -32,7 +32,7 @@ public class ChickenFireballAttack : Attack
         Vector3 launchAngle = Transform.forward;
         
         launchAngle = new Vector3(launchAngle.x*_data.LaunchAngle.x, _data.LaunchAngle.y, launchAngle.z*_data.LaunchAngle.x);
-        script.Initialize(Data.Damage*CharacterStats.Attack, Data.Knockback, Data.HitStun, launchAngle*Data.Speed, Data.ElementType, CharacterStats.EnemyMask);
+        script.Initialize(Data.Damage,CharacterStats.Attack, Data.Knockback, Data.HitStun, launchAngle*Data.Speed, Data.ElementType, CharacterStats.EnemyMask);
         Transform.Rotate(0,-angle,0);
     }
 

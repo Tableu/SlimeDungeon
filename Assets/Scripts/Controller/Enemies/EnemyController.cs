@@ -87,10 +87,11 @@ public abstract class EnemyController : MonoBehaviour, IDamageable
     }
     #endregion
 
-    public void TakeDamage(float damage, Vector3 knockback, float hitStun, Type attackType)
+    public void TakeDamage(float damage, float attackStat, Vector3 knockback, float hitStun, Type attackType)
     {
         float typeMultiplier = GlobalReferences.Instance.TypeManager.GetTypeMultiplier(Stats.ElementType, attackType);
-        Stats.ApplyDamage(damage*typeMultiplier);
+        float statMultiplier = Stats.Defense > 0 ? attackStat / Stats.Defense : 1f;
+        Stats.ApplyDamage(damage*typeMultiplier*statMultiplier);
         OnDamage?.Invoke();
         if (Stats.Health <= 0)
         {

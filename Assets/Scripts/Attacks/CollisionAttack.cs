@@ -8,7 +8,7 @@ public class CollisionAttack : MonoBehaviour
         if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
             IDamageable health = other.gameObject.GetComponent<IDamageable>();
-            health.TakeDamage(enemyData.MeleeAttackData.Damage,
+            health.TakeDamage(enemyData.MeleeAttackData.Damage, enemyData.Attack,
                 (other.transform.position - transform.position).normalized*enemyData.MeleeAttackData.Knockback, 
                 enemyData.MeleeAttackData.HitStun, enemyData.ElementType);
         }

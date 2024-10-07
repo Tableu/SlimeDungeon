@@ -5,6 +5,7 @@ public class WaterWave : MonoBehaviour
 {
     [SerializeField] private new Rigidbody rigidbody;
     private float _damage;
+    private float _attackStat;
     private float _knockback;
     private float _hitStun;
     private Vector3 _force;
@@ -12,8 +13,9 @@ public class WaterWave : MonoBehaviour
     private LayerMask _enemyMask;
     private List<IDamageable> previousCollisions = new List<IDamageable>();
     
-    public void Initialize(float damage, float knockback, float hitStun, Vector3 force, Elements.Type type, LayerMask enemyMask)
+    public void Initialize(float damage, float attackStat, float knockback, float hitStun, Vector3 force, Elements.Type type, LayerMask enemyMask)
     {
+        _attackStat = attackStat;
         _hitStun = hitStun;
         _damage = damage;
         _knockback = knockback;
@@ -31,7 +33,7 @@ public class WaterWave : MonoBehaviour
             if (damage != null && (_enemyMask & (1 << other.gameObject.layer)) != 0
             && !previousCollisions.Contains(damage))
             {
-                damage.TakeDamage(_damage, _knockback * _force.normalized, _hitStun, _type);
+                damage.TakeDamage(_damage, _attackStat,_knockback * _force.normalized, _hitStun, _type);
                 previousCollisions.Add(damage);
             }
         }

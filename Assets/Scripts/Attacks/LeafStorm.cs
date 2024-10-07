@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 using Type = Elements.Type;
 
@@ -6,14 +5,16 @@ public class LeafStorm : MonoBehaviour
 {
     [SerializeField] private new SphereCollider collider;
     private float _damage;
+    private float _attackStat;
     private float _duration;
     private float _damageTick;
     private Type _type;
     private float _startTime;
     
-    public void Initialize(float damage, float duration, Type type)
+    public void Initialize(float damage, float attackStat, float duration, Type type)
     {
         _damage = damage;
+        _attackStat = attackStat;
         _duration = duration;
         _type = type;
     }
@@ -46,6 +47,6 @@ public class LeafStorm : MonoBehaviour
         IDamageable damageable = enemy.attachedRigidbody != null ? 
             enemy.attachedRigidbody.gameObject.GetComponent<IDamageable>() 
             : enemy.GetComponent<IDamageable>();
-        damageable?.TakeDamage(_damage, Vector3.zero, 0, _type);
+        damageable?.TakeDamage(_damage, _attackStat, Vector3.zero, 0, _type);
     }
 }

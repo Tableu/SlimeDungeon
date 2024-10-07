@@ -5,15 +5,17 @@ public class Leaf : MonoBehaviour
 {
     [SerializeField] private new Rigidbody rigidbody;
     private float _damage;
+    private float _attackStat;
     private float _knockback;
     private float _hitStun;
     private Vector3 _force;
     private Elements.Type _type;
     private List<GameObject> _previousCollisions = new List<GameObject>();
 
-    public void Initialize(float damage, float knockback,float hitStun, Vector3 force, Elements.Type type)
+    public void Initialize(float damage,float attackStat, float knockback,float hitStun, Vector3 force, Elements.Type type)
     {
         _hitStun = hitStun;
+        _attackStat = attackStat;
         _damage = damage;
         _knockback = knockback;
         _force = force;
@@ -30,7 +32,7 @@ public class Leaf : MonoBehaviour
         if (damage != null && !_previousCollisions.Contains(other.gameObject))
         {
             _previousCollisions.Add(other.gameObject);
-            damage.TakeDamage(_damage,_knockback*_force.normalized, _hitStun, _type);
+            damage.TakeDamage(_damage,_attackStat,_knockback*_force.normalized, _hitStun, _type);
         }
 
         int mask = LayerMask.GetMask("Walls", "Obstacles");

@@ -17,7 +17,7 @@ public class WaterWaveAttack : Attack
             var script = wave.GetComponent<WaterWave>();
             if (script == null)
                 return false;
-            script.Initialize(Data.Damage*CharacterStats.Attack, Data.Knockback, Data.HitStun,
+            script.Initialize(Data.Damage,CharacterStats.Attack, Data.Knockback, Data.HitStun,
                 Transform.forward*Data.Speed, Data.ElementType, CharacterStats.EnemyMask);
             Cooldown(Data.Cooldown);
             return true;

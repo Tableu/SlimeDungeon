@@ -8,13 +8,15 @@ public class IceSphere : MonoBehaviour, BasicProjectile
     [SerializeField] private new Collider collider;
     [SerializeField] private GameObject orb;
     private float _damage;
+    private float _attackStat;
     private float _hitStun;
     private Elements.Type _type;
     private bool _exploding;
 
-    public void Initialize(float damage, float knockback, float hitStun, Vector3 force, Elements.Type type)
+    public void Initialize(float damage,float attackStat, float knockback, float hitStun, Vector3 force, Elements.Type type)
     {
         _damage = damage;
+        _attackStat = attackStat;
         _hitStun = hitStun;
         _type = type;
         rigidbody.AddForce(force, ForceMode.Impulse);
@@ -45,7 +47,7 @@ public class IceSphere : MonoBehaviour, BasicProjectile
             IDamageable damageable = enemy.attachedRigidbody != null ? 
                 enemy.attachedRigidbody.gameObject.GetComponent<IDamageable>() 
                 : enemy.GetComponent<IDamageable>();
-            damageable?.TakeDamage(_damage, Vector3.zero, _hitStun, _type);
+            damageable?.TakeDamage(_damage, _attackStat,Vector3.zero, _hitStun, _type);
         }
     }
 }

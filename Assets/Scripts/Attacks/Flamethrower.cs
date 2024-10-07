@@ -4,13 +4,15 @@ public class Flamethrower : MonoBehaviour
 {
     [SerializeField] private new ParticleSystem particleSystem;
     private float _damage;
+    private float _attackStat;
     private float _knockback;
     private Vector3 _force;
     private float _hitStun;
     private Elements.Type _type;
 
-    public void Initialize(float damage, float knockback, float hitStun, Vector3 force, Elements.Type type)
+    public void Initialize(float damage, float attackStat, float knockback, float hitStun, Vector3 force, Elements.Type type)
     {
+        _attackStat = attackStat;
         _damage = damage;
         _knockback = knockback;
         _force = force;
@@ -40,7 +42,7 @@ public class Flamethrower : MonoBehaviour
         IDamageable damage = other.GetComponent<IDamageable>();
         if (damage != null)
         {
-            damage.TakeDamage(_damage,_knockback*_force.normalized, _hitStun, _type);
+            damage.TakeDamage(_damage,_attackStat,_knockback*_force.normalized, _hitStun, _type);
         }
     }
 }
