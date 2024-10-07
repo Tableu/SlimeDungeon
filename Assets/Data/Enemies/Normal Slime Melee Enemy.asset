@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 100
   speed: 2.5
+  attack: 10
+  defense: 10
   elementType: 0
   spellOffset: {x: 0.3, y: 0.3, z: 0.3}
   experience: 20
