@@ -21,14 +21,14 @@ namespace Controller
         public ModifiableStat Defense { get; }
         public ModifiableStat Attack { get; }
         public ModifiableStat MaxHealth { get; }
-        public float Health { get; private set; }
+        public int Health { get; private set; }
         public Type ElementType { get; }
         public Vector3 SpellOffset { get; }
         public LayerMask EnemyMask { get; }
         //For saving with JSON
         [JsonConstructor]
         private CharacterStats(ModifiableStat speed, ModifiableStat defense, ModifiableStat attack, ModifiableStat maxHealth,
-            float health, Type elementType, Vector3 spellOffset, int enemyMask)
+            int health, Type elementType, Vector3 spellOffset, int enemyMask)
         {
             Speed = speed;
             Defense = defense;
@@ -43,7 +43,7 @@ namespace Controller
         public CharacterStats(PlayerCharacterData data)
         {
             MaxHealth = new ModifiableStat(data.Health);
-            Health = data.Health;
+            Health = (int)data.Health;
             Speed = new ModifiableStat(data.Speed);
             Attack = new ModifiableStat(data.Attack);
             Defense = new ModifiableStat(data.Defense);
@@ -58,7 +58,7 @@ namespace Controller
             Speed = new ModifiableStat(data.Speed);
             Defense = new ModifiableStat(data.Defense);
             Attack = new ModifiableStat(data.Attack);
-            Health = data.Health;
+            Health = (int)data.Health;
             EnemyMask = LayerMask.GetMask("Player");
             ElementType = data.ElementType;
             SpellOffset = data.SpellOffset;
@@ -66,14 +66,14 @@ namespace Controller
 
         public void ApplyDamage(float damage)
         {
-            Health -= damage;
+            Health -= (int)damage;
         }
 
         public void Heal(int amount)
         {
             Health += amount;
             if (Health > MaxHealth)
-                Health = MaxHealth.CurrentValue;
+                Health = (int)MaxHealth.CurrentValue;
         }
 
         public void UpgradeAttribute(Attribute attribute)
