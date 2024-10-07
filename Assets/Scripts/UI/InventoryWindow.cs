@@ -75,7 +75,7 @@ public class InventoryWindow : MonoBehaviour
             {
                 inventoryController.SelectedPlayerCharacter.Stats.Health,
                 inventoryController.SelectedPlayerCharacter.Stats.Attack,
-                inventoryController.SelectedPlayerCharacter.Stats.Armor
+                inventoryController.SelectedPlayerCharacter.Stats.Defense
             });
             characterStatsWidget.ToggleUpgrade(inventoryController.SelectedPlayerCharacter.Stats.SkillPoints > 0);
         }

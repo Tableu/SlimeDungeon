@@ -12,6 +12,8 @@ namespace Controller.Player
         [Header("Stats")]
         [SerializeField] private float health;
         [SerializeField] private float speed;
+        [SerializeField] private float attack;
+        [SerializeField] private float defense;
         [SerializeField] private Elements.Type elementType;
         [SerializeField] private int cost;
         [SerializeField] private Vector3 spellOffset;
@@ -33,6 +35,8 @@ namespace Controller.Player
         public string Name => name;
         public float Health => health;
         public float Speed => speed;
+        public float Attack => attack;
+        public float Defense => defense;
         public Elements.Type ElementType => elementType;
         public Vector3 SpellOffset => spellOffset;
         public int Cost => cost;

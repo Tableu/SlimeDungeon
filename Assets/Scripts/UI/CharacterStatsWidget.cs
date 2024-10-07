@@ -22,7 +22,7 @@ public class CharacterStatsWidget : MonoBehaviour
         });
         plusIcons[2].onClick.AddListener(delegate
         {
-            OnUpgradeIconClicked?.Invoke(Attribute.Armor);
+            OnUpgradeIconClicked?.Invoke(Attribute.Defense);
         });
     }
 

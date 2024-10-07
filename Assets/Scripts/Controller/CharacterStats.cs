@@ -11,14 +11,14 @@ namespace Controller
     {
         Health,
         Attack,
-        Armor
+        Defense
     }
     
     [Serializable]
     public class CharacterStats
     {
         public ModifiableStat Speed { get; }
-        public ModifiableStat Armor { get; }
+        public ModifiableStat Defense { get; }
         public ModifiableStat Attack { get; }
         public ModifiableStat MaxHealth { get; }
         public float Health { get; private set; }
@@ -28,11 +28,11 @@ namespace Controller
         public int SkillPoints { get; private set; }
         //For saving with JSON
         [JsonConstructor]
-        private CharacterStats(ModifiableStat speed, ModifiableStat armor, ModifiableStat attack, ModifiableStat maxHealth,
+        private CharacterStats(ModifiableStat speed, ModifiableStat defense, ModifiableStat attack, ModifiableStat maxHealth,
             float health, Type elementType, Vector3 spellOffset, int enemyMask)
         {
             Speed = speed;
-            Armor = armor;
+            Defense = defense;
             Attack = attack;
             MaxHealth = maxHealth;
             Health = health;
@@ -46,8 +46,8 @@ namespace Controller
             MaxHealth = new ModifiableStat(data.Health);
             Health = data.Health;
             Speed = new ModifiableStat(data.Speed);
-            Attack = new ModifiableStat(1.0f);
-            Armor = new ModifiableStat(0);
+            Attack = new ModifiableStat(data.Attack);
+            Defense = new ModifiableStat(data.Defense);
             ElementType = data.ElementType;
             SpellOffset = data.SpellOffset;
             EnemyMask = LayerMask.GetMask("Enemy");
@@ -57,10 +57,11 @@ namespace Controller
         {
             MaxHealth = new ModifiableStat(data.Health);
             Speed = new ModifiableStat(data.Speed);
-            Armor = new ModifiableStat(0);
-            Attack = new ModifiableStat(1f);
+            Defense = new ModifiableStat(data.Defense);
+            Attack = new ModifiableStat(data.Attack);
             Health = data.Health;
             EnemyMask = LayerMask.GetMask("Player");
+            ElementType = data.ElementType;
             SpellOffset = data.SpellOffset;
         }
 
@@ -96,8 +97,8 @@ namespace Controller
                 case Attribute.Attack:
                     Attack.BaseModifier++;
                     break;
-                case Attribute.Armor:
-                    Armor.BaseModifier++;
+                case Attribute.Defense:
+                    Defense.BaseModifier++;
                     break;
             }
             

@@ -8,6 +8,8 @@ public class EnemyData : ScriptableObject
     [HeaderAttribute("Stats")]
     [SerializeField] private float health;
     [SerializeField] private float speed;
+    [SerializeField] private float attack;
+    [SerializeField] private float defense;
     [SerializeField] private Elements.Type elementType;
     [SerializeField] private Vector3 spellOffset;
     [SerializeField] private int experience;
@@ -25,6 +27,8 @@ public class EnemyData : ScriptableObject
 
     public float Health => health;
     public float Speed => speed;
+    public float Attack => attack;
+    public float Defense => defense;
     public Elements.Type ElementType => elementType;
     public Vector3 SpellOffset => spellOffset;
     public List<AttackData> Attacks => attacks;
