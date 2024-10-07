@@ -33,6 +33,7 @@ public class InventoryWindow : MonoBehaviour
             if (inventoryController.SelectedPlayerCharacter != null)
             {
                 inventoryController.SelectedPlayerCharacter.Stats.UpgradeAttribute(attribute);
+                inventoryController.SelectedPlayerCharacter.RemoveSkillPoint();
                 Refresh();
             }
         };
@@ -77,7 +78,7 @@ public class InventoryWindow : MonoBehaviour
                 inventoryController.SelectedPlayerCharacter.Stats.Attack,
                 inventoryController.SelectedPlayerCharacter.Stats.Defense
             });
-            characterStatsWidget.ToggleUpgrade(inventoryController.SelectedPlayerCharacter.Stats.SkillPoints > 0);
+            characterStatsWidget.ToggleUpgrade(inventoryController.SelectedPlayerCharacter.SkillPoints > 0);
         }
     }
     

@@ -25,7 +25,6 @@ namespace Controller
         public Type ElementType { get; }
         public Vector3 SpellOffset { get; }
         public LayerMask EnemyMask { get; }
-        public int SkillPoints { get; private set; }
         //For saving with JSON
         [JsonConstructor]
         private CharacterStats(ModifiableStat speed, ModifiableStat defense, ModifiableStat attack, ModifiableStat maxHealth,
@@ -77,17 +76,8 @@ namespace Controller
                 Health = MaxHealth.CurrentValue;
         }
 
-        public void AddSkillPoint()
-        {
-            SkillPoints++;
-        }
-
         public void UpgradeAttribute(Attribute attribute)
         {
-            if (SkillPoints <= 0)
-                return;
-            
-            SkillPoints--;
             switch (attribute)
             {
                 case Attribute.Health:

@@ -18,6 +18,7 @@ namespace Controller.Player
         public Attack Spell { get; private set; }
         public EquipmentData Equipment { get; private set; }
         public ExperienceSystem ExperienceSystem { get; }
+        public int SkillPoints { get; private set; }
         //Initial loading constructor
         public PlayerCharacter(PlayerCharacterData data, Transform transform)
         {
@@ -52,9 +53,10 @@ namespace Controller.Player
                 ExperienceSystem.OnLevelUp -= OnLevelUp;
         }
 
-        public void ApplyDamage(float damage, Type attackType)
+        public void ApplyDamage(float damage, float attackStat, Type attackType)
         {
             float typeMultiplier = GlobalReferences.Instance.TypeManager.GetTypeMultiplier(Stats.ElementType, attackType);
+            float statMultiplier = attackStat / Stats.Defense;
             if (Equipment != null)
             {
                 foreach (EquipmentData.Effect buff in Equipment.Buffs)
@@ -64,7 +66,7 @@ namespace Controller.Player
                 }
             }
 
-            Stats.ApplyDamage(damage*typeMultiplier);
+            Stats.ApplyDamage(damage*typeMultiplier*statMultiplier);
         }
 
         public void Equip(GameObject model, PlayerInputActions playerInputActions)
@@ -147,9 +149,16 @@ namespace Controller.Player
             return oldEquipment;
         }
 
+        public void RemoveSkillPoint()
+        {
+            SkillPoints--;
+            if (SkillPoints < 0)
+                SkillPoints = 0;
+        }
+
         private void OnLevelUp()
         {
-            Stats.AddSkillPoint();
+            SkillPoints++;
         }
         
         [Serializable]
