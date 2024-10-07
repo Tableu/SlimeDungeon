@@ -51,7 +51,7 @@ public class EquipmentData : ScriptableObject
                     playerCharacter.Stats.Armor.BaseModifier += buff.Value;
                     break;
                 case EffectType.Damage:
-                    playerCharacter.Stats.Damage.BaseModifier += buff.Value;
+                    playerCharacter.Stats.Attack.BaseModifier += buff.Value;
                     break;
                 case EffectType.Speed:
                     playerCharacter.Stats.Speed.BaseModifier += buff.Value;
@@ -70,7 +70,7 @@ public class EquipmentData : ScriptableObject
                     playerCharacter.Stats.Armor.BaseModifier -= buff.Value;
                     break;
                 case EffectType.Damage:
-                    playerCharacter.Stats.Damage.BaseModifier -= buff.Value;
+                    playerCharacter.Stats.Attack.BaseModifier -= buff.Value;
                     break;
                 case EffectType.Speed:
                     playerCharacter.Stats.Speed.BaseModifier -= buff.Value;

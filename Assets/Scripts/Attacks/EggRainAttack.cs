@@ -26,7 +26,7 @@ public class EggRainAttack : Attack
                 Egg script = projectile.GetComponent<Egg>();
                 if (script == null)
                     continue;
-                script.Initialize(Data.Damage*CharacterStats.Damage, Data.Knockback, Data.HitStun, Vector3.down*Data.Speed, Data.ElementType,
+                script.Initialize(Data.Damage*CharacterStats.Attack, Data.Knockback, Data.HitStun, Vector3.down*Data.Speed, Data.ElementType,
                     _data.EnemyPrefab, roomController);
             }
             Cooldown(Data.Cooldown);

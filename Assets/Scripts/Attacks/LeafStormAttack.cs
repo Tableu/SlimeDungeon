@@ -19,7 +19,7 @@ public class LeafStormAttack : Attack
                 if (script == null)
                     return false;
 
-                script.Initialize(Data.Damage*CharacterStats.Damage, _data.Duration, Data.ElementType);
+                script.Initialize(Data.Damage*CharacterStats.Attack, _data.Duration, Data.ElementType);
                 Cooldown(Data.Cooldown);
                 return true;
             }

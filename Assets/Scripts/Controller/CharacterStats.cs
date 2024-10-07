@@ -10,7 +10,7 @@ namespace Controller
     public enum Attribute
     {
         Health,
-        Damage,
+        Attack,
         Armor
     }
     
@@ -19,7 +19,7 @@ namespace Controller
     {
         public ModifiableStat Speed { get; }
         public ModifiableStat Armor { get; }
-        public ModifiableStat Damage { get; }
+        public ModifiableStat Attack { get; }
         public ModifiableStat MaxHealth { get; }
         public float Health { get; private set; }
         public Type ElementType { get; }
@@ -28,12 +28,12 @@ namespace Controller
         public int SkillPoints { get; private set; }
         //For saving with JSON
         [JsonConstructor]
-        private CharacterStats(ModifiableStat speed, ModifiableStat armor, ModifiableStat damage, ModifiableStat maxHealth,
+        private CharacterStats(ModifiableStat speed, ModifiableStat armor, ModifiableStat attack, ModifiableStat maxHealth,
             float health, Type elementType, Vector3 spellOffset, int enemyMask)
         {
             Speed = speed;
             Armor = armor;
-            Damage = damage;
+            Attack = attack;
             MaxHealth = maxHealth;
             Health = health;
             ElementType = elementType;
@@ -46,7 +46,7 @@ namespace Controller
             MaxHealth = new ModifiableStat(data.Health);
             Health = data.Health;
             Speed = new ModifiableStat(data.Speed);
-            Damage = new ModifiableStat(1.0f);
+            Attack = new ModifiableStat(1.0f);
             Armor = new ModifiableStat(0);
             ElementType = data.ElementType;
             SpellOffset = data.SpellOffset;
@@ -58,7 +58,7 @@ namespace Controller
             MaxHealth = new ModifiableStat(data.Health);
             Speed = new ModifiableStat(data.Speed);
             Armor = new ModifiableStat(0);
-            Damage = new ModifiableStat(1f);
+            Attack = new ModifiableStat(1f);
             Health = data.Health;
             EnemyMask = LayerMask.GetMask("Player");
             SpellOffset = data.SpellOffset;
@@ -93,8 +93,8 @@ namespace Controller
                     MaxHealth.BaseModifier += 10;
                     Heal(10);
                     break;
-                case Attribute.Damage:
-                    Damage.BaseModifier++;
+                case Attribute.Attack:
+                    Attack.BaseModifier++;
                     break;
                 case Attribute.Armor:
                     Armor.BaseModifier++;

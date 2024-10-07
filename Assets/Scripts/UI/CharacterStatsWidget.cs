@@ -18,7 +18,7 @@ public class CharacterStatsWidget : MonoBehaviour
         });
         plusIcons[1].onClick.AddListener(delegate
         {
-            OnUpgradeIconClicked?.Invoke(Attribute.Damage);
+            OnUpgradeIconClicked?.Invoke(Attribute.Attack);
         });
         plusIcons[2].onClick.AddListener(delegate
         {

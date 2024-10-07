@@ -15,7 +15,7 @@ public class SlimeBallAttack : Attack
             var script = slimeball.GetComponent<SlimeBall>();
             if (script == null)
                 return false;
-            script.Initialize(_data.DamagePerTick*CharacterStats.Damage, _data.Knockback, _data.HitStun, 
+            script.Initialize(_data.DamagePerTick*CharacterStats.Attack, _data.Knockback, _data.HitStun, 
                 Transform.forward * _data.Speed, _data.ElementType, _data.SlimeArea, _data.Slow, _data.Duration);
             Cooldown(_data.Cooldown);
             return true;
