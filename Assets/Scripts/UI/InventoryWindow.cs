@@ -74,7 +74,7 @@ public class InventoryWindow : MonoBehaviour
         {
             characterStatsWidget.Refresh(new List<float>()
             {
-                inventoryController.SelectedPlayerCharacter.Stats.Health,
+                inventoryController.SelectedPlayerCharacter.Stats.MaxHealth,
                 inventoryController.SelectedPlayerCharacter.Stats.Attack,
                 inventoryController.SelectedPlayerCharacter.Stats.Defense
             });
