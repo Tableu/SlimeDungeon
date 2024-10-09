@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 6472144971781621928}
   - component: {fileID: 8889467054495313468}
   - component: {fileID: 3553777918086642649}
+  - component: {fileID: 2508091806010247075}
   m_Layer: 9
   m_Name: Water Spirit
   m_TagString: Untagged
@@ -159,6 +160,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: a85df6c5a0b9c9f418138f0856c99cdb, type: 2}
+--- !u!114 &2508091806010247075
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1068915873035841302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50187d9a1ca03d0499434de0117e27e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageNumbersPrefab: {fileID: 1356615738147650861, guid: 401aae887b3912f45ab5b3314831a884, type: 3}
 --- !u!1001 &1395471156194845875
 PrefabInstance:
   m_ObjectHideFlags: 0
