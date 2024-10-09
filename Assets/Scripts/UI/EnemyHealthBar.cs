@@ -37,7 +37,7 @@ public class EnemyHealthBar : MonoBehaviour
         }
     }
 
-    private void OnDamage()
+    private void OnDamage(int damage)
     {
         StopCoroutine(FadeCoroutine());
         StartCoroutine(FadeCoroutine());

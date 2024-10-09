@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Linq;
 using Controller;
@@ -31,6 +32,7 @@ public class PlayerController : MonoBehaviour, IDamageable
     public Vector2 MaxVelocity => _currentPlayerCharacter.MaxVelocity;
     public IItem HighlightedItem => _highlightedItem;
     public CharacterStats Stats => _currentPlayerCharacter.Stats;
+    public Action<int> OnDamage;
     
     public PlayerInputActions PlayerInputActions => _playerInputActions;
     #region Unity Event Functions
@@ -205,9 +207,21 @@ public class PlayerController : MonoBehaviour, IDamageable
     #endregion
     public void TakeDamage(float damage, float attackStat, Vector3 knockback, float hitStun, Elements.Type attackType)
     {
-        if (!_inKnockback)
+        if (!_inKnockback && Stats != null)
         {
-            _currentPlayerCharacter.ApplyDamage(damage, attackStat, attackType);
+            float typeMultiplier = GlobalReferences.Instance.TypeManager.GetTypeMultiplier(Stats.ElementType, attackType);
+            float statMultiplier = Stats.Defense > 0 ? attackStat / Stats.Defense : 1f;
+            if (_currentPlayerCharacter.Equipment != null)
+            {
+                foreach (EquipmentData.Effect buff in _currentPlayerCharacter.Equipment.Buffs)
+                {
+                    if (buff.Element.HasFlag(attackType) && buff.Type == EquipmentData.EffectType.Armor)
+                        damage -= buff.Value;
+                }
+            }
+
+            Stats.ApplyDamage((int)(damage*typeMultiplier*statMultiplier));
+            OnDamage?.Invoke((int)(damage*typeMultiplier*statMultiplier));
             if (Stats.Health <= 0)
             {
                 HandleDeath();

@@ -49,7 +49,7 @@ public abstract class EnemyController : MonoBehaviour, IDamageable
     public Transform Target => _target;
     
     public Action OnDeath;
-    public Action OnDamage;
+    public Action<int> OnDamage;
     
     #region Unity Event Functions
     protected void Start()
@@ -91,8 +91,8 @@ public abstract class EnemyController : MonoBehaviour, IDamageable
     {
         float typeMultiplier = GlobalReferences.Instance.TypeManager.GetTypeMultiplier(Stats.ElementType, attackType);
         float statMultiplier = Stats.Defense > 0 ? attackStat / Stats.Defense : 1f;
-        Stats.ApplyDamage(damage*typeMultiplier*statMultiplier);
-        OnDamage?.Invoke();
+        Stats.ApplyDamage((int)(damage*typeMultiplier*statMultiplier));
+        OnDamage?.Invoke((int)(damage*typeMultiplier*statMultiplier));
         if (Stats.Health <= 0)
         {
             HandleDeath();

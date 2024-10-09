@@ -64,9 +64,9 @@ namespace Controller
             SpellOffset = data.SpellOffset;
         }
 
-        public void ApplyDamage(float damage)
+        public void ApplyDamage(int damage)
         {
-            Health -= (int)damage;
+            Health -= damage;
         }
 
         public void Heal(int amount)

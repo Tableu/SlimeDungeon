@@ -53,22 +53,6 @@ namespace Controller.Player
                 ExperienceSystem.OnLevelUp -= OnLevelUp;
         }
 
-        public void ApplyDamage(float damage, float attackStat, Type attackType)
-        {
-            float typeMultiplier = GlobalReferences.Instance.TypeManager.GetTypeMultiplier(Stats.ElementType, attackType);
-            float statMultiplier = Stats.Defense > 0 ? attackStat / Stats.Defense : 1f;
-            if (Equipment != null)
-            {
-                foreach (EquipmentData.Effect buff in Equipment.Buffs)
-                {
-                    if (buff.Element.HasFlag(attackType) && buff.Type == EquipmentData.EffectType.Armor)
-                        damage -= buff.Value;
-                }
-            }
-
-            Stats.ApplyDamage(damage*typeMultiplier*statMultiplier);
-        }
-
         public void Equip(GameObject model, PlayerInputActions playerInputActions)
         {
             _playerCharacterAnimator = model.GetComponent<PlayerCharacterAnimator>();
