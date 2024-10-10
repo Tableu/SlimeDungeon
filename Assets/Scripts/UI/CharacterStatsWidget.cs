@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Attribute = Controller.Attribute;
@@ -7,6 +8,7 @@ using Attribute = Controller.Attribute;
 public class CharacterStatsWidget : MonoBehaviour
 {
     [SerializeField] private List<Slider> sliders;
+    [SerializeField] private List<TextMeshProUGUI> texts;
     [SerializeField] private List<Button> plusIcons;
     public Action<Attribute> OnUpgradeIconClicked;
 
@@ -34,6 +36,7 @@ public class CharacterStatsWidget : MonoBehaviour
                 break;
             Slider slider = sliders[index];
             slider.value = stats[index];
+            texts[index].text = stats[index].ToString();
         }
     }
 
