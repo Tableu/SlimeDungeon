@@ -6,6 +6,7 @@ using Systems.Save;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Windows;
+using System.IO;
 
 
 
@@ -32,7 +33,7 @@ public class HubManager : MonoBehaviour
 
     private void Start()
     {
-        if (!File.Exists(saveManager.savePath))
+        if (!System.IO.File.Exists(saveManager.savePath))
             return;
         _initialCharacterDatas = partyController.Characters.Select(character => character.Data).ToList();
         MainHubLevel levelData = mainHubData.GetLevelData(PlayerPrefs.GetInt("SlimesSaved"));
