@@ -15,7 +15,7 @@ public class DamageNumberText : MonoBehaviour
     {
         text.color = new Color(text.color.r, text.color.g, text.color.b, text.color.a-0.01f);
         transform.position += Vector3.up * 0.5f*Time.deltaTime;
-        if(text.color.a == 0)
+        if(text.color.a <= 0)
             Destroy(gameObject);
     }
 }
