@@ -210,7 +210,7 @@ public class PartyController : MonoBehaviour, ISavable
             saveData.Add(new PlayerCharacter.SaveData(
                 characterDictionary.Dictionary.First(i => i.Value == character.Data).Key, 
                 character.Stats, character.Equipment != null ? character.Equipment.Name : null, 
-                character.Spell?.Data.Name,character.ExperienceSystem.Level));
+                character.Spell?.Data.Name,character.ExperienceSystem.Level, character.ExperienceSystem.Experience, character.SkillPoints));
         }
         
         return new SaveData()
@@ -260,6 +260,8 @@ public class PartyController : MonoBehaviour, ISavable
                 equipmentData,
                 attackData,
                 data.Level,
+                data.Experience,
+                data.SkillPoints,
                 playerController.transform));
         }
 

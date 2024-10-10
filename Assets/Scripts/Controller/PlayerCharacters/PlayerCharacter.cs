@@ -2,7 +2,6 @@ using System;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Object = UnityEngine.Object;
-using Type = Elements.Type;
 
 namespace Controller.Player
 {
@@ -27,11 +26,11 @@ namespace Controller.Player
             MaxVelocity = data.MaxVelocity;
             Stats = new CharacterStats(Data);
             BasicAttack = Data.BasicAttack.CreateInstance(Stats, transform);
-            ExperienceSystem = new ExperienceSystem(0, data);
+            ExperienceSystem = new ExperienceSystem(0, 0,data);
             ExperienceSystem.OnLevelUp += OnLevelUp;
         }
         //Constructor for loading player
-        public PlayerCharacter(PlayerCharacterData data, CharacterStats stats, EquipmentData equipment, AttackData spell, int level, Transform transform)
+        public PlayerCharacter(PlayerCharacterData data, CharacterStats stats, EquipmentData equipment, AttackData spell, int level, int experience, int skillPoints, Transform transform)
         {
             _transform = transform;
             Data = data;
@@ -41,8 +40,9 @@ namespace Controller.Player
             Equipment = equipment;
             if(spell != null)
                 Spell = spell.CreateInstance(Stats, transform);
-            ExperienceSystem = new ExperienceSystem(level, data);
+            ExperienceSystem = new ExperienceSystem(level, experience,data);
             ExperienceSystem.OnLevelUp += OnLevelUp;
+            SkillPoints = skillPoints;
         }
 
         ~PlayerCharacter()
@@ -148,19 +148,23 @@ namespace Controller.Player
         [Serializable]
         public struct SaveData
         {
-            public SaveData(string character, CharacterStats characterStats, string equipment, string spell, int level)
+            public SaveData(string character, CharacterStats characterStats, string equipment, string spell, int level, int experience, int skillPoints)
             {
                 Character = character;
                 Stats = characterStats;
                 Spell = spell;
                 Level = level;
                 Equipment = equipment;
+                Experience = experience;
+                SkillPoints = skillPoints;
             }
 
             public CharacterStats Stats;
             public string Spell;
             public int Level;
+            public int Experience;
             public string Equipment;
+            public int SkillPoints;
             [FormerlySerializedAs("Form")] public string Character;
         }
     }
@@ -188,31 +192,36 @@ namespace Controller.Player
                     return 0;
                 if (_data.GetExperienceRequirement(Level) == 0)
                     return 0;
-                return _experience / (float)_data.GetExperienceRequirement(Level);
+                return Experience / (float)_data.GetExperienceRequirement(Level);
             }
         }
 
         public Action OnLevelUp;
 
         private ILevelData _data;
-        private int _experience;
+        public int Experience
+        {
+            get;
+            private set;
+        }
 
-        public ExperienceSystem(int level, ILevelData data)
+        public ExperienceSystem(int level, int experience, ILevelData data)
         {
             _data = data;
             Level = level;
+            Experience = experience;
         }
 
         public void AddExperience(int exp)
         {
             int requiredExperience = _data.GetExperienceRequirement(Level);
-            _experience += exp;
+            Experience += exp;
             if (requiredExperience == 0)
                 return;
-            if (_experience >= requiredExperience)
+            if (Experience >= requiredExperience)
             {
                 Level++;
-                _experience -= requiredExperience;
+                Experience -= requiredExperience;
                 OnLevelUp?.Invoke();
             }
         }

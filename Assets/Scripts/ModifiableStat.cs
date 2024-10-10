@@ -13,9 +13,12 @@ namespace Systems.Modifiers
     [Serializable]
     public class ModifiableStat
     {
-        public ModifiableStat(float baseValue)
+        public ModifiableStat(float baseValue, float baseModifier = 0, float scalingModifer = 0, float multiplicativeModifer = 0)
         {
             BaseValue = baseValue;
+            BaseModifier = baseModifier;
+            ScalingModifer = scalingModifer;
+            MultiplicativeModifer = multiplicativeModifer;
         }
 
         /// <summary>
