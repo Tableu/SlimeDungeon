@@ -91,8 +91,9 @@ public abstract class EnemyController : MonoBehaviour, IDamageable
     {
         float typeMultiplier = GlobalReferences.Instance.TypeManager.GetTypeMultiplier(Stats.ElementType, attackType);
         float statMultiplier = Stats.Defense > 0 ? attackStat / Stats.Defense : 1f;
-        Stats.ApplyDamage((int)(damage*typeMultiplier*statMultiplier));
-        OnDamage?.Invoke((int)(damage*typeMultiplier*statMultiplier));
+        int roundedDamage = Mathf.CeilToInt(damage * typeMultiplier * statMultiplier);
+        Stats.ApplyDamage(roundedDamage);
+        OnDamage?.Invoke(roundedDamage);
         if (Stats.Health <= 0)
         {
             HandleDeath();

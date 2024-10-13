@@ -220,8 +220,9 @@ public class PlayerController : MonoBehaviour, IDamageable
                 }
             }
 
-            Stats.ApplyDamage((int)(damage*typeMultiplier*statMultiplier));
-            OnDamage?.Invoke((int)(damage*typeMultiplier*statMultiplier));
+            int roundedDamage = Mathf.CeilToInt(damage * typeMultiplier * statMultiplier);
+            Stats.ApplyDamage(roundedDamage);
+            OnDamage?.Invoke(roundedDamage);
             if (Stats.Health <= 0)
             {
                 HandleDeath();
