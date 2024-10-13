@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 150
   speed: 9
-  attack: 10
+  attack: 20
   defense: 10
   elementType: 1
   spellOffset: {x: 0.5, y: 0.5, z: 0.5}

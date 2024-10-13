@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 50
   speed: 2.5
-  attack: 10
+  attack: 13
   defense: 10
   elementType: 4
   spellOffset: {x: 0.3, y: 0.3, z: 0.3}
-  experience: 20
+  experience: 25
   attacks:
   - {fileID: 11400000, guid: 05e8b705c599cef4881ca8cb1cf35551, type: 2}
   attackRange: 12

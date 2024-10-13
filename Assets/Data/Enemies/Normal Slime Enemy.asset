@@ -15,10 +15,10 @@ MonoBehaviour:
   health: 100
   speed: 2.5
   attack: 10
-  defense: 10
+  defense: 8
   elementType: 0
   spellOffset: {x: 0.3, y: 0.3, z: 0.3}
-  experience: 20
+  experience: 15
   attacks:
   - {fileID: 11400000, guid: edff0d4c9a76ead4f912d8dad1b6bf09, type: 2}
   attackRange: 10

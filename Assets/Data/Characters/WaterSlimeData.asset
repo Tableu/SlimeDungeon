@@ -21,7 +21,7 @@ MonoBehaviour:
   spellOffset: {x: 0.3, y: 0.3, z: 0.3}
   maxVelocity: {x: 4.5, y: 4.5}
   name: Water Slime
-  experienceLevels: 6400000096000000c8000000fa0000002c010000
+  experienceLevels: 6400000096000000c8000000fa0000002c01000068010000d00200000c0300005c03000098030000
   model: {fileID: 4029691665378735587, guid: 1298f6228d74d034cbc09bb15b9da832, type: 3}
   basicAttack: {fileID: 11400000, guid: b018f63bcc11b804a8fbe50c7227a381, type: 2}
   startingSpells:
