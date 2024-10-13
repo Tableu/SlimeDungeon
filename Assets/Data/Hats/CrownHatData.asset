@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buffs:
   - Type: 0
-    Element: -1
+    Element: 0
     Value: 2
   model: {fileID: 7505111013321609002, guid: cf6f986d4652d2d41a44b94b7d62a704, type: 3}
   name: Crown
-  cost: 10
+  cost: 20

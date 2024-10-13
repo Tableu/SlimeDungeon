@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buffs:
   - Type: 1
-    Element: -1
+    Element: 0
     Value: 2
   model: {fileID: 1927325506240665278, guid: da4a38259883a2e488d9b1f1628636d5, type: 3}
   name: Magician Hat
-  cost: 15
+  cost: 30

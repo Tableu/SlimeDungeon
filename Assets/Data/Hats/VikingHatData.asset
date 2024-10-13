@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buffs:
   - Type: 0
-    Element: -1
+    Element: 0
     Value: 3
   model: {fileID: 245241294468286832, guid: b3f45a34d94647b40a10355088982682, type: 3}
   name: Viking Hat
-  cost: 10
+  cost: 25

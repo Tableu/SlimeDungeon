@@ -48,7 +48,8 @@ public class EquipmentData : ScriptableObject
             switch (buff.Type)
             {
                 case EffectType.Armor:
-                    playerCharacter.Stats.Defense.BaseModifier += buff.Value;
+                    if (buff.Element == Type.None)
+                        playerCharacter.Stats.Defense.BaseModifier += buff.Value;
                     break;
                 case EffectType.Damage:
                     playerCharacter.Stats.Attack.BaseModifier += buff.Value;
@@ -67,7 +68,8 @@ public class EquipmentData : ScriptableObject
             switch (buff.Type)
             {
                 case EffectType.Armor:
-                    playerCharacter.Stats.Defense.BaseModifier -= buff.Value;
+                    if (buff.Element == Type.None)
+                        playerCharacter.Stats.Defense.BaseModifier -= buff.Value;
                     break;
                 case EffectType.Damage:
                     playerCharacter.Stats.Attack.BaseModifier -= buff.Value;
