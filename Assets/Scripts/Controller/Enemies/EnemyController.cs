@@ -12,7 +12,7 @@ public enum EnemyControllerState
     Idle,Walk,Attack,Stunned
 }
 
-public abstract class EnemyController : MonoBehaviour, IDamageable
+public abstract class EnemyController : MonoBehaviour, IDamageable, ICharacter
 {
     [SerializeField] protected NavMeshAgent agent;
     [SerializeField] protected EnemyAnimator animator;
@@ -46,6 +46,8 @@ public abstract class EnemyController : MonoBehaviour, IDamageable
     public EnemyData EnemyData => enemyData;
     public List<Transform> Waypoints => waypoints;
     public bool Visible => visibilityAgent == null || visibilityAgent.Visible;
+    public CharacterStats GetStats() => Stats;
+
     public Transform Target => _target;
     
     public Action OnDeath;

@@ -11,7 +11,7 @@ public class SlimeArea : MonoBehaviour
     private float _attackStat;
     private float _slow;
     private Type _type;
-    private List<CharacterStats> slowedEnemies;
+    private List<ICharacter> slowedEnemies;
     
     public void Initialize(float damage, float attackStat, float duration, float slow, Type type)
     {
@@ -24,7 +24,7 @@ public class SlimeArea : MonoBehaviour
         ParticleSystem.MainModule main = particleSystem.main;
         main.startLifetime = new ParticleSystem.MinMaxCurve(duration-1, duration);
         particleSystem.Play();
-        slowedEnemies = new List<CharacterStats>();
+        slowedEnemies = new List<ICharacter>();
     }
 
     private void FixedUpdate()
@@ -72,25 +72,28 @@ public class SlimeArea : MonoBehaviour
 
     private void ApplySlow(Collider enemy)
     {
-        CharacterStats characterStats = enemy.attachedRigidbody != null ? 
-            enemy.attachedRigidbody.gameObject.GetComponent<CharacterStats>() 
-            : enemy.GetComponent<CharacterStats>();
-        if (characterStats != null)
+        ICharacter character = enemy.attachedRigidbody != null ? 
+            enemy.attachedRigidbody.gameObject.GetComponent<ICharacter>() 
+            : enemy.GetComponent<ICharacter>();
+        
+        if (character != null)
         {
+            CharacterStats characterStats = character.GetStats();
             characterStats.Speed.MultiplicativeModifer += _slow;
-            slowedEnemies.Add(characterStats);
+            slowedEnemies.Add(character);
         }
     }
 
     private void RemoveSlow(Collider enemy)
     {
-        CharacterStats characterStats = enemy.attachedRigidbody != null ? 
-            enemy.attachedRigidbody.gameObject.GetComponent<CharacterStats>() 
-            : enemy.GetComponent<CharacterStats>();
-        if (characterStats != null)
+        ICharacter character = enemy.attachedRigidbody != null ? 
+            enemy.attachedRigidbody.gameObject.GetComponent<ICharacter>() 
+            : enemy.GetComponent<ICharacter>();
+        if (character != null)
         {
+            CharacterStats characterStats = character.GetStats();
             characterStats.Speed.MultiplicativeModifer -= _slow;
-            slowedEnemies.Remove(characterStats);
+            slowedEnemies.Remove(character);
         }
     }
 }

@@ -7,7 +7,13 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
-public class PlayerController : MonoBehaviour, IDamageable
+//todo find a better way to access character stats from Players/Enemies
+public interface ICharacter
+{
+    public CharacterStats GetStats();
+}
+
+public class PlayerController : MonoBehaviour, IDamageable, ICharacter
 {
     [SerializeField] private GameObject model;
     [SerializeField] private ParticleSystem walkingSmokeParticleSystem;
@@ -205,6 +211,7 @@ public class PlayerController : MonoBehaviour, IDamageable
         PlayerInputActions.Dispose();
     }
     #endregion
+    public CharacterStats GetStats() => Stats;
     public void TakeDamage(float damage, float attackStat, Vector3 knockback, float hitStun, Elements.Type attackType)
     {
         if (!_inKnockback && Stats != null)
