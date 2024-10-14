@@ -56,12 +56,12 @@ public class ResourceManager : MonoBehaviour, ISavable
     {
         for (int x = 0; x < amount; x++)
         {
-            Vector3 pos = new Vector3(Random.Range(-0.3f, 0.3f), 0.2f, Random.Range(-0.3f, 0.3f));
-            Vector3 rot = new Vector3(Random.Range(0, 360), Random.Range(0, 360), Random.Range(0, 360));
+            Vector3 pos = new Vector3(Random.Range(-0.3f, 0.3f), 0.25f, Random.Range(-0.3f, 0.3f));
+            Vector3 rot = new Vector3(90, Random.Range(0, 360), Random.Range(0, 360));
             GameObject coinInstance = Instantiate(coin, position + pos, Quaternion.Euler(rot));
             Rigidbody rig = coinInstance.GetComponent<Rigidbody>();
             if(rig != null)
-                rig.AddExplosionForce(5f, position+new Vector3(0,0.2f,0), 2f,0f,ForceMode.Impulse);
+                rig.AddExplosionForce(5f, position+new Vector3(0,0.25f,0), 2f,0f,ForceMode.Impulse);
         }
     }
     
