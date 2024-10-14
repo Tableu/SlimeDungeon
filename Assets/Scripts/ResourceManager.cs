@@ -54,6 +54,8 @@ public class ResourceManager : MonoBehaviour, ISavable
 
     public void SpawnCoins(int amount, Vector3 position)
     {
+        int variance = Mathf.CeilToInt(amount / 10f);
+        amount += Random.Range(-variance, variance+1);
         for (int x = 0; x < amount; x++)
         {
             Vector3 pos = new Vector3(Random.Range(-0.3f, 0.3f), 0.25f, Random.Range(-0.3f, 0.3f));
