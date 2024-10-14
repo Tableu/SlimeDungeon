@@ -53,11 +53,11 @@ public class SlimeArea : MonoBehaviour
 
     private void OnDestroy()
     {
-        foreach (CharacterStats enemy in slowedEnemies)
+        foreach (ICharacter enemy in slowedEnemies)
         {
             if (enemy != null)
             {
-                enemy.Speed.BaseModifier -= _slow;
+                enemy.GetStats().Speed.BaseModifier -= _slow;
             }
         }
     }
