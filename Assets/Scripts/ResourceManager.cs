@@ -2,6 +2,7 @@ using System;
 using Newtonsoft.Json.Linq;
 using Systems.Save;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Resource
 {
@@ -36,6 +37,7 @@ public class ResourceManager : MonoBehaviour, ISavable
     public Resource Coins { get; private set; }
 
     public string id { get; } = "ResourceManager";
+    [SerializeField] private GameObject coin;
 
     private void Awake()
     {
@@ -47,6 +49,19 @@ public class ResourceManager : MonoBehaviour, ISavable
         {
             _instance = this;
             Coins ??= new Resource();
+        }
+    }
+
+    public void SpawnCoins(int amount, Vector3 position)
+    {
+        for (int x = 0; x < amount; x++)
+        {
+            Vector3 pos = new Vector3(Random.Range(-0.3f, 0.3f), 0.2f, Random.Range(-0.3f, 0.3f));
+            Vector3 rot = new Vector3(Random.Range(0, 360), Random.Range(0, 360), Random.Range(0, 360));
+            GameObject coinInstance = Instantiate(coin, position + pos, Quaternion.Euler(rot));
+            Rigidbody rig = coinInstance.GetComponent<Rigidbody>();
+            if(rig != null)
+                rig.AddExplosionForce(5f, position+new Vector3(0,0.2f,0), 2f,0f,ForceMode.Impulse);
         }
     }
     

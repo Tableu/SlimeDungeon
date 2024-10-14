@@ -121,7 +121,7 @@ public abstract class EnemyController : MonoBehaviour, IDamageable, ICharacter
             return;
         _dead = true;
         if(ResourceManager.Instance != null)
-            ResourceManager.Instance.Coins.Add(enemyData.CoinsOnDeath);
+            ResourceManager.Instance.SpawnCoins(enemyData.CoinsOnDeath, transform.position);
         OnDeath?.Invoke();
         Destroy(gameObject);
     }
