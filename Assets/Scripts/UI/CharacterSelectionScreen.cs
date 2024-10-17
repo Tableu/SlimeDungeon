@@ -49,7 +49,10 @@ public class CharacterSelectionScreen : MonoBehaviour
     
     private IEnumerator LoadSceneAsync()
     {
-        AsyncOperation loadSceneAsync = SceneManager.LoadSceneAsync("Scenes/MainHub");
+        string scene = "Scenes/DungeonGeneration";
+        if (PlayerPrefs.HasKey("SavedScene"))
+            scene = PlayerPrefs.GetString("SavedScene");
+        AsyncOperation loadSceneAsync = SceneManager.LoadSceneAsync(scene);
         loadingScreen.gameObject.SetActive(true);
         while (!loadSceneAsync.isDone)
         {

@@ -43,7 +43,12 @@ public class TitleScreen : MonoBehaviour
     
     private IEnumerator LoadSceneAsync()
     {
-        AsyncOperation loadSceneAsync = SceneManager.LoadSceneAsync("Scenes/MainHub");
+        string scene = "Scenes/DungeonGeneration";
+        if (PlayerPrefs.HasKey("SavedScene"))
+            scene = PlayerPrefs.GetString("SavedScene");
+        PlayerPrefs.SetString("SavedScene", scene);
+        PlayerPrefs.Save();
+        AsyncOperation loadSceneAsync = SceneManager.LoadSceneAsync(scene);
         loadingScreen.gameObject.SetActive(true);
         while (!loadSceneAsync.isDone)
         {

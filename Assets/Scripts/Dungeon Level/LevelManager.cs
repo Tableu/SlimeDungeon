@@ -173,7 +173,8 @@ public class LevelManager : MonoBehaviour, ISavable
     private IEnumerator LoadSceneAsync(string scene)
     {
         AsyncOperation loadSceneAsync = SceneManager.LoadSceneAsync(scene);
-        
+        PlayerPrefs.SetString("SavedScene", scene);
+        PlayerPrefs.Save();
         loadingScreen.gameObject.SetActive(true);
         while (!loadSceneAsync.isDone)
         {

@@ -5,8 +5,6 @@ using Controller.Player;
 using Systems.Save;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.Windows;
-using System.IO;
 
 
 
@@ -90,6 +88,8 @@ public class HubManager : MonoBehaviour
     private IEnumerator LoadSceneAsync()
     {
         saveManager.Save();
+        PlayerPrefs.SetString("SavedScene", "Scenes/DungeonGeneration");
+        PlayerPrefs.Save();
         AsyncOperation loadSceneAsync = SceneManager.LoadSceneAsync("Scenes/DungeonGeneration");
         
         loadingScreen.gameObject.SetActive(true);
