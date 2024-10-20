@@ -29,6 +29,7 @@ public class PlayerController : MonoBehaviour, IDamageable, ICharacter
     private bool _inKnockback = false;
     private bool _isMouseOverUI;
     private bool _basicAttackHeld;
+    private bool _isRolling;
 
     private PlayerCharacter _currentPlayerCharacter;
     private bool _disableRotation = false;
@@ -70,12 +71,13 @@ public class PlayerController : MonoBehaviour, IDamageable, ICharacter
     {
         PlayerInputActions.Movement.Pressed.started += delegate(InputAction.CallbackContext context)
         {
-            walkingSmokeParticleSystem.Play();
+            if(!_isRolling)
+                walkingSmokeParticleSystem.Play();
         };
         
         PlayerInputActions.Movement.Pressed.canceled += delegate(InputAction.CallbackContext context)
         {
-            walkingSmokeParticleSystem.Stop();
+                walkingSmokeParticleSystem.Stop();
         };
         
         PlayerInputActions.Combat.PickUp.started += delegate(InputAction.CallbackContext context)
@@ -90,7 +92,7 @@ public class PlayerController : MonoBehaviour, IDamageable, ICharacter
         
         PlayerInputActions.Combat.BasicAttack.started += delegate(InputAction.CallbackContext context)
         {
-            if (_currentPlayerCharacter != null && !_isMouseOverUI)
+            if (_currentPlayerCharacter != null && !_isMouseOverUI && !_isRolling)
             {
                 _currentPlayerCharacter.CastBasicAttack();
                 _basicAttackHeld = true;
@@ -106,10 +108,16 @@ public class PlayerController : MonoBehaviour, IDamageable, ICharacter
         
         PlayerInputActions.Combat.Spell.started += delegate(InputAction.CallbackContext context)
         {
-            if (_currentPlayerCharacter != null && !_isMouseOverUI)
+            if (_currentPlayerCharacter != null && !_isMouseOverUI && !_isRolling)
             {
                 _currentPlayerCharacter.CastSpell();
             }
+        };
+        
+        PlayerInputActions.Movement.Roll.started += delegate(InputAction.CallbackContext context)
+        {
+            if(!_isRolling)
+                StartCoroutine(DoRoll());
         };
     }
 
@@ -154,7 +162,7 @@ public class PlayerController : MonoBehaviour, IDamageable, ICharacter
 
     private void FixedUpdate()
     {
-        if (_inKnockback)
+        if (_inKnockback || _isRolling)
             return;
         _direction = PlayerInputActions.Movement.Direction.ReadValue<Vector2>();
 
@@ -261,6 +269,23 @@ public class PlayerController : MonoBehaviour, IDamageable, ICharacter
         }
 
         _inKnockback = false;
+    }
+
+    private IEnumerator DoRoll()
+    {
+        float rollDuration = 0;
+        Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("EnemyAttacks"));
+        Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("TriggerColliderAttacks"));
+        _isRolling = true;
+        while (rollDuration < 0.15f)
+        {
+            rigidbody.AddForce(new Vector3(_direction.x*Stats.Speed, 0, _direction.y*Stats.Speed), ForceMode.Impulse);
+            yield return new WaitForFixedUpdate();
+            rollDuration += Time.fixedDeltaTime;
+        }
+        Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("EnemyAttacks"), false);
+        Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("TriggerColliderAttacks"), false);
+        _isRolling = false;
     }
 
     #region Event Functions
