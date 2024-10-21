@@ -24,12 +24,20 @@ public class PlayerController : MonoBehaviour, IDamageable, ICharacter
     [SerializeField] private LevelManager levelManager;
     [SerializeField] private float itemPickupRange;
 
+    [Header("Dodge Roll Parameters")] 
+    [SerializeField] private float rollDuration;
+    [SerializeField] private float rollCooldown;
+    [SerializeField] private float rollSpeedMultiplier;
+
+
     private Vector2 _direction;
     private Vector2 _lastDirection;
     private bool _inKnockback = false;
     private bool _isMouseOverUI;
     private bool _basicAttackHeld;
     private bool _isRolling;
+
+    private float _lastRoll;
 
     private PlayerCharacter _currentPlayerCharacter;
     private bool _disableRotation = false;
@@ -46,6 +54,7 @@ public class PlayerController : MonoBehaviour, IDamageable, ICharacter
 
     public void Initialize()
     {
+        _lastRoll = Time.time - rollCooldown;
         _lastDirection = Vector2.zero;
         switchFormParticleSystem.Stop();
         
@@ -116,7 +125,7 @@ public class PlayerController : MonoBehaviour, IDamageable, ICharacter
         
         PlayerInputActions.Movement.Roll.started += delegate(InputAction.CallbackContext context)
         {
-            if(!_isRolling)
+            if(!_isRolling && Time.time-_lastRoll > rollCooldown)
                 StartCoroutine(DoRoll());
         };
     }
@@ -273,19 +282,21 @@ public class PlayerController : MonoBehaviour, IDamageable, ICharacter
 
     private IEnumerator DoRoll()
     {
-        float rollDuration = 0;
+        float duration = 0;
         Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("EnemyAttacks"));
         Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("TriggerColliderAttacks"));
         _isRolling = true;
-        while (rollDuration < 0.15f)
+        while (duration < rollDuration)
         {
-            rigidbody.AddForce(new Vector3(_direction.x*Stats.Speed, 0, _direction.y*Stats.Speed), ForceMode.Impulse);
+            rigidbody.AddForce(new Vector3(_direction.x*Stats.Speed*rollSpeedMultiplier, 0, 
+                                            _direction.y*Stats.Speed*rollSpeedMultiplier), ForceMode.Impulse);
             yield return new WaitForFixedUpdate();
-            rollDuration += Time.fixedDeltaTime;
+            duration += Time.fixedDeltaTime;
         }
         Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("EnemyAttacks"), false);
         Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("TriggerColliderAttacks"), false);
         _isRolling = false;
+        _lastRoll = Time.time;
     }
 
     #region Event Functions

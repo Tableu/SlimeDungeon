@@ -4871,6 +4871,9 @@ MonoBehaviour:
   inventoryController: {fileID: 0}
   levelManager: {fileID: 0}
   itemPickupRange: 2
+  rollDuration: 0.2
+  rollCooldown: 0.5
+  rollSpeedMultiplier: 0.9
 --- !u!54 &6118174223459350816
 Rigidbody:
   m_ObjectHideFlags: 0
