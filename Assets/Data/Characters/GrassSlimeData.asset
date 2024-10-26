@@ -19,7 +19,7 @@ MonoBehaviour:
   elementType: 4
   cost: 30
   spellOffset: {x: 0.3, y: 0.3, z: 0.3}
-  maxVelocity: {x: 4.5, y: 4.5}
+  maxVelocity: {x: 3.5, y: 3.5}
   name: Grass Slime
   experienceLevels: 6400000096000000c8000000fa0000002c01000068010000d00200000c0300005c03000098030000
   model: {fileID: 3238378463816399697, guid: ab153cae36122d34f8f962d78a22be32, type: 3}

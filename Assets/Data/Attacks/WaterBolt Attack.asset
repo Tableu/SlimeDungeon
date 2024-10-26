@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa492b6445062a2439345c96af308be8, type: 3}
   m_Name: WaterBolt Attack
   m_EditorClassIdentifier: 
-  speed: 10
+  speed: 8
   damage: 12
   knockback: 0
   hitStun: 0

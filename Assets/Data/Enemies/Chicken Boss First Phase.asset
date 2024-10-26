@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Chicken Boss First Phase
   m_EditorClassIdentifier: 
   health: 350
-  speed: 3
+  speed: 2.5
   attack: 15
   defense: 15
   elementType: 1

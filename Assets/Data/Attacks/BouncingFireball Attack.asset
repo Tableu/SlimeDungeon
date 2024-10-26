@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef32d62da573e5a40b151e2c6318ca8b, type: 3}
   m_Name: BouncingFireball Attack
   m_EditorClassIdentifier: 
-  speed: 15
+  speed: 12
   damage: 20
   knockback: 0
   hitStun: 1

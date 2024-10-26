@@ -19,7 +19,7 @@ MonoBehaviour:
   elementType: 2
   cost: 30
   spellOffset: {x: 0.3, y: 0.3, z: 0.3}
-  maxVelocity: {x: 4.5, y: 4.5}
+  maxVelocity: {x: 3.5, y: 3.5}
   name: Water Slime
   experienceLevels: 6400000096000000c8000000fa0000002c01000068010000d00200000c0300005c03000098030000
   model: {fileID: 4029691665378735587, guid: 1298f6228d74d034cbc09bb15b9da832, type: 3}

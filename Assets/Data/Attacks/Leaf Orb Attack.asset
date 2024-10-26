@@ -12,10 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c955ba1016d8f0b44a445ae4fdd071a5, type: 3}
   m_Name: Leaf Orb Attack
   m_EditorClassIdentifier: 
-  speed: 12
+  speed: 10
   damage: 8
   knockback: 0
-  manaCost: 30
   hitStun: 0
   cooldown: 4
   cost: 20

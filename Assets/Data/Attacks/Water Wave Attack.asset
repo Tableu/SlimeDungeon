@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c09b31a1008154849a741aa859e79583, type: 3}
   m_Name: Water Wave Attack
   m_EditorClassIdentifier: 
-  speed: 5
+  speed: 4
   damage: 6
   knockback: 10
   hitStun: 0.2

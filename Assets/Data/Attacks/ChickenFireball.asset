@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6780b7f9be4059d4fa5e862ccc43be58, type: 3}
   m_Name: ChickenFireball
   m_EditorClassIdentifier: 
-  speed: 20
+  speed: 15
   damage: 20
   knockback: 0
   hitStun: 0

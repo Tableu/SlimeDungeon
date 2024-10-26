@@ -19,7 +19,7 @@ MonoBehaviour:
   elementType: 1
   cost: 30
   spellOffset: {x: 0.3, y: 0.5, z: 0.3}
-  maxVelocity: {x: 5, y: 5}
+  maxVelocity: {x: 4, y: 4}
   name: Chicken
   experienceLevels: 6400000096000000c8000000fa0000002c01000068010000d00200000c0300005c03000098030000
   model: {fileID: 3527308240469450562, guid: 7e402e6032504644092d8f6a4e97b80c, type: 3}

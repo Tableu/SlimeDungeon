@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a8b781013dc80c47aae84d428edcaf3, type: 3}
   m_Name: Leaf Attack Data
   m_EditorClassIdentifier: 
-  speed: 20
+  speed: 12
   damage: 4
   knockback: 0
   hitStun: 0

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f30f956518e4f1e408081b2d06152acd, type: 3}
   m_Name: Fireball Attack
   m_EditorClassIdentifier: 
-  speed: 12
+  speed: 10
   damage: 20
   knockback: 0
   hitStun: 0
