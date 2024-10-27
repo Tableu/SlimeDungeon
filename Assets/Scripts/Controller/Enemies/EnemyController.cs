@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using Controller;
 using FischlWorks_FogWar;
 using UnityEngine;
-using UnityEngine.AI;
 using Type = Elements.Type;
 
 public enum EnemyControllerState
@@ -14,7 +13,7 @@ public enum EnemyControllerState
 
 public abstract class EnemyController : MonoBehaviour, IDamageable, ICharacter
 {
-    [SerializeField] protected NavMeshAgent agent;
+    [SerializeField] protected EnemyPathingController agent;
     [SerializeField] protected EnemyAnimator animator;
     [SerializeField] private List<Transform> waypoints;
     [SerializeField] protected EnemyData enemyData;
@@ -67,7 +66,7 @@ public abstract class EnemyController : MonoBehaviour, IDamageable, ICharacter
         StateMachine = new FSM(); 
         if(spawnHealthBar)
             EnemyHealthBars.Instance.SpawnHealthBar(transform, this, statBarOffset);
-        agent.speed = Stats.Speed;
+        agent.Speed = Stats.Speed;
     }
 
     protected void FixedUpdate()
@@ -79,7 +78,7 @@ public abstract class EnemyController : MonoBehaviour, IDamageable, ICharacter
                 PlayerVisible = IsPlayerVisible();
         }
 
-        agent.speed = Stats.Speed;
+        agent.Speed = Stats.Speed;
         StateMachine.Tick();
     }
 
@@ -177,12 +176,12 @@ public abstract class EnemyController : MonoBehaviour, IDamageable, ICharacter
     {
         if (hitStun >= 1)
         {
+            rigidbody.velocity = Vector3.zero;
             Stunned = true;
         }
 
         if (knockback != Vector3.zero)
         {
-            rigidbody.isKinematic = false;
             rigidbody.velocity = Vector3.zero;
             rigidbody.AddForce(knockback, ForceMode.Impulse);
         }
@@ -196,7 +195,6 @@ public abstract class EnemyController : MonoBehaviour, IDamageable, ICharacter
         if (_stunCounter == 0)
         {
             rigidbody.velocity = Vector3.zero;
-            rigidbody.isKinematic = true;
             Stunned = false;
         }
     }

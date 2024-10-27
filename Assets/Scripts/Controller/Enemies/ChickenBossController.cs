@@ -1,5 +1,4 @@
 using Controller;
-using Systems.Modifiers;
 using UnityEngine;
 
 public class ChickenBossController : EnemyController
@@ -54,7 +53,7 @@ public class ChickenBossController : EnemyController
             var attack = attackData.CreateInstance(Stats, transform);
             Attacks.Add(attack);
         }
-        agent.speed = Stats.Speed;
+        agent.Speed = Stats.Speed;
         _inSecondPhase = true;
         chickenBossAnimator.SwitchToSecondPhase();
     }

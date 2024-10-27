@@ -6,13 +6,13 @@ using Random = UnityEngine.Random;
 public class PatrolState : IState
 {
     private readonly EnemyController _controller;
-    private readonly NavMeshAgent _agent;
+    private readonly EnemyPathingController _agent;
     private readonly EnemyAnimator _animator;
     private bool _walking;
     private float _idleDuration;
     private float _idleTimer;
 
-    public PatrolState(EnemyController controller, NavMeshAgent agent, EnemyAnimator animator)
+    public PatrolState(EnemyController controller, EnemyPathingController agent, EnemyAnimator animator)
     {
         _controller = controller;
         _agent = agent;
@@ -30,10 +30,10 @@ public class PatrolState : IState
             WalkToNextDestination();
         }
 
-        if (_walking && _agent.remainingDistance < _agent.stoppingDistance)
+        if (_walking && _agent.RemainingDistance < _agent.StoppingDistance)
         {
-            _agent.isStopped = true;
-            _agent.updateRotation = false;
+            _agent.IsStopped = true;
+            _agent.UpdateRotation = false;
             _animator.ChangeState(EnemyControllerState.Idle);
             _idleDuration = Random.Range(_controller.EnemyData.IdleTimeRange.x, _controller.EnemyData.IdleTimeRange.y);
             _idleTimer = 0;
@@ -45,9 +45,9 @@ public class PatrolState : IState
     {
         if (!_agent.enabled)
             return;
-        if (_agent.velocity.sqrMagnitude > Mathf.Epsilon)
+        if (_agent.Velocity.sqrMagnitude > Mathf.Epsilon)
         {
-            _controller.transform.rotation = Quaternion.LookRotation(_agent.velocity.normalized);
+            _controller.transform.rotation = Quaternion.LookRotation(_agent.Velocity.normalized);
         }
     }
     
@@ -60,8 +60,8 @@ public class PatrolState : IState
     
     private void Walk()
     {
-        _agent.isStopped = false;
-        _agent.updateRotation = true;
+        _agent.IsStopped = false;
+        _agent.UpdateRotation = true;
         _animator.ChangeState(EnemyControllerState.Walk);
         _walking = true;
     }
@@ -72,7 +72,7 @@ public class PatrolState : IState
         _idleDuration = Random.Range(_controller.EnemyData.IdleTimeRange.x, _controller.EnemyData.IdleTimeRange.y);
         _idleTimer = 0;
         _walking = false;
-        _agent.stoppingDistance = 0.1f;
+        _agent.StoppingDistance = 0.1f;
     }
 
     public void OnExit()
@@ -83,10 +83,10 @@ public class PatrolState : IState
 
 public class StunState : IState
 {
-    private readonly NavMeshAgent _agent;
+    private readonly EnemyPathingController _agent;
     private readonly EnemyAnimator _animator;
 
-    public StunState(NavMeshAgent agent, EnemyAnimator animator)
+    public StunState(EnemyPathingController agent, EnemyAnimator animator)
     {
         _agent = agent;
         _animator = animator;
@@ -106,13 +106,13 @@ public class StunState : IState
         _animator.ChangeState(EnemyControllerState.Stunned);
         _animator.PlayStunEffect();
         _agent.enabled = false;
-        _agent.updateRotation = false;
+        _agent.UpdateRotation = false;
     }
 
     public void OnExit()
     {
         _agent.enabled = true;
-        _agent.updateRotation = true;
+        _agent.UpdateRotation = true;
         _animator.StopStunEffect();
     }
 }
@@ -120,11 +120,11 @@ public class StunState : IState
 public class AttackState : IState
 {
     private readonly EnemyController _controller;
-    private readonly NavMeshAgent _agent;
+    private readonly EnemyPathingController _agent;
     private readonly EnemyAnimator _animator;
     private readonly bool _lookAtTarget;
     
-    public AttackState(EnemyController controller, NavMeshAgent agent, EnemyAnimator animator, bool lookAtTarget)
+    public AttackState(EnemyController controller, EnemyPathingController agent, EnemyAnimator animator, bool lookAtTarget)
     {
         _controller = controller;
         _agent = agent;
@@ -150,8 +150,8 @@ public class AttackState : IState
         _animator.ChangeState(EnemyControllerState.Attack);
         if (!_controller.EnemyData.MoveAndAttack)
         {
-            _agent.isStopped = true;
-            _agent.updateRotation = false;
+            _agent.IsStopped = true;
+            _agent.UpdateRotation = false;
         }
         if(_controller.Target != null)
         {
@@ -168,10 +168,10 @@ public class AttackState : IState
 public class FollowState : IState
 {
     private readonly EnemyController _controller;
-    private readonly NavMeshAgent _agent;
+    private readonly EnemyPathingController _agent;
     private readonly EnemyAnimator _animator;
     
-    public FollowState(EnemyController controller, NavMeshAgent agent, EnemyAnimator animator)
+    public FollowState(EnemyController controller, EnemyPathingController agent, EnemyAnimator animator)
     {
         _controller = controller;
         _agent = agent;
@@ -182,10 +182,10 @@ public class FollowState : IState
         if (_controller.Target != null)
         {
             _agent.SetDestination(_controller.Target.position);
-            _agent.stoppingDistance = _controller.PlayerVisible ? _controller.EnemyData.StoppingDistance : 0;
+            _agent.StoppingDistance = _controller.PlayerVisible ? _controller.EnemyData.StoppingDistance : 0;
         }
 
-        _animator.ChangeState(Mathf.RoundToInt(_agent.velocity.sqrMagnitude) > 0
+        _animator.ChangeState(Mathf.RoundToInt(_agent.Velocity.sqrMagnitude) > 0
             ? EnemyControllerState.Walk
             : EnemyControllerState.Idle);
     }
@@ -200,8 +200,8 @@ public class FollowState : IState
 
     public void OnEnter()
     {
-        _agent.isStopped = false;
-        _agent.updateRotation = true;
+        _agent.IsStopped = false;
+        _agent.UpdateRotation = true;
     }
 
     public void OnExit()
@@ -212,10 +212,10 @@ public class FollowState : IState
 public class FollowAtDistanceState : IState
 {
     private readonly EnemyController _controller;
-    private readonly NavMeshAgent _agent;
+    private readonly EnemyPathingController _agent;
     private readonly EnemyAnimator _animator;
     
-    public FollowAtDistanceState(EnemyController controller, NavMeshAgent agent, EnemyAnimator animator)
+    public FollowAtDistanceState(EnemyController controller, EnemyPathingController agent, EnemyAnimator animator)
     {
         _controller = controller;
         _agent = agent;
@@ -228,11 +228,11 @@ public class FollowAtDistanceState : IState
             SetTarget();
             if (!_controller.PlayerVisible)
             {
-                _agent.stoppingDistance = 0;
+                _agent.StoppingDistance = 0;
             }
         }
 
-        _animator.ChangeState(_agent.velocity.sqrMagnitude > Mathf.Epsilon
+        _animator.ChangeState(_agent.Velocity.sqrMagnitude > Mathf.Epsilon
             ? EnemyControllerState.Walk
             : EnemyControllerState.Idle);
     }
@@ -250,20 +250,20 @@ public class FollowAtDistanceState : IState
         var diff = _controller.Target.position - _controller.Transform.position;
         if (diff.magnitude <= _controller.EnemyData.AttackRange)
         {
-            _agent.stoppingDistance = _controller.EnemyData.StoppingDistance;
+            _agent.StoppingDistance = _controller.EnemyData.StoppingDistance;
             _agent.SetDestination(_controller.Target.position + (-1*diff.normalized * _controller.EnemyData.AttackRange));
         }
         else if(diff.magnitude > _controller.EnemyData.AttackRange)
         {
             _agent.SetDestination(_controller.Target.position+ new Vector3(Random.Range(-2,2), 0, Random.Range(-2,2)));
-            _agent.stoppingDistance = _controller.EnemyData.AttackRange;
+            _agent.StoppingDistance = _controller.EnemyData.AttackRange;
         }
     }
 
     public void OnEnter()
     {
-        _agent.isStopped = false;
-        _agent.updateRotation = true;
+        _agent.IsStopped = false;
+        _agent.UpdateRotation = true;
     }
 
     public void OnExit()
@@ -274,12 +274,12 @@ public class FollowAtDistanceState : IState
 public class WanderingState : IState
 {
     private readonly EnemyController _controller;
-    private readonly NavMeshAgent _agent;
+    private readonly EnemyPathingController _agent;
     private Vector3 _direction;
     private Vector3 _destinationNormal;
     private bool _initialized = false;
     
-    public WanderingState(EnemyController controller, NavMeshAgent agent)
+    public WanderingState(EnemyController controller, EnemyPathingController agent)
     {
         _controller = controller;
         _agent = agent;
@@ -287,7 +287,7 @@ public class WanderingState : IState
     }
     public void Tick()
     {
-        if (Vector3.Distance(_controller.Transform.position, _agent.destination) < 1)
+        if (Vector3.Distance(_controller.Transform.position, _agent.Destination) < 1)
         {
             SetDestination();
         }
@@ -306,9 +306,9 @@ public class WanderingState : IState
         if (!_initialized)
         {
             _initialized = true;
-            _agent.isStopped = false;
-            _agent.updateRotation = true;
-            _agent.stoppingDistance = 1f;
+            _agent.IsStopped = false;
+            _agent.UpdateRotation = true;
+            _agent.StoppingDistance = 1f;
             _direction = Quaternion.AngleAxis(45 + (Random.Range(0, 3) * 90), Vector3.up)*Vector3.right;
             Physics.Raycast(_controller.Transform.position, _direction, out RaycastHit hitInfo, Single.PositiveInfinity,
                 LayerMask.GetMask("Walls", "Obstacles"));
