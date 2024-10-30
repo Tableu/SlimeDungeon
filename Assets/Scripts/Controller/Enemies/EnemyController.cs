@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Controller;
 using FischlWorks_FogWar;
+using Pathfinding;
 using UnityEngine;
 using Type = Elements.Type;
 
@@ -13,7 +14,7 @@ public enum EnemyControllerState
 
 public abstract class EnemyController : MonoBehaviour, IDamageable, ICharacter
 {
-    [SerializeField] protected EnemyPathingController agent;
+    [SerializeField] protected AIPath agent;
     [SerializeField] protected EnemyAnimator animator;
     [SerializeField] private List<Transform> waypoints;
     [SerializeField] protected EnemyData enemyData;
@@ -66,7 +67,7 @@ public abstract class EnemyController : MonoBehaviour, IDamageable, ICharacter
         StateMachine = new FSM(); 
         if(spawnHealthBar)
             EnemyHealthBars.Instance.SpawnHealthBar(transform, this, statBarOffset);
-        agent.Speed = Stats.Speed;
+        agent.maxSpeed = Stats.Speed;
     }
 
     protected void FixedUpdate()
@@ -78,7 +79,7 @@ public abstract class EnemyController : MonoBehaviour, IDamageable, ICharacter
                 PlayerVisible = IsPlayerVisible();
         }
 
-        agent.Speed = Stats.Speed;
+        agent.maxSpeed = Stats.Speed;
         StateMachine.Tick();
     }
 

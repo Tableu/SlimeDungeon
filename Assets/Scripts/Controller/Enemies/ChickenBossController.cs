@@ -53,7 +53,7 @@ public class ChickenBossController : EnemyController
             var attack = attackData.CreateInstance(Stats, transform);
             Attacks.Add(attack);
         }
-        agent.Speed = Stats.Speed;
+        agent.maxSpeed = Stats.Speed;
         _inSecondPhase = true;
         chickenBossAnimator.SwitchToSecondPhase();
     }

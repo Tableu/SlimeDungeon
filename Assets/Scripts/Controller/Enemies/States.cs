@@ -1,4 +1,5 @@
 using System;
+using Pathfinding;
 using UnityEngine;
 using UnityEngine.AI;
 using Random = UnityEngine.Random;
@@ -6,13 +7,13 @@ using Random = UnityEngine.Random;
 public class PatrolState : IState
 {
     private readonly EnemyController _controller;
-    private readonly EnemyPathingController _agent;
+    private readonly AIPath _agent;
     private readonly EnemyAnimator _animator;
     private bool _walking;
     private float _idleDuration;
     private float _idleTimer;
 
-    public PatrolState(EnemyController controller, EnemyPathingController agent, EnemyAnimator animator)
+    public PatrolState(EnemyController controller, AIPath agent, EnemyAnimator animator)
     {
         _controller = controller;
         _agent = agent;
@@ -30,10 +31,10 @@ public class PatrolState : IState
             WalkToNextDestination();
         }
 
-        if (_walking && _agent.RemainingDistance < _agent.StoppingDistance)
+        if (_walking && _agent.remainingDistance < _agent.endReachedDistance)
         {
-            _agent.IsStopped = true;
-            _agent.UpdateRotation = false;
+            _agent.isStopped = true;
+            _agent.updateRotation = false;
             _animator.ChangeState(EnemyControllerState.Idle);
             _idleDuration = Random.Range(_controller.EnemyData.IdleTimeRange.x, _controller.EnemyData.IdleTimeRange.y);
             _idleTimer = 0;
@@ -45,23 +46,19 @@ public class PatrolState : IState
     {
         if (!_agent.enabled)
             return;
-        if (_agent.Velocity.sqrMagnitude > Mathf.Epsilon)
-        {
-            _controller.transform.rotation = Quaternion.LookRotation(_agent.Velocity.normalized);
-        }
     }
     
     protected void WalkToNextDestination()
     {
         Walk();
-        _agent.SetDestination(new Vector3(Random.Range(_controller.Waypoints[0].position.x, _controller.Waypoints[1].position.x), _controller.Waypoints[0].position.y,
-            Random.Range(_controller.Waypoints[0].position.z, _controller.Waypoints[1].position.z)));
+        _agent.destination = new Vector3(Random.Range(_controller.Waypoints[0].position.x, _controller.Waypoints[1].position.x), 0,
+            Random.Range(_controller.Waypoints[0].position.z, _controller.Waypoints[1].position.z));
     }
     
     private void Walk()
     {
-        _agent.IsStopped = false;
-        _agent.UpdateRotation = true;
+        _agent.isStopped = false;
+        _agent.updateRotation = true;
         _animator.ChangeState(EnemyControllerState.Walk);
         _walking = true;
     }
@@ -72,7 +69,7 @@ public class PatrolState : IState
         _idleDuration = Random.Range(_controller.EnemyData.IdleTimeRange.x, _controller.EnemyData.IdleTimeRange.y);
         _idleTimer = 0;
         _walking = false;
-        _agent.StoppingDistance = 0.1f;
+        _agent.endReachedDistance = 0.1f;
     }
 
     public void OnExit()
@@ -83,10 +80,10 @@ public class PatrolState : IState
 
 public class StunState : IState
 {
-    private readonly EnemyPathingController _agent;
+    private readonly AIPath _agent;
     private readonly EnemyAnimator _animator;
 
-    public StunState(EnemyPathingController agent, EnemyAnimator animator)
+    public StunState(AIPath agent, EnemyAnimator animator)
     {
         _agent = agent;
         _animator = animator;
@@ -106,13 +103,13 @@ public class StunState : IState
         _animator.ChangeState(EnemyControllerState.Stunned);
         _animator.PlayStunEffect();
         _agent.enabled = false;
-        _agent.UpdateRotation = false;
+        _agent.updateRotation = false;
     }
 
     public void OnExit()
     {
         _agent.enabled = true;
-        _agent.UpdateRotation = true;
+        _agent.updateRotation = true;
         _animator.StopStunEffect();
     }
 }
@@ -120,11 +117,11 @@ public class StunState : IState
 public class AttackState : IState
 {
     private readonly EnemyController _controller;
-    private readonly EnemyPathingController _agent;
+    private readonly AIPath _agent;
     private readonly EnemyAnimator _animator;
     private readonly bool _lookAtTarget;
     
-    public AttackState(EnemyController controller, EnemyPathingController agent, EnemyAnimator animator, bool lookAtTarget)
+    public AttackState(EnemyController controller, AIPath agent, EnemyAnimator animator, bool lookAtTarget)
     {
         _controller = controller;
         _agent = agent;
@@ -150,9 +147,10 @@ public class AttackState : IState
         _animator.ChangeState(EnemyControllerState.Attack);
         if (!_controller.EnemyData.MoveAndAttack)
         {
-            _agent.IsStopped = true;
-            _agent.UpdateRotation = false;
+            _agent.isStopped = true;
+            _agent.updateRotation = false;
         }
+        
         if(_controller.Target != null)
         {
             AttackTargeting.RotateTowards(_controller.transform, _controller.Target);
@@ -168,10 +166,10 @@ public class AttackState : IState
 public class FollowState : IState
 {
     private readonly EnemyController _controller;
-    private readonly EnemyPathingController _agent;
+    private readonly AIPath _agent;
     private readonly EnemyAnimator _animator;
     
-    public FollowState(EnemyController controller, EnemyPathingController agent, EnemyAnimator animator)
+    public FollowState(EnemyController controller, AIPath agent, EnemyAnimator animator)
     {
         _controller = controller;
         _agent = agent;
@@ -181,27 +179,24 @@ public class FollowState : IState
     {
         if (_controller.Target != null)
         {
-            _agent.SetDestination(_controller.Target.position);
-            _agent.StoppingDistance = _controller.PlayerVisible ? _controller.EnemyData.StoppingDistance : 0;
+            _agent.destination = _controller.Target.position;
+            _agent.endReachedDistance = _controller.PlayerVisible ? _controller.EnemyData.StoppingDistance : 0;
         }
 
-        _animator.ChangeState(Mathf.RoundToInt(_agent.Velocity.sqrMagnitude) > 0
+        _animator.ChangeState(Mathf.RoundToInt(_agent.velocity.sqrMagnitude) > 0
             ? EnemyControllerState.Walk
             : EnemyControllerState.Idle);
     }
 
     public void LateTick()
     {
-        if (_controller.Target != null)
-        {
-            AttackTargeting.RotateTowards(_controller.transform, _controller.Target);
-        }
+        
     }
 
     public void OnEnter()
     {
-        _agent.IsStopped = false;
-        _agent.UpdateRotation = true;
+        _agent.isStopped = false;
+        _agent.updateRotation = true;
     }
 
     public void OnExit()
@@ -212,10 +207,10 @@ public class FollowState : IState
 public class FollowAtDistanceState : IState
 {
     private readonly EnemyController _controller;
-    private readonly EnemyPathingController _agent;
+    private readonly AIPath _agent;
     private readonly EnemyAnimator _animator;
     
-    public FollowAtDistanceState(EnemyController controller, EnemyPathingController agent, EnemyAnimator animator)
+    public FollowAtDistanceState(EnemyController controller, AIPath agent, EnemyAnimator animator)
     {
         _controller = controller;
         _agent = agent;
@@ -228,21 +223,18 @@ public class FollowAtDistanceState : IState
             SetTarget();
             if (!_controller.PlayerVisible)
             {
-                _agent.StoppingDistance = 0;
+                _agent.endReachedDistance = 0;
             }
         }
 
-        _animator.ChangeState(_agent.Velocity.sqrMagnitude > Mathf.Epsilon
+        _animator.ChangeState(_agent.velocity.sqrMagnitude > Mathf.Epsilon
             ? EnemyControllerState.Walk
             : EnemyControllerState.Idle);
     }
 
     public void LateTick()
     {
-        if (_controller.Target != null)
-        {
-            AttackTargeting.RotateTowards(_controller.transform, _controller.Target);
-        }
+        
     }
 
     private void SetTarget()
@@ -250,20 +242,20 @@ public class FollowAtDistanceState : IState
         var diff = _controller.Target.position - _controller.Transform.position;
         if (diff.magnitude <= _controller.EnemyData.AttackRange)
         {
-            _agent.StoppingDistance = _controller.EnemyData.StoppingDistance;
-            _agent.SetDestination(_controller.Target.position + (-1*diff.normalized * _controller.EnemyData.AttackRange));
+            _agent.endReachedDistance = _controller.EnemyData.StoppingDistance;
+            _agent.destination = _controller.Target.position + (-1*diff.normalized * _controller.EnemyData.AttackRange);
         }
         else if(diff.magnitude > _controller.EnemyData.AttackRange)
         {
-            _agent.SetDestination(_controller.Target.position+ new Vector3(Random.Range(-2,2), 0, Random.Range(-2,2)));
-            _agent.StoppingDistance = _controller.EnemyData.AttackRange;
+            _agent.destination = _controller.Target.position+ new Vector3(Random.Range(-2,2), 0, Random.Range(-2,2));
+            _agent.endReachedDistance = _controller.EnemyData.AttackRange;
         }
     }
 
     public void OnEnter()
     {
-        _agent.IsStopped = false;
-        _agent.UpdateRotation = true;
+        _agent.isStopped = false;
+        _agent.updateRotation = true;
     }
 
     public void OnExit()
@@ -274,12 +266,12 @@ public class FollowAtDistanceState : IState
 public class WanderingState : IState
 {
     private readonly EnemyController _controller;
-    private readonly EnemyPathingController _agent;
+    private readonly AIPath _agent;
     private Vector3 _direction;
     private Vector3 _destinationNormal;
     private bool _initialized = false;
     
-    public WanderingState(EnemyController controller, EnemyPathingController agent)
+    public WanderingState(EnemyController controller, AIPath agent)
     {
         _controller = controller;
         _agent = agent;
@@ -287,7 +279,7 @@ public class WanderingState : IState
     }
     public void Tick()
     {
-        if (Vector3.Distance(_controller.Transform.position, _agent.Destination) < 1)
+        if (_agent.remainingDistance < 1)
         {
             SetDestination();
         }
@@ -306,14 +298,14 @@ public class WanderingState : IState
         if (!_initialized)
         {
             _initialized = true;
-            _agent.IsStopped = false;
-            _agent.UpdateRotation = true;
-            _agent.StoppingDistance = 1f;
+            _agent.isStopped = false;
+            _agent.updateRotation = false;
+            _agent.endReachedDistance = 1f;
             _direction = Quaternion.AngleAxis(45 + (Random.Range(0, 3) * 90), Vector3.up)*Vector3.right;
             Physics.Raycast(_controller.Transform.position, _direction, out RaycastHit hitInfo, Single.PositiveInfinity,
                 LayerMask.GetMask("Walls", "Obstacles"));
             _destinationNormal = hitInfo.normal;
-            _agent.SetDestination(hitInfo.point);
+            _agent.destination = hitInfo.point;
         }
     }
 
@@ -328,6 +320,6 @@ public class WanderingState : IState
         Physics.Raycast(_controller.Transform.position, _direction, out RaycastHit hitInfo, Single.PositiveInfinity,
             LayerMask.GetMask("Walls", "Obstacles"));
         _destinationNormal = hitInfo.normal;
-        _agent.SetDestination(hitInfo.point);
+        _agent.destination = hitInfo.point;
     }
 }
