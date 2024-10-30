@@ -852,12 +852,13 @@ GameObject:
   - component: {fileID: 3932814376042613320}
   - component: {fileID: 3932814376042613316}
   - component: {fileID: 3932814376042613322}
-  - component: {fileID: 3932814376042613317}
   - component: {fileID: 1899800602480961261}
   - component: {fileID: 7324665684081910828}
   - component: {fileID: 6996753474311822350}
   - component: {fileID: 3576442376315622621}
   - component: {fileID: 7761107034088043532}
+  - component: {fileID: -8058933909908101952}
+  - component: {fileID: 3924071164499037527}
   m_Layer: 9
   m_Name: Chicken Boss
   m_TagString: Untagged
@@ -896,9 +897,9 @@ Rigidbody:
   m_Drag: 0
   m_AngularDrag: 0
   m_UseGravity: 1
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 112
+  m_Constraints: 80
   m_CollisionDetection: 1
 --- !u!135 &3932814376042613316
 SphereCollider:
@@ -934,28 +935,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!195 &3932814376042613317
-NavMeshAgent:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7753639999989207027}
-  m_Enabled: 1
-  m_AgentTypeID: 0
-  m_Radius: 1
-  m_Speed: 1
-  m_Acceleration: 100
-  avoidancePriority: 50
-  m_AngularSpeed: 200
-  m_StoppingDistance: 3
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
-  m_AutoRepath: 1
-  m_Height: 1
-  m_BaseOffset: 0
-  m_WalkableMask: 5
-  m_ObstacleAvoidanceType: 4
 --- !u!114 &1899800602480961261
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -999,7 +978,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb908b1999154a34892ba86bfe053172, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  agent: {fileID: 3932814376042613317}
+  agent: {fileID: 3924071164499037527}
   animator: {fileID: 7324665684081910828}
   waypoints:
   - {fileID: 0}
@@ -1039,6 +1018,76 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageNumbersPrefab: {fileID: 1356615738147650861, guid: 401aae887b3912f45ab5b3314831a884, type: 3}
+--- !u!114 &-8058933909908101952
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7753639999989207027}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 373b52eb9bf8c40f785bb6947a1aee66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 1
+  drawGizmos: 1
+  detailedGizmos: 0
+  startEndModifier:
+    addPoints: 0
+    exactStartPoint: 3
+    exactEndPoint: 3
+    useRaycasting: 0
+    mask:
+      serializedVersion: 2
+      m_Bits: 4294967295
+    useGraphRaycasting: 0
+  traversableTags: -1
+  tagPenalties: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+  graphMask:
+    value: -1
+--- !u!114 &3924071164499037527
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7753639999989207027}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6eb1402c17e84a9282a7f0f62eb584f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 5
+  radius: 0.5
+  height: 2
+  canMove: 1
+  maxSpeed: 1
+  gravity: {x: NaN, y: NaN, z: NaN}
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  centerOffsetCompatibility: NaN
+  repathRateCompatibility: NaN
+  canSearchCompability: 0
+  orientation: 0
+  enableRotation: 1
+  autoRepath:
+    mode: 2
+    interval: 0.5
+    sensitivity: 10
+    maximumInterval: 2
+    visualizeSensitivity: 0
+  targetCompatibility: {fileID: 0}
+  maxAcceleration: 10
+  rotationSpeed: 360
+  slowdownDistance: 0.6
+  pickNextWaypointDist: 2
+  endReachedDistance: 0.2
+  alwaysDrawGizmos: 0
+  slowWhenNotFacingTarget: 0
+  whenCloseToDestination: 0
+  constrainInsideGraph: 0
 --- !u!1001 &6639209096910654153
 PrefabInstance:
   m_ObjectHideFlags: 0
