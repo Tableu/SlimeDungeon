@@ -30,5 +30,5 @@ MonoBehaviour:
   idleTimeRange: {x: 2, y: 3}
   meleeAttackData:
     Damage: 5
-    HitStun: 0
-    Knockback: 0
+    HitStun: 0.1
+    Knockback: 2

@@ -165,6 +165,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyData: {fileID: 11400000, guid: fef1e38f422f65e4195665b689014949, type: 2}
+  collider: {fileID: 6042655304471014049}
 --- !u!114 &8223234585153405015
 MonoBehaviour:
   m_ObjectHideFlags: 0
