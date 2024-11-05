@@ -21,7 +21,7 @@ public class ChickenFireball : MonoBehaviour
         _knockback = knockback;
         _force = force;
         _type = type;
-        rigidbody.AddForce(force, ForceMode.Impulse);
+        rigidbody.AddForce(force, ForceMode.VelocityChange);
         _enemyMask = enemyMask;
     }
 
@@ -51,6 +51,10 @@ public class ChickenFireball : MonoBehaviour
                 other.attachedRigidbody.gameObject.GetComponent<IDamageable>() 
                 : other.GetComponent<IDamageable>();
             dmg?.TakeDamage(_damage, _attackStat, _knockback*_force.normalized, _hitStun, _type);
+            IObstacle obstacle = other.attachedRigidbody != null ? 
+                other.attachedRigidbody.gameObject.GetComponent<IObstacle>() 
+                : other.GetComponent<IObstacle>();
+            obstacle?.ApplyForce(_force.normalized, rigidbody.mass);
             SpawnExplosion();
             Destroy(gameObject);
         }

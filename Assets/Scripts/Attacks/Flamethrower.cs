@@ -40,9 +40,8 @@ public class Flamethrower : MonoBehaviour
     private void OnParticleCollision(GameObject other)
     {
         IDamageable damage = other.GetComponent<IDamageable>();
-        if (damage != null)
-        {
-            damage.TakeDamage(_damage,_attackStat,_knockback*_force.normalized, _hitStun, _type);
-        }
+        damage?.TakeDamage(_damage,_attackStat,_knockback*_force.normalized, _hitStun, _type);
+        IObstacle obstacle = other.GetComponent<IObstacle>();
+        obstacle?.ApplyForce(_force.normalized, 5);
     }
 }

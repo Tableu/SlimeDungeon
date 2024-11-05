@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Fireball : MonoBehaviour, BasicProjectile
@@ -20,7 +21,7 @@ public class Fireball : MonoBehaviour, BasicProjectile
         _knockback = knockback;
         _force = force;
         _type = type;
-        rigidbody.AddForce(force, ForceMode.Impulse);
+        rigidbody.AddForce(force, ForceMode.VelocityChange);
     }
     
     private void OnTriggerEnter(Collider other)
@@ -28,10 +29,9 @@ public class Fireball : MonoBehaviour, BasicProjectile
         if (other.attachedRigidbody != null)
         {
             IDamageable damage = other.attachedRigidbody.gameObject.GetComponent<IDamageable>();
-            if (damage != null)
-            {
-                damage.TakeDamage(_damage, _attackStat,_knockback * _force.normalized, _hitStun, _type);
-            }
+            damage?.TakeDamage(_damage, _attackStat,_knockback * _force.normalized, _hitStun, _type);
+            IObstacle obstacle = other.attachedRigidbody.gameObject.GetComponent<IObstacle>();
+            obstacle?.ApplyForce(_force.normalized, rigidbody.mass);
         }
 
         fireball.Stop();

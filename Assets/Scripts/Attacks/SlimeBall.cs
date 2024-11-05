@@ -24,7 +24,7 @@ public class SlimeBall : MonoBehaviour
         _slimeArea = slimeArea;
         _slow = slow;
         _duration = duration;
-        rigidbody.AddForce(force, ForceMode.Impulse);
+        rigidbody.AddForce(force, ForceMode.VelocityChange);
     }
 
     private void OnTriggerEnter(Collider other)

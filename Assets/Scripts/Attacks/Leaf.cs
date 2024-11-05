@@ -20,7 +20,7 @@ public class Leaf : MonoBehaviour
         _knockback = knockback;
         _force = force;
         _type = type;
-        rigidbody.AddForce(force, ForceMode.Impulse);
+        rigidbody.AddForce(force, ForceMode.VelocityChange);
         _previousCollisions = new List<GameObject>();
     }
 

@@ -11,7 +11,8 @@ public class WaterWave : MonoBehaviour
     private Vector3 _force;
     private Elements.Type _type;
     private LayerMask _enemyMask;
-    private List<IDamageable> previousCollisions = new List<IDamageable>();
+    private List<IDamageable> _previousDamageables = new List<IDamageable>();
+    private List<IObstacle> _previousObstacles = new List<IObstacle>();
     
     public void Initialize(float damage, float attackStat, float knockback, float hitStun, Vector3 force, Elements.Type type, LayerMask enemyMask)
     {
@@ -21,7 +22,7 @@ public class WaterWave : MonoBehaviour
         _knockback = knockback;
         _force = force;
         _type = type;
-        rigidbody.AddForce(force, ForceMode.Impulse);
+        rigidbody.AddForce(force, ForceMode.VelocityChange);
         _enemyMask = enemyMask;
     }
 
@@ -31,10 +32,17 @@ public class WaterWave : MonoBehaviour
         {
             IDamageable damage = other.attachedRigidbody.gameObject.GetComponent<IDamageable>();
             if (damage != null && (_enemyMask & (1 << other.gameObject.layer)) != 0
-            && !previousCollisions.Contains(damage))
+            && !_previousDamageables.Contains(damage))
             {
                 damage.TakeDamage(_damage, _attackStat,_knockback * _force.normalized, _hitStun, _type);
-                previousCollisions.Add(damage);
+                _previousDamageables.Add(damage);
+            }
+            IObstacle obstacle = other.attachedRigidbody.GetComponent<IObstacle>();
+            if (obstacle != null && (_enemyMask & (1 << other.gameObject.layer)) != 0
+                                 && !_previousObstacles.Contains(obstacle))
+            {
+                obstacle.ApplyForce(_force.normalized, rigidbody.mass);
+                _previousObstacles.Add(obstacle);
             }
         }
 
@@ -42,7 +50,7 @@ public class WaterWave : MonoBehaviour
         {
             Destroy(other.gameObject);
         }
-        if ((LayerMask.GetMask("Walls", "Obstacles") & (1 << other.gameObject.layer)) != 0)
+        if ((LayerMask.GetMask("Walls") & (1 << other.gameObject.layer)) != 0)
         {
             Destroy(gameObject);
         }

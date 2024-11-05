@@ -19,7 +19,7 @@ public class IceSphere : MonoBehaviour, BasicProjectile
         _attackStat = attackStat;
         _hitStun = hitStun;
         _type = type;
-        rigidbody.AddForce(force, ForceMode.Impulse);
+        rigidbody.AddForce(force, ForceMode.VelocityChange);
         iceSphere.Play();
         snowExplosion.Stop();
     }

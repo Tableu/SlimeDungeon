@@ -26,7 +26,7 @@ public class BouncingFireball : MonoBehaviour
         _force = force;
         _type = type;
         _maxBounces = maxBounces;
-        rigidbody.AddForce(force, ForceMode.Impulse);
+        rigidbody.AddForce(force, ForceMode.VelocityChange);
         _enemyMask = enemyMask;
         _explosionDamageRadius = explosionDamageRadius;
     }
@@ -75,7 +75,12 @@ public class BouncingFireball : MonoBehaviour
             IDamageable dmg = col.attachedRigidbody != null ? 
                 col.attachedRigidbody.gameObject.GetComponent<IDamageable>() 
                 : col.GetComponent<IDamageable>();
+            IObstacle obstacle = col.attachedRigidbody != null ? 
+                col.attachedRigidbody.gameObject.GetComponent<IObstacle>() 
+                : col.GetComponent<IObstacle>();
+            obstacle?.ApplyForce(_force.normalized, rigidbody.mass);
             dmg?.TakeDamage(_damage, _attackStat,_knockback*_force.normalized, _hitStun, _type);
+            
         }
     }
 }

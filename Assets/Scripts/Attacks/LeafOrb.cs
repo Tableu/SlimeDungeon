@@ -22,7 +22,7 @@ public class LeafOrb : MonoBehaviour, BasicProjectile
         _knockback = knockback;
         _force = force;
         _type = type;
-        rigidbody.AddForce(force, ForceMode.Impulse);
+        rigidbody.AddForce(force, ForceMode.VelocityChange);
         if (gameObject.layer == LayerMask.NameToLayer("PlayerAttacks"))
         {
             _mask = LayerMask.GetMask("Walls", "Obstacles", "Enemy");
