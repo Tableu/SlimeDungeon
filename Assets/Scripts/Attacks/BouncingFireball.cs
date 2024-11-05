@@ -26,7 +26,7 @@ public class BouncingFireball : MonoBehaviour
         _force = force;
         _type = type;
         _maxBounces = maxBounces;
-        rigidbody.AddForce(force, ForceMode.VelocityChange);
+        rigidbody.AddForce(force, ForceMode.Impulse);
         _enemyMask = enemyMask;
         _explosionDamageRadius = explosionDamageRadius;
     }
