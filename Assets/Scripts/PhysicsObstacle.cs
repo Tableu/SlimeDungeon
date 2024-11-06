@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using Type = Elements.Type;
 
@@ -9,19 +10,28 @@ public class PhysicsObstacle : MonoBehaviour, IDamageable, IObstacle
 {
     [SerializeField] private new Rigidbody rigidbody;
     [SerializeField] private float maxHealth;
-    private float _health;
+
+    public float Health { get; private set; }
+
+    public Action<int> OnDamage;
+    public Action OnDeath;
 
     private void Start()
     {
-        _health = maxHealth;
+        Health = maxHealth;
+        ObstacleHealthBars.Instance.SpawnHealthBar(transform, this, Vector3.zero);
     }
 
     public void TakeDamage(float damage, float attackStat, Vector3 knockback, float hitStun, Type type)
     {
         rigidbody.AddForce(knockback, ForceMode.Impulse);
-        _health -= damage;
-        if(_health < 0)
+        Health -= damage;
+        OnDamage?.Invoke((int)damage);
+        if (Health < 0)
+        {
+            OnDeath?.Invoke();
             Destroy(gameObject);
+        }
     }
 
 
