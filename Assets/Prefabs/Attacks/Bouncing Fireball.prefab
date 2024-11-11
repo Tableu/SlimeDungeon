@@ -4875,6 +4875,7 @@ MonoBehaviour:
   rigidbody: {fileID: 3134170781979577924}
   fireball: {fileID: 3134170781979577951}
   explosion: {fileID: 6538923568164503663, guid: cc2b70207fe50294b9f99c9e66f52d76, type: 3}
+  overrideMass: 40
 --- !u!1 &8914298957257559522
 GameObject:
   m_ObjectHideFlags: 0
