@@ -5,6 +5,7 @@ public class BouncingFireball : MonoBehaviour
     [SerializeField] private new Rigidbody rigidbody;
     [SerializeField] private ParticleSystem fireball;
     [SerializeField] private GameObject explosion;
+    [SerializeField] private float overrideMass;
     private float _damage;
     private float _attackStat;
     private float _knockback;
@@ -78,9 +79,8 @@ public class BouncingFireball : MonoBehaviour
             IObstacle obstacle = col.attachedRigidbody != null ? 
                 col.attachedRigidbody.gameObject.GetComponent<IObstacle>() 
                 : col.GetComponent<IObstacle>();
-            obstacle?.ApplyForce(_force.normalized, rigidbody.mass);
+            obstacle?.ApplyForce((col.transform.position-transform.position).normalized, col.ClosestPointOnBounds(transform.position), overrideMass);
             dmg?.TakeDamage(_damage, _attackStat,_knockback*_force.normalized, _hitStun, _type);
-            
         }
     }
 }

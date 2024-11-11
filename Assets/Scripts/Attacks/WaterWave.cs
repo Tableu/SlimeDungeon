@@ -41,7 +41,7 @@ public class WaterWave : MonoBehaviour
             if (obstacle != null && (_enemyMask & (1 << other.gameObject.layer)) != 0
                                  && !_previousObstacles.Contains(obstacle))
             {
-                obstacle.ApplyForce(_force.normalized, rigidbody.mass);
+                obstacle.ApplyForce(_force.normalized, other.ClosestPointOnBounds(transform.position), rigidbody.mass);
                 _previousObstacles.Add(obstacle);
             }
         }

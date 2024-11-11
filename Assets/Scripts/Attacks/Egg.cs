@@ -34,7 +34,7 @@ public class Egg : MonoBehaviour
             IDamageable damage = other.attachedRigidbody.gameObject.GetComponent<IDamageable>();
             damage?.TakeDamage(_damage, _attackStat,_knockback * _force.normalized, _hitStun, _type);
             IObstacle obstacle = other.attachedRigidbody.gameObject.GetComponent<IObstacle>();
-            obstacle?.ApplyForce(_force.normalized, rigidbody.mass);
+            obstacle?.ApplyForce(_force.normalized, other.ClosestPointOnBounds(transform.position), rigidbody.mass);
         }
 
         if (other.gameObject.layer == LayerMask.NameToLayer("Floor") && _collisionCount <= 0)

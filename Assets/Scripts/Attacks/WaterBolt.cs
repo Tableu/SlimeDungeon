@@ -32,7 +32,7 @@ public class WaterBolt : MonoBehaviour
     private void OnCollisionEnter(Collision other)
     {
         IObstacle obstacle = other.gameObject.GetComponent<IObstacle>();
-        obstacle?.ApplyForce(_force.normalized, 5);
+        obstacle?.ApplyForce(_force.normalized, other.GetContact(0).point,5);
         IDamageable damage = other.gameObject.GetComponent<IDamageable>();
         if (damage != null)
         {

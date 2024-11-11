@@ -49,7 +49,7 @@ namespace Controller
             Defense = new ModifiableStat(data.Defense);
             ElementType = data.ElementType;
             SpellOffset = data.SpellOffset;
-            EnemyMask = LayerMask.GetMask("Enemy");
+            EnemyMask = LayerMask.GetMask("Enemy", "Obstacles");
         }
         //Enemy Character
         public CharacterStats(EnemyData data)
@@ -59,7 +59,7 @@ namespace Controller
             Defense = new ModifiableStat(data.Defense);
             Attack = new ModifiableStat(data.Attack);
             Health = (int)data.Health;
-            EnemyMask = LayerMask.GetMask("Player");
+            EnemyMask = LayerMask.GetMask("Player", "Obstacles");
             ElementType = data.ElementType;
             SpellOffset = data.SpellOffset;
         }

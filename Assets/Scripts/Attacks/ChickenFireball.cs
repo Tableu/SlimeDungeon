@@ -54,7 +54,7 @@ public class ChickenFireball : MonoBehaviour
             IObstacle obstacle = other.attachedRigidbody != null ? 
                 other.attachedRigidbody.gameObject.GetComponent<IObstacle>() 
                 : other.GetComponent<IObstacle>();
-            obstacle?.ApplyForce(_force.normalized, rigidbody.mass);
+            obstacle?.ApplyForce(_force.normalized, other.ClosestPointOnBounds(transform.position),rigidbody.mass);
             SpawnExplosion();
             Destroy(gameObject);
         }

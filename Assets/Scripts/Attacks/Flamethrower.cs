@@ -42,6 +42,6 @@ public class Flamethrower : MonoBehaviour
         IDamageable damage = other.GetComponent<IDamageable>();
         damage?.TakeDamage(_damage,_attackStat,_knockback*_force.normalized, _hitStun, _type);
         IObstacle obstacle = other.GetComponent<IObstacle>();
-        obstacle?.ApplyForce(_force.normalized, 5);
+        obstacle?.ApplyForce(_force.normalized, other.transform.position,5);
     }
 }

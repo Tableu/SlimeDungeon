@@ -4,7 +4,7 @@ using Type = Elements.Type;
 
 public interface IObstacle
 {
-    public void ApplyForce(Vector3 force, float mass);
+    public void ApplyForce(Vector3 force, Vector3 contactPoint, float mass);
 }
 public class PhysicsObstacle : MonoBehaviour, IDamageable, IObstacle
 {
@@ -35,9 +35,9 @@ public class PhysicsObstacle : MonoBehaviour, IDamageable, IObstacle
     }
 
 
-    public void ApplyForce(Vector3 force, float mass)
+    public void ApplyForce(Vector3 force, Vector3 contactPoint, float mass)
     {
-        rigidbody.AddForce(force*mass/rigidbody.mass, ForceMode.Impulse);
+        rigidbody.AddForceAtPosition(force*mass/rigidbody.mass, contactPoint, ForceMode.Impulse);
     }
 }
 
