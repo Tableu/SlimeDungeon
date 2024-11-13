@@ -31,6 +31,8 @@ public class RoomDoors : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if(controller != null)
+            controller.SpawnEnemies();
         if (controller == null || controller.AllEnemiesDead)
             return;
         foreach (Door door in doors)

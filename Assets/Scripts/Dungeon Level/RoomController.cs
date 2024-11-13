@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Pathfinding;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -12,12 +13,15 @@ public class RoomController : MonoBehaviour
     [SerializeField] private List<Transform> waypoints;
     [SerializeField] private new BoxCollider collider;
     
+    private const float UpdateInterval = 0.5f;
     private RectInt _bounds;
     private float _tileSize;
     private int _enemyCount = 0;
     private List<EnemyController> _enemies = new List<EnemyController>();
     private LevelGenerationData.Room _roomData;
     private bool _isSpawnRoom = false;
+    private bool _enemiesSpawned = false;
+    private float _lastUpdateTimestamp;
     
     public Action OnAllEnemiesDead;
     public bool AllEnemiesDead => _enemyCount < 1;
@@ -94,10 +98,22 @@ public class RoomController : MonoBehaviour
 
     private void Start()
     {
-        SpawnEnemies();
         foreach (EnemyController enemyController in presetEnemies)
         {
             AddEnemy(enemyController);
+        }
+
+        _lastUpdateTimestamp = Time.fixedTime;
+    }
+
+    private void FixedUpdate()
+    {
+        if (_isSpawnRoom || !_enemiesSpawned || AllEnemiesDead)
+            return;
+        if (Time.fixedTime - _lastUpdateTimestamp > UpdateInterval)
+        {
+            AstarPath.active.UpdateGraphs(new GraphUpdateObject(collider.bounds));
+            _lastUpdateTimestamp = Time.fixedTime;
         }
     }
 
@@ -114,8 +130,11 @@ public class RoomController : MonoBehaviour
         }
     }
 
-    private void SpawnEnemies()
+    public void SpawnEnemies()
     {
+        if (_enemiesSpawned)
+            return;
+        _enemiesSpawned = true;
         if (waypoints == null)
         {
             Debug.Log("Enemy spawn failed - waypoints were not created");
@@ -226,8 +245,8 @@ public class RoomController : MonoBehaviour
     
     private Vector3 GetRandomPosition()
     {
-        int xExtent = (int) Mathf.Ceil(((float) _bounds.width / 2 - 1)* _tileSize - _tileSize/2);
-        int yExtent = (int) Mathf.Ceil(((float) _bounds.height / 2 - 1)* _tileSize - _tileSize/2);
+        int xExtent = (int) Mathf.Ceil(((float) _bounds.width / 2 - 1)* _tileSize - _tileSize/2) - 1;
+        int yExtent = (int) Mathf.Ceil(((float) _bounds.height / 2 - 1)* _tileSize - _tileSize/2) - 1;
         Vector3 randomPos;
         bool tileTaken;
         int i = 0;
