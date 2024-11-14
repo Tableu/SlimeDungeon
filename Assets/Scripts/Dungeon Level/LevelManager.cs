@@ -99,6 +99,7 @@ public class LevelManager : MonoBehaviour, ISavable
         {
             gridGraph.SetDimensions(_floorSize.x * _tileSize, _floorSize.y * _tileSize, 1);
             gridGraph.collision.type = ColliderType.Capsule;
+            gridGraph.collision.diameter = 0.5f;
             gridGraph.collision.mask = LayerMask.GetMask("Walls", "Obstacles");
             gridGraph.center = levelCenter.transform.position + Vector3.down*0.1f;
             gridGraph.collision.heightMask = LayerMask.GetMask("Floor");
@@ -120,7 +121,6 @@ public class LevelManager : MonoBehaviour, ISavable
 
     private void Start()
     {
-        
         GlobalReferences.Instance.Player.transform.position = _spawnRoom.transform.position + _spawnRoom.GetRandomPositionInBounds();
         _exitRoom.SpawnExit(exitPrefab, this);
     }

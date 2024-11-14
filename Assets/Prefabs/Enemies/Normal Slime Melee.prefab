@@ -253,7 +253,7 @@ MonoBehaviour:
     maximumInterval: 2
     visualizeSensitivity: 0
   targetCompatibility: {fileID: 0}
-  maxAcceleration: 10
+  maxAcceleration: -2.5
   rotationSpeed: 360
   slowdownDistance: 0.1
   pickNextWaypointDist: 1
