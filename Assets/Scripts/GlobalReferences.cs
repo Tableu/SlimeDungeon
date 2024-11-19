@@ -6,10 +6,12 @@ public class GlobalReferences : MonoBehaviour
 
     public static GlobalReferences Instance => _instance;
     [SerializeField] private GameObject player;
+    [SerializeField] private GameObject projectileTarget;
     [SerializeField] private Canvas canvas;
     [SerializeField] private ElementTypeManager typeManager;
 
     public GameObject Player => player;
+    public GameObject PlayerProjectileTarget => projectileTarget;
     public Canvas Canvas => canvas;
     public ElementTypeManager TypeManager => typeManager;
 

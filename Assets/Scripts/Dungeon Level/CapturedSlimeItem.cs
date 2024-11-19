@@ -46,7 +46,7 @@ public class CapturedSlimeItem : MonoBehaviour, IItem
     {
         if ((_isFree) && GlobalReferences.Instance.Player != null)
         {
-            AttackTargeting.RotateTowards(transform, GlobalReferences.Instance.Player.transform);
+            AttackTargeting.RotateTowards(transform, GlobalReferences.Instance.Player.transform, Vector3.zero);
         }
     }
     

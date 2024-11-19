@@ -21,9 +21,9 @@ public static class AttackTargeting
         return sortedColliders;
     }
 
-    public static void RotateTowards(Transform transform, Transform target)
+    public static void RotateTowards(Transform transform, Transform target, Vector3 offset)
     {
-        var diff = target.position - transform.position;
+        var diff = target.position - transform.position + offset;
         var targetVector = new Vector3(diff.x, target.position.y, diff.z);
         transform.rotation = Quaternion.LookRotation(Vector3.RotateTowards(transform.forward, targetVector, 
             Mathf.Infinity, 0.0f));

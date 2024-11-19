@@ -33,6 +33,7 @@ public abstract class EnemyController : MonoBehaviour, IDamageable, ICharacter
     protected FSM StateMachine;
     protected List<Attack> Attacks;
     private Transform _target = null;
+    private Transform _projectileTarget;
     private int _stunCounter = 0;
     protected bool Stunned;
     private bool _dead;
@@ -49,6 +50,7 @@ public abstract class EnemyController : MonoBehaviour, IDamageable, ICharacter
     public CharacterStats GetStats() => Stats;
 
     public Transform Target => _target;
+    public Transform ProjectileTarget => _projectileTarget;
     
     public Action OnDeath;
     public Action<int> OnDamage;
@@ -166,6 +168,7 @@ public abstract class EnemyController : MonoBehaviour, IDamageable, ICharacter
             if (diff.magnitude < enemyData.AggroRange && PlayerVisible)
             {
                 _target = GlobalReferences.Instance.Player.transform;
+                _projectileTarget = GlobalReferences.Instance.PlayerProjectileTarget.transform;
                 return true;
             }
         }
