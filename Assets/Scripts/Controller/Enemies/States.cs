@@ -153,8 +153,8 @@ public class AttackState : IState
         
         if(_controller.ProjectileTarget != null)
         {
-            AttackTargeting.RotateTowards(_controller.transform, _controller.Target,
-                new Vector3(Random.Range(-0.12f, 0.12f),0f,Random.Range(-0.3f, 0.3f)));
+            //AttackTargeting.RotateTowards(_controller.transform, _controller.Target,
+            //    new Vector3(Random.Range(-0.12f, 0.12f),0f,Random.Range(-0.3f, 0.3f)));
             _controller.transform.LookAt(_controller.ProjectileTarget);
         }
         _controller.Attack();

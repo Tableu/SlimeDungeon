@@ -13,23 +13,23 @@ public class InputHint : MonoBehaviour
             switch (playerController.HighlightedItem)
             {
                 case CapturedSlimeItem:
-                    text.text = "[Spacebar] - Free slime";
+                    text.text = "[F] - Free slime";
                     break;
                 case CharacterItem:
-                    text.text = "[Spacebar] - Pick up character";
+                    text.text = "[F] - Pick up character";
                     break;
                 case Chest:
-                    text.text = "[Spacebar] - Open chest";
+                    text.text = "[F] - Open chest";
                     break;
                 case LevelExit:
                 case HubExit:
-                    text.text = "[Spacebar] - Enter portal";
+                    text.text = "[F] - Enter portal";
                     break;
                 case SpellItem:
-                    text.text = "[Spacebar] - Pick up spell";
+                    text.text = "[F] - Pick up spell";
                     break;
                 case HatItem:
-                    text.text = "[Spacebar] - Pick up hat";
+                    text.text = "[F] - Pick up hat";
                     break;
             }
         }
