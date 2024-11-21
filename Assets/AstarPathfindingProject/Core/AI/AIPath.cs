@@ -392,7 +392,30 @@ namespace Pathfinding {
 			}
 
 			velocity2D = MovementUtilities.ClampVelocity(velocity2D, maxSpeed, slowdown, slowWhenNotFacingTarget && enableRotation, forwards);
-
+			if (rigid.velocity.x > 0)
+			{
+				rigid.velocity -= new Vector3(0.25f, 0f, 0f);
+				if (rigid.velocity.x < 0)
+					rigid.velocity = new Vector3(0f, 0f, rigid.velocity.z);
+			}
+			if (rigid.velocity.x < 0)
+			{
+				rigid.velocity += new Vector3(0.25f, 0f, 0f);
+				if (rigid.velocity.x > 0)
+					rigid.velocity = new Vector3(0f, 0f, rigid.velocity.z);
+			}
+			if (rigid.velocity.z > 0)
+			{
+				rigid.velocity -= new Vector3(0f, 0f, 0.25f);
+				if (rigid.velocity.z < 0)
+					rigid.velocity = new Vector3(rigid.velocity.x, 0f, 0f);
+			}
+			if (rigid.velocity.z < 0)
+			{
+				rigid.velocity += new Vector3(0f, 0f, 0.25f);
+				if (rigid.velocity.z > 0)
+					rigid.velocity = new Vector3(rigid.velocity.x, 0f, 0f);
+			}
 			ApplyGravity(deltaTime);
 
 
