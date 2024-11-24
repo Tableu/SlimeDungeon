@@ -73,6 +73,8 @@ namespace Pathfinding {
 		/// </summary>
 		public float maxAcceleration = -2.5f;
 
+		public float velocityCorrection = 0.2f;
+
 		/// <summary>
 		/// Rotation speed in degrees per second.
 		/// Rotation is calculated using Quaternion.RotateTowards. This variable represents the rotation speed in degrees per second.
@@ -394,25 +396,25 @@ namespace Pathfinding {
 			velocity2D = MovementUtilities.ClampVelocity(velocity2D, maxSpeed, slowdown, slowWhenNotFacingTarget && enableRotation, forwards);
 			if (rigid.velocity.x > 0)
 			{
-				rigid.velocity -= new Vector3(0.25f, 0f, 0f);
+				rigid.velocity -= new Vector3(velocityCorrection, 0f, 0f);
 				if (rigid.velocity.x < 0)
 					rigid.velocity = new Vector3(0f, 0f, rigid.velocity.z);
 			}
 			if (rigid.velocity.x < 0)
 			{
-				rigid.velocity += new Vector3(0.25f, 0f, 0f);
+				rigid.velocity += new Vector3(velocityCorrection, 0f, 0f);
 				if (rigid.velocity.x > 0)
 					rigid.velocity = new Vector3(0f, 0f, rigid.velocity.z);
 			}
 			if (rigid.velocity.z > 0)
 			{
-				rigid.velocity -= new Vector3(0f, 0f, 0.25f);
+				rigid.velocity -= new Vector3(0f, 0f, velocityCorrection);
 				if (rigid.velocity.z < 0)
 					rigid.velocity = new Vector3(rigid.velocity.x, 0f, 0f);
 			}
 			if (rigid.velocity.z < 0)
 			{
-				rigid.velocity += new Vector3(0f, 0f, 0.25f);
+				rigid.velocity += new Vector3(0f, 0f, velocityCorrection);
 				if (rigid.velocity.z > 0)
 					rigid.velocity = new Vector3(rigid.velocity.x, 0f, 0f);
 			}

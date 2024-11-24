@@ -16,7 +16,7 @@ public class PlayerProjectileTarget : MonoBehaviour
         {
             transform.position = Vector3.Lerp(transform.position,
                 GlobalReferences.Instance.Player.transform.position +
-                new Vector3(_rigidbody.velocity.x, 0f, _rigidbody.velocity.z) * 0.5f, Time.fixedDeltaTime * 2f);
+                new Vector3(_rigidbody.velocity.x, 0f, _rigidbody.velocity.z) * 0.7f, Time.fixedDeltaTime * 2f);
         }
     }
 }

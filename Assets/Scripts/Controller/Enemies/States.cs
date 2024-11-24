@@ -138,7 +138,7 @@ public class AttackState : IState
         if (_lookAtTarget && _controller.Target != null)
         {
             AttackTargeting.RotateTowards(_controller.transform, _controller.ProjectileTarget, 
-                new Vector3(Random.Range(-0.3f, 0.3f),0f,Random.Range(-0.3f, 0.3f)));
+                new Vector3(Random.Range(-0.25f, 0.25f),0f,Random.Range(-0.25f, 0.25f)));
         }
     }
 
@@ -293,7 +293,7 @@ public class WanderingState : IState
         if (_controller.Target != null)
         {
             AttackTargeting.RotateTowards(_controller.transform, _controller.ProjectileTarget, 
-                new Vector3(Random.Range(-0.12f, 0.12f),0f,Random.Range(-0.12f, 0.12f)));
+                new Vector3(Random.Range(-0.25f, 0.25f),0f,Random.Range(-0.25f, 0.25f)));
         }
     }
 
