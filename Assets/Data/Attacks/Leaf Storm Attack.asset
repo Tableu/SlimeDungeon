@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Leaf Storm Attack
   m_EditorClassIdentifier: 
   speed: 0
-  damage: 0.2
+  damage: 2
   knockback: 0
   hitStun: 0
   cooldown: 5
@@ -24,3 +24,4 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: 411f88b287eb8504aa08edb04c1443c6, type: 3}
   name: Leaf Storm
   duration: 3
+  tick: 10

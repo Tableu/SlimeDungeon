@@ -30,8 +30,13 @@ public class PhysicsObstacle : MonoBehaviour, IDamageable, IObstacle
         if (Health < 0)
         {
             OnDeath?.Invoke();
-            Destroy(gameObject);
+            HandleDeath();
         }
+    }
+
+    protected virtual void HandleDeath()
+    {
+        Destroy(gameObject);
     }
 
 
