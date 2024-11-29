@@ -4872,6 +4872,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   collider: {fileID: 5568032247500636943}
+  tick: 3
 --- !u!135 &5568032247500636943
 SphereCollider:
   m_ObjectHideFlags: 0

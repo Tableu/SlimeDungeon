@@ -5,8 +5,10 @@ using UnityEngine;
 public class LeafStormAttackData : AttackData
 {
     [SerializeField] private float duration;
+    [SerializeField] private int tick;
 
     public float Duration => duration;
+    public int Tick => tick;
     public override Attack CreateInstance(CharacterStats characterStats, Transform transform)
     {
         return new LeafStormAttack(characterStats, this, transform);
