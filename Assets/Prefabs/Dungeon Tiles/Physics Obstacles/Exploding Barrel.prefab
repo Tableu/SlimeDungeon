@@ -133,5 +133,5 @@ MonoBehaviour:
   rigidbody: {fileID: 4601883842525601351}
   maxHealth: 100
   explosionPrefab: {fileID: 6538923568164503663, guid: 2b057fc3de4fd3a43b70eaeb8740affb, type: 3}
-  explosionDamageRadius: 5
+  explosionDamageRadius: 2
   damage: 50
