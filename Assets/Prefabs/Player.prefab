@@ -4918,6 +4918,7 @@ MonoBehaviour:
   force: 3
   radius: 1
   maxCount: 20
+  controller: {fileID: 6118174223459350817}
 --- !u!1 &6151538974966643030
 GameObject:
   m_ObjectHideFlags: 0

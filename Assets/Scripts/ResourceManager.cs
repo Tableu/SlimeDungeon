@@ -38,6 +38,7 @@ public class ResourceManager : MonoBehaviour, ISavable
 
     public string id { get; } = "ResourceManager";
     [SerializeField] private GameObject coin;
+    [SerializeField] private GameObject healthOrb;
 
     private void Awake()
     {
@@ -62,6 +63,21 @@ public class ResourceManager : MonoBehaviour, ISavable
             Vector3 rot = new Vector3(90, Random.Range(0, 360), Random.Range(0, 360));
             GameObject coinInstance = Instantiate(coin, position + pos, Quaternion.Euler(rot));
             Rigidbody rig = coinInstance.GetComponent<Rigidbody>();
+            if(rig != null)
+                rig.AddExplosionForce(5f, position+new Vector3(0,0.25f,0), 2f,0f,ForceMode.Impulse);
+        }
+    }
+
+    public void SpawnHealthOrbs(int amount, Vector3 position)
+    {
+        int variance = Mathf.CeilToInt(amount / 10f);
+        amount += Random.Range(-variance, variance+1);
+        for (int x = 0; x < amount; x++)
+        {
+            Vector3 pos = new Vector3(Random.Range(-0.3f, 0.3f), 0.25f, Random.Range(-0.3f, 0.3f));
+            Vector3 rot = new Vector3(90, Random.Range(0, 360), Random.Range(0, 360));
+            GameObject orbInstance = Instantiate(healthOrb, position + pos, Quaternion.Euler(rot));
+            Rigidbody rig = orbInstance.GetComponent<Rigidbody>();
             if(rig != null)
                 rig.AddExplosionForce(5f, position+new Vector3(0,0.25f,0), 2f,0f,ForceMode.Impulse);
         }

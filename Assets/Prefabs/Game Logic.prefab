@@ -156,6 +156,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
+  projectileTarget: {fileID: 0}
   canvas: {fileID: 0}
   typeManager: {fileID: 11400000, guid: 61c677e765f2ba043b7d4c61ef9fe5b4, type: 2}
 --- !u!1 &9079622436996240006
@@ -382,6 +383,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coin: {fileID: 7362785082686533537, guid: cd3ef92a53c92f84195075ba3711a76a, type: 3}
+  healthOrb: {fileID: 7362785082686533537, guid: 772de8b5eb2062242b1b2f7fbee26d72, type: 3}
 --- !u!114 &9079622438041341603
 MonoBehaviour:
   m_ObjectHideFlags: 0

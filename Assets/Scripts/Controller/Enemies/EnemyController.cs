@@ -124,6 +124,8 @@ public abstract class EnemyController : MonoBehaviour, IDamageable, ICharacter
         _dead = true;
         if(ResourceManager.Instance != null)
             ResourceManager.Instance.SpawnCoins(enemyData.CoinsOnDeath, transform.position);
+        if(ResourceManager.Instance != null)
+            ResourceManager.Instance.SpawnHealthOrbs(2, transform.position);
         OnDeath?.Invoke();
         Destroy(gameObject);
     }
