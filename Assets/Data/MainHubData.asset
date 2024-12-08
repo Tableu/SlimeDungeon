@@ -13,19 +13,19 @@ MonoBehaviour:
   m_Name: MainHubData
   m_EditorClassIdentifier: 
   _levels:
-  - RequiredSavedSlimes: 1
+  - RequiredLevel: 1
     SpellCount: 1
     HatCount: 0
     CharacterCount: 1
-  - RequiredSavedSlimes: 5
+  - RequiredLevel: 2
     SpellCount: 2
     HatCount: 1
     CharacterCount: 2
-  - RequiredSavedSlimes: 10
+  - RequiredLevel: 3
     SpellCount: 3
     HatCount: 2
     CharacterCount: 2
-  - RequiredSavedSlimes: 15
+  - RequiredLevel: 4
     SpellCount: 3
     HatCount: 3
     CharacterCount: 3

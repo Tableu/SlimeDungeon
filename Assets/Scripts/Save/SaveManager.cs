@@ -85,7 +85,7 @@ namespace Systems.Save
 
         public void ClearPlayerPrefs()
         {
-            PlayerPrefs.SetInt("SlimesSaved", 0);
+            PlayerPrefs.SetInt("Level", 0);
             PlayerPrefs.DeleteKey("SavedScene");
             PlayerPrefs.Save();
         }

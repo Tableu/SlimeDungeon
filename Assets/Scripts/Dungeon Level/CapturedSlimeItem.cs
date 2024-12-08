@@ -54,7 +54,6 @@ public class CapturedSlimeItem : MonoBehaviour, IItem
     {
         if (_isFree)
             return;
-        PlayerPrefs.SetInt("SlimesSaved", PlayerPrefs.GetInt("SlimesSaved") + 1);
         if(cage != null)
             cage.SetActive(false);
         _characterCollider.enabled = true;

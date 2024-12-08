@@ -1,17 +1,18 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [CreateAssetMenu(fileName = "MainHubData", menuName = "Data/Main Hub Data")]
 public class MainHubData : ScriptableObject
 {
     [SerializeField] private List<MainHubLevel> _levels;
 
-    public MainHubLevel GetLevelData(int slimesSaved)
+    public MainHubLevel GetLevelData(int level)
     {
         foreach (MainHubLevel hubLevel in _levels)
         {
-            if (hubLevel.RequiredSavedSlimes > slimesSaved)
+            if (hubLevel.RequiredLevel > level)
                 return hubLevel;
         }
 
@@ -22,7 +23,7 @@ public class MainHubData : ScriptableObject
 [Serializable]
 public struct MainHubLevel
 {
-    public int RequiredSavedSlimes;
+    [FormerlySerializedAs("RequiredSavedSlimes")] public int RequiredLevel;
     public int SpellCount;
     public int HatCount;
     public int CharacterCount;

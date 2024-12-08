@@ -128,6 +128,7 @@ public class LevelManager : MonoBehaviour, ISavable
     public void ExitLevel()
     {
         _currentLevel++;
+        PlayerPrefs.SetInt("Level", PlayerPrefs.GetInt("Level") + 1);
         if (_currentLevel < dungeonGenerationData.Floors.Count)
         {
             saveManager.Save();

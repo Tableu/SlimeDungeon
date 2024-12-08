@@ -34,7 +34,7 @@ public class HubManager : MonoBehaviour
         if (!System.IO.File.Exists(saveManager.savePath))
             return;
         _initialCharacterDatas = partyController.Characters.Select(character => character.Data).ToList();
-        MainHubLevel levelData = mainHubData.GetLevelData(PlayerPrefs.GetInt("SlimesSaved"));
+        MainHubLevel levelData = mainHubData.GetLevelData(PlayerPrefs.GetInt("Level"));
 
         for (int x = 0; x < levelData.CharacterCount; x++)
         {
