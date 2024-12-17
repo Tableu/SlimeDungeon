@@ -17,7 +17,7 @@ MonoBehaviour:
   attack: 10
   defense: 10
   elementType: 4
-  cost: 30
+  cost: 50
   spellOffset: {x: 0.3, y: 0.3, z: 0.3}
   maxVelocity: {x: 3.5, y: 3.5}
   name: Grass Slime
@@ -25,4 +25,4 @@ MonoBehaviour:
   model: {fileID: 3238378463816399697, guid: ab153cae36122d34f8f962d78a22be32, type: 3}
   basicAttack: {fileID: 11400000, guid: 26b21ae9161b48948a727fec0ee6ba51, type: 2}
   startingSpells:
-  - {fileID: 11400000, guid: 05e8b705c599cef4881ca8cb1cf35551, type: 2}
+  - {fileID: 11400000, guid: ceb89c81dfc12a642a266a0cb68a90ce, type: 2}

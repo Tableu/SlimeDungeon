@@ -17,7 +17,7 @@ MonoBehaviour:
   knockback: 0
   hitStun: 0
   cooldown: 4
-  cost: 20
+  cost: 40
   spawnOffset: {x: 0, y: 0.3, z: 0}
   elementType: 4
   prefab: {fileID: 4292637640093511300, guid: 1081197588d595c459a89f251508b7f6, type: 3}

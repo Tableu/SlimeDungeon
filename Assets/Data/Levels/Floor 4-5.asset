@@ -50,4 +50,4 @@ MonoBehaviour:
       Characters: {fileID: 11400000, guid: 68965c9505bcdbc42a13c0a7c04b31e4, type: 2}
   roomMaxSize: {x: 11, y: 11}
   roomMinSize: {x: 6, y: 6}
-  size: {x: 40, y: 40}
+  size: {x: 30, y: 30}
