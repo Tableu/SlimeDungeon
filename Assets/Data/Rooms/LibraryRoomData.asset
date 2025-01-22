@@ -80,7 +80,3 @@ MonoBehaviour:
     Weight: 5
     Repeatable: 0
     RequireWall: 1
-  - Prefab: {fileID: 834991341219302362, guid: a4b4fc3681ea16d4caa2d2d7e25bb26a, type: 3}
-    Weight: 10
-    Repeatable: 0
-    RequireWall: 0
