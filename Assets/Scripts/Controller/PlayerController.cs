@@ -91,7 +91,7 @@ public class PlayerController : MonoBehaviour, IDamageable, ICharacter
         
         PlayerInputActions.Combat.PickUp.started += delegate(InputAction.CallbackContext context)
         {
-            if (_highlightedItem != null)
+            if (_highlightedItem != null && _highlightedItem.CanPickup())
             {
                 _highlightedItem.PickUp(this, inventoryController, partyController);
                 _highlightedItem.Highlight(false);
@@ -159,7 +159,7 @@ public class PlayerController : MonoBehaviour, IDamageable, ICharacter
 
         var col = itemsOrderedByProximity[0];
         IItem item = col.GetComponent<IItem>() ?? col.GetComponentInParent<IItem>();
-        if (item != null && item.CanPickup())
+        if (item != null)
         {
             if (_highlightedItem == item)
                 return;
