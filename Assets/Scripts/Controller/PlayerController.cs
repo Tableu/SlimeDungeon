@@ -220,6 +220,7 @@ public class PlayerController : MonoBehaviour, IDamageable, ICharacter
         _playerInputActions.Combat.Disable();
         _playerInputActions.Movement.Disable();
         _disableRotation = true;
+        rigidbody.velocity = Vector3.zero;
     }
 
     private void OnDestroy()
